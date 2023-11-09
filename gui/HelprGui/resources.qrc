@@ -1,0 +1,12 @@
+<RCC>
+<!--    NOTE: file not currently used. to activate resource system, import auto-generated rc_resources.py in main.py-->
+<!--    This is disabled because icon files not working-->
+
+    <!-- NOTE: file is not automatically re-compiled when changes are made. -->
+    <!-- Make sure to delete rc_resources.py after changing. -->
+<!--    Usually good practice to only add assets here, not .QML files, until deployment-->
+    <qresource prefix="/">
+        <file>qtquickcontrols2.conf</file>
+    </qresource>
+    <qresource prefix="/ico"/>
+</RCC>
