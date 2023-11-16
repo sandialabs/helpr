@@ -8,16 +8,6 @@
 - executing ``pytest`` within a pecific directory will only execute tests in that directory
 - executing ``pytest path/to/text_file.py`` will only execute single specified test
 
-Speed Tests
-===================
-
-test_speed docu
---------------------
-
-.. automodule:: helpr.tests.speed_tests.test_speed
-    :members:
-
-
 Unit Tests
 ===================
 
@@ -26,7 +16,6 @@ test_api docu
 
 .. automodule:: helpr.tests.unit_tests.test_api
     :members:    
-
 
 test_crack_growth docu
 ------------------------------------
@@ -100,9 +89,6 @@ test_stress_state docu
 .. automodule:: helpr.tests.unit_tests.test_stress_state
     :members:
 
-
-Validation Tests
-===================
 
 Verification Tests
 =====================

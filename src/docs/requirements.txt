@@ -1,0 +1,10 @@
+matplotlib
+numpy
+scipy
+pandas
+sphinx
+sphinx-design
+sphinx-rtd-theme
+nbsphinx
+nbsphinx-link
+ipython

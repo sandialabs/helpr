@@ -1,0 +1,35 @@
+name: Publish documentation
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  GitHub_Pages:
+    name: Build and deploy website
+    runs-on: ubuntu-22.04
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+
+    - name: Install dependencies
+      shell: bash -l {0}
+      run: |
+        sudo apt-get install pandoc
+        python3 -m pip install --upgrade pip
+        pip3 install -r src/docs/requirements.txt
+
+    - name: Build documentation
+      shell: bash -l {0}
+      run: |
+        sphinx-build -v -W -b html src/docs/source src/docs/html
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./src/docs/html
