@@ -19,7 +19,7 @@ should refer to the details in the [CONTRIBUTING](./CONTRIBUTING.md) document.
 ## Documentation
 Documentation of the technical approach underlying HELPR as well as a user guide
 for the GUI are under development.
-Sphinx documentation of the Python backend module is available ...
+Sphinx documentation of the Python backend module is available at <https://sandialabs.github.io/helpr/>.
 
 &nbsp;
 ## Repository Layout
