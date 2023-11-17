@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Capabilities Documentation &mdash; helpr 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=af2ce170"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="_static/design-tabs.js?v=36754332"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tests Documentation" href="prob_tests.html" />
+    <link rel="prev" title="Utilities Documentation" href="utilities.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/HELPR_app_icon.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">HELPR Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="physics.html"><strong>Physics Documentation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="phys_tests.html"><strong>Tests Documentation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html"><strong>Utilities Documentation</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Probabilistic Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>Capabilities Documentation</strong></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-probabilistic.capabilities.plotting">plotting docu</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#probabilistic.capabilities.plotting.initiate_plot_settings"><code class="docutils literal notranslate"><span class="pre">initiate_plot_settings()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#probabilistic.capabilities.plotting.plot_deterministic_parameter_value"><code class="docutils literal notranslate"><span class="pre">plot_deterministic_parameter_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#probabilistic.capabilities.plotting.plot_distribution_pdf"><code class="docutils literal notranslate"><span class="pre">plot_distribution_pdf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#probabilistic.capabilities.plotting.plot_sample_cdf"><code class="docutils literal notranslate"><span class="pre">plot_sample_cdf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#probabilistic.capabilities.plotting.plot_sample_histogram"><code class="docutils literal notranslate"><span class="pre">plot_sample_histogram()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#probabilistic.capabilities.plotting.plot_scatter_matrix"><code class="docutils literal notranslate"><span class="pre">plot_scatter_matrix()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-probabilistic.capabilities.sampling">sampling docu</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#probabilistic.capabilities.sampling.BoundingStudy"><code class="docutils literal notranslate"><span class="pre">BoundingStudy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.BoundingStudy.add_sensitivity_samples_to_sample_sheet"><code class="docutils literal notranslate"><span class="pre">BoundingStudy.add_sensitivity_samples_to_sample_sheet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.BoundingStudy.determine_total_sample_size"><code class="docutils literal notranslate"><span class="pre">BoundingStudy.determine_total_sample_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.BoundingStudy.generate_cdf_samples"><code class="docutils literal notranslate"><span class="pre">BoundingStudy.generate_cdf_samples()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.BoundingStudy.relevant_error_checks"><code class="docutils literal notranslate"><span class="pre">BoundingStudy.relevant_error_checks()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#probabilistic.capabilities.sampling.LHSStudy"><code class="docutils literal notranslate"><span class="pre">LHSStudy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.LHSStudy.collect_variables"><code class="docutils literal notranslate"><span class="pre">LHSStudy.collect_variables()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.LHSStudy.create_variable_sample_sheet"><code class="docutils literal notranslate"><span class="pre">LHSStudy.create_variable_sample_sheet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.LHSStudy.relevant_error_checks"><code class="docutils literal notranslate"><span class="pre">LHSStudy.relevant_error_checks()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#probabilistic.capabilities.sampling.OneAtATimeSensitivityStudy"><code class="docutils literal notranslate"><span class="pre">OneAtATimeSensitivityStudy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.OneAtATimeSensitivityStudy.add_sensitivity_samples_to_sample_sheet"><code class="docutils literal notranslate"><span class="pre">OneAtATimeSensitivityStudy.add_sensitivity_samples_to_sample_sheet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.OneAtATimeSensitivityStudy.collect_variables"><code class="docutils literal notranslate"><span class="pre">OneAtATimeSensitivityStudy.collect_variables()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.OneAtATimeSensitivityStudy.create_variable_sample_sheet"><code class="docutils literal notranslate"><span class="pre">OneAtATimeSensitivityStudy.create_variable_sample_sheet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.OneAtATimeSensitivityStudy.determine_total_sample_size"><code class="docutils literal notranslate"><span class="pre">OneAtATimeSensitivityStudy.determine_total_sample_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.OneAtATimeSensitivityStudy.generate_cdf_samples"><code class="docutils literal notranslate"><span class="pre">OneAtATimeSensitivityStudy.generate_cdf_samples()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.OneAtATimeSensitivityStudy.relevant_error_checks"><code class="docutils literal notranslate"><span class="pre">OneAtATimeSensitivityStudy.relevant_error_checks()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#probabilistic.capabilities.sampling.RandomStudy"><code class="docutils literal notranslate"><span class="pre">RandomStudy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.RandomStudy.collect_variables"><code class="docutils literal notranslate"><span class="pre">RandomStudy.collect_variables()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.RandomStudy.create_variable_sample_sheet"><code class="docutils literal notranslate"><span class="pre">RandomStudy.create_variable_sample_sheet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.RandomStudy.relevant_error_checks"><code class="docutils literal notranslate"><span class="pre">RandomStudy.relevant_error_checks()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#probabilistic.capabilities.sampling.SensitivityStudy"><code class="docutils literal notranslate"><span class="pre">SensitivityStudy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.SensitivityStudy.relevant_error_checks"><code class="docutils literal notranslate"><span class="pre">SensitivityStudy.relevant_error_checks()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#probabilistic.capabilities.sampling.UncertaintyStudy"><code class="docutils literal notranslate"><span class="pre">UncertaintyStudy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.UncertaintyStudy.add_aleatory_samples_to_sample_sheet"><code class="docutils literal notranslate"><span class="pre">UncertaintyStudy.add_aleatory_samples_to_sample_sheet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.UncertaintyStudy.add_deterministic_samples_to_sample_sheet"><code class="docutils literal notranslate"><span class="pre">UncertaintyStudy.add_deterministic_samples_to_sample_sheet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.UncertaintyStudy.add_deterministic_variables"><code class="docutils literal notranslate"><span class="pre">UncertaintyStudy.add_deterministic_variables()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.UncertaintyStudy.add_epistemic_samples_to_sample_sheet"><code class="docutils literal notranslate"><span class="pre">UncertaintyStudy.add_epistemic_samples_to_sample_sheet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.UncertaintyStudy.add_nominal_values_to_sample_sheet"><code class="docutils literal notranslate"><span class="pre">UncertaintyStudy.add_nominal_values_to_sample_sheet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.UncertaintyStudy.add_probabilistic_variables"><code class="docutils literal notranslate"><span class="pre">UncertaintyStudy.add_probabilistic_variables()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.UncertaintyStudy.add_variable_name"><code class="docutils literal notranslate"><span class="pre">UncertaintyStudy.add_variable_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.UncertaintyStudy.add_variables"><code class="docutils literal notranslate"><span class="pre">UncertaintyStudy.add_variables()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.UncertaintyStudy.calc_number_of_variables"><code class="docutils literal notranslate"><span class="pre">UncertaintyStudy.calc_number_of_variables()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.UncertaintyStudy.calc_total_number_of_variables"><code class="docutils literal notranslate"><span class="pre">UncertaintyStudy.calc_total_number_of_variables()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.UncertaintyStudy.collect_variable_nominal_values"><code class="docutils literal notranslate"><span class="pre">UncertaintyStudy.collect_variable_nominal_values()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.UncertaintyStudy.create_variable_nominal_sheet"><code class="docutils literal notranslate"><span class="pre">UncertaintyStudy.create_variable_nominal_sheet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.UncertaintyStudy.error_check_for_distributions_and_sample_size"><code class="docutils literal notranslate"><span class="pre">UncertaintyStudy.error_check_for_distributions_and_sample_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.UncertaintyStudy.error_check_for_distributions_if_sample_size"><code class="docutils literal notranslate"><span class="pre">UncertaintyStudy.error_check_for_distributions_if_sample_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.UncertaintyStudy.error_check_for_variable_unique_variable_names"><code class="docutils literal notranslate"><span class="pre">UncertaintyStudy.error_check_for_variable_unique_variable_names()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.UncertaintyStudy.generate_lhs_samples"><code class="docutils literal notranslate"><span class="pre">UncertaintyStudy.generate_lhs_samples()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.UncertaintyStudy.get_parameter_names"><code class="docutils literal notranslate"><span class="pre">UncertaintyStudy.get_parameter_names()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.UncertaintyStudy.get_total_double_loop_sample_size"><code class="docutils literal notranslate"><span class="pre">UncertaintyStudy.get_total_double_loop_sample_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.UncertaintyStudy.get_uncertain_parameter_names"><code class="docutils literal notranslate"><span class="pre">UncertaintyStudy.get_uncertain_parameter_names()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.sampling.UncertaintyStudy.relevant_error_checks"><code class="docutils literal notranslate"><span class="pre">UncertaintyStudy.relevant_error_checks()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-probabilistic.capabilities.uncertainty_definitions">uncertainty_definitions docu</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#probabilistic.capabilities.uncertainty_definitions.BetaDistribution"><code class="docutils literal notranslate"><span class="pre">BetaDistribution</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#probabilistic.capabilities.uncertainty_definitions.DeterministicCharacterization"><code class="docutils literal notranslate"><span class="pre">DeterministicCharacterization</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.uncertainty_definitions.DeterministicCharacterization.generate_samples"><code class="docutils literal notranslate"><span class="pre">DeterministicCharacterization.generate_samples()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.uncertainty_definitions.DeterministicCharacterization.plot_distribution"><code class="docutils literal notranslate"><span class="pre">DeterministicCharacterization.plot_distribution()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#probabilistic.capabilities.uncertainty_definitions.LognormalDistribution"><code class="docutils literal notranslate"><span class="pre">LognormalDistribution</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#probabilistic.capabilities.uncertainty_definitions.NormalDistribution"><code class="docutils literal notranslate"><span class="pre">NormalDistribution</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#probabilistic.capabilities.uncertainty_definitions.TruncatedNormalDistribution"><code class="docutils literal notranslate"><span class="pre">TruncatedNormalDistribution</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#probabilistic.capabilities.uncertainty_definitions.UncertaintyCharacterization"><code class="docutils literal notranslate"><span class="pre">UncertaintyCharacterization</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.uncertainty_definitions.UncertaintyCharacterization.generate_samples"><code class="docutils literal notranslate"><span class="pre">UncertaintyCharacterization.generate_samples()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.capabilities.uncertainty_definitions.UncertaintyCharacterization.plot_distribution"><code class="docutils literal notranslate"><span class="pre">UncertaintyCharacterization.plot_distribution()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#probabilistic.capabilities.uncertainty_definitions.UniformDistribution"><code class="docutils literal notranslate"><span class="pre">UniformDistribution</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#probabilistic.capabilities.uncertainty_definitions.specify_distribution"><code class="docutils literal notranslate"><span class="pre">specify_distribution()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="prob_tests.html"><strong>Tests Documentation</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">HELPR Demo</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="demo_probabilistic.html"><strong>Probabilistic Evaluation for Single Pipe Lifetime</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_deterministic.html"><strong>Single Deterministic Pipeline Lifetime Evaluation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_inspection_mitigation.html"><strong>Inspection Mitigation Analysis of Pipeline Population</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_sensitivity.html"><strong>Sensitivity Analysis of Pipeline Lifetime Evaluation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_uncertainty_types.html"><strong>Probabilistic Evaluation for Pipe Population’s Lifetimes with Multiple Types of Uncertainty</strong></a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">helpr</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><strong>Capabilities Documentation</strong></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/capabilities.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="capabilities-documentation">
+<h1><strong>Capabilities Documentation</strong><a class="headerlink" href="#capabilities-documentation" title="Permalink to this heading"></a></h1>
+<section id="module-probabilistic.capabilities.plotting">
+<span id="plotting-docu"></span><h2>plotting docu<a class="headerlink" href="#module-probabilistic.capabilities.plotting" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="probabilistic.capabilities.plotting.initiate_plot_settings">
+<span class="sig-prename descclassname"><span class="pre">probabilistic.capabilities.plotting.</span></span><span class="sig-name descname"><span class="pre">initiate_plot_settings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.plotting.initiate_plot_settings" title="Permalink to this definition"></a></dt>
+<dd><p>function to initiate plotting settings</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="probabilistic.capabilities.plotting.plot_deterministic_parameter_value">
+<span class="sig-prename descclassname"><span class="pre">probabilistic.capabilities.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_deterministic_parameter_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.plotting.plot_deterministic_parameter_value" title="Permalink to this definition"></a></dt>
+<dd><p>function to plot deterministic value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> – </p></li>
+<li><p><strong>variable_name</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="probabilistic.capabilities.plotting.plot_distribution_pdf">
+<span class="sig-prename descclassname"><span class="pre">probabilistic.capabilities.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_distribution_pdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distribution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_limits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.plotting.plot_distribution_pdf" title="Permalink to this definition"></a></dt>
+<dd><p>function to plot distribution pdf</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>distribution</strong> – </p></li>
+<li><p><strong>variable_name</strong> – </p></li>
+<li><p><strong>plot_limits</strong> (<em>bool</em>) – Defaults to False</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="probabilistic.capabilities.plotting.plot_sample_cdf">
+<span class="sig-prename descclassname"><span class="pre">probabilistic.capabilities.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_sample_cdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">percentiles</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.plotting.plot_sample_cdf" title="Permalink to this definition"></a></dt>
+<dd><p>function to plot cdf of samples</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>samples</strong> (<em>np.array</em>) – data to be plotted</p></li>
+<li><p><strong>variable_name</strong> (<em>str</em>) – name of data to be plotted</p></li>
+<li><p><strong>percentiles</strong> (<em>list</em>) – percentiles to include on plot</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – additional histogram function inputs</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="probabilistic.capabilities.plotting.plot_sample_histogram">
+<span class="sig-prename descclassname"><span class="pre">probabilistic.capabilities.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_sample_histogram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">percentiles</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.plotting.plot_sample_histogram" title="Permalink to this definition"></a></dt>
+<dd><p>function to plot histogram of samples</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>samples</strong> (<em>np.array</em>) – data to be plotted</p></li>
+<li><p><strong>variable_name</strong> (<em>str</em>) – name of data to be plotted</p></li>
+<li><p><strong>percentiles</strong> (<em>list</em>) – percentiles to include on plot</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – additional histogram function inputs</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="probabilistic.capabilities.plotting.plot_scatter_matrix">
+<span class="sig-prename descclassname"><span class="pre">probabilistic.capabilities.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_scatter_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">density</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.plotting.plot_scatter_matrix" title="Permalink to this definition"></a></dt>
+<dd><p>function to plot scatter matrix of samples from multiple parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_dict</strong> (<em>dict</em>) – </p></li>
+<li><p><strong>density</strong> (<em>bool</em>) – Defaults to False</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-probabilistic.capabilities.sampling">
+<span id="sampling-docu"></span><h2>sampling docu<a class="headerlink" href="#module-probabilistic.capabilities.sampling" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.BoundingStudy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">probabilistic.capabilities.sampling.</span></span><span class="sig-name descname"><span class="pre">BoundingStudy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_aleatory_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_epistemic_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.BoundingStudy" title="Permalink to this definition"></a></dt>
+<dd><p>Bounding Sensitivity Study Class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>number_of_aleatory_samples</strong> (<em>int</em>) – </p></li>
+<li><p><strong>number_of_epistemic_samples</strong> (<em>int</em>) – </p></li>
+<li><p><strong>random_state</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.BoundingStudy.add_sensitivity_samples_to_sample_sheet">
+<span class="sig-name descname"><span class="pre">add_sensitivity_samples_to_sample_sheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aleatory_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epistemic_samples</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.BoundingStudy.add_sensitivity_samples_to_sample_sheet" title="Permalink to this definition"></a></dt>
+<dd><p>function to add samples from bounding sensitivity study to sample sheet</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.BoundingStudy.determine_total_sample_size">
+<span class="sig-name descname"><span class="pre">determine_total_sample_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.BoundingStudy.determine_total_sample_size" title="Permalink to this definition"></a></dt>
+<dd><p>function to determine the total sample size of the study</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.BoundingStudy.generate_cdf_samples">
+<span class="sig-name descname"><span class="pre">generate_cdf_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.BoundingStudy.generate_cdf_samples" title="Permalink to this definition"></a></dt>
+<dd><p>function to specify percentiles sampled from cdf</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.BoundingStudy.relevant_error_checks">
+<span class="sig-name descname"><span class="pre">relevant_error_checks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.BoundingStudy.relevant_error_checks" title="Permalink to this definition"></a></dt>
+<dd><p>function to perform error checks on specified study details</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.LHSStudy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">probabilistic.capabilities.sampling.</span></span><span class="sig-name descname"><span class="pre">LHSStudy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_aleatory_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_epistemic_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.LHSStudy" title="Permalink to this definition"></a></dt>
+<dd><p>LHS Uncertainty Study Class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>number_of_aleatory_samples</strong> (<em>int</em>) – </p></li>
+<li><p><strong>number_of_epistemic_samples</strong> (<em>int</em>) – </p></li>
+<li><p><strong>random_state</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.LHSStudy.collect_variables">
+<span class="sig-name descname"><span class="pre">collect_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_distribution_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_samples</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.LHSStudy.collect_variables" title="Permalink to this definition"></a></dt>
+<dd><p>function to collect variable samples for LHS study</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.LHSStudy.create_variable_sample_sheet">
+<span class="sig-name descname"><span class="pre">create_variable_sample_sheet</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.LHSStudy.create_variable_sample_sheet" title="Permalink to this definition"></a></dt>
+<dd><p>function to create sample sheet for LHS study</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.LHSStudy.relevant_error_checks">
+<span class="sig-name descname"><span class="pre">relevant_error_checks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.LHSStudy.relevant_error_checks" title="Permalink to this definition"></a></dt>
+<dd><p>function to perform error checks on specified study details</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.OneAtATimeSensitivityStudy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">probabilistic.capabilities.sampling.</span></span><span class="sig-name descname"><span class="pre">OneAtATimeSensitivityStudy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_aleatory_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_epistemic_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.OneAtATimeSensitivityStudy" title="Permalink to this definition"></a></dt>
+<dd><p>Single Variable Sampling-Based Sensitivity Study</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>number_of_aleatory_samples</strong> (<em>int</em>) – </p></li>
+<li><p><strong>number_of_epistemic_samples</strong> (<em>int</em>) – </p></li>
+<li><p><strong>random_state</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.OneAtATimeSensitivityStudy.add_sensitivity_samples_to_sample_sheet">
+<span class="sig-name descname"><span class="pre">add_sensitivity_samples_to_sample_sheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aleatory_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epistemic_samples</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.OneAtATimeSensitivityStudy.add_sensitivity_samples_to_sample_sheet" title="Permalink to this definition"></a></dt>
+<dd><p>function to add sensitivity study samples to sample sheet for sampling based
+sensitivity study</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.OneAtATimeSensitivityStudy.collect_variables">
+<span class="sig-name descname"><span class="pre">collect_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_distribution_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_samples</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.OneAtATimeSensitivityStudy.collect_variables" title="Permalink to this definition"></a></dt>
+<dd><p>function to collect samples for uncertain variables for sampling based sensitivity study</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.OneAtATimeSensitivityStudy.create_variable_sample_sheet">
+<span class="sig-name descname"><span class="pre">create_variable_sample_sheet</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.OneAtATimeSensitivityStudy.create_variable_sample_sheet" title="Permalink to this definition"></a></dt>
+<dd><p>function to create sample sheet for sampling based sensitivity study</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.OneAtATimeSensitivityStudy.determine_total_sample_size">
+<span class="sig-name descname"><span class="pre">determine_total_sample_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.OneAtATimeSensitivityStudy.determine_total_sample_size" title="Permalink to this definition"></a></dt>
+<dd><p>function to determine the total sample size of the study</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.OneAtATimeSensitivityStudy.generate_cdf_samples">
+<span class="sig-name descname"><span class="pre">generate_cdf_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_samples</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.OneAtATimeSensitivityStudy.generate_cdf_samples" title="Permalink to this definition"></a></dt>
+<dd><p>function to specify percentiles sampled from cdf</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.OneAtATimeSensitivityStudy.relevant_error_checks">
+<span class="sig-name descname"><span class="pre">relevant_error_checks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.OneAtATimeSensitivityStudy.relevant_error_checks" title="Permalink to this definition"></a></dt>
+<dd><p>function to perform error checks on specified study details</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.RandomStudy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">probabilistic.capabilities.sampling.</span></span><span class="sig-name descname"><span class="pre">RandomStudy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_aleatory_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_epistemic_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.RandomStudy" title="Permalink to this definition"></a></dt>
+<dd><p>Random Sampling Uncertainty Study Class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>number_of_aleatory_samples</strong> (<em>int</em>) – </p></li>
+<li><p><strong>number_of_epistemic_samples</strong> (<em>int</em>) – </p></li>
+<li><p><strong>random_state</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.RandomStudy.collect_variables">
+<span class="sig-name descname"><span class="pre">collect_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_distribution_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_samples</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.RandomStudy.collect_variables" title="Permalink to this definition"></a></dt>
+<dd><p>function to collect variable samples for random sampling study</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.RandomStudy.create_variable_sample_sheet">
+<span class="sig-name descname"><span class="pre">create_variable_sample_sheet</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.RandomStudy.create_variable_sample_sheet" title="Permalink to this definition"></a></dt>
+<dd><p>function to create sample sheet and add samples for random sampling study</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.RandomStudy.relevant_error_checks">
+<span class="sig-name descname"><span class="pre">relevant_error_checks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.RandomStudy.relevant_error_checks" title="Permalink to this definition"></a></dt>
+<dd><p>function to perform error checks on specified study details</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.SensitivityStudy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">probabilistic.capabilities.sampling.</span></span><span class="sig-name descname"><span class="pre">SensitivityStudy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_aleatory_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_epistemic_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.SensitivityStudy" title="Permalink to this definition"></a></dt>
+<dd><p>Generic Sensitivity Study Class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>number_of_aleatory_samples</strong> (<em>int</em>) – </p></li>
+<li><p><strong>number_of_epistemic_samples</strong> (<em>int</em>) – </p></li>
+<li><p><strong>random_state</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.SensitivityStudy.relevant_error_checks">
+<span class="sig-name descname"><span class="pre">relevant_error_checks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.SensitivityStudy.relevant_error_checks" title="Permalink to this definition"></a></dt>
+<dd><p>function to perform error checks on specified study details</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.UncertaintyStudy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">probabilistic.capabilities.sampling.</span></span><span class="sig-name descname"><span class="pre">UncertaintyStudy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_aleatory_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_epistemic_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.UncertaintyStudy" title="Permalink to this definition"></a></dt>
+<dd><p>Generic Uncertainty Study Class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>number_of_aleatory_samples</strong> (<em>int</em>) – </p></li>
+<li><p><strong>number_of_epistemic_samples</strong> (<em>int</em>) – </p></li>
+<li><p><strong>random_state</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.UncertaintyStudy.add_aleatory_samples_to_sample_sheet">
+<span class="sig-name descname"><span class="pre">add_aleatory_samples_to_sample_sheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.UncertaintyStudy.add_aleatory_samples_to_sample_sheet" title="Permalink to this definition"></a></dt>
+<dd><p>function to add aleatory variable samples to uncertainty study sample sheet</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.UncertaintyStudy.add_deterministic_samples_to_sample_sheet">
+<span class="sig-name descname"><span class="pre">add_deterministic_samples_to_sample_sheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_size</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.UncertaintyStudy.add_deterministic_samples_to_sample_sheet" title="Permalink to this definition"></a></dt>
+<dd><p>function to add deterministic samples to sample sheet</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.UncertaintyStudy.add_deterministic_variables">
+<span class="sig-name descname"><span class="pre">add_deterministic_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">deterministic_set</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.UncertaintyStudy.add_deterministic_variables" title="Permalink to this definition"></a></dt>
+<dd><p>function to add deterministic variables to study</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.UncertaintyStudy.add_epistemic_samples_to_sample_sheet">
+<span class="sig-name descname"><span class="pre">add_epistemic_samples_to_sample_sheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.UncertaintyStudy.add_epistemic_samples_to_sample_sheet" title="Permalink to this definition"></a></dt>
+<dd><p>function to add epistemic variable samples to uncertainty study sample sheet</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.UncertaintyStudy.add_nominal_values_to_sample_sheet">
+<span class="sig-name descname"><span class="pre">add_nominal_values_to_sample_sheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nominal_values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.UncertaintyStudy.add_nominal_values_to_sample_sheet" title="Permalink to this definition"></a></dt>
+<dd><p>function for adding nominal values to sample sheet for generic sampling study</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.UncertaintyStudy.add_probabilistic_variables">
+<span class="sig-name descname"><span class="pre">add_probabilistic_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distribution_set</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.UncertaintyStudy.add_probabilistic_variables" title="Permalink to this definition"></a></dt>
+<dd><p>function to add probabilistic variables to study</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.UncertaintyStudy.add_variable_name">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_variable_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_distribution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.UncertaintyStudy.add_variable_name" title="Permalink to this definition"></a></dt>
+<dd><p>function to ensure two variables don’t have the same name</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.UncertaintyStudy.add_variables">
+<span class="sig-name descname"><span class="pre">add_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.UncertaintyStudy.add_variables" title="Permalink to this definition"></a></dt>
+<dd><p>Function to add all uncertain variables to uncertainty study</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.UncertaintyStudy.calc_number_of_variables">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calc_number_of_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.UncertaintyStudy.calc_number_of_variables" title="Permalink to this definition"></a></dt>
+<dd><p>function to calculate the number of variables in a dictionary</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.UncertaintyStudy.calc_total_number_of_variables">
+<span class="sig-name descname"><span class="pre">calc_total_number_of_variables</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.UncertaintyStudy.calc_total_number_of_variables" title="Permalink to this definition"></a></dt>
+<dd><p>function to determine total number of uncertain variables in uncertainty study</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.UncertaintyStudy.collect_variable_nominal_values">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">collect_variable_nominal_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.UncertaintyStudy.collect_variable_nominal_values" title="Permalink to this definition"></a></dt>
+<dd><p>function to collect nominal values of variables</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.UncertaintyStudy.create_variable_nominal_sheet">
+<span class="sig-name descname"><span class="pre">create_variable_nominal_sheet</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.UncertaintyStudy.create_variable_nominal_sheet" title="Permalink to this definition"></a></dt>
+<dd><p>function to create sample sheet holding variables nominal values</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.UncertaintyStudy.error_check_for_distributions_and_sample_size">
+<span class="sig-name descname"><span class="pre">error_check_for_distributions_and_sample_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.UncertaintyStudy.error_check_for_distributions_and_sample_size" title="Permalink to this definition"></a></dt>
+<dd><p>function to check that both an uncertainty distribution exists
+and sample size has been specified, not one or the other</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.UncertaintyStudy.error_check_for_distributions_if_sample_size">
+<span class="sig-name descname"><span class="pre">error_check_for_distributions_if_sample_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.UncertaintyStudy.error_check_for_distributions_if_sample_size" title="Permalink to this definition"></a></dt>
+<dd><p>function to check that both an uncertainty distribution exists
+and sample size has been specified, not one or the other</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.UncertaintyStudy.error_check_for_variable_unique_variable_names">
+<span class="sig-name descname"><span class="pre">error_check_for_variable_unique_variable_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.UncertaintyStudy.error_check_for_variable_unique_variable_names" title="Permalink to this definition"></a></dt>
+<dd><p>function to check that all variables have unique names</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.UncertaintyStudy.generate_lhs_samples">
+<span class="sig-name descname"><span class="pre">generate_lhs_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_variables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">centered_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimization_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'random-cd'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.UncertaintyStudy.generate_lhs_samples" title="Permalink to this definition"></a></dt>
+<dd><p>function to generate Latin hypercube samples (LHS) using
+Scipy’s Quasi-Monte Carlo submodule</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>number_of_variables</strong> (<em>int</em>) – how many variables to generate samples for</p></li>
+<li><p><strong>number_of_samples</strong> (<em>int</em>) – how many LHS samples to generate</p></li>
+<li><p><strong>centered_samples</strong> (<em>bool</em>) – whether samples are bin centered or distributed randomly in bins</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>lhs_samples (np.array(number_of_samples, number_of_variables))</em></p></li>
+<li><p><em>- LHS samples</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.UncertaintyStudy.get_parameter_names">
+<span class="sig-name descname"><span class="pre">get_parameter_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.UncertaintyStudy.get_parameter_names" title="Permalink to this definition"></a></dt>
+<dd><p>function to both deterministic and probabilistic variable names</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.UncertaintyStudy.get_total_double_loop_sample_size">
+<span class="sig-name descname"><span class="pre">get_total_double_loop_sample_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.UncertaintyStudy.get_total_double_loop_sample_size" title="Permalink to this definition"></a></dt>
+<dd><p>function to get sample size for double loop style uncertainty study</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.UncertaintyStudy.get_uncertain_parameter_names">
+<span class="sig-name descname"><span class="pre">get_uncertain_parameter_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.UncertaintyStudy.get_uncertain_parameter_names" title="Permalink to this definition"></a></dt>
+<dd><p>function to determine total number of uncertain variables in study</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.sampling.UncertaintyStudy.relevant_error_checks">
+<span class="sig-name descname"><span class="pre">relevant_error_checks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.UncertaintyStudy.relevant_error_checks" title="Permalink to this definition"></a></dt>
+<dd><p>function to perform error checks on specified study details</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-probabilistic.capabilities.uncertainty_definitions">
+<span id="uncertainty-definitions-docu"></span><h2>uncertainty_definitions docu<a class="headerlink" href="#module-probabilistic.capabilities.uncertainty_definitions" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="probabilistic.capabilities.uncertainty_definitions.BetaDistribution">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">probabilistic.capabilities.uncertainty_definitions.</span></span><span class="sig-name descname"><span class="pre">BetaDistribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uncertainty_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nominal_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.uncertainty_definitions.BetaDistribution" title="Permalink to this definition"></a></dt>
+<dd><p>Beta Distribution Uncertainty Class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – </p></li>
+<li><p><strong>uncertainty_type</strong> (<em>str</em>) – </p></li>
+<li><p><strong>nominal_value</strong> (<em>float</em>) – </p></li>
+<li><p><strong>a</strong> (<em>float</em>) – </p></li>
+<li><p><strong>b</strong> (<em>float</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="probabilistic.capabilities.uncertainty_definitions.DeterministicCharacterization">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">probabilistic.capabilities.uncertainty_definitions.</span></span><span class="sig-name descname"><span class="pre">DeterministicCharacterization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.uncertainty_definitions.DeterministicCharacterization" title="Permalink to this definition"></a></dt>
+<dd><p>Generic Deterministic Parameter Class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – </p></li>
+<li><p><strong>value</strong> (<em>float</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.uncertainty_definitions.DeterministicCharacterization.generate_samples">
+<span class="sig-name descname"><span class="pre">generate_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_size</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.uncertainty_definitions.DeterministicCharacterization.generate_samples" title="Permalink to this definition"></a></dt>
+<dd><p>Function to generate deterministic samples (same values)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.uncertainty_definitions.DeterministicCharacterization.plot_distribution">
+<span class="sig-name descname"><span class="pre">plot_distribution</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.uncertainty_definitions.DeterministicCharacterization.plot_distribution" title="Permalink to this definition"></a></dt>
+<dd><p>Function to create plot of uncertainty distribution</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="probabilistic.capabilities.uncertainty_definitions.LognormalDistribution">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">probabilistic.capabilities.uncertainty_definitions.</span></span><span class="sig-name descname"><span class="pre">LognormalDistribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uncertainty_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nominal_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.uncertainty_definitions.LognormalDistribution" title="Permalink to this definition"></a></dt>
+<dd><p>Log-Normal Distribution Uncertainty Class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – </p></li>
+<li><p><strong>uncertainty_type</strong> (<em>str</em>) – </p></li>
+<li><p><strong>nominal_value</strong> (<em>float</em>) – </p></li>
+<li><p><strong>mu</strong> (<em>float</em>) – </p></li>
+<li><p><strong>sigma</strong> (<em>float</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="probabilistic.capabilities.uncertainty_definitions.NormalDistribution">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">probabilistic.capabilities.uncertainty_definitions.</span></span><span class="sig-name descname"><span class="pre">NormalDistribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uncertainty_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nominal_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">std_deviation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.uncertainty_definitions.NormalDistribution" title="Permalink to this definition"></a></dt>
+<dd><p>Normal Distribution Uncertainty Class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – </p></li>
+<li><p><strong>uncertainty_type</strong> (<em>str</em>) – </p></li>
+<li><p><strong>nominal_value</strong> (<em>float</em>) – </p></li>
+<li><p><strong>mean</strong> (<em>float</em>) – </p></li>
+<li><p><strong>std_deviation</strong> (<em>float</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="probabilistic.capabilities.uncertainty_definitions.TruncatedNormalDistribution">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">probabilistic.capabilities.uncertainty_definitions.</span></span><span class="sig-name descname"><span class="pre">TruncatedNormalDistribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uncertainty_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nominal_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">std_deviation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_bound</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upper_bound</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.uncertainty_definitions.TruncatedNormalDistribution" title="Permalink to this definition"></a></dt>
+<dd><p>Truncated Normal Distribution Uncertainty Class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – </p></li>
+<li><p><strong>uncertainty_type</strong> (<em>str</em>) – </p></li>
+<li><p><strong>nominal_value</strong> (<em>float</em>) – </p></li>
+<li><p><strong>mean</strong> (<em>float</em>) – </p></li>
+<li><p><strong>std_deviation</strong> (<em>float</em>) – </p></li>
+<li><p><strong>lower_bound</strong> (<em>float</em>) – </p></li>
+<li><p><strong>upper_bound</strong> (<em>float</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="probabilistic.capabilities.uncertainty_definitions.UncertaintyCharacterization">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">probabilistic.capabilities.uncertainty_definitions.</span></span><span class="sig-name descname"><span class="pre">UncertaintyCharacterization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uncertainty_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nominal_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.uncertainty_definitions.UncertaintyCharacterization" title="Permalink to this definition"></a></dt>
+<dd><p>Generic Uncertainty Distribution Class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – </p></li>
+<li><p><strong>uncertainty_type</strong> (<em>str</em>) – </p></li>
+<li><p><strong>nominal_value</strong> (<em>float</em>) – </p></li>
+<li><p><strong>distribution</strong> (<em>str</em>) – </p></li>
+<li><p><strong>parameters</strong> (<em>dict</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.uncertainty_definitions.UncertaintyCharacterization.generate_samples">
+<span class="sig-name descname"><span class="pre">generate_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_size:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state=Generator(PCG64)</span> <span class="pre">at</span> <span class="pre">0x7F661637AC80</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.uncertainty_definitions.UncertaintyCharacterization.generate_samples" title="Permalink to this definition"></a></dt>
+<dd><p>Function to sample from uncertainty distributions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sample_size</strong> (<em>int</em>) – number of samples</p></li>
+<li><p><strong>random_state</strong> (<em>generator</em>) – np default_rng instance or will be used to create randomState instance</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.capabilities.uncertainty_definitions.UncertaintyCharacterization.plot_distribution">
+<span class="sig-name descname"><span class="pre">plot_distribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_limits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.uncertainty_definitions.UncertaintyCharacterization.plot_distribution" title="Permalink to this definition"></a></dt>
+<dd><p>Function to create plot of uncertainty distribution</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="probabilistic.capabilities.uncertainty_definitions.UniformDistribution">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">probabilistic.capabilities.uncertainty_definitions.</span></span><span class="sig-name descname"><span class="pre">UniformDistribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uncertainty_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nominal_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_bound</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upper_bound</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.uncertainty_definitions.UniformDistribution" title="Permalink to this definition"></a></dt>
+<dd><p>Uniform Distribution Uncertainty Class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – </p></li>
+<li><p><strong>uncertainty_type</strong> (<em>str</em>) – </p></li>
+<li><p><strong>nominal_value</strong> (<em>float</em>) – </p></li>
+<li><p><strong>lower_bound</strong> (<em>float</em>) – </p></li>
+<li><p><strong>upper_bound</strong> (<em>float</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="probabilistic.capabilities.uncertainty_definitions.specify_distribution">
+<span class="sig-prename descclassname"><span class="pre">probabilistic.capabilities.uncertainty_definitions.</span></span><span class="sig-name descname"><span class="pre">specify_distribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter_specification</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.uncertainty_definitions.specify_distribution" title="Permalink to this definition"></a></dt>
+<dd><p>function to generate specified distribution type object
+:param parameter_specification: dictionary containing specification of desired uncertainty distribution
+:type parameter_specification: dict</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dist</strong> – specified distribution type object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#probabilistic.capabilities.uncertainty_definitions.UncertaintyCharacterization" title="probabilistic.capabilities.uncertainty_definitions.UncertaintyCharacterization">UncertaintyCharacterization</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="utilities.html" class="btn btn-neutral float-left" title="Utilities Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="prob_tests.html" class="btn btn-neutral float-right" title="Tests Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023 National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retainscertain rights in this software.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

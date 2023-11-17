@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Single Deterministic Pipeline Lifetime Evaluation &mdash; helpr 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" type="text/css" />
+      <link rel="stylesheet" href="_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=af2ce170"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="_static/design-tabs.js?v=36754332"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Inspection Mitigation Analysis of Pipeline Population" href="demo_inspection_mitigation.html" />
+    <link rel="prev" title="Probabilistic Evaluation for Single Pipe Lifetime" href="demo_probabilistic.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/HELPR_app_icon.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">HELPR Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="physics.html"><strong>Physics Documentation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="phys_tests.html"><strong>Tests Documentation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html"><strong>Utilities Documentation</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Probabilistic Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="capabilities.html"><strong>Capabilities Documentation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob_tests.html"><strong>Tests Documentation</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">HELPR Demo</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="demo_probabilistic.html"><strong>Probabilistic Evaluation for Single Pipe Lifetime</strong></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>Single Deterministic Pipeline Lifetime Evaluation</strong></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Problem-Specification"><strong>Problem Specification</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Modular-Analysis"><strong>Modular Analysis</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Interact-with-Modular-Analysis-Through-API"><strong>Interact with Modular Analysis Through API</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="demo_inspection_mitigation.html"><strong>Inspection Mitigation Analysis of Pipeline Population</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_sensitivity.html"><strong>Sensitivity Analysis of Pipeline Lifetime Evaluation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_uncertainty_types.html"><strong>Probabilistic Evaluation for Pipe Population’s Lifetimes with Multiple Types of Uncertainty</strong></a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">helpr</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><strong>Single Deterministic Pipeline Lifetime Evaluation</strong></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/demo_deterministic.nblink.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The autoreload extension is already loaded. To reload it, use:
+  %reload_ext autoreload
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">helpr.physics.api</span> <span class="kn">import</span> <span class="n">CrackEvolutionAnalysis</span>
+<span class="kn">from</span> <span class="nn">helpr.physics.pipe</span> <span class="kn">import</span> <span class="n">Pipe</span>
+<span class="kn">from</span> <span class="nn">helpr.physics.crack_initiation</span> <span class="kn">import</span> <span class="n">DefectSpecification</span>
+<span class="kn">from</span> <span class="nn">helpr.physics.environment</span> <span class="kn">import</span> <span class="n">EnvironmentSpecification</span>
+<span class="kn">from</span> <span class="nn">helpr.physics.material</span> <span class="kn">import</span> <span class="n">MaterialSpecification</span>
+<span class="kn">from</span> <span class="nn">helpr.physics.stress_state</span> <span class="kn">import</span> <span class="n">InternalAxialHoopStress</span>
+<span class="kn">from</span> <span class="nn">helpr.physics.cycle_evolution</span> <span class="kn">import</span> <span class="n">CycleEvolution</span>
+<span class="kn">from</span> <span class="nn">helpr.physics.crack_growth</span> <span class="kn">import</span> <span class="n">CrackGrowth</span><span class="p">,</span> <span class="n">get_design_curve</span>
+
+<span class="kn">from</span> <span class="nn">helpr.utilities.unit_conversion</span> <span class="kn">import</span> <span class="n">convert_psi_to_mpa</span><span class="p">,</span> <span class="n">convert_in_to_m</span>
+<span class="kn">from</span> <span class="nn">helpr.utilities.plots</span> <span class="kn">import</span> <span class="n">generate_pipe_life_assessment_plot</span>
+<span class="kn">from</span> <span class="nn">helpr.utilities.postprocessing</span> <span class="kn">import</span> <span class="n">calc_pipe_life_criteria</span><span class="p">,</span> <span class="n">report_single_pipe_life_criteria_results</span><span class="p">,</span> <span class="n">report_single_cycle_evolution</span>
+
+<span class="kn">from</span> <span class="nn">probabilistic.capabilities.uncertainty_definitions</span> <span class="kn">import</span> <span class="n">DeterministicCharacterization</span>
+</pre></div>
+</div>
+</div>
+<section id="Single-Deterministic-Pipeline-Lifetime-Evaluation">
+<h1><strong>Single Deterministic Pipeline Lifetime Evaluation</strong><a class="headerlink" href="#Single-Deterministic-Pipeline-Lifetime-Evaluation" title="Permalink to this heading"></a></h1>
+<section id="Problem-Specification">
+<h2><strong>Problem Specification</strong><a class="headerlink" href="#Problem-Specification" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Geometry</strong></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipe_outer_diameter</span> <span class="o">=</span> <span class="n">convert_in_to_m</span><span class="p">(</span><span class="mi">36</span><span class="p">)</span>  <span class="c1"># 36 inch outer diameter</span>
+<span class="n">wall_thickness</span> <span class="o">=</span> <span class="n">convert_in_to_m</span><span class="p">(</span><span class="mf">0.406</span><span class="p">)</span>    <span class="c1"># 0.406 inch wall thickness</span>
+</pre></div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Material Properties</strong></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yield_strength</span> <span class="o">=</span> <span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">52_000</span><span class="p">)</span>      <span class="c1"># material yield strength of 52_000 psi</span>
+<span class="n">fracture_resistance</span> <span class="o">=</span> <span class="mi">55</span>                     <span class="c1"># fracture resistance (toughness) MPa m1/2</span>
+</pre></div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Operating Conditions</strong></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">max_pressure</span> <span class="o">=</span> <span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">850</span><span class="p">)</span>   <span class="c1"># maximum pressure during oscillation MPa</span>
+<span class="n">min_pressure</span> <span class="o">=</span> <span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">638</span><span class="p">)</span>   <span class="c1"># minimum pressure during oscillation (or R = 0.75)</span>
+<span class="n">temperature</span> <span class="o">=</span> <span class="mi">293</span>                         <span class="c1"># K -&gt; temperature of gas degrees C</span>
+<span class="n">volume_fraction_h2</span> <span class="o">=</span> <span class="mi">1</span>                      <span class="c1"># % mole fraction H2 in natural gas blend</span>
+</pre></div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Initial Crack Dimensions</strong></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flaw_depth</span> <span class="o">=</span> <span class="mi">25</span>      <span class="c1"># flaw 5% through pipe thickness</span>
+<span class="n">flaw_length</span> <span class="o">=</span> <span class="mf">0.04</span>   <span class="c1"># width of initial crack/flaw, m</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Modular-Analysis">
+<h2><strong>Modular Analysis</strong><a class="headerlink" href="#Modular-Analysis" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Create Pipe Object</strong></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipe_module</span> <span class="o">=</span> <span class="n">Pipe</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">pipe_outer_diameter</span><span class="p">,</span>
+                   <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Specify Pipe Material Properties</strong></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">material_module</span> <span class="o">=</span> <span class="n">MaterialSpecification</span><span class="p">(</span><span class="n">yield_strength</span><span class="o">=</span><span class="n">yield_strength</span><span class="p">,</span>
+                                        <span class="n">fracture_resistance</span><span class="o">=</span><span class="n">fracture_resistance</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Specify Defect</strong></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">defect_module</span> <span class="o">=</span> <span class="n">DefectSpecification</span><span class="p">(</span><span class="n">flaw_depth</span><span class="o">=</span><span class="n">flaw_depth</span><span class="p">,</span>
+                                    <span class="n">flaw_length</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Specify Pipe Gaseous Environment</strong></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">environment_module</span> <span class="o">=</span> <span class="n">EnvironmentSpecification</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">max_pressure</span><span class="p">,</span>
+                                              <span class="n">min_pressure</span><span class="o">=</span><span class="n">min_pressure</span><span class="p">,</span>
+                                              <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                                              <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Determine Stress Environment on Pipe</strong></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stress_module</span> <span class="o">=</span> <span class="n">InternalAxialHoopStress</span><span class="p">(</span><span class="n">pipe</span><span class="o">=</span><span class="n">pipe_module</span><span class="p">,</span>
+                                        <span class="n">environment</span><span class="o">=</span><span class="n">environment_module</span><span class="p">,</span>
+                                        <span class="n">material</span><span class="o">=</span><span class="n">material_module</span><span class="p">,</span>
+                                        <span class="n">defect</span><span class="o">=</span><span class="n">defect_module</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Specify Crack Growth Model</strong></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">crack_growth_module</span> <span class="o">=</span> <span class="n">CrackGrowth</span><span class="p">(</span><span class="n">environment</span><span class="o">=</span><span class="n">environment_module</span><span class="p">,</span>
+                                  <span class="n">growth_model_specification</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;model_name&#39;</span><span class="p">:</span> <span class="s1">&#39;code_case_2938&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Evolve Cracks Over Cycles to Failure</strong></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipe_evaluation</span> <span class="o">=</span> <span class="n">CycleEvolution</span><span class="p">(</span><span class="n">pipe</span><span class="o">=</span><span class="n">pipe_module</span><span class="p">,</span>
+                                 <span class="n">stress_state</span><span class="o">=</span><span class="n">stress_module</span><span class="p">,</span>
+                                 <span class="n">defect</span><span class="o">=</span><span class="n">defect_module</span><span class="p">,</span>
+                                 <span class="n">environment</span><span class="o">=</span><span class="n">environment_module</span><span class="p">,</span>
+                                 <span class="n">material</span><span class="o">=</span><span class="n">material_module</span><span class="p">,</span>
+                                 <span class="n">crack_growth_model</span><span class="o">=</span><span class="n">crack_growth_module</span><span class="p">)</span>
+<span class="n">load_cycling</span> <span class="o">=</span> <span class="n">pipe_evaluation</span><span class="o">.</span><span class="n">calc_life_assessment</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Postprocess QoIs</strong> <em>(life criteria)</em></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">life_criteria</span> <span class="o">=</span> <span class="n">calc_pipe_life_criteria</span><span class="p">(</span><span class="n">cycle_results</span><span class="o">=</span><span class="n">load_cycling</span><span class="p">,</span>
+                                        <span class="n">pipe</span><span class="o">=</span><span class="n">pipe_module</span><span class="p">,</span>
+                                        <span class="n">stress_state</span><span class="o">=</span><span class="n">stress_module</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Plot QoI</strong></p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">specific_life_criteria_result</span> <span class="o">=</span> <span class="n">report_single_pipe_life_criteria_results</span><span class="p">(</span><span class="n">life_criteria</span><span class="p">,</span> <span class="n">pipe_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">specific_load_cycling</span> <span class="o">=</span> <span class="n">report_single_cycle_evolution</span><span class="p">(</span><span class="n">load_cycling</span><span class="p">,</span> <span class="n">pipe_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">generate_pipe_life_assessment_plot</span><span class="p">(</span><span class="n">specific_load_cycling</span><span class="p">,</span> <span class="n">specific_life_criteria_result</span><span class="p">,</span> <span class="s1">&#39;Test Pipe&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./Figures/deterministic_crack_growth.png&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+              Cycles to a(crit)  Cycles to 25% a(crit)  Cycles to 1/2 Nc
+Total cycles        4246.700789               1.000000       2123.350394
+a/t                    0.330777               0.082694          0.270571
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_deterministic_30_1.png" src="_images/demo_deterministic_30_1.png" />
+</div>
+</div>
+</section>
+<section id="Interact-with-Modular-Analysis-Through-API">
+<h2><strong>Interact with Modular Analysis Through API</strong><a class="headerlink" href="#Interact-with-Modular-Analysis-Through-API" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Specify Problem, Initiate Crack, and Evolve Crack to Failure</strong></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span> <span class="o">=</span> <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;outer_diameter&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">pipe_outer_diameter</span><span class="p">),</span>
+                                  <span class="n">wall_thickness</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;wall_thickness&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">),</span>
+                                  <span class="n">flaw_depth</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flaw_depth&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">flaw_depth</span><span class="p">),</span>
+                                  <span class="n">max_pressure</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;max_pressure&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">max_pressure</span><span class="p">),</span>
+                                  <span class="n">min_pressure</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;min_pressure&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">min_pressure</span><span class="p">),</span>
+                                  <span class="n">temperature</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;temperature&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">temperature</span><span class="p">),</span>
+                                  <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">),</span>
+                                  <span class="n">yield_strength</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;yield_strength&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">yield_strength</span><span class="p">),</span>
+                                  <span class="n">fracture_resistance</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;fracture_resistance&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">fracture_resistance</span><span class="p">),</span>
+                                  <span class="n">flaw_length</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flaw_length&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">))</span>
+<span class="n">analysis</span><span class="o">.</span><span class="n">perform_study</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Postprocess and Plot QoI</strong></p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span><span class="o">.</span><span class="n">postprocess_single_crack_results</span><span class="p">()</span>
+
+<span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span> <span class="o">=</span> <span class="n">get_design_curve</span><span class="p">(</span><span class="n">specified_r</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">specified_fugacity</span><span class="o">=</span><span class="mf">0.16973535</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span><span class="p">,</span> <span class="s1">&#39;r--&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;Exercised Rates&#39;</span><span class="p">,</span> <span class="s1">&#39;Design Curve&#39;</span><span class="p">],</span> <span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./Figures/deterministic_crack_growth_rate.png&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+
+<span class="n">analysis</span><span class="o">.</span><span class="n">assemble_failure_assessment_diagram</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+              Cycles to a(crit)  Cycles to 25% a(crit)  Cycles to 1/2 Nc
+Total cycles        4246.700789               1.000000       2123.350394
+a/t                    0.330777               0.082694          0.270571
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_deterministic_35_1.png" src="_images/demo_deterministic_35_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_deterministic_35_2.png" src="_images/demo_deterministic_35_2.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_deterministic_35_3.png" src="_images/demo_deterministic_35_3.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span><span class="o">.</span><span class="n">save_results</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;Results/date_26_10_2023_time_10_25/&#39;
+</pre></div></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="demo_probabilistic.html" class="btn btn-neutral float-left" title="Probabilistic Evaluation for Single Pipe Lifetime" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="demo_inspection_mitigation.html" class="btn btn-neutral float-right" title="Inspection Mitigation Analysis of Pipeline Population" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023 National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retainscertain rights in this software.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

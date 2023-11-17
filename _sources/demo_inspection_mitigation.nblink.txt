@@ -1,0 +1,5 @@
+{
+
+    "path": "../../../examples/demo_inspection_mitigation.ipynb"
+
+}

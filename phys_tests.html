@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tests Documentation &mdash; helpr 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=af2ce170"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="_static/design-tabs.js?v=36754332"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Utilities Documentation" href="utilities.html" />
+    <link rel="prev" title="Physics Documentation" href="physics.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/HELPR_app_icon.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">HELPR Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="physics.html"><strong>Physics Documentation</strong></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>Tests Documentation</strong></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#unit-tests">Unit Tests</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-helpr.tests.unit_tests.test_api">test_api docu</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.tests.unit_tests.test_api.APITestCase"><code class="docutils literal notranslate"><span class="pre">APITestCase</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-helpr.tests.unit_tests.test_crack_growth">test_crack_growth docu</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.tests.unit_tests.test_crack_growth.CrackGrowthTestCase"><code class="docutils literal notranslate"><span class="pre">CrackGrowthTestCase</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-helpr.tests.unit_tests.test_cycle_evolution">test_cycle_evolution docu</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.tests.unit_tests.test_cycle_evolution.CycleEvolutionTestCase"><code class="docutils literal notranslate"><span class="pre">CycleEvolutionTestCase</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-helpr.tests.unit_tests.test_crack_initiation">test_crack_initiation docu</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.tests.unit_tests.test_crack_initiation.CrackInitiationTestCase"><code class="docutils literal notranslate"><span class="pre">CrackInitiationTestCase</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-helpr.tests.unit_tests.test_environment">test_environment docu</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.tests.unit_tests.test_environment.EnvironmentTestCase"><code class="docutils literal notranslate"><span class="pre">EnvironmentTestCase</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-helpr.tests.unit_tests.test_fracture">test_fracture docu</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.tests.unit_tests.test_fracture.FractureTestCase"><code class="docutils literal notranslate"><span class="pre">FractureTestCase</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-helpr.tests.unit_tests.test_inspection_mitigation">test_inspection_mitigation docu</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.tests.unit_tests.test_inspection_mitigation.InspectionMitigationTestCase"><code class="docutils literal notranslate"><span class="pre">InspectionMitigationTestCase</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-helpr.tests.unit_tests.test_material">test_material docu</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.tests.unit_tests.test_material.MaterialTestCase"><code class="docutils literal notranslate"><span class="pre">MaterialTestCase</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-helpr.tests.unit_tests.test_parameter">test_parameter docu</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.tests.unit_tests.test_parameter.ParameterTestCase"><code class="docutils literal notranslate"><span class="pre">ParameterTestCase</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-helpr.tests.unit_tests.test_pipe">test_pipe docu</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.tests.unit_tests.test_pipe.PipeTestCase"><code class="docutils literal notranslate"><span class="pre">PipeTestCase</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-helpr.tests.unit_tests.test_plots">test_plots docu</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.tests.unit_tests.test_plots.PlotsTestCase"><code class="docutils literal notranslate"><span class="pre">PlotsTestCase</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-helpr.tests.unit_tests.test_postprocessing">test_postprocessing docu</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.tests.unit_tests.test_postprocessing.PostProcessingTestCase"><code class="docutils literal notranslate"><span class="pre">PostProcessingTestCase</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-helpr.tests.unit_tests.test_stress_state">test_stress_state docu</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.tests.unit_tests.test_stress_state.StressStateTestCase"><code class="docutils literal notranslate"><span class="pre">StressStateTestCase</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#verification-tests">Verification Tests</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-helpr.tests.verification_tests.test_verification_crack_growth_rate">test_verification_crack_growth_rate docu</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.tests.verification_tests.test_verification_crack_growth_rate.VerificationCrackGrowth"><code class="docutils literal notranslate"><span class="pre">VerificationCrackGrowth</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html"><strong>Utilities Documentation</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Probabilistic Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="capabilities.html"><strong>Capabilities Documentation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob_tests.html"><strong>Tests Documentation</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">HELPR Demo</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="demo_probabilistic.html"><strong>Probabilistic Evaluation for Single Pipe Lifetime</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_deterministic.html"><strong>Single Deterministic Pipeline Lifetime Evaluation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_inspection_mitigation.html"><strong>Inspection Mitigation Analysis of Pipeline Population</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_sensitivity.html"><strong>Sensitivity Analysis of Pipeline Lifetime Evaluation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_uncertainty_types.html"><strong>Probabilistic Evaluation for Pipe Population’s Lifetimes with Multiple Types of Uncertainty</strong></a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">helpr</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><strong>Tests Documentation</strong></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/phys_tests.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tests-documentation">
+<h1><strong>Tests Documentation</strong><a class="headerlink" href="#tests-documentation" title="Permalink to this heading"></a></h1>
+<ul class="simple">
+<li><p>all tests can be evaluated via <code class="docutils literal notranslate"><span class="pre">pytest</span></code></p></li>
+<li><p>executing <code class="docutils literal notranslate"><span class="pre">pytest</span></code> from the <code class="docutils literal notranslate"><span class="pre">tests</span></code> directory or above within the repo will execute all tests</p></li>
+<li><p>executing <code class="docutils literal notranslate"><span class="pre">pytest</span></code> within a pecific directory will only execute tests in that directory</p></li>
+<li><p>executing <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">path/to/text_file.py</span></code> will only execute single specified test</p></li>
+</ul>
+<section id="unit-tests">
+<h2>Unit Tests<a class="headerlink" href="#unit-tests" title="Permalink to this heading"></a></h2>
+<section id="module-helpr.tests.unit_tests.test_api">
+<span id="test-api-docu"></span><h3>test_api docu<a class="headerlink" href="#module-helpr.tests.unit_tests.test_api" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_api.APITestCase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.tests.unit_tests.test_api.</span></span><span class="sig-name descname"><span class="pre">APITestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_api.APITestCase" title="Permalink to this definition"></a></dt>
+<dd><p>Class for unit tests of api module</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_api.APITestCase.assert_is_file">
+<span class="sig-name descname"><span class="pre">assert_is_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_api.APITestCase.assert_is_file" title="Permalink to this definition"></a></dt>
+<dd><p>function to assert if file exists</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_api.APITestCase.rm_tree">
+<span class="sig-name descname"><span class="pre">rm_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_api.APITestCase.rm_tree" title="Permalink to this definition"></a></dt>
+<dd><p>function to remove results save folder after unit test</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_api.APITestCase.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_api.APITestCase.setUp" title="Permalink to this definition"></a></dt>
+<dd><p>function to specify common inputs to api module</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_api.APITestCase.tearDown">
+<span class="sig-name descname"><span class="pre">tearDown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_api.APITestCase.tearDown" title="Permalink to this definition"></a></dt>
+<dd><p>teardown function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_api.APITestCase.test_api_bounding_sensitivity_study">
+<span class="sig-name descname"><span class="pre">test_api_bounding_sensitivity_study</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_api.APITestCase.test_api_bounding_sensitivity_study" title="Permalink to this definition"></a></dt>
+<dd><p>unit test for specifying a bound value sensitivity study in api</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_api.APITestCase.test_api_lhs_sensitivity_study">
+<span class="sig-name descname"><span class="pre">test_api_lhs_sensitivity_study</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_api.APITestCase.test_api_lhs_sensitivity_study" title="Permalink to this definition"></a></dt>
+<dd><p>unit test for specifying a bound value sensitivity study in api</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_api.APITestCase.test_api_nominal_evaluations">
+<span class="sig-name descname"><span class="pre">test_api_nominal_evaluations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_api.APITestCase.test_api_nominal_evaluations" title="Permalink to this definition"></a></dt>
+<dd><p>unit test for ensuring nominal probabilistic results match deterministic results</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_api.APITestCase.test_api_scalar_inputs">
+<span class="sig-name descname"><span class="pre">test_api_scalar_inputs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_api.APITestCase.test_api_scalar_inputs" title="Permalink to this definition"></a></dt>
+<dd><p>unit test for passing scaling inputs (deterministic evaluation) to api</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_api.APITestCase.test_api_uncertain_inputs">
+<span class="sig-name descname"><span class="pre">test_api_uncertain_inputs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_api.APITestCase.test_api_uncertain_inputs" title="Permalink to this definition"></a></dt>
+<dd><p>unit test for passing uncertain inputs to api</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_api.APITestCase.test_bad_study_type_specification">
+<span class="sig-name descname"><span class="pre">test_bad_study_type_specification</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_api.APITestCase.test_bad_study_type_specification" title="Permalink to this definition"></a></dt>
+<dd><p>unit test for specifying a bound value sensitivity study in api</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_api.APITestCase.test_create_failure_assessment_diagram">
+<span class="sig-name descname"><span class="pre">test_create_failure_assessment_diagram</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_api.APITestCase.test_create_failure_assessment_diagram" title="Permalink to this definition"></a></dt>
+<dd><p>unit test for creating failure assessment diagram</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_api.APITestCase.test_create_probabilistic_plots">
+<span class="sig-name descname"><span class="pre">test_create_probabilistic_plots</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_api.APITestCase.test_create_probabilistic_plots" title="Permalink to this definition"></a></dt>
+<dd><p>unit test for creating probabilistic plots</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_api.APITestCase.test_incorrect_parameter_name">
+<span class="sig-name descname"><span class="pre">test_incorrect_parameter_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_api.APITestCase.test_incorrect_parameter_name" title="Permalink to this definition"></a></dt>
+<dd><p>unit test for warning of incorrect parameter name</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_api.APITestCase.test_inspection_mitigation_results">
+<span class="sig-name descname"><span class="pre">test_inspection_mitigation_results</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_api.APITestCase.test_inspection_mitigation_results" title="Permalink to this definition"></a></dt>
+<dd><p>unit test for applying inspection mitigation function to crack evolution results</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_api.APITestCase.test_reload_random_seed">
+<span class="sig-name descname"><span class="pre">test_reload_random_seed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_api.APITestCase.test_reload_random_seed" title="Permalink to this definition"></a></dt>
+<dd><p>unit test to check ability to use previous random seed</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_api.APITestCase.test_save_deterministic_results">
+<span class="sig-name descname"><span class="pre">test_save_deterministic_results</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_api.APITestCase.test_save_deterministic_results" title="Permalink to this definition"></a></dt>
+<dd><p>unit test to check deterministic result saving capability</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_api.APITestCase.test_save_probabilistic_results">
+<span class="sig-name descname"><span class="pre">test_save_probabilistic_results</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_api.APITestCase.test_save_probabilistic_results" title="Permalink to this definition"></a></dt>
+<dd><p>unit test to check probabilistic result saving capability</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_api.APITestCase.test_specifying_random_seed">
+<span class="sig-name descname"><span class="pre">test_specifying_random_seed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_api.APITestCase.test_specifying_random_seed" title="Permalink to this definition"></a></dt>
+<dd><p>unit test to check ability to specify random seed</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-helpr.tests.unit_tests.test_crack_growth">
+<span id="test-crack-growth-docu"></span><h3>test_crack_growth docu<a class="headerlink" href="#module-helpr.tests.unit_tests.test_crack_growth" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_crack_growth.CrackGrowthTestCase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.tests.unit_tests.test_crack_growth.</span></span><span class="sig-name descname"><span class="pre">CrackGrowthTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_crack_growth.CrackGrowthTestCase" title="Permalink to this definition"></a></dt>
+<dd><p>Class for units tests of crack growth module</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_crack_growth.CrackGrowthTestCase.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_crack_growth.CrackGrowthTestCase.setUp" title="Permalink to this definition"></a></dt>
+<dd><p>function to specify common inputs to crack growth module</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_crack_growth.CrackGrowthTestCase.tearDown">
+<span class="sig-name descname"><span class="pre">tearDown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_crack_growth.CrackGrowthTestCase.tearDown" title="Permalink to this definition"></a></dt>
+<dd><p>teardown function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_crack_growth.CrackGrowthTestCase.test_0pct_h2">
+<span class="sig-name descname"><span class="pre">test_0pct_h2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_crack_growth.CrackGrowthTestCase.test_0pct_h2" title="Permalink to this definition"></a></dt>
+<dd><p>unit test for having no hydrogen in crack growth calculations</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_crack_growth.CrackGrowthTestCase.test_100pct_h2">
+<span class="sig-name descname"><span class="pre">test_100pct_h2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_crack_growth.CrackGrowthTestCase.test_100pct_h2" title="Permalink to this definition"></a></dt>
+<dd><p>unit test that crack growth following ASME curve</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_crack_growth.CrackGrowthTestCase.test_bad_crack_growth_model_specifications">
+<span class="sig-name descname"><span class="pre">test_bad_crack_growth_model_specifications</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_crack_growth.CrackGrowthTestCase.test_bad_crack_growth_model_specifications" title="Permalink to this definition"></a></dt>
+<dd><p>unit test for passing invalid crack growth rate model</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_crack_growth.CrackGrowthTestCase.test_default">
+<span class="sig-name descname"><span class="pre">test_default</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_crack_growth.CrackGrowthTestCase.test_default" title="Permalink to this definition"></a></dt>
+<dd><p>unit test of default behavior of crack growth module</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_crack_growth.CrackGrowthTestCase.test_design_curve_function">
+<span class="sig-name descname"><span class="pre">test_design_curve_function</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_crack_growth.CrackGrowthTestCase.test_design_curve_function" title="Permalink to this definition"></a></dt>
+<dd><p>unit test to check that design curve calculation function performs as expected</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_crack_growth.CrackGrowthTestCase.test_input_types">
+<span class="sig-name descname"><span class="pre">test_input_types</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_crack_growth.CrackGrowthTestCase.test_input_types" title="Permalink to this definition"></a></dt>
+<dd><p>unit test for passing lists of inputs to crack growth module</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_crack_growth.CrackGrowthTestCase.test_invalid_fugacity_correction_case">
+<span class="sig-name descname"><span class="pre">test_invalid_fugacity_correction_case</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_crack_growth.CrackGrowthTestCase.test_invalid_fugacity_correction_case" title="Permalink to this definition"></a></dt>
+<dd><p>unit test of passing invalid input to fugacity correction</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_crack_growth.CrackGrowthTestCase.test_specify_paris_law_crack_growth">
+<span class="sig-name descname"><span class="pre">test_specify_paris_law_crack_growth</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_crack_growth.CrackGrowthTestCase.test_specify_paris_law_crack_growth" title="Permalink to this definition"></a></dt>
+<dd><p>unit test of specifying inputs for a paris law crack growth model</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-helpr.tests.unit_tests.test_cycle_evolution">
+<span id="test-cycle-evolution-docu"></span><h3>test_cycle_evolution docu<a class="headerlink" href="#module-helpr.tests.unit_tests.test_cycle_evolution" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_cycle_evolution.CycleEvolutionTestCase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.tests.unit_tests.test_cycle_evolution.</span></span><span class="sig-name descname"><span class="pre">CycleEvolutionTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_cycle_evolution.CycleEvolutionTestCase" title="Permalink to this definition"></a></dt>
+<dd><p>class for unit tests of cycle evolution module</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_cycle_evolution.CycleEvolutionTestCase.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_cycle_evolution.CycleEvolutionTestCase.setUp" title="Permalink to this definition"></a></dt>
+<dd><p>function to specify common cycle evolution inputs</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_cycle_evolution.CycleEvolutionTestCase.tearDown">
+<span class="sig-name descname"><span class="pre">tearDown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_cycle_evolution.CycleEvolutionTestCase.tearDown" title="Permalink to this definition"></a></dt>
+<dd><p>teardown function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_cycle_evolution.CycleEvolutionTestCase.test_a_crit_optimization">
+<span class="sig-name descname"><span class="pre">test_a_crit_optimization</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_cycle_evolution.CycleEvolutionTestCase.test_a_crit_optimization" title="Permalink to this definition"></a></dt>
+<dd><p>test optimization of a critical for cycle evolution class</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_cycle_evolution.CycleEvolutionTestCase.test_array_input">
+<span class="sig-name descname"><span class="pre">test_array_input</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_cycle_evolution.CycleEvolutionTestCase.test_array_input" title="Permalink to this definition"></a></dt>
+<dd><p>test array input for cycle evolution class</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_cycle_evolution.CycleEvolutionTestCase.test_default">
+<span class="sig-name descname"><span class="pre">test_default</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_cycle_evolution.CycleEvolutionTestCase.test_default" title="Permalink to this definition"></a></dt>
+<dd><p>test default functionality of cycle evolution class</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-helpr.tests.unit_tests.test_crack_initiation">
+<span id="test-crack-initiation-docu"></span><h3>test_crack_initiation docu<a class="headerlink" href="#module-helpr.tests.unit_tests.test_crack_initiation" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_crack_initiation.CrackInitiationTestCase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.tests.unit_tests.test_crack_initiation.</span></span><span class="sig-name descname"><span class="pre">CrackInitiationTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_crack_initiation.CrackInitiationTestCase" title="Permalink to this definition"></a></dt>
+<dd><p>Class for units test of crack initiation module</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_crack_initiation.CrackInitiationTestCase.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_crack_initiation.CrackInitiationTestCase.setUp" title="Permalink to this definition"></a></dt>
+<dd><p>function for specifying common inputs to crack initiation module</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_crack_initiation.CrackInitiationTestCase.tearDown">
+<span class="sig-name descname"><span class="pre">tearDown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_crack_initiation.CrackInitiationTestCase.tearDown" title="Permalink to this definition"></a></dt>
+<dd><p>teardown function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_crack_initiation.CrackInitiationTestCase.test_array_inputs">
+<span class="sig-name descname"><span class="pre">test_array_inputs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_crack_initiation.CrackInitiationTestCase.test_array_inputs" title="Permalink to this definition"></a></dt>
+<dd><p>unit test of passing input arrays to crack initiation module</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_crack_initiation.CrackInitiationTestCase.test_default">
+<span class="sig-name descname"><span class="pre">test_default</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_crack_initiation.CrackInitiationTestCase.test_default" title="Permalink to this definition"></a></dt>
+<dd><p>unit test of default functionality of crack initiation module</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-helpr.tests.unit_tests.test_environment">
+<span id="test-environment-docu"></span><h3>test_environment docu<a class="headerlink" href="#module-helpr.tests.unit_tests.test_environment" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_environment.EnvironmentTestCase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.tests.unit_tests.test_environment.</span></span><span class="sig-name descname"><span class="pre">EnvironmentTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_environment.EnvironmentTestCase" title="Permalink to this definition"></a></dt>
+<dd><p>Class for unit tests of environment module</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_environment.EnvironmentTestCase.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_environment.EnvironmentTestCase.setUp" title="Permalink to this definition"></a></dt>
+<dd><p>function to specify common inputs to environment module</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_environment.EnvironmentTestCase.tearDown">
+<span class="sig-name descname"><span class="pre">tearDown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_environment.EnvironmentTestCase.tearDown" title="Permalink to this definition"></a></dt>
+<dd><p>teardown function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_environment.EnvironmentTestCase.test_array_input">
+<span class="sig-name descname"><span class="pre">test_array_input</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_environment.EnvironmentTestCase.test_array_input" title="Permalink to this definition"></a></dt>
+<dd><p>unit test of passing array of pressure values to environment module</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_environment.EnvironmentTestCase.test_fugacity_ratio">
+<span class="sig-name descname"><span class="pre">test_fugacity_ratio</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_environment.EnvironmentTestCase.test_fugacity_ratio" title="Permalink to this definition"></a></dt>
+<dd><p>unit test of fugacity ratio calculation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_environment.EnvironmentTestCase.test_h2_volume_fraction">
+<span class="sig-name descname"><span class="pre">test_h2_volume_fraction</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_environment.EnvironmentTestCase.test_h2_volume_fraction" title="Permalink to this definition"></a></dt>
+<dd><p>unit test of changing h2 mvolume fraction in environment</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_environment.EnvironmentTestCase.test_r_ratio">
+<span class="sig-name descname"><span class="pre">test_r_ratio</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_environment.EnvironmentTestCase.test_r_ratio" title="Permalink to this definition"></a></dt>
+<dd><p>unit test of r ratio calculation</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-helpr.tests.unit_tests.test_fracture">
+<span id="test-fracture-docu"></span><h3>test_fracture docu<a class="headerlink" href="#module-helpr.tests.unit_tests.test_fracture" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_fracture.FractureTestCase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.tests.unit_tests.test_fracture.</span></span><span class="sig-name descname"><span class="pre">FractureTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_fracture.FractureTestCase" title="Permalink to this definition"></a></dt>
+<dd><p>class for fracture module unit tests</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_fracture.FractureTestCase.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_fracture.FractureTestCase.setUp" title="Permalink to this definition"></a></dt>
+<dd><p>function for specifying common fracture module inputs</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_fracture.FractureTestCase.tearDown">
+<span class="sig-name descname"><span class="pre">tearDown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_fracture.FractureTestCase.tearDown" title="Permalink to this definition"></a></dt>
+<dd><p>teardown function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_fracture.FractureTestCase.test_default">
+<span class="sig-name descname"><span class="pre">test_default</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_fracture.FractureTestCase.test_default" title="Permalink to this definition"></a></dt>
+<dd><p>unit test of default behavior of fracture module</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-helpr.tests.unit_tests.test_inspection_mitigation">
+<span id="test-inspection-mitigation-docu"></span><h3>test_inspection_mitigation docu<a class="headerlink" href="#module-helpr.tests.unit_tests.test_inspection_mitigation" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_inspection_mitigation.InspectionMitigationTestCase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.tests.unit_tests.test_inspection_mitigation.</span></span><span class="sig-name descname"><span class="pre">InspectionMitigationTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_inspection_mitigation.InspectionMitigationTestCase" title="Permalink to this definition"></a></dt>
+<dd><p>unit tests for inspection and mitigation module</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_inspection_mitigation.InspectionMitigationTestCase.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_inspection_mitigation.InspectionMitigationTestCase.setUp" title="Permalink to this definition"></a></dt>
+<dd><p>function for specifying common inspection mitigation module inputs</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_inspection_mitigation.InspectionMitigationTestCase.tearDown">
+<span class="sig-name descname"><span class="pre">tearDown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_inspection_mitigation.InspectionMitigationTestCase.tearDown" title="Permalink to this definition"></a></dt>
+<dd><p>”
+teardown function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_inspection_mitigation.InspectionMitigationTestCase.test_crack_inspection">
+<span class="sig-name descname"><span class="pre">test_crack_inspection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_inspection_mitigation.InspectionMitigationTestCase.test_crack_inspection" title="Permalink to this definition"></a></dt>
+<dd><p>unit test for crack inspection function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_inspection_mitigation.InspectionMitigationTestCase.test_crack_mitigation">
+<span class="sig-name descname"><span class="pre">test_crack_mitigation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_inspection_mitigation.InspectionMitigationTestCase.test_crack_mitigation" title="Permalink to this definition"></a></dt>
+<dd><p>unit test for crack mitigation function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_inspection_mitigation.InspectionMitigationTestCase.test_determine_inspection_schedule">
+<span class="sig-name descname"><span class="pre">test_determine_inspection_schedule</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_inspection_mitigation.InspectionMitigationTestCase.test_determine_inspection_schedule" title="Permalink to this definition"></a></dt>
+<dd><p>test of determining inspection schedule function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_inspection_mitigation.InspectionMitigationTestCase.test_inspection_indices">
+<span class="sig-name descname"><span class="pre">test_inspection_indices</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_inspection_mitigation.InspectionMitigationTestCase.test_inspection_indices" title="Permalink to this definition"></a></dt>
+<dd><p>test of inspection indices function</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-helpr.tests.unit_tests.test_material">
+<span id="test-material-docu"></span><h3>test_material docu<a class="headerlink" href="#module-helpr.tests.unit_tests.test_material" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_material.MaterialTestCase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.tests.unit_tests.test_material.</span></span><span class="sig-name descname"><span class="pre">MaterialTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_material.MaterialTestCase" title="Permalink to this definition"></a></dt>
+<dd><p>class for unit tests of material module</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_material.MaterialTestCase.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_material.MaterialTestCase.setUp" title="Permalink to this definition"></a></dt>
+<dd><p>function for specifying common material module inputs</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_material.MaterialTestCase.tearDown">
+<span class="sig-name descname"><span class="pre">tearDown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_material.MaterialTestCase.tearDown" title="Permalink to this definition"></a></dt>
+<dd><p>teardown function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_material.MaterialTestCase.test_default">
+<span class="sig-name descname"><span class="pre">test_default</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_material.MaterialTestCase.test_default" title="Permalink to this definition"></a></dt>
+<dd><p>unit test of default behavior for material module</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_material.MaterialTestCase.test_single_instance">
+<span class="sig-name descname"><span class="pre">test_single_instance</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_material.MaterialTestCase.test_single_instance" title="Permalink to this definition"></a></dt>
+<dd><p>unit test of accessing single instance of material specification object</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-helpr.tests.unit_tests.test_parameter">
+<span id="test-parameter-docu"></span><h3>test_parameter docu<a class="headerlink" href="#module-helpr.tests.unit_tests.test_parameter" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_parameter.ParameterTestCase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.tests.unit_tests.test_parameter.</span></span><span class="sig-name descname"><span class="pre">ParameterTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_parameter.ParameterTestCase" title="Permalink to this definition"></a></dt>
+<dd><p>class for unit test of parameter module</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_parameter.ParameterTestCase.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#helpr.tests.unit_tests.test_parameter.ParameterTestCase.setUp" title="Permalink to this definition"></a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_parameter.ParameterTestCase.tearDown">
+<span class="sig-name descname"><span class="pre">tearDown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#helpr.tests.unit_tests.test_parameter.ParameterTestCase.tearDown" title="Permalink to this definition"></a></dt>
+<dd><p>teardown function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_parameter.ParameterTestCase.test_above_bounds">
+<span class="sig-name descname"><span class="pre">test_above_bounds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_parameter.ParameterTestCase.test_above_bounds" title="Permalink to this definition"></a></dt>
+<dd><p>unit test of specifying parameter value above upper bound</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_parameter.ParameterTestCase.test_bad_size_specification">
+<span class="sig-name descname"><span class="pre">test_bad_size_specification</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_parameter.ParameterTestCase.test_bad_size_specification" title="Permalink to this definition"></a></dt>
+<dd><p>unit test to check that bad size specification does not work</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_parameter.ParameterTestCase.test_below_bounds">
+<span class="sig-name descname"><span class="pre">test_below_bounds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_parameter.ParameterTestCase.test_below_bounds" title="Permalink to this definition"></a></dt>
+<dd><p>unit test of specifying parameter value below lower bound</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_parameter.ParameterTestCase.test_default">
+<span class="sig-name descname"><span class="pre">test_default</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_parameter.ParameterTestCase.test_default" title="Permalink to this definition"></a></dt>
+<dd><p>unit tests of default behavior of parameter module</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_parameter.ParameterTestCase.test_list_above_bounds">
+<span class="sig-name descname"><span class="pre">test_list_above_bounds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_parameter.ParameterTestCase.test_list_above_bounds" title="Permalink to this definition"></a></dt>
+<dd><p>unit test of passing list of inputs with one value above parameter upper bounds</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_parameter.ParameterTestCase.test_list_below_bounds">
+<span class="sig-name descname"><span class="pre">test_list_below_bounds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_parameter.ParameterTestCase.test_list_below_bounds" title="Permalink to this definition"></a></dt>
+<dd><p>unit test of passing list of inputs with one value below parameter lower bounds</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_parameter.ParameterTestCase.test_make_array">
+<span class="sig-name descname"><span class="pre">test_make_array</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_parameter.ParameterTestCase.test_make_array" title="Permalink to this definition"></a></dt>
+<dd><p>unit test of specifying size of parameter object</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_parameter.ParameterTestCase.test_passed_list">
+<span class="sig-name descname"><span class="pre">test_passed_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_parameter.ParameterTestCase.test_passed_list" title="Permalink to this definition"></a></dt>
+<dd><p>unit test of passing list of parameter values to parameter module</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-helpr.tests.unit_tests.test_pipe">
+<span id="test-pipe-docu"></span><h3>test_pipe docu<a class="headerlink" href="#module-helpr.tests.unit_tests.test_pipe" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_pipe.PipeTestCase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.tests.unit_tests.test_pipe.</span></span><span class="sig-name descname"><span class="pre">PipeTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_pipe.PipeTestCase" title="Permalink to this definition"></a></dt>
+<dd><p>class for pipe module unit tests</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_pipe.PipeTestCase.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_pipe.PipeTestCase.setUp" title="Permalink to this definition"></a></dt>
+<dd><p>function to specify common inputs to pipe module</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_pipe.PipeTestCase.tearDown">
+<span class="sig-name descname"><span class="pre">tearDown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_pipe.PipeTestCase.tearDown" title="Permalink to this definition"></a></dt>
+<dd><p>teardown function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_pipe.PipeTestCase.test_array_input">
+<span class="sig-name descname"><span class="pre">test_array_input</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_pipe.PipeTestCase.test_array_input" title="Permalink to this definition"></a></dt>
+<dd><p>unit test of passing array of inputs to pipe module</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_pipe.PipeTestCase.test_bad_pipe_size">
+<span class="sig-name descname"><span class="pre">test_bad_pipe_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_pipe.PipeTestCase.test_bad_pipe_size" title="Permalink to this definition"></a></dt>
+<dd><p>unit tests of bad pipe size specification</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-helpr.tests.unit_tests.test_plots">
+<span id="test-plots-docu"></span><h3>test_plots docu<a class="headerlink" href="#module-helpr.tests.unit_tests.test_plots" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_plots.PlotsTestCase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.tests.unit_tests.test_plots.</span></span><span class="sig-name descname"><span class="pre">PlotsTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_plots.PlotsTestCase" title="Permalink to this definition"></a></dt>
+<dd><p>class for plotting functions</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_plots.PlotsTestCase.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_plots.PlotsTestCase.setUp" title="Permalink to this definition"></a></dt>
+<dd><p>function to specify common inputs to plot functions</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_plots.PlotsTestCase.test_crack_growth_rate_plot">
+<span class="sig-name descname"><span class="pre">test_crack_growth_rate_plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_plots.PlotsTestCase.test_crack_growth_rate_plot" title="Permalink to this definition"></a></dt>
+<dd><p>test for creation of crack growth rate plot</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_plots.PlotsTestCase.test_cycle_life_cdf_ci">
+<span class="sig-name descname"><span class="pre">test_cycle_life_cdf_ci</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_plots.PlotsTestCase.test_cycle_life_cdf_ci" title="Permalink to this definition"></a></dt>
+<dd><p>test for creation of life criteria cdf confidence intervals plot</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_plots.PlotsTestCase.test_cycle_life_cdfs">
+<span class="sig-name descname"><span class="pre">test_cycle_life_cdfs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_plots.PlotsTestCase.test_cycle_life_cdfs" title="Permalink to this definition"></a></dt>
+<dd><p>test for creation of life criteria cdfs plot</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_plots.PlotsTestCase.test_cycle_life_critieria_scatter_plot">
+<span class="sig-name descname"><span class="pre">test_cycle_life_critieria_scatter_plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_plots.PlotsTestCase.test_cycle_life_critieria_scatter_plot" title="Permalink to this definition"></a></dt>
+<dd><p>test for creation of life criteria scatter plot</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_plots.PlotsTestCase.test_cycle_life_pdf">
+<span class="sig-name descname"><span class="pre">test_cycle_life_pdf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_plots.PlotsTestCase.test_cycle_life_pdf" title="Permalink to this definition"></a></dt>
+<dd><p>test for creation of life criteria pdfs plot</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_plots.PlotsTestCase.test_failure_assessment_diagram">
+<span class="sig-name descname"><span class="pre">test_failure_assessment_diagram</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_plots.PlotsTestCase.test_failure_assessment_diagram" title="Permalink to this definition"></a></dt>
+<dd><p>test for creation of failure assessment diagram</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_plots.PlotsTestCase.test_inspection_mitigation_plots">
+<span class="sig-name descname"><span class="pre">test_inspection_mitigation_plots</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_plots.PlotsTestCase.test_inspection_mitigation_plots" title="Permalink to this definition"></a></dt>
+<dd><p>test for creation of inspection mitigation plots</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_plots.PlotsTestCase.test_life_assessment_ensemble_plot">
+<span class="sig-name descname"><span class="pre">test_life_assessment_ensemble_plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_plots.PlotsTestCase.test_life_assessment_ensemble_plot" title="Permalink to this definition"></a></dt>
+<dd><p>test for creation of life assessment plot for pipe ensemble</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_plots.PlotsTestCase.test_pipe_life_assessment_plot">
+<span class="sig-name descname"><span class="pre">test_pipe_life_assessment_plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_plots.PlotsTestCase.test_pipe_life_assessment_plot" title="Permalink to this definition"></a></dt>
+<dd><p>test for creation of life assessment plot for single pipe</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_plots.PlotsTestCase.test_sensitivity_results_plot">
+<span class="sig-name descname"><span class="pre">test_sensitivity_results_plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_plots.PlotsTestCase.test_sensitivity_results_plot" title="Permalink to this definition"></a></dt>
+<dd><p>test for creation of sensitivity plot</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-helpr.tests.unit_tests.test_postprocessing">
+<span id="test-postprocessing-docu"></span><h3>test_postprocessing docu<a class="headerlink" href="#module-helpr.tests.unit_tests.test_postprocessing" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_postprocessing.PostProcessingTestCase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.tests.unit_tests.test_postprocessing.</span></span><span class="sig-name descname"><span class="pre">PostProcessingTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_postprocessing.PostProcessingTestCase" title="Permalink to this definition"></a></dt>
+<dd><p>unit test for postprocessing module</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_postprocessing.PostProcessingTestCase.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_postprocessing.PostProcessingTestCase.setUp" title="Permalink to this definition"></a></dt>
+<dd><p>function to specify common postprocessing inputs</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_postprocessing.PostProcessingTestCase.tearDown">
+<span class="sig-name descname"><span class="pre">tearDown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_postprocessing.PostProcessingTestCase.tearDown" title="Permalink to this definition"></a></dt>
+<dd><p>tear down function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_postprocessing.PostProcessingTestCase.test_crack_evolution_plotting">
+<span class="sig-name descname"><span class="pre">test_crack_evolution_plotting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_postprocessing.PostProcessingTestCase.test_crack_evolution_plotting" title="Permalink to this definition"></a></dt>
+<dd><p>”
+test for generating crack evolution plot</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-helpr.tests.unit_tests.test_stress_state">
+<span id="test-stress-state-docu"></span><h3>test_stress_state docu<a class="headerlink" href="#module-helpr.tests.unit_tests.test_stress_state" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_stress_state.StressStateTestCase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.tests.unit_tests.test_stress_state.</span></span><span class="sig-name descname"><span class="pre">StressStateTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_stress_state.StressStateTestCase" title="Permalink to this definition"></a></dt>
+<dd><p>class for unit tests of stress state module</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_stress_state.StressStateTestCase.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_stress_state.StressStateTestCase.setUp" title="Permalink to this definition"></a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_stress_state.StressStateTestCase.tearDown">
+<span class="sig-name descname"><span class="pre">tearDown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_stress_state.StressStateTestCase.tearDown" title="Permalink to this definition"></a></dt>
+<dd><p>tear down function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_stress_state.StressStateTestCase.test_axial_hoop_stress_check">
+<span class="sig-name descname"><span class="pre">test_axial_hoop_stress_check</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_stress_state.StressStateTestCase.test_axial_hoop_stress_check" title="Permalink to this definition"></a></dt>
+<dd><p>unit test of check of axial hoop stress exceeding yield strength</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_stress_state.StressStateTestCase.test_axial_hoop_stress_intensity_factor">
+<span class="sig-name descname"><span class="pre">test_axial_hoop_stress_intensity_factor</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_stress_state.StressStateTestCase.test_axial_hoop_stress_intensity_factor" title="Permalink to this definition"></a></dt>
+<dd><p>unit test of check of axial longitudinal stress exceeding yield strength</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_stress_state.StressStateTestCase.test_axial_hoop_stress_state_specification">
+<span class="sig-name descname"><span class="pre">test_axial_hoop_stress_state_specification</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_stress_state.StressStateTestCase.test_axial_hoop_stress_state_specification" title="Permalink to this definition"></a></dt>
+<dd><p>unit test of internal axial hoop stress state specification</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_stress_state.StressStateTestCase.test_circumferential_longitudinal_stress_check">
+<span class="sig-name descname"><span class="pre">test_circumferential_longitudinal_stress_check</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_stress_state.StressStateTestCase.test_circumferential_longitudinal_stress_check" title="Permalink to this definition"></a></dt>
+<dd><p>unit test of check of axial longitudinal stress exceeding yield strength</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_stress_state.StressStateTestCase.test_circumferential_longitudinal_stress_intensity_factor">
+<span class="sig-name descname"><span class="pre">test_circumferential_longitudinal_stress_intensity_factor</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_stress_state.StressStateTestCase.test_circumferential_longitudinal_stress_intensity_factor" title="Permalink to this definition"></a></dt>
+<dd><p>unit test of check of axial longitudinal stress exceeding yield strength</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_stress_state.StressStateTestCase.test_circumferential_longitudinal_stress_state_specification">
+<span class="sig-name descname"><span class="pre">test_circumferential_longitudinal_stress_state_specification</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_stress_state.StressStateTestCase.test_circumferential_longitudinal_stress_state_specification" title="Permalink to this definition"></a></dt>
+<dd><p>unit test of longitudinal stress states specification</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.unit_tests.test_stress_state.StressStateTestCase.test_generic_stress_state_specification">
+<span class="sig-name descname"><span class="pre">test_generic_stress_state_specification</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.unit_tests.test_stress_state.StressStateTestCase.test_generic_stress_state_specification" title="Permalink to this definition"></a></dt>
+<dd><p>unit test of generic stress state state specification</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="verification-tests">
+<h2>Verification Tests<a class="headerlink" href="#verification-tests" title="Permalink to this heading"></a></h2>
+<section id="module-helpr.tests.verification_tests.test_verification_crack_growth_rate">
+<span id="test-verification-crack-growth-rate-docu"></span><h3>test_verification_crack_growth_rate docu<a class="headerlink" href="#module-helpr.tests.verification_tests.test_verification_crack_growth_rate" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.tests.verification_tests.test_verification_crack_growth_rate.VerificationCrackGrowth">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.tests.verification_tests.test_verification_crack_growth_rate.</span></span><span class="sig-name descname"><span class="pre">VerificationCrackGrowth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.verification_tests.test_verification_crack_growth_rate.VerificationCrackGrowth" title="Permalink to this definition"></a></dt>
+<dd><p>Class for verification tests of crack growth rate calculations</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.verification_tests.test_verification_crack_growth_rate.VerificationCrackGrowth.calculate_crack_evolution_error">
+<span class="sig-name descname"><span class="pre">calculate_crack_evolution_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">truth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulation_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.verification_tests.test_verification_crack_growth_rate.VerificationCrackGrowth.calculate_crack_evolution_error" title="Permalink to this definition"></a></dt>
+<dd><p>function for calculating % rel. err. between predictions and data</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.verification_tests.test_verification_crack_growth_rate.VerificationCrackGrowth.calculate_error_metrics">
+<span class="sig-name descname"><span class="pre">calculate_error_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">truth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulation_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.verification_tests.test_verification_crack_growth_rate.VerificationCrackGrowth.calculate_error_metrics" title="Permalink to this definition"></a></dt>
+<dd><p>function for calculating error metrics</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.verification_tests.test_verification_crack_growth_rate.VerificationCrackGrowth.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.verification_tests.test_verification_crack_growth_rate.VerificationCrackGrowth.setUp" title="Permalink to this definition"></a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.verification_tests.test_verification_crack_growth_rate.VerificationCrackGrowth.tearDown">
+<span class="sig-name descname"><span class="pre">tearDown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.verification_tests.test_verification_crack_growth_rate.VerificationCrackGrowth.tearDown" title="Permalink to this definition"></a></dt>
+<dd><p>teardown function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.verification_tests.test_verification_crack_growth_rate.VerificationCrackGrowth.test_dataset_1">
+<span class="sig-name descname"><span class="pre">test_dataset_1</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.verification_tests.test_verification_crack_growth_rate.VerificationCrackGrowth.test_dataset_1" title="Permalink to this definition"></a></dt>
+<dd><p>“verification test using dataset 1</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.verification_tests.test_verification_crack_growth_rate.VerificationCrackGrowth.test_dataset_2">
+<span class="sig-name descname"><span class="pre">test_dataset_2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.verification_tests.test_verification_crack_growth_rate.VerificationCrackGrowth.test_dataset_2" title="Permalink to this definition"></a></dt>
+<dd><p>verification test using dataset 2</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.verification_tests.test_verification_crack_growth_rate.VerificationCrackGrowth.test_dataset_3">
+<span class="sig-name descname"><span class="pre">test_dataset_3</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.verification_tests.test_verification_crack_growth_rate.VerificationCrackGrowth.test_dataset_3" title="Permalink to this definition"></a></dt>
+<dd><p>verification test using dataset 3</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.tests.verification_tests.test_verification_crack_growth_rate.VerificationCrackGrowth.verification_raw_comparison_plot">
+<span class="sig-name descname"><span class="pre">verification_raw_comparison_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verification_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulation_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.tests.verification_tests.test_verification_crack_growth_rate.VerificationCrackGrowth.verification_raw_comparison_plot" title="Permalink to this definition"></a></dt>
+<dd><p>function for creating verification comparison plots</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="physics.html" class="btn btn-neutral float-left" title="Physics Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="utilities.html" class="btn btn-neutral float-right" title="Utilities Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023 National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retainscertain rights in this software.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

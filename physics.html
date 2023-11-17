@@ -1,0 +1,1801 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Physics Documentation &mdash; helpr 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=af2ce170"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="_static/design-tabs.js?v=36754332"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tests Documentation" href="phys_tests.html" />
+    <link rel="prev" title="Welcome to the HELPR Documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/HELPR_app_icon.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">HELPR Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>Physics Documentation</strong></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-helpr.physics.api">api docu</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.crack_growth_model"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.crack_growth_model</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.step_cycles"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.step_cycles</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.nominal_input_parameter_values"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.nominal_input_parameter_values</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.sampling_input_parameter_values"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.sampling_input_parameter_values</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.number_of_aleatory_samples"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.number_of_aleatory_samples</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.number_of_epistemic_samples"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.number_of_epistemic_samples</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.sample_type"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.sample_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.uncertain_parameters"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.uncertain_parameters</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.random_seed"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.random_seed</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.nominal_load_cycling"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.nominal_load_cycling</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.nominal_life_criteria"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.nominal_life_criteria</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.nominal_stress_state"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.nominal_stress_state</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.load_cycling"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.load_cycling</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.life_criteria"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.life_criteria</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.stress_state"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.stress_state</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.ex_rates_plot"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.ex_rates_plot</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.crack_growth_plot"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.crack_growth_plot</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.failure_assessment_plot"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.failure_assessment_plot</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.apply_inspection_mitigation"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.apply_inspection_mitigation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.assemble_failure_assessment_diagram"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.assemble_failure_assessment_diagram()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.capitalize_rules"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.capitalize_rules()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.check_for_units"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.check_for_units()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.check_parameter_names"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.check_parameter_names()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.clean_results_names"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.clean_results_names()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.execute_crack_growth_analysis"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.execute_crack_growth_analysis()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.gather_single_crack_cycle_evolution"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.gather_single_crack_cycle_evolution()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.gen_random_seed"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.gen_random_seed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.generate_probabilistic_results_plots"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.generate_probabilistic_results_plots()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.get_design_curve_plot"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.get_design_curve_plot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.get_random_seed"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.get_random_seed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.perform_deterministic_study"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.perform_deterministic_study()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.perform_probabilistic_study"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.perform_probabilistic_study()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.perform_study"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.perform_study()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.postprocess_single_crack_results"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.postprocess_single_crack_results()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.save_deterministic_results"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.save_deterministic_results()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.save_parameter_characterizations"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.save_parameter_characterizations()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.save_probabilistic_results"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.save_probabilistic_results()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.save_results"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.save_results()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.set_random_state"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.set_random_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.setup_crack_growth_analysis"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.setup_crack_growth_analysis()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.api.CrackEvolutionAnalysis.specify_study"><code class="docutils literal notranslate"><span class="pre">CrackEvolutionAnalysis.specify_study()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-helpr.physics.crack_growth">crack_growth docu</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.physics.crack_growth.CrackGrowth"><code class="docutils literal notranslate"><span class="pre">CrackGrowth</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_growth.CrackGrowth.environment_specification"><code class="docutils literal notranslate"><span class="pre">CrackGrowth.environment_specification</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_growth.CrackGrowth.model_arguments"><code class="docutils literal notranslate"><span class="pre">CrackGrowth.model_arguments</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_growth.CrackGrowth.sample_size"><code class="docutils literal notranslate"><span class="pre">CrackGrowth.sample_size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_growth.CrackGrowth.delta_k"><code class="docutils literal notranslate"><span class="pre">CrackGrowth.delta_k</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_growth.CrackGrowth.delta_a"><code class="docutils literal notranslate"><span class="pre">CrackGrowth.delta_a</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_growth.CrackGrowth.delta_n"><code class="docutils literal notranslate"><span class="pre">CrackGrowth.delta_n</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_growth.CrackGrowth.calc_air_curve_da"><code class="docutils literal notranslate"><span class="pre">CrackGrowth.calc_air_curve_da()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_growth.CrackGrowth.calc_air_curve_dn"><code class="docutils literal notranslate"><span class="pre">CrackGrowth.calc_air_curve_dn()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_growth.CrackGrowth.calc_code_case_2938_da_higher_k"><code class="docutils literal notranslate"><span class="pre">CrackGrowth.calc_code_case_2938_da_higher_k()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_growth.CrackGrowth.calc_code_case_2938_da_lower_k"><code class="docutils literal notranslate"><span class="pre">CrackGrowth.calc_code_case_2938_da_lower_k()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_growth.CrackGrowth.calc_code_case_2938_dn_higher_k"><code class="docutils literal notranslate"><span class="pre">CrackGrowth.calc_code_case_2938_dn_higher_k()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_growth.CrackGrowth.calc_code_case_2938_dn_lower_k"><code class="docutils literal notranslate"><span class="pre">CrackGrowth.calc_code_case_2938_dn_lower_k()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_growth.CrackGrowth.calc_da_code_case_2938"><code class="docutils literal notranslate"><span class="pre">CrackGrowth.calc_da_code_case_2938()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_growth.CrackGrowth.calc_da_paris_law"><code class="docutils literal notranslate"><span class="pre">CrackGrowth.calc_da_paris_law()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_growth.CrackGrowth.calc_delta_a"><code class="docutils literal notranslate"><span class="pre">CrackGrowth.calc_delta_a()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_growth.CrackGrowth.calc_delta_n"><code class="docutils literal notranslate"><span class="pre">CrackGrowth.calc_delta_n()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_growth.CrackGrowth.calc_dn_code_case_2938"><code class="docutils literal notranslate"><span class="pre">CrackGrowth.calc_dn_code_case_2938()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_growth.CrackGrowth.calc_dn_paris_law"><code class="docutils literal notranslate"><span class="pre">CrackGrowth.calc_dn_paris_law()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_growth.CrackGrowth.calc_fugacity_correction"><code class="docutils literal notranslate"><span class="pre">CrackGrowth.calc_fugacity_correction()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_growth.CrackGrowth.get_single_crack_growth_model"><code class="docutils literal notranslate"><span class="pre">CrackGrowth.get_single_crack_growth_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_growth.CrackGrowth.update_delta_k_delta_a"><code class="docutils literal notranslate"><span class="pre">CrackGrowth.update_delta_k_delta_a()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_growth.CrackGrowth.update_delta_k_delta_n"><code class="docutils literal notranslate"><span class="pre">CrackGrowth.update_delta_k_delta_n()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.physics.crack_growth.get_design_curve"><code class="docutils literal notranslate"><span class="pre">get_design_curve()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-helpr.physics.crack_initiation">crack_initiation docu</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.physics.crack_initiation.DefectSpecification"><code class="docutils literal notranslate"><span class="pre">DefectSpecification</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_initiation.DefectSpecification.flaw_depth"><code class="docutils literal notranslate"><span class="pre">DefectSpecification.flaw_depth</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_initiation.DefectSpecification.flaw_length"><code class="docutils literal notranslate"><span class="pre">DefectSpecification.flaw_length</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_initiation.DefectSpecification.location_factor"><code class="docutils literal notranslate"><span class="pre">DefectSpecification.location_factor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_initiation.DefectSpecification.a_over_c"><code class="docutils literal notranslate"><span class="pre">DefectSpecification.a_over_c</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_initiation.DefectSpecification.get_single_defect"><code class="docutils literal notranslate"><span class="pre">DefectSpecification.get_single_defect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.crack_initiation.DefectSpecification.set_a_over_c"><code class="docutils literal notranslate"><span class="pre">DefectSpecification.set_a_over_c()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-helpr.physics.cycle_evolution">cycle_evolution docu</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution"><code class="docutils literal notranslate"><span class="pre">CycleEvolution</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.pipe_specification"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.pipe_specification</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.stress_state"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.stress_state</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.defect_specification"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.defect_specification</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.environment_specification"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.environment_specification</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.material_specification"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.material_specification</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.number_of_pipe_instances"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.number_of_pipe_instances</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.crack_growth"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.crack_growth</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.cycle_dict"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.cycle_dict</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.cycle"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.cycle</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.calc_delta_k"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.calc_delta_k()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.calc_eta"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.calc_eta()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.calc_life_assessment"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.calc_life_assessment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.change_a_over_t_step_size"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.change_a_over_t_step_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.compute_cycle_at"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.compute_cycle_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.compute_cycle_n"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.compute_cycle_n()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.create_clean_cycle"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.create_clean_cycle()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.create_cycle_dict"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.create_cycle_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.initialize_cycle_dict"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.initialize_cycle_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.selecting_a_over_t_step_size"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.selecting_a_over_t_step_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.setup_a_crit_solve"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.setup_a_crit_solve()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.solve_for_a_crit"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.solve_for_a_crit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.step_through_cycles"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.step_through_cycles()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.update_a"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.update_a()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.update_a_over_t"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.update_a_over_t()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.update_c"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.update_c()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.update_c_through_delta_k"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.update_c_through_delta_k()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.update_cycle_dict"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.update_cycle_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.update_delta_a"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.update_delta_a()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.update_delta_k"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.update_delta_k()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.update_delta_n"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.update_delta_n()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.update_eta"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.update_eta()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.update_k_max_f_q"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.update_k_max_f_q()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.CycleEvolution.update_total_cycles"><code class="docutils literal notranslate"><span class="pre">CycleEvolution.update_total_cycles()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.physics.cycle_evolution.OptimizeACrit"><code class="docutils literal notranslate"><span class="pre">OptimizeACrit</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.OptimizeACrit.pipe"><code class="docutils literal notranslate"><span class="pre">OptimizeACrit.pipe</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.OptimizeACrit.stress_state"><code class="docutils literal notranslate"><span class="pre">OptimizeACrit.stress_state</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.OptimizeACrit.defect"><code class="docutils literal notranslate"><span class="pre">OptimizeACrit.defect</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.OptimizeACrit.environment"><code class="docutils literal notranslate"><span class="pre">OptimizeACrit.environment</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.OptimizeACrit.material"><code class="docutils literal notranslate"><span class="pre">OptimizeACrit.material</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.OptimizeACrit.crack_growth_model"><code class="docutils literal notranslate"><span class="pre">OptimizeACrit.crack_growth_model</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.OptimizeACrit.determine_a_crit"><code class="docutils literal notranslate"><span class="pre">OptimizeACrit.determine_a_crit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.OptimizeACrit.minimize_for_a_crit"><code class="docutils literal notranslate"><span class="pre">OptimizeACrit.minimize_for_a_crit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.cycle_evolution.OptimizeACrit.setup_a_crit_solve"><code class="docutils literal notranslate"><span class="pre">OptimizeACrit.setup_a_crit_solve()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-helpr.physics.environment">environment docu</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.physics.environment.EnvironmentSpecification"><code class="docutils literal notranslate"><span class="pre">EnvironmentSpecification</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.environment.EnvironmentSpecification.max_pressure"><code class="docutils literal notranslate"><span class="pre">EnvironmentSpecification.max_pressure</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.environment.EnvironmentSpecification.min_pressure"><code class="docutils literal notranslate"><span class="pre">EnvironmentSpecification.min_pressure</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.environment.EnvironmentSpecification.temperature"><code class="docutils literal notranslate"><span class="pre">EnvironmentSpecification.temperature</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.environment.EnvironmentSpecification.volume_fraction_h2"><code class="docutils literal notranslate"><span class="pre">EnvironmentSpecification.volume_fraction_h2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.environment.EnvironmentSpecification.reference_pressure"><code class="docutils literal notranslate"><span class="pre">EnvironmentSpecification.reference_pressure</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.environment.EnvironmentSpecification.fugacity"><code class="docutils literal notranslate"><span class="pre">EnvironmentSpecification.fugacity</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.environment.EnvironmentSpecification.reference_fugacity"><code class="docutils literal notranslate"><span class="pre">EnvironmentSpecification.reference_fugacity</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.environment.EnvironmentSpecification.fugacity_ratio"><code class="docutils literal notranslate"><span class="pre">EnvironmentSpecification.fugacity_ratio</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.environment.EnvironmentSpecification.r_ratio"><code class="docutils literal notranslate"><span class="pre">EnvironmentSpecification.r_ratio</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.environment.EnvironmentSpecification.calc_derived_quantities"><code class="docutils literal notranslate"><span class="pre">EnvironmentSpecification.calc_derived_quantities()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.environment.EnvironmentSpecification.calc_fugacity"><code class="docutils literal notranslate"><span class="pre">EnvironmentSpecification.calc_fugacity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.environment.EnvironmentSpecification.calc_fugacity_coefficient"><code class="docutils literal notranslate"><span class="pre">EnvironmentSpecification.calc_fugacity_coefficient()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.environment.EnvironmentSpecification.calc_fugacity_ratio"><code class="docutils literal notranslate"><span class="pre">EnvironmentSpecification.calc_fugacity_ratio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.environment.EnvironmentSpecification.calc_r_ratio"><code class="docutils literal notranslate"><span class="pre">EnvironmentSpecification.calc_r_ratio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.environment.EnvironmentSpecification.get_single_environment"><code class="docutils literal notranslate"><span class="pre">EnvironmentSpecification.get_single_environment()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-helpr.physics.fracture">fracture docu</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.physics.fracture.FailureAssessment"><code class="docutils literal notranslate"><span class="pre">FailureAssessment</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.fracture.FailureAssessment.fracture_resistance"><code class="docutils literal notranslate"><span class="pre">FailureAssessment.fracture_resistance</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.fracture.FailureAssessment.yield_stress"><code class="docutils literal notranslate"><span class="pre">FailureAssessment.yield_stress</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.fracture.FailureAssessment.assess_failure_state"><code class="docutils literal notranslate"><span class="pre">FailureAssessment.assess_failure_state()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-helpr.physics.inspection_mitigation">inspection_mitigation docu</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.physics.inspection_mitigation.InspectionMitigation"><code class="docutils literal notranslate"><span class="pre">InspectionMitigation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.inspection_mitigation.InspectionMitigation.probability_of_detection"><code class="docutils literal notranslate"><span class="pre">InspectionMitigation.probability_of_detection</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.inspection_mitigation.InspectionMitigation.detection_resolution"><code class="docutils literal notranslate"><span class="pre">InspectionMitigation.detection_resolution</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.inspection_mitigation.InspectionMitigation.inspection_frequency"><code class="docutils literal notranslate"><span class="pre">InspectionMitigation.inspection_frequency</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.inspection_mitigation.InspectionMitigation.determine_inspection_indices"><code class="docutils literal notranslate"><span class="pre">InspectionMitigation.determine_inspection_indices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.inspection_mitigation.InspectionMitigation.determine_inspection_schedule"><code class="docutils literal notranslate"><span class="pre">InspectionMitigation.determine_inspection_schedule()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.inspection_mitigation.InspectionMitigation.inspect_then_mitigate"><code class="docutils literal notranslate"><span class="pre">InspectionMitigation.inspect_then_mitigate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.physics.inspection_mitigation.inspect_crack"><code class="docutils literal notranslate"><span class="pre">inspect_crack()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.physics.inspection_mitigation.mitigate_crack"><code class="docutils literal notranslate"><span class="pre">mitigate_crack()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-helpr.physics.material">material docu</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.physics.material.MaterialSpecification"><code class="docutils literal notranslate"><span class="pre">MaterialSpecification</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.material.MaterialSpecification.fracture_resistance"><code class="docutils literal notranslate"><span class="pre">MaterialSpecification.fracture_resistance</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.material.MaterialSpecification.yield_strength"><code class="docutils literal notranslate"><span class="pre">MaterialSpecification.yield_strength</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.material.MaterialSpecification.get_single_material"><code class="docutils literal notranslate"><span class="pre">MaterialSpecification.get_single_material()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-helpr.physics.pipe">pipe docu</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.physics.pipe.Pipe"><code class="docutils literal notranslate"><span class="pre">Pipe</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.pipe.Pipe.outer_diameter"><code class="docutils literal notranslate"><span class="pre">Pipe.outer_diameter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.pipe.Pipe.wall_thickness"><code class="docutils literal notranslate"><span class="pre">Pipe.wall_thickness</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.pipe.Pipe.pipe_avg_radius"><code class="docutils literal notranslate"><span class="pre">Pipe.pipe_avg_radius</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.pipe.Pipe.inner_diameter"><code class="docutils literal notranslate"><span class="pre">Pipe.inner_diameter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.pipe.Pipe.calc_average_radius"><code class="docutils literal notranslate"><span class="pre">Pipe.calc_average_radius()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.pipe.Pipe.calc_inner_diameter"><code class="docutils literal notranslate"><span class="pre">Pipe.calc_inner_diameter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.pipe.Pipe.get_single_pipe"><code class="docutils literal notranslate"><span class="pre">Pipe.get_single_pipe()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-helpr.physics.stress_state">stress_state docu</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.physics.stress_state.GenericStressState"><code class="docutils literal notranslate"><span class="pre">GenericStressState</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.stress_state.GenericStressState.pipe_specification"><code class="docutils literal notranslate"><span class="pre">GenericStressState.pipe_specification</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.stress_state.GenericStressState.environment_specification"><code class="docutils literal notranslate"><span class="pre">GenericStressState.environment_specification</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.stress_state.GenericStressState.material_specification"><code class="docutils literal notranslate"><span class="pre">GenericStressState.material_specification</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.stress_state.GenericStressState.defect_specification"><code class="docutils literal notranslate"><span class="pre">GenericStressState.defect_specification</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.stress_state.GenericStressState.a_crit"><code class="docutils literal notranslate"><span class="pre">GenericStressState.a_crit</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.stress_state.GenericStressState.calc_allowable_stress"><code class="docutils literal notranslate"><span class="pre">GenericStressState.calc_allowable_stress()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.stress_state.GenericStressState.calc_f"><code class="docutils literal notranslate"><span class="pre">GenericStressState.calc_f()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.stress_state.GenericStressState.calc_hoop_stress"><code class="docutils literal notranslate"><span class="pre">GenericStressState.calc_hoop_stress()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.stress_state.GenericStressState.calc_initial_crack_depth"><code class="docutils literal notranslate"><span class="pre">GenericStressState.calc_initial_crack_depth()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.stress_state.GenericStressState.calc_longitudinal_stress"><code class="docutils literal notranslate"><span class="pre">GenericStressState.calc_longitudinal_stress()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.stress_state.GenericStressState.calc_q"><code class="docutils literal notranslate"><span class="pre">GenericStressState.calc_q()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.stress_state.GenericStressState.calc_remaining_wall_thickness"><code class="docutils literal notranslate"><span class="pre">GenericStressState.calc_remaining_wall_thickness()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.stress_state.GenericStressState.calc_stress_intensity_factor"><code class="docutils literal notranslate"><span class="pre">GenericStressState.calc_stress_intensity_factor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.stress_state.GenericStressState.calc_stress_solution"><code class="docutils literal notranslate"><span class="pre">GenericStressState.calc_stress_solution()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.stress_state.GenericStressState.check_initial_stress_criteria"><code class="docutils literal notranslate"><span class="pre">GenericStressState.check_initial_stress_criteria()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.stress_state.GenericStressState.determine_a"><code class="docutils literal notranslate"><span class="pre">GenericStressState.determine_a()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.stress_state.GenericStressState.get_single_stress_state"><code class="docutils literal notranslate"><span class="pre">GenericStressState.get_single_stress_state()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.physics.stress_state.InternalAxialHoopStress"><code class="docutils literal notranslate"><span class="pre">InternalAxialHoopStress</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.stress_state.InternalAxialHoopStress.calc_k_solution_finite_length_part_through_internal_flaw"><code class="docutils literal notranslate"><span class="pre">InternalAxialHoopStress.calc_k_solution_finite_length_part_through_internal_flaw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.stress_state.InternalAxialHoopStress.calc_k_solution_long_part_through_internal_flaw"><code class="docutils literal notranslate"><span class="pre">InternalAxialHoopStress.calc_k_solution_long_part_through_internal_flaw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.stress_state.InternalAxialHoopStress.calc_stress_intensity_factor"><code class="docutils literal notranslate"><span class="pre">InternalAxialHoopStress.calc_stress_intensity_factor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.stress_state.InternalAxialHoopStress.calc_stress_solution"><code class="docutils literal notranslate"><span class="pre">InternalAxialHoopStress.calc_stress_solution()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.physics.stress_state.InternalCircumferentialLongitudinalStress"><code class="docutils literal notranslate"><span class="pre">InternalCircumferentialLongitudinalStress</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.stress_state.InternalCircumferentialLongitudinalStress.calc_f"><code class="docutils literal notranslate"><span class="pre">InternalCircumferentialLongitudinalStress.calc_f()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.stress_state.InternalCircumferentialLongitudinalStress.calc_stress_intensity_factor"><code class="docutils literal notranslate"><span class="pre">InternalCircumferentialLongitudinalStress.calc_stress_intensity_factor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.physics.stress_state.InternalCircumferentialLongitudinalStress.calc_stress_solution"><code class="docutils literal notranslate"><span class="pre">InternalCircumferentialLongitudinalStress.calc_stress_solution()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="phys_tests.html"><strong>Tests Documentation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html"><strong>Utilities Documentation</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Probabilistic Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="capabilities.html"><strong>Capabilities Documentation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob_tests.html"><strong>Tests Documentation</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">HELPR Demo</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="demo_probabilistic.html"><strong>Probabilistic Evaluation for Single Pipe Lifetime</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_deterministic.html"><strong>Single Deterministic Pipeline Lifetime Evaluation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_inspection_mitigation.html"><strong>Inspection Mitigation Analysis of Pipeline Population</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_sensitivity.html"><strong>Sensitivity Analysis of Pipeline Lifetime Evaluation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_uncertainty_types.html"><strong>Probabilistic Evaluation for Pipe Population’s Lifetimes with Multiple Types of Uncertainty</strong></a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">helpr</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><strong>Physics Documentation</strong></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/physics.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="physics-documentation">
+<h1><strong>Physics Documentation</strong><a class="headerlink" href="#physics-documentation" title="Permalink to this heading"></a></h1>
+<section id="module-helpr.physics.api">
+<span id="api-docu"></span><h2>api docu<a class="headerlink" href="#module-helpr.physics.api" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.physics.api.</span></span><span class="sig-name descname"><span class="pre">CrackEvolutionAnalysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outer_diameter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wall_thickness</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flaw_depth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_pressure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_pressure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volume_fraction_h2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yield_strength</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fracture_resistance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flaw_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crack_growth_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aleatory_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epistemic_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'deterministic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_cycles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis" title="Permalink to this definition"></a></dt>
+<dd><p>Class to hold API capability for carrying out pipeline fracture and fatigue analyses.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.crack_growth_model">
+<span class="sig-name descname"><span class="pre">crack_growth_model</span></span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.crack_growth_model" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.step_cycles">
+<span class="sig-name descname"><span class="pre">step_cycles</span></span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.step_cycles" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.nominal_input_parameter_values">
+<span class="sig-name descname"><span class="pre">nominal_input_parameter_values</span></span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.nominal_input_parameter_values" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.sampling_input_parameter_values">
+<span class="sig-name descname"><span class="pre">sampling_input_parameter_values</span></span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.sampling_input_parameter_values" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.number_of_aleatory_samples">
+<span class="sig-name descname"><span class="pre">number_of_aleatory_samples</span></span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.number_of_aleatory_samples" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.number_of_epistemic_samples">
+<span class="sig-name descname"><span class="pre">number_of_epistemic_samples</span></span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.number_of_epistemic_samples" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.sample_type">
+<span class="sig-name descname"><span class="pre">sample_type</span></span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.sample_type" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.uncertain_parameters">
+<span class="sig-name descname"><span class="pre">uncertain_parameters</span></span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.uncertain_parameters" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.random_seed">
+<span class="sig-name descname"><span class="pre">random_seed</span></span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.random_seed" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.nominal_load_cycling">
+<span class="sig-name descname"><span class="pre">nominal_load_cycling</span></span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.nominal_load_cycling" title="Permalink to this definition"></a></dt>
+<dd><p>Results from crack growth analysis for a deterministic (single) pipe instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.nominal_life_criteria">
+<span class="sig-name descname"><span class="pre">nominal_life_criteria</span></span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.nominal_life_criteria" title="Permalink to this definition"></a></dt>
+<dd><p>Life criteria results for a deterministic (single) pipe instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.nominal_stress_state">
+<span class="sig-name descname"><span class="pre">nominal_stress_state</span></span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.nominal_stress_state" title="Permalink to this definition"></a></dt>
+<dd><p>Deterministic stress state specification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#helpr.physics.stress_state.GenericStressState" title="helpr.physics.stress_state.GenericStressState">GenericStressState</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.load_cycling">
+<span class="sig-name descname"><span class="pre">load_cycling</span></span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.load_cycling" title="Permalink to this definition"></a></dt>
+<dd><p>Results from crack growth analysis for all samples in a probabilistic study.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.life_criteria">
+<span class="sig-name descname"><span class="pre">life_criteria</span></span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.life_criteria" title="Permalink to this definition"></a></dt>
+<dd><p>Life criteria results for all samples in a probabilistic study.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.stress_state">
+<span class="sig-name descname"><span class="pre">stress_state</span></span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.stress_state" title="Permalink to this definition"></a></dt>
+<dd><p>Probabilistic stress state specification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#helpr.physics.stress_state.GenericStressState" title="helpr.physics.stress_state.GenericStressState">GenericStressState</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.ex_rates_plot">
+<span class="sig-name descname"><span class="pre">ex_rates_plot</span></span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.ex_rates_plot" title="Permalink to this definition"></a></dt>
+<dd><p>Filepath to generated rate plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.crack_growth_plot">
+<span class="sig-name descname"><span class="pre">crack_growth_plot</span></span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.crack_growth_plot" title="Permalink to this definition"></a></dt>
+<dd><p>Filepath to generated crack growth plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.failure_assessment_plot">
+<span class="sig-name descname"><span class="pre">failure_assessment_plot</span></span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.failure_assessment_plot" title="Permalink to this definition"></a></dt>
+<dd><p>Filepath to generated failure assessment plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.apply_inspection_mitigation">
+<span class="sig-name descname"><span class="pre">apply_inspection_mitigation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">probability_of_detection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detection_resolution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inspection_frequency</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">criteria</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.apply_inspection_mitigation" title="Permalink to this definition"></a></dt>
+<dd><p>Run inspection and mitigation analysis on crack evolution results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>probability_of_detection</strong> (<em>float</em>) – Probability of a crack being detected at each inspection.</p></li>
+<li><p><strong>detection_resolution</strong> (<em>float</em>) – Crack depth that is detectable by inspection.
+For example, a value of 0.3 indicates any crack larger than 30% of wall thickness is
+detectable.</p></li>
+<li><p><strong>inspection_frequency</strong> (<em>int</em>) – Number of cycles between each inspection.
+For example, a 4-year inspection interval would have a frequency of 4 * 365 cycles.</p></li>
+<li><p><strong>criteria</strong> (<em>str</em>) – Failure criteria to select from life criteria results.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>mitigated</strong> – List of bool values for each sample indicating whether or not the failure was mitigated.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.assemble_failure_assessment_diagram">
+<span class="sig-name descname"><span class="pre">assemble_failure_assessment_diagram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.assemble_failure_assessment_diagram" title="Permalink to this definition"></a></dt>
+<dd><p>Creates failure assessment diagram.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>save_fig</strong> (<em>bool</em><em>, </em><em>optional</em>) – Flag for saving the diagram to a png file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.capitalize_rules">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">capitalize_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.capitalize_rules" title="Permalink to this definition"></a></dt>
+<dd><p>Enforces capitalization rules for multi-word strings.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.check_for_units">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">check_for_units</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.check_for_units" title="Permalink to this definition"></a></dt>
+<dd><p>Checks for brackets in strings to indicate unit values.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.check_parameter_names">
+<span class="sig-name descname"><span class="pre">check_parameter_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.check_parameter_names" title="Permalink to this definition"></a></dt>
+<dd><p>Function to ensure parameter object names match assigned parameter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.clean_results_names">
+<span class="sig-name descname"><span class="pre">clean_results_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.clean_results_names" title="Permalink to this definition"></a></dt>
+<dd><p>Cleans up variable names for saving to csv.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.execute_crack_growth_analysis">
+<span class="sig-name descname"><span class="pre">execute_crack_growth_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_modules</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.execute_crack_growth_analysis" title="Permalink to this definition"></a></dt>
+<dd><p>Starts the process running crack growth analysis.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.gather_single_crack_cycle_evolution">
+<span class="sig-name descname"><span class="pre">gather_single_crack_cycle_evolution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">single_pipe_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.gather_single_crack_cycle_evolution" title="Permalink to this definition"></a></dt>
+<dd><p>Gets results for a single pipe crack growth analysis from an ensemble analysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>single_pipe_index</strong> (<em>int</em><em>, </em><em>optional</em>) – Index of requested pipe. Defaults to None.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame of single pipe analysis results.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.gen_random_seed">
+<span class="sig-name descname"><span class="pre">gen_random_seed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random_seed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.gen_random_seed" title="Permalink to this definition"></a></dt>
+<dd><p>Sets random seed for recreating.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.generate_probabilistic_results_plots">
+<span class="sig-name descname"><span class="pre">generate_probabilistic_results_plots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plotted_variable</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.generate_probabilistic_results_plots" title="Permalink to this definition"></a></dt>
+<dd><p>Creates ensemble of plots for probabilistic analysis results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>plotted_variable</strong> (<em>str</em>) – Pipe life criteria to plot.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.get_design_curve_plot">
+<span class="sig-name descname"><span class="pre">get_design_curve_plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.get_design_curve_plot" title="Permalink to this definition"></a></dt>
+<dd><p>Returns plot ready for GUI display.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.get_random_seed">
+<span class="sig-name descname"><span class="pre">get_random_seed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.get_random_seed" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the random seed value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.perform_deterministic_study">
+<span class="sig-name descname"><span class="pre">perform_deterministic_study</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.perform_deterministic_study" title="Permalink to this definition"></a></dt>
+<dd><p>Performs a deterministic analysis.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.perform_probabilistic_study">
+<span class="sig-name descname"><span class="pre">perform_probabilistic_study</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.perform_probabilistic_study" title="Permalink to this definition"></a></dt>
+<dd><p>Performs a probabilistic analysis.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.perform_study">
+<span class="sig-name descname"><span class="pre">perform_study</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.perform_study" title="Permalink to this definition"></a></dt>
+<dd><p>Starts crack evolution analysis study.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.postprocess_single_crack_results">
+<span class="sig-name descname"><span class="pre">postprocess_single_crack_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">single_pipe_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_figs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.postprocess_single_crack_results" title="Permalink to this definition"></a></dt>
+<dd><p>Postprocesses a single pipe’s results from an ensemble analysis.
+If no pipe index is specified, nominal results are shown.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>single_pipe_index</strong> (<em>int</em><em>, </em><em>optional</em>) – Index of requested pipe. Defaults to None.</p></li>
+<li><p><strong>save_figs</strong> (<em>bool</em><em>, </em><em>optional</em>) – Flag that enables saving plots to png files. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.save_deterministic_results">
+<span class="sig-name descname"><span class="pre">save_deterministic_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.save_deterministic_results" title="Permalink to this definition"></a></dt>
+<dd><p>Saves deterministic results to a csv file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>folder_name</strong> (<em>str</em>) – Folder to store csv into.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.save_parameter_characterizations">
+<span class="sig-name descname"><span class="pre">save_parameter_characterizations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.save_parameter_characterizations" title="Permalink to this definition"></a></dt>
+<dd><p>Saves deterministic or probabilistic parameter characterizations
+used in analysis to a csv file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>folder_name</strong> (<em>str</em>) – Folder to store csv into.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.save_probabilistic_results">
+<span class="sig-name descname"><span class="pre">save_probabilistic_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.save_probabilistic_results" title="Permalink to this definition"></a></dt>
+<dd><p>Saves probabilistic results to a csv file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>folder_name</strong> (<em>str</em>) – Folder to store csv into.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.save_results">
+<span class="sig-name descname"><span class="pre">save_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.save_results" title="Permalink to this definition"></a></dt>
+<dd><p>Saves crack evolution simulation results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>folder_name</strong> (<em>str</em><em>, </em><em>optional</em>) – Folder name to store results into.
+Defaults to ‘Results/’.</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory path for creating the results folder.
+Defaults to current working directory.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.set_random_state">
+<span class="sig-name descname"><span class="pre">set_random_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.set_random_state" title="Permalink to this definition"></a></dt>
+<dd><p>Sets up the random state.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.setup_crack_growth_analysis">
+<span class="sig-name descname"><span class="pre">setup_crack_growth_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter_value_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_size</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.setup_crack_growth_analysis" title="Permalink to this definition"></a></dt>
+<dd><p>Creates the underlying modules for the crack growth analysis.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.api.CrackEvolutionAnalysis.specify_study">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">specify_study</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aleatory_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epistemic_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.api.CrackEvolutionAnalysis.specify_study" title="Permalink to this definition"></a></dt>
+<dd><p>Builds up study framework in terms of study type,
+sample size distribution type, and uncertainty classification.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-helpr.physics.crack_growth">
+<span id="crack-growth-docu"></span><h2>crack_growth docu<a class="headerlink" href="#module-helpr.physics.crack_growth" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.physics.crack_growth.CrackGrowth">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.physics.crack_growth.</span></span><span class="sig-name descname"><span class="pre">CrackGrowth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">environment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">growth_model_specification</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.crack_growth.CrackGrowth" title="Permalink to this definition"></a></dt>
+<dd><p>Definition for crack growth physics model.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.crack_growth.CrackGrowth.environment_specification">
+<span class="sig-name descname"><span class="pre">environment_specification</span></span><a class="headerlink" href="#helpr.physics.crack_growth.CrackGrowth.environment_specification" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.crack_growth.CrackGrowth.model_arguments">
+<span class="sig-name descname"><span class="pre">model_arguments</span></span><a class="headerlink" href="#helpr.physics.crack_growth.CrackGrowth.model_arguments" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.crack_growth.CrackGrowth.sample_size">
+<span class="sig-name descname"><span class="pre">sample_size</span></span><a class="headerlink" href="#helpr.physics.crack_growth.CrackGrowth.sample_size" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.crack_growth.CrackGrowth.delta_k">
+<span class="sig-name descname"><span class="pre">delta_k</span></span><a class="headerlink" href="#helpr.physics.crack_growth.CrackGrowth.delta_k" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.crack_growth.CrackGrowth.delta_a">
+<span class="sig-name descname"><span class="pre">delta_a</span></span><a class="headerlink" href="#helpr.physics.crack_growth.CrackGrowth.delta_a" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.crack_growth.CrackGrowth.delta_n">
+<span class="sig-name descname"><span class="pre">delta_n</span></span><a class="headerlink" href="#helpr.physics.crack_growth.CrackGrowth.delta_n" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.crack_growth.CrackGrowth.calc_air_curve_da">
+<span class="sig-name descname"><span class="pre">calc_air_curve_da</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6.89e-12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.crack_growth.CrackGrowth.calc_air_curve_da" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates delta a (change in crack size) from air curve.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.crack_growth.CrackGrowth.calc_air_curve_dn">
+<span class="sig-name descname"><span class="pre">calc_air_curve_dn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6.89e-12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.crack_growth.CrackGrowth.calc_air_curve_dn" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates delta n (change in # of cycles) from air curve.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.crack_growth.CrackGrowth.calc_code_case_2938_da_higher_k">
+<span class="sig-name descname"><span class="pre">calc_code_case_2938_da_higher_k</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5e-11</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.66</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiplier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.crack_growth.CrackGrowth.calc_code_case_2938_da_higher_k" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates delta a (change in crack size) for higher
+k values following code case 2938 (stress driven).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.crack_growth.CrackGrowth.calc_code_case_2938_da_lower_k">
+<span class="sig-name descname"><span class="pre">calc_code_case_2938_da_lower_k</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.5e-14</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiplier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.4286</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.crack_growth.CrackGrowth.calc_code_case_2938_da_lower_k" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates delta a (change in crack size) for lower k values
+following code case 2938 (hydrogen driven).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.crack_growth.CrackGrowth.calc_code_case_2938_dn_higher_k">
+<span class="sig-name descname"><span class="pre">calc_code_case_2938_dn_higher_k</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5e-11</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.66</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiplier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.crack_growth.CrackGrowth.calc_code_case_2938_dn_higher_k" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates delta n (change in # of cycles) for higher
+k values following code case 2938 (stress driven).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.crack_growth.CrackGrowth.calc_code_case_2938_dn_lower_k">
+<span class="sig-name descname"><span class="pre">calc_code_case_2938_dn_lower_k</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.5e-14</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiplier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.4286</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.crack_growth.CrackGrowth.calc_code_case_2938_dn_lower_k" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates delta n (change in # of cycles) for lower k values
+following code case 2938 (hydrogen driven).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.crack_growth.CrackGrowth.calc_da_code_case_2938">
+<span class="sig-name descname"><span class="pre">calc_da_code_case_2938</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.crack_growth.CrackGrowth.calc_da_code_case_2938" title="Permalink to this definition"></a></dt>
+<dd><p>Uses code case 2938 to calculate delta A.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.crack_growth.CrackGrowth.calc_da_paris_law">
+<span class="sig-name descname"><span class="pre">calc_da_paris_law</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.crack_growth.CrackGrowth.calc_da_paris_law" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates delta a (change in crack size) from general paris law form.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.crack_growth.CrackGrowth.calc_delta_a">
+<span class="sig-name descname"><span class="pre">calc_delta_a</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.crack_growth.CrackGrowth.calc_delta_a" title="Permalink to this definition"></a></dt>
+<dd><p>“Calculates delta A (change in crack size).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.crack_growth.CrackGrowth.calc_delta_n">
+<span class="sig-name descname"><span class="pre">calc_delta_n</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.crack_growth.CrackGrowth.calc_delta_n" title="Permalink to this definition"></a></dt>
+<dd><p>“Calculates delta N (change in number of cycles).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.crack_growth.CrackGrowth.calc_dn_code_case_2938">
+<span class="sig-name descname"><span class="pre">calc_dn_code_case_2938</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.crack_growth.CrackGrowth.calc_dn_code_case_2938" title="Permalink to this definition"></a></dt>
+<dd><p>Uses code case 2938 to calculate delta N.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.crack_growth.CrackGrowth.calc_dn_paris_law">
+<span class="sig-name descname"><span class="pre">calc_dn_paris_law</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.crack_growth.CrackGrowth.calc_dn_paris_law" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates delta n (change in # of cycles) from general paris law form.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.crack_growth.CrackGrowth.calc_fugacity_correction">
+<span class="sig-name descname"><span class="pre">calc_fugacity_correction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiplier</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">case</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.crack_growth.CrackGrowth.calc_fugacity_correction" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates hydrogen fugacity correction for delta n (change in # of cycles).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.crack_growth.CrackGrowth.get_single_crack_growth_model">
+<span class="sig-name descname"><span class="pre">get_single_crack_growth_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.crack_growth.CrackGrowth.get_single_crack_growth_model" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a crack growth object for a single instance from ensemble.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>single_pipe_index</strong> (<em>int</em>) – Index of requested pipe instance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.crack_growth.CrackGrowth.update_delta_k_delta_a">
+<span class="sig-name descname"><span class="pre">update_delta_k_delta_a</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delta_k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta_a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.crack_growth.CrackGrowth.update_delta_k_delta_a" title="Permalink to this definition"></a></dt>
+<dd><p>Updates delta k and delta a values.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.crack_growth.CrackGrowth.update_delta_k_delta_n">
+<span class="sig-name descname"><span class="pre">update_delta_k_delta_n</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delta_k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta_n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.crack_growth.CrackGrowth.update_delta_k_delta_n" title="Permalink to this definition"></a></dt>
+<dd><p>Updates delta k and delta n values.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="helpr.physics.crack_growth.get_design_curve">
+<span class="sig-prename descclassname"><span class="pre">helpr.physics.crack_growth.</span></span><span class="sig-name descname"><span class="pre">get_design_curve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">specified_r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">specified_fugacity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crack_growth_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">99</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.crack_growth.get_design_curve" title="Permalink to this definition"></a></dt>
+<dd><p>Extracts ASME design curves from model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>specified_r</strong> (<em>float</em>) – R value.</p></li>
+<li><p><strong>specified_fugacity</strong> (<em>float</em>) – Fugacity coefficient.</p></li>
+<li><p><strong>crack_growth_model</strong> (<a class="reference internal" href="#helpr.physics.crack_growth.CrackGrowth" title="helpr.physics.crack_growth.CrackGrowth"><em>CrackGrowth</em></a><em>, </em><em>optional</em>) – Specified crack growth model, defaults to code case 2938.</p></li>
+<li><p><strong>samples</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of samples.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>delta_k</strong> (<em>list</em>) – List of delta K values.</p></li>
+<li><p><strong>da_dn</strong> (<em>list</em>) – List of delta A / delta N values.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-helpr.physics.crack_initiation">
+<span id="crack-initiation-docu"></span><h2>crack_initiation docu<a class="headerlink" href="#module-helpr.physics.crack_initiation" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.physics.crack_initiation.DefectSpecification">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.physics.crack_initiation.</span></span><span class="sig-name descname"><span class="pre">DefectSpecification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flaw_depth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flaw_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.crack_initiation.DefectSpecification" title="Permalink to this definition"></a></dt>
+<dd><p>Definition of crack initiation physics.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.crack_initiation.DefectSpecification.flaw_depth">
+<span class="sig-name descname"><span class="pre">flaw_depth</span></span><a class="headerlink" href="#helpr.physics.crack_initiation.DefectSpecification.flaw_depth" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.crack_initiation.DefectSpecification.flaw_length">
+<span class="sig-name descname"><span class="pre">flaw_length</span></span><a class="headerlink" href="#helpr.physics.crack_initiation.DefectSpecification.flaw_length" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.crack_initiation.DefectSpecification.location_factor">
+<span class="sig-name descname"><span class="pre">location_factor</span></span><a class="headerlink" href="#helpr.physics.crack_initiation.DefectSpecification.location_factor" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.crack_initiation.DefectSpecification.a_over_c">
+<span class="sig-name descname"><span class="pre">a_over_c</span></span><a class="headerlink" href="#helpr.physics.crack_initiation.DefectSpecification.a_over_c" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.crack_initiation.DefectSpecification.get_single_defect">
+<span class="sig-name descname"><span class="pre">get_single_defect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.crack_initiation.DefectSpecification.get_single_defect" title="Permalink to this definition"></a></dt>
+<dd><p>Returns single defect instance from ensemble defect object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sample_index</strong> (<em>int</em>) – Index of requested pipe instance.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Specification for the pipe instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#helpr.physics.crack_initiation.DefectSpecification" title="helpr.physics.crack_initiation.DefectSpecification">DefectSpecification</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.crack_initiation.DefectSpecification.set_a_over_c">
+<span class="sig-name descname"><span class="pre">set_a_over_c</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flaw_depth</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.crack_initiation.DefectSpecification.set_a_over_c" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the a/c (depth/length) value using crack depth.
+Currently assumed to be a constant ratio.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-helpr.physics.cycle_evolution">
+<span id="cycle-evolution-docu"></span><h2>cycle_evolution docu<a class="headerlink" href="#module-helpr.physics.cycle_evolution" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.physics.cycle_evolution.</span></span><span class="sig-name descname"><span class="pre">CycleEvolution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stress_state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defect</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">environment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">material</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crack_growth_model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution" title="Permalink to this definition"></a></dt>
+<dd><p>Class for running fatigue evolution analysis.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.pipe_specification">
+<span class="sig-name descname"><span class="pre">pipe_specification</span></span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.pipe_specification" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.stress_state">
+<span class="sig-name descname"><span class="pre">stress_state</span></span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.stress_state" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.defect_specification">
+<span class="sig-name descname"><span class="pre">defect_specification</span></span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.defect_specification" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.environment_specification">
+<span class="sig-name descname"><span class="pre">environment_specification</span></span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.environment_specification" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.material_specification">
+<span class="sig-name descname"><span class="pre">material_specification</span></span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.material_specification" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.number_of_pipe_instances">
+<span class="sig-name descname"><span class="pre">number_of_pipe_instances</span></span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.number_of_pipe_instances" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.crack_growth">
+<span class="sig-name descname"><span class="pre">crack_growth</span></span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.crack_growth" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.cycle_dict">
+<span class="sig-name descname"><span class="pre">cycle_dict</span></span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.cycle_dict" title="Permalink to this definition"></a></dt>
+<dd><p>Dictionary of pandas Series containing all cycle results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.cycle">
+<span class="sig-name descname"><span class="pre">cycle</span></span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.cycle" title="Permalink to this definition"></a></dt>
+<dd><p>Dictionary containing data for the current cycle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.calc_delta_k">
+<span class="sig-name descname"><span class="pre">calc_delta_k</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.calc_delta_k" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates current delta k value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.calc_eta">
+<span class="sig-name descname"><span class="pre">calc_eta</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.calc_eta" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates current eta value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.calc_life_assessment">
+<span class="sig-name descname"><span class="pre">calc_life_assessment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step_cycles</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.calc_life_assessment" title="Permalink to this definition"></a></dt>
+<dd><p>Runs a fatigue crack life assessment analysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>step_cycles</strong> (<em>bool</em><em> or </em><em>int</em><em>, </em><em>optional</em>) – Flag for evolving analysis by cycle or by a/t value, defaults to False (a/t).
+Passing an int will run the analysis the specified number of cycles.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>cycle_dict</strong> – Complete dict of results for all samples.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.change_a_over_t_step_size">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">change_a_over_t_step_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_step_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">change_in_a_over_t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.change_a_over_t_step_size" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates a/t step size.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.compute_cycle_at">
+<span class="sig-name descname"><span class="pre">compute_cycle_at</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.compute_cycle_at" title="Permalink to this definition"></a></dt>
+<dd><p>Computes results for single a/t cycle.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.compute_cycle_n">
+<span class="sig-name descname"><span class="pre">compute_cycle_n</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.compute_cycle_n" title="Permalink to this definition"></a></dt>
+<dd><p>Computes results for a single (n) cycle.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.create_clean_cycle">
+<span class="sig-name descname"><span class="pre">create_clean_cycle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.create_clean_cycle" title="Permalink to this definition"></a></dt>
+<dd><p>Resets the cycle dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.create_cycle_dict">
+<span class="sig-name descname"><span class="pre">create_cycle_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.create_cycle_dict" title="Permalink to this definition"></a></dt>
+<dd><p>Initialize dictionary to store full fatigue crack analysis</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.initialize_cycle_dict">
+<span class="sig-name descname"><span class="pre">initialize_cycle_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.initialize_cycle_dict" title="Permalink to this definition"></a></dt>
+<dd><p>Sets up initial cycle dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.selecting_a_over_t_step_size">
+<span class="sig-name descname"><span class="pre">selecting_a_over_t_step_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.selecting_a_over_t_step_size" title="Permalink to this definition"></a></dt>
+<dd><p>Adaptively calculates a/t step size.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.setup_a_crit_solve">
+<span class="sig-name descname"><span class="pre">setup_a_crit_solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parallel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.setup_a_crit_solve" title="Permalink to this definition"></a></dt>
+<dd><p>Sets up solving function for ‘a critical’ value for each sample.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.solve_for_a_crit">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">solve_for_a_crit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">single_instance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.solve_for_a_crit" title="Permalink to this definition"></a></dt>
+<dd><p>Creates an individual class object to solve ‘a critical’ for each instance.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.step_through_cycles">
+<span class="sig-name descname"><span class="pre">step_through_cycles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step_cycles</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.step_through_cycles" title="Permalink to this definition"></a></dt>
+<dd><p>Main loop for stepping through cycles in fatigue crack analysis</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.update_a">
+<span class="sig-name descname"><span class="pre">update_a</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.update_a" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates current crack depth (a) value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.update_a_over_t">
+<span class="sig-name descname"><span class="pre">update_a_over_t</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.update_a_over_t" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates current a/t value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.update_c">
+<span class="sig-name descname"><span class="pre">update_c</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.update_c" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates current crack width (c) value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.update_c_through_delta_k">
+<span class="sig-name descname"><span class="pre">update_c_through_delta_k</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.update_c_through_delta_k" title="Permalink to this definition"></a></dt>
+<dd><p>Updates cycle values for c, eta, k_max, f, q, and delta k.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.update_cycle_dict">
+<span class="sig-name descname"><span class="pre">update_cycle_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.update_cycle_dict" title="Permalink to this definition"></a></dt>
+<dd><p>Inserts single cycle results into overall analysis results.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.update_delta_a">
+<span class="sig-name descname"><span class="pre">update_delta_a</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.update_delta_a" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates current delta a value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.update_delta_k">
+<span class="sig-name descname"><span class="pre">update_delta_k</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.update_delta_k" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates current delta k value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.update_delta_n">
+<span class="sig-name descname"><span class="pre">update_delta_n</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.update_delta_n" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates current delta n value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.update_eta">
+<span class="sig-name descname"><span class="pre">update_eta</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.update_eta" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates current eta value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.update_k_max_f_q">
+<span class="sig-name descname"><span class="pre">update_k_max_f_q</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.update_k_max_f_q" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates current k_max, f, and q values.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.CycleEvolution.update_total_cycles">
+<span class="sig-name descname"><span class="pre">update_total_cycles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.CycleEvolution.update_total_cycles" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates current cycle count.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.OptimizeACrit">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.physics.cycle_evolution.</span></span><span class="sig-name descname"><span class="pre">OptimizeACrit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stress_state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defect</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">environment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">material</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crack_growth_model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.OptimizeACrit" title="Permalink to this definition"></a></dt>
+<dd><p>ACrit optimization solver using a single cycle instance.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.OptimizeACrit.pipe">
+<span class="sig-name descname"><span class="pre">pipe</span></span><a class="headerlink" href="#helpr.physics.cycle_evolution.OptimizeACrit.pipe" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.OptimizeACrit.stress_state">
+<span class="sig-name descname"><span class="pre">stress_state</span></span><a class="headerlink" href="#helpr.physics.cycle_evolution.OptimizeACrit.stress_state" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.OptimizeACrit.defect">
+<span class="sig-name descname"><span class="pre">defect</span></span><a class="headerlink" href="#helpr.physics.cycle_evolution.OptimizeACrit.defect" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.OptimizeACrit.environment">
+<span class="sig-name descname"><span class="pre">environment</span></span><a class="headerlink" href="#helpr.physics.cycle_evolution.OptimizeACrit.environment" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.OptimizeACrit.material">
+<span class="sig-name descname"><span class="pre">material</span></span><a class="headerlink" href="#helpr.physics.cycle_evolution.OptimizeACrit.material" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.OptimizeACrit.crack_growth_model">
+<span class="sig-name descname"><span class="pre">crack_growth_model</span></span><a class="headerlink" href="#helpr.physics.cycle_evolution.OptimizeACrit.crack_growth_model" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.OptimizeACrit.determine_a_crit">
+<span class="sig-name descname"><span class="pre">determine_a_crit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a_crit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.OptimizeACrit.determine_a_crit" title="Permalink to this definition"></a></dt>
+<dd><p>Acts as objective function for optimization of a crit.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.OptimizeACrit.minimize_for_a_crit">
+<span class="sig-name descname"><span class="pre">minimize_for_a_crit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.OptimizeACrit.minimize_for_a_crit" title="Permalink to this definition"></a></dt>
+<dd><p>Performs optimization for crit value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.cycle_evolution.OptimizeACrit.setup_a_crit_solve">
+<span class="sig-name descname"><span class="pre">setup_a_crit_solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parallel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.cycle_evolution.OptimizeACrit.setup_a_crit_solve" title="Permalink to this definition"></a></dt>
+<dd><p>Initializes solver for a critical value.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-helpr.physics.environment">
+<span id="environment-docu"></span><h2>environment docu<a class="headerlink" href="#module-helpr.physics.environment" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.physics.environment.EnvironmentSpecification">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.physics.environment.</span></span><span class="sig-name descname"><span class="pre">EnvironmentSpecification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_pressure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_pressure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">293</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volume_fraction_h2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_pressure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">106</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.environment.EnvironmentSpecification" title="Permalink to this definition"></a></dt>
+<dd><p>Pipe interior environment specification.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.environment.EnvironmentSpecification.max_pressure">
+<span class="sig-name descname"><span class="pre">max_pressure</span></span><a class="headerlink" href="#helpr.physics.environment.EnvironmentSpecification.max_pressure" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.environment.EnvironmentSpecification.min_pressure">
+<span class="sig-name descname"><span class="pre">min_pressure</span></span><a class="headerlink" href="#helpr.physics.environment.EnvironmentSpecification.min_pressure" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.environment.EnvironmentSpecification.temperature">
+<span class="sig-name descname"><span class="pre">temperature</span></span><a class="headerlink" href="#helpr.physics.environment.EnvironmentSpecification.temperature" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.environment.EnvironmentSpecification.volume_fraction_h2">
+<span class="sig-name descname"><span class="pre">volume_fraction_h2</span></span><a class="headerlink" href="#helpr.physics.environment.EnvironmentSpecification.volume_fraction_h2" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.environment.EnvironmentSpecification.reference_pressure">
+<span class="sig-name descname"><span class="pre">reference_pressure</span></span><a class="headerlink" href="#helpr.physics.environment.EnvironmentSpecification.reference_pressure" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.environment.EnvironmentSpecification.fugacity">
+<span class="sig-name descname"><span class="pre">fugacity</span></span><a class="headerlink" href="#helpr.physics.environment.EnvironmentSpecification.fugacity" title="Permalink to this definition"></a></dt>
+<dd><p>Fugacity coefficient of blended gas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.environment.EnvironmentSpecification.reference_fugacity">
+<span class="sig-name descname"><span class="pre">reference_fugacity</span></span><a class="headerlink" href="#helpr.physics.environment.EnvironmentSpecification.reference_fugacity" title="Permalink to this definition"></a></dt>
+<dd><p>Fugacity coefficient of pure H2.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.environment.EnvironmentSpecification.fugacity_ratio">
+<span class="sig-name descname"><span class="pre">fugacity_ratio</span></span><a class="headerlink" href="#helpr.physics.environment.EnvironmentSpecification.fugacity_ratio" title="Permalink to this definition"></a></dt>
+<dd><p>(fugacity / reference fugacity) ** 1/2.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.environment.EnvironmentSpecification.r_ratio">
+<span class="sig-name descname"><span class="pre">r_ratio</span></span><a class="headerlink" href="#helpr.physics.environment.EnvironmentSpecification.r_ratio" title="Permalink to this definition"></a></dt>
+<dd><p>Max pressure / min pressure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.environment.EnvironmentSpecification.calc_derived_quantities">
+<span class="sig-name descname"><span class="pre">calc_derived_quantities</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.environment.EnvironmentSpecification.calc_derived_quantities" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates other attributes based on input parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.environment.EnvironmentSpecification.calc_fugacity">
+<span class="sig-name descname"><span class="pre">calc_fugacity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pressure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volume_fraction_h2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.environment.EnvironmentSpecification.calc_fugacity" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates fugacity.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.environment.EnvironmentSpecification.calc_fugacity_coefficient">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calc_fugacity_coefficient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pressure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">co_volume</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15.84</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.environment.EnvironmentSpecification.calc_fugacity_coefficient" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates fugacity using Abel-Noble EOS Reference Pressure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pressure</strong> (<em>float</em>) – Pressure [MPa].</p></li>
+<li><p><strong>temperature</strong> (<em>float</em>) – Temperature [K].</p></li>
+<li><p><strong>co_volume</strong> (<em>float</em><em>, </em><em>optional</em>) – CO volume (b), defaults to 15.84 [cm^3/mol].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>reference_pressure</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.environment.EnvironmentSpecification.calc_fugacity_ratio">
+<span class="sig-name descname"><span class="pre">calc_fugacity_ratio</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.environment.EnvironmentSpecification.calc_fugacity_ratio" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates fugacity ratio.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.environment.EnvironmentSpecification.calc_r_ratio">
+<span class="sig-name descname"><span class="pre">calc_r_ratio</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.environment.EnvironmentSpecification.calc_r_ratio" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates r ratio.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.environment.EnvironmentSpecification.get_single_environment">
+<span class="sig-name descname"><span class="pre">get_single_environment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.environment.EnvironmentSpecification.get_single_environment" title="Permalink to this definition"></a></dt>
+<dd><p>Extracts a single environment instance from an ensemble.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sample_index</strong> (<em>int</em>) – Index of requested pipe instance.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Specification for the pipe instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#helpr.physics.environment.EnvironmentSpecification" title="helpr.physics.environment.EnvironmentSpecification">EnvironmentSpecification</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-helpr.physics.fracture">
+<span id="fracture-docu"></span><h2>fracture docu<a class="headerlink" href="#module-helpr.physics.fracture" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.physics.fracture.FailureAssessment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.physics.fracture.</span></span><span class="sig-name descname"><span class="pre">FailureAssessment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fracture_resistance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yield_stress</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.fracture.FailureAssessment" title="Permalink to this definition"></a></dt>
+<dd><p>Class for failure assessment calculations.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.fracture.FailureAssessment.fracture_resistance">
+<span class="sig-name descname"><span class="pre">fracture_resistance</span></span><a class="headerlink" href="#helpr.physics.fracture.FailureAssessment.fracture_resistance" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.fracture.FailureAssessment.yield_stress">
+<span class="sig-name descname"><span class="pre">yield_stress</span></span><a class="headerlink" href="#helpr.physics.fracture.FailureAssessment.yield_stress" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.fracture.FailureAssessment.assess_failure_state">
+<span class="sig-name descname"><span class="pre">assess_failure_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stress_intensity_factor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_stress_solution</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.fracture.FailureAssessment.assess_failure_state" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates failure assessment variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stress_intensity_factor</strong> (<em>pandas.Series</em>) – Series of stress intensity factors from analysis results.</p></li>
+<li><p><strong>reference_stress_solution</strong> (<em>pandas.Series</em>) – Series of reference stress solutions.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>toughness_ratio</strong> (<em>pandas.Series</em>) – Ratio of stress intensity factors to fracture resistance.</p></li>
+<li><p><strong>load_ratio</strong> (<em>pandas.Series</em>) – Ratio of reference stress solutions to yield stress.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-helpr.physics.inspection_mitigation">
+<span id="inspection-mitigation-docu"></span><h2>inspection_mitigation docu<a class="headerlink" href="#module-helpr.physics.inspection_mitigation" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.physics.inspection_mitigation.InspectionMitigation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.physics.inspection_mitigation.</span></span><span class="sig-name descname"><span class="pre">InspectionMitigation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">probability_of_detection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detection_resolution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inspection_frequency</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.inspection_mitigation.InspectionMitigation" title="Permalink to this definition"></a></dt>
+<dd><p>Inspection Mitigation - Determine when a pipe is inspected for cracks and mitigate cracks
+identified through inspection.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.inspection_mitigation.InspectionMitigation.probability_of_detection">
+<span class="sig-name descname"><span class="pre">probability_of_detection</span></span><a class="headerlink" href="#helpr.physics.inspection_mitigation.InspectionMitigation.probability_of_detection" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.inspection_mitigation.InspectionMitigation.detection_resolution">
+<span class="sig-name descname"><span class="pre">detection_resolution</span></span><a class="headerlink" href="#helpr.physics.inspection_mitigation.InspectionMitigation.detection_resolution" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.inspection_mitigation.InspectionMitigation.inspection_frequency">
+<span class="sig-name descname"><span class="pre">inspection_frequency</span></span><a class="headerlink" href="#helpr.physics.inspection_mitigation.InspectionMitigation.inspection_frequency" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.inspection_mitigation.InspectionMitigation.determine_inspection_indices">
+<span class="sig-name descname"><span class="pre">determine_inspection_indices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cycle_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_inspections</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inspection_array</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#helpr.physics.inspection_mitigation.InspectionMitigation.determine_inspection_indices" title="Permalink to this definition"></a></dt>
+<dd><p>Identifies indices corresponding to cycle counts of interest.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cycle_count</strong> (<em>pandas.DataFrame</em>) – DataFrame of cycle count results.</p></li>
+<li><p><strong>number_of_inspections</strong> (<em>int</em>) – Total number of inspections.</p></li>
+<li><p><strong>inspection_array</strong> (<em>numpy.ndarray</em>) – Array of cycle counts at each inspection time.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>inspection_indices</strong> – Indices for cycle data corresponding to inspection times.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.inspection_mitigation.InspectionMitigation.determine_inspection_schedule">
+<span class="sig-name descname"><span class="pre">determine_inspection_schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cycle_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pd.DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">np.array</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#helpr.physics.inspection_mitigation.InspectionMitigation.determine_inspection_schedule" title="Permalink to this definition"></a></dt>
+<dd><p>Determines inspection schedule based based on inspection frequency
+and highest number cycle count in results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cycle_count</strong> (<em>pandas.DataFrame</em>) – DataFrame of cycle count results.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>number_of_inspections</strong> (<em>int</em>) – Total number of inspections.</p></li>
+<li><p><strong>inspection_array</strong> (<em>numpy.ndarray</em>) – Array of cycle counts at each inspection time.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.inspection_mitigation.InspectionMitigation.inspect_then_mitigate">
+<span class="sig-name descname"><span class="pre">inspect_then_mitigate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">load_cycling:</span> <span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">failure_criteria:</span> <span class="pre">np.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state=Generator(PCG64)</span> <span class="pre">at</span> <span class="pre">0x7F6616020AC0)</span> <span class="pre">-&gt;</span> <span class="pre">tuple(dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.inspection_mitigation.InspectionMitigation.inspect_then_mitigate" title="Permalink to this definition"></a></dt>
+<dd><p>Performs inspection and mitigation analysis on crack evolution results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>load_cycling</strong> (<em>dict</em>) – Analysis load cycling results.</p></li>
+<li><p><strong>failure_criteria</strong> (<em>numpy.ndarray</em>) – Analysis failure criteria.</p></li>
+<li><p><strong>random_state</strong> (<em>numpy.random</em><em>, </em><em>optional</em>) – Random state, defaults to standard numpy rng.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>mitigated</strong> (<em>list</em>) – List of bool values for each sample indicating whether or not the failure was mitigated.</p></li>
+<li><p><strong>mitigation</strong> (<em>dict</em>) – Dict of Series describing each sample’s mitigation results.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="helpr.physics.inspection_mitigation.inspect_crack">
+<span class="sig-prename descclassname"><span class="pre">helpr.physics.inspection_mitigation.</span></span><span class="sig-name descname"><span class="pre">inspect_crack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inspection_indices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crack_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">failure_criteria</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detection_resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inspection_array</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cycle_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="headerlink" href="#helpr.physics.inspection_mitigation.inspect_crack" title="Permalink to this definition"></a></dt>
+<dd><p>Determines if inspected crack is detectable.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="helpr.physics.inspection_mitigation.mitigate_crack">
+<span class="sig-prename descclassname"><span class="pre">helpr.physics.inspection_mitigation.</span></span><span class="sig-name descname"><span class="pre">mitigate_crack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detectable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Generator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probability_of_detection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="headerlink" href="#helpr.physics.inspection_mitigation.mitigate_crack" title="Permalink to this definition"></a></dt>
+<dd><p>Determines if mitigation of a crack occurs.</p>
+</dd></dl>
+
+</section>
+<section id="module-helpr.physics.material">
+<span id="material-docu"></span><h2>material docu<a class="headerlink" href="#module-helpr.physics.material" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.physics.material.MaterialSpecification">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.physics.material.</span></span><span class="sig-name descname"><span class="pre">MaterialSpecification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yield_strength</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fracture_resistance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.material.MaterialSpecification" title="Permalink to this definition"></a></dt>
+<dd><p>Class defining material specifications for base material and welds.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.material.MaterialSpecification.fracture_resistance">
+<span class="sig-name descname"><span class="pre">fracture_resistance</span></span><a class="headerlink" href="#helpr.physics.material.MaterialSpecification.fracture_resistance" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.material.MaterialSpecification.yield_strength">
+<span class="sig-name descname"><span class="pre">yield_strength</span></span><a class="headerlink" href="#helpr.physics.material.MaterialSpecification.yield_strength" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.material.MaterialSpecification.get_single_material">
+<span class="sig-name descname"><span class="pre">get_single_material</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.material.MaterialSpecification.get_single_material" title="Permalink to this definition"></a></dt>
+<dd><p>Returns single material specification from ensemble object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sample_index</strong> (<em>int</em>) – Index of requested pipe instance.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Specification for the pipe instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#helpr.physics.material.MaterialSpecification" title="helpr.physics.material.MaterialSpecification">MaterialSpecification</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-helpr.physics.pipe">
+<span id="pipe-docu"></span><h2>pipe docu<a class="headerlink" href="#module-helpr.physics.pipe" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.physics.pipe.Pipe">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.physics.pipe.</span></span><span class="sig-name descname"><span class="pre">Pipe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outer_diameter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wall_thickness</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.pipe.Pipe" title="Permalink to this definition"></a></dt>
+<dd><p>Class defining physical Pipe properties.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.pipe.Pipe.outer_diameter">
+<span class="sig-name descname"><span class="pre">outer_diameter</span></span><a class="headerlink" href="#helpr.physics.pipe.Pipe.outer_diameter" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.pipe.Pipe.wall_thickness">
+<span class="sig-name descname"><span class="pre">wall_thickness</span></span><a class="headerlink" href="#helpr.physics.pipe.Pipe.wall_thickness" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.pipe.Pipe.pipe_avg_radius">
+<span class="sig-name descname"><span class="pre">pipe_avg_radius</span></span><a class="headerlink" href="#helpr.physics.pipe.Pipe.pipe_avg_radius" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.pipe.Pipe.inner_diameter">
+<span class="sig-name descname"><span class="pre">inner_diameter</span></span><a class="headerlink" href="#helpr.physics.pipe.Pipe.inner_diameter" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.pipe.Pipe.calc_average_radius">
+<span class="sig-name descname"><span class="pre">calc_average_radius</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.pipe.Pipe.calc_average_radius" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates average pipe radius.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.pipe.Pipe.calc_inner_diameter">
+<span class="sig-name descname"><span class="pre">calc_inner_diameter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.pipe.Pipe.calc_inner_diameter" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates inner diameter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.pipe.Pipe.get_single_pipe">
+<span class="sig-name descname"><span class="pre">get_single_pipe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.pipe.Pipe.get_single_pipe" title="Permalink to this definition"></a></dt>
+<dd><p>Returns single pipe instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sample_index</strong> (<em>int</em>) – Index of requested pipe instance.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Single pipe instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#helpr.physics.pipe.Pipe" title="helpr.physics.pipe.Pipe">Pipe</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-helpr.physics.stress_state">
+<span id="stress-state-docu"></span><h2>stress_state docu<a class="headerlink" href="#module-helpr.physics.stress_state" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.GenericStressState">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.physics.stress_state.</span></span><span class="sig-name descname"><span class="pre">GenericStressState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">environment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">material</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defect</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.stress_state.GenericStressState" title="Permalink to this definition"></a></dt>
+<dd><p>Parent Class for generic Stress State capabilities.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.GenericStressState.pipe_specification">
+<span class="sig-name descname"><span class="pre">pipe_specification</span></span><a class="headerlink" href="#helpr.physics.stress_state.GenericStressState.pipe_specification" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.GenericStressState.environment_specification">
+<span class="sig-name descname"><span class="pre">environment_specification</span></span><a class="headerlink" href="#helpr.physics.stress_state.GenericStressState.environment_specification" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.GenericStressState.material_specification">
+<span class="sig-name descname"><span class="pre">material_specification</span></span><a class="headerlink" href="#helpr.physics.stress_state.GenericStressState.material_specification" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.GenericStressState.defect_specification">
+<span class="sig-name descname"><span class="pre">defect_specification</span></span><a class="headerlink" href="#helpr.physics.stress_state.GenericStressState.defect_specification" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.GenericStressState.a_crit">
+<span class="sig-name descname"><span class="pre">a_crit</span></span><a class="headerlink" href="#helpr.physics.stress_state.GenericStressState.a_crit" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.GenericStressState.calc_allowable_stress">
+<span class="sig-name descname"><span class="pre">calc_allowable_stress</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.stress_state.GenericStressState.calc_allowable_stress" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates the pipe’s total allowable stress.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.GenericStressState.calc_f">
+<span class="sig-name descname"><span class="pre">calc_f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">radius_thickness_ratio</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eta</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.stress_state.GenericStressState.calc_f" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates the current q values.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.GenericStressState.calc_hoop_stress">
+<span class="sig-name descname"><span class="pre">calc_hoop_stress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remaining_thickness</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.stress_state.GenericStressState.calc_hoop_stress" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates hoop stress.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.GenericStressState.calc_initial_crack_depth">
+<span class="sig-name descname"><span class="pre">calc_initial_crack_depth</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.stress_state.GenericStressState.calc_initial_crack_depth" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates initial crack depth.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.GenericStressState.calc_longitudinal_stress">
+<span class="sig-name descname"><span class="pre">calc_longitudinal_stress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remaining_thickness</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.stress_state.GenericStressState.calc_longitudinal_stress" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates longitudinal stress.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.GenericStressState.calc_q">
+<span class="sig-name descname"><span class="pre">calc_q</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.stress_state.GenericStressState.calc_q" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates the current q values.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.GenericStressState.calc_remaining_wall_thickness">
+<span class="sig-name descname"><span class="pre">calc_remaining_wall_thickness</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crack_depth</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.stress_state.GenericStressState.calc_remaining_wall_thickness" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates the remaining (non-cracked) pipe wall thickness.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.GenericStressState.calc_stress_intensity_factor">
+<span class="sig-name descname"><span class="pre">calc_stress_intensity_factor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crack_depth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.stress_state.GenericStressState.calc_stress_intensity_factor" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates stress intensity factor (k).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.GenericStressState.calc_stress_solution">
+<span class="sig-name descname"><span class="pre">calc_stress_solution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crack_depth</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.stress_state.GenericStressState.calc_stress_solution" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates stress solution.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.GenericStressState.check_initial_stress_criteria">
+<span class="sig-name descname"><span class="pre">check_initial_stress_criteria</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.stress_state.GenericStressState.check_initial_stress_criteria" title="Permalink to this definition"></a></dt>
+<dd><p>Checks the initial stress state of the pipe.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.GenericStressState.determine_a">
+<span class="sig-name descname"><span class="pre">determine_a</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.stress_state.GenericStressState.determine_a" title="Permalink to this definition"></a></dt>
+<dd><p>Determines either the critical or current value of a.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.GenericStressState.get_single_stress_state">
+<span class="sig-name descname"><span class="pre">get_single_stress_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.stress_state.GenericStressState.get_single_stress_state" title="Permalink to this definition"></a></dt>
+<dd><p>Returns single stress state instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sample_index</strong> (<em>int</em>) – Index of requested pipe instance.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Specification for the stress state instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#helpr.physics.stress_state.GenericStressState" title="helpr.physics.stress_state.GenericStressState">GenericStressState</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.InternalAxialHoopStress">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.physics.stress_state.</span></span><span class="sig-name descname"><span class="pre">InternalAxialHoopStress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">environment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">material</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defect</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.stress_state.InternalAxialHoopStress" title="Permalink to this definition"></a></dt>
+<dd><p>Stress State Class for Internal Axial Hoop Stress Cases.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.InternalAxialHoopStress.calc_k_solution_finite_length_part_through_internal_flaw">
+<span class="sig-name descname"><span class="pre">calc_k_solution_finite_length_part_through_internal_flaw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crack_depth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.stress_state.InternalAxialHoopStress.calc_k_solution_finite_length_part_through_internal_flaw" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates stress intensity factor for finite length part-through internal flaws.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.InternalAxialHoopStress.calc_k_solution_long_part_through_internal_flaw">
+<span class="sig-name descname"><span class="pre">calc_k_solution_long_part_through_internal_flaw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crack_depth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.stress_state.InternalAxialHoopStress.calc_k_solution_long_part_through_internal_flaw" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates k solution for long part-through internal flaws.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.InternalAxialHoopStress.calc_stress_intensity_factor">
+<span class="sig-name descname"><span class="pre">calc_stress_intensity_factor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crack_depth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.stress_state.InternalAxialHoopStress.calc_stress_intensity_factor" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates stress intensity factor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>crack_depth</strong> (<em>float</em>) – Current crack depth (m).</p></li>
+<li><p><strong>eta</strong> (<em>float</em>) – Current eta value.</p></li>
+<li><p><strong>optimize</strong> (<em>bool</em><em>, </em><em>optional</em>) – Flag for a_crit optimization.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.InternalAxialHoopStress.calc_stress_solution">
+<span class="sig-name descname"><span class="pre">calc_stress_solution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crack_depth</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.stress_state.InternalAxialHoopStress.calc_stress_solution" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates stress solution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>crack_depth</strong> (<em>float</em>) – Crack depth (m).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.InternalCircumferentialLongitudinalStress">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.physics.stress_state.</span></span><span class="sig-name descname"><span class="pre">InternalCircumferentialLongitudinalStress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">environment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">material</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defect</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.stress_state.InternalCircumferentialLongitudinalStress" title="Permalink to this definition"></a></dt>
+<dd><p>Stress State Class for Internal Circumferential Longitudinal Stress Cases.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.InternalCircumferentialLongitudinalStress.calc_f">
+<span class="sig-name descname"><span class="pre">calc_f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">radius_thickness_ratio</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eta</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.stress_state.InternalCircumferentialLongitudinalStress.calc_f" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates current f value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.InternalCircumferentialLongitudinalStress.calc_stress_intensity_factor">
+<span class="sig-name descname"><span class="pre">calc_stress_intensity_factor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crack_depth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.stress_state.InternalCircumferentialLongitudinalStress.calc_stress_intensity_factor" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates stress intensity factor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>crack_depth</strong> (<em>float</em>) – Current crack depth (m).</p></li>
+<li><p><strong>eta</strong> (<em>float</em>) – Current eta value.</p></li>
+<li><p><strong>optimize</strong> (<em>bool</em><em>, </em><em>optional</em>) – Flag for a_crit optimization.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="helpr.physics.stress_state.InternalCircumferentialLongitudinalStress.calc_stress_solution">
+<span class="sig-name descname"><span class="pre">calc_stress_solution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crack_depth</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.physics.stress_state.InternalCircumferentialLongitudinalStress.calc_stress_solution" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates stress solution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>crack_depth</strong> (<em>float</em>) – Crack depth (m).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to the HELPR Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="phys_tests.html" class="btn btn-neutral float-right" title="Tests Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023 National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retainscertain rights in this software.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
