@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "helpr"
-version = "1.0"
+version = "1.0.0"
 authors = [
     {name = "Benjamin B. Schroeder"}, 
     {name = "Cianan Sims"}, 
@@ -14,7 +14,7 @@ authors = [
 description = "Hydrogen Extreme Low Probability of Rupture Python Package"
 readme = "README.md"
 requires-python = ">=3.8"
-keywords = ["hydrogen", "risk"]
+keywords = ["fatigue", "fracture", "probabilistic", "hydrogen", "pipeline"]
 license = {text = "BSD-3-Clause"}
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -23,9 +23,8 @@ classifiers = [
 dependencies = ["matplotlib", "numpy", "scipy", "pandas"]
 
 [project.urls]
-# Need eventual URLs
-#homepage = "https://hyram.sandia.gov/"
-#repository = "https://github.com/sandialabs/hyram"
+homepage = "https://helpr.sandia.gov/"
+repository = "https://github.com/sandialabs/helpr"
 
 [tool.setuptools.packages.find]
 where = ["src"]
