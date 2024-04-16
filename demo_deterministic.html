@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Single Deterministic Pipeline Lifetime Evaluation &mdash; helpr 1.0.0 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" type="text/css" />
-      <link rel="stylesheet" href="_static/nbsphinx-code-cells.css" type="text/css" />
+  <title>Single Deterministic Pipeline Lifetime Evaluation &mdash; helpr 1.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="_static/nbsphinx-code-cells.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=af2ce170"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=def9ab29"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=4825356b"></script>
         <script src="_static/design-tabs.js?v=36754332"></script>
@@ -72,6 +74,7 @@
 <li class="toctree-l1"><a class="reference internal" href="demo_inspection_mitigation.html"><strong>Inspection Mitigation Analysis of Pipeline Population</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_sensitivity.html"><strong>Sensitivity Analysis of Pipeline Lifetime Evaluation</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_uncertainty_types.html"><strong>Probabilistic Evaluation for Pipe Population’s Lifetimes with Multiple Types of Uncertainty</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_crack_growth_curves.html"><strong>Demonstration of Crack Growth Curves</strong></a></li>
 </ul>
 
         </div>
@@ -98,8 +101,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+  <div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
@@ -108,17 +111,8 @@
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-The autoreload extension is already loaded. To reload it, use:
-  %reload_ext autoreload
-</pre></div></div>
-</div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -149,7 +143,7 @@ The autoreload extension is already loaded. To reload it, use:
 <li><p><strong>Geometry</strong></p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipe_outer_diameter</span> <span class="o">=</span> <span class="n">convert_in_to_m</span><span class="p">(</span><span class="mi">36</span><span class="p">)</span>  <span class="c1"># 36 inch outer diameter</span>
@@ -161,7 +155,7 @@ The autoreload extension is already loaded. To reload it, use:
 <li><p><strong>Material Properties</strong></p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yield_strength</span> <span class="o">=</span> <span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">52_000</span><span class="p">)</span>      <span class="c1"># material yield strength of 52_000 psi</span>
@@ -173,10 +167,10 @@ The autoreload extension is already loaded. To reload it, use:
 <li><p><strong>Operating Conditions</strong></p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">max_pressure</span> <span class="o">=</span> <span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">850</span><span class="p">)</span>   <span class="c1"># maximum pressure during oscillation MPa</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">max_pressure</span> <span class="o">=</span> <span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">840</span><span class="p">)</span>   <span class="c1"># maximum pressure during oscillation MPa</span>
 <span class="n">min_pressure</span> <span class="o">=</span> <span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">638</span><span class="p">)</span>   <span class="c1"># minimum pressure during oscillation (or R = 0.75)</span>
 <span class="n">temperature</span> <span class="o">=</span> <span class="mi">293</span>                         <span class="c1"># K -&gt; temperature of gas degrees C</span>
 <span class="n">volume_fraction_h2</span> <span class="o">=</span> <span class="mi">1</span>                      <span class="c1"># % mole fraction H2 in natural gas blend</span>
@@ -187,11 +181,22 @@ The autoreload extension is already loaded. To reload it, use:
 <li><p><strong>Initial Crack Dimensions</strong></p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flaw_depth</span> <span class="o">=</span> <span class="mi">25</span>      <span class="c1"># flaw 5% through pipe thickness</span>
 <span class="n">flaw_length</span> <span class="o">=</span> <span class="mf">0.04</span>   <span class="c1"># width of initial crack/flaw, m</span>
+</pre></div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Physics Model Choices</strong></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stress_intensity_method</span> <span class="o">=</span> <span class="s1">&#39;Anderson&#39;</span>  <span class="c1"># Stress intensity factor method used</span>
 </pre></div>
 </div>
 </div>
@@ -202,7 +207,7 @@ The autoreload extension is already loaded. To reload it, use:
 <li><p><strong>Create Pipe Object</strong></p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipe_module</span> <span class="o">=</span> <span class="n">Pipe</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">pipe_outer_diameter</span><span class="p">,</span>
@@ -214,7 +219,7 @@ The autoreload extension is already loaded. To reload it, use:
 <li><p><strong>Specify Pipe Material Properties</strong></p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">material_module</span> <span class="o">=</span> <span class="n">MaterialSpecification</span><span class="p">(</span><span class="n">yield_strength</span><span class="o">=</span><span class="n">yield_strength</span><span class="p">,</span>
@@ -226,7 +231,7 @@ The autoreload extension is already loaded. To reload it, use:
 <li><p><strong>Specify Defect</strong></p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">defect_module</span> <span class="o">=</span> <span class="n">DefectSpecification</span><span class="p">(</span><span class="n">flaw_depth</span><span class="o">=</span><span class="n">flaw_depth</span><span class="p">,</span>
@@ -238,7 +243,7 @@ The autoreload extension is already loaded. To reload it, use:
 <li><p><strong>Specify Pipe Gaseous Environment</strong></p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">environment_module</span> <span class="o">=</span> <span class="n">EnvironmentSpecification</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">max_pressure</span><span class="p">,</span>
@@ -252,13 +257,14 @@ The autoreload extension is already loaded. To reload it, use:
 <li><p><strong>Determine Stress Environment on Pipe</strong></p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stress_module</span> <span class="o">=</span> <span class="n">InternalAxialHoopStress</span><span class="p">(</span><span class="n">pipe</span><span class="o">=</span><span class="n">pipe_module</span><span class="p">,</span>
                                         <span class="n">environment</span><span class="o">=</span><span class="n">environment_module</span><span class="p">,</span>
                                         <span class="n">material</span><span class="o">=</span><span class="n">material_module</span><span class="p">,</span>
-                                        <span class="n">defect</span><span class="o">=</span><span class="n">defect_module</span><span class="p">)</span>
+                                        <span class="n">defect</span><span class="o">=</span><span class="n">defect_module</span><span class="p">,</span>
+                                        <span class="n">stress_intensity_method</span><span class="o">=</span><span class="n">stress_intensity_method</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -266,7 +272,7 @@ The autoreload extension is already loaded. To reload it, use:
 <li><p><strong>Specify Crack Growth Model</strong></p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">crack_growth_module</span> <span class="o">=</span> <span class="n">CrackGrowth</span><span class="p">(</span><span class="n">environment</span><span class="o">=</span><span class="n">environment_module</span><span class="p">,</span>
@@ -278,7 +284,7 @@ The autoreload extension is already loaded. To reload it, use:
 <li><p><strong>Evolve Cracks Over Cycles to Failure</strong></p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipe_evaluation</span> <span class="o">=</span> <span class="n">CycleEvolution</span><span class="p">(</span><span class="n">pipe</span><span class="o">=</span><span class="n">pipe_module</span><span class="p">,</span>
@@ -295,7 +301,7 @@ The autoreload extension is already loaded. To reload it, use:
 <li><p><strong>Postprocess QoIs</strong> <em>(life criteria)</em></p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">life_criteria</span> <span class="o">=</span> <span class="n">calc_pipe_life_criteria</span><span class="p">(</span><span class="n">cycle_results</span><span class="o">=</span><span class="n">load_cycling</span><span class="p">,</span>
@@ -308,7 +314,7 @@ The autoreload extension is already loaded. To reload it, use:
 <li><p><strong>Plot QoI</strong></p></li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">specific_life_criteria_result</span> <span class="o">=</span> <span class="n">report_single_pipe_life_criteria_results</span><span class="p">(</span><span class="n">life_criteria</span><span class="p">,</span> <span class="n">pipe_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -324,15 +330,15 @@ The autoreload extension is already loaded. To reload it, use:
 <div class="output_area docutils container">
 <div class="highlight"><pre>
               Cycles to a(crit)  Cycles to 25% a(crit)  Cycles to 1/2 Nc
-Total cycles        4246.700789               1.000000       2123.350394
-a/t                    0.330777               0.082694          0.270571
+Total cycles        5669.414257               1.000000       2834.707129
+a/t                    0.333509               0.083377          0.270803
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/demo_deterministic_30_1.png" src="_images/demo_deterministic_30_1.png" />
+<img alt="_images/demo_deterministic_32_1.png" src="_images/demo_deterministic_32_1.png" />
 </div>
 </div>
 </section>
@@ -342,7 +348,7 @@ a/t                    0.330777               0.082694          0.270571
 <li><p><strong>Specify Problem, Initiate Crack, and Evolve Crack to Failure</strong></p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span> <span class="o">=</span> <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;outer_diameter&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">pipe_outer_diameter</span><span class="p">),</span>
@@ -354,7 +360,8 @@ a/t                    0.330777               0.082694          0.270571
                                   <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">),</span>
                                   <span class="n">yield_strength</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;yield_strength&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">yield_strength</span><span class="p">),</span>
                                   <span class="n">fracture_resistance</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;fracture_resistance&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">fracture_resistance</span><span class="p">),</span>
-                                  <span class="n">flaw_length</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flaw_length&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">))</span>
+                                  <span class="n">flaw_length</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flaw_length&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">),</span>
+                                  <span class="n">stress_intensity_method</span><span class="o">=</span><span class="n">stress_intensity_method</span><span class="p">)</span>
 <span class="n">analysis</span><span class="o">.</span><span class="n">perform_study</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -363,14 +370,11 @@ a/t                    0.330777               0.082694          0.270571
 <li><p><strong>Postprocess and Plot QoI</strong></p></li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span><span class="o">.</span><span class="n">postprocess_single_crack_results</span><span class="p">()</span>
-
-<span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span> <span class="o">=</span> <span class="n">get_design_curve</span><span class="p">(</span><span class="n">specified_r</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">specified_fugacity</span><span class="o">=</span><span class="mf">0.16973535</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span><span class="p">,</span> <span class="s1">&#39;r--&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;Exercised Rates&#39;</span><span class="p">,</span> <span class="s1">&#39;Design Curve&#39;</span><span class="p">],</span> <span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">analysis</span><span class="o">.</span><span class="n">get_design_curve_plot</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./Figures/deterministic_crack_growth_rate.png&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 
 <span class="n">analysis</span><span class="o">.</span><span class="n">assemble_failure_assessment_diagram</span><span class="p">()</span>
@@ -383,33 +387,33 @@ a/t                    0.330777               0.082694          0.270571
 <div class="output_area docutils container">
 <div class="highlight"><pre>
               Cycles to a(crit)  Cycles to 25% a(crit)  Cycles to 1/2 Nc
-Total cycles        4246.700789               1.000000       2123.350394
-a/t                    0.330777               0.082694          0.270571
+Total cycles        5669.414257               1.000000       2834.707129
+a/t                    0.333509               0.083377          0.270803
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/demo_deterministic_35_1.png" src="_images/demo_deterministic_35_1.png" />
+<img alt="_images/demo_deterministic_37_1.png" src="_images/demo_deterministic_37_1.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/demo_deterministic_35_2.png" src="_images/demo_deterministic_35_2.png" />
+<img alt="_images/demo_deterministic_37_2.png" src="_images/demo_deterministic_37_2.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/demo_deterministic_35_3.png" src="_images/demo_deterministic_35_3.png" />
+<img alt="_images/demo_deterministic_37_3.png" src="_images/demo_deterministic_37_3.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span><span class="o">.</span><span class="n">save_results</span><span class="p">()</span>
@@ -417,13 +421,229 @@ a/t                    0.330777               0.082694          0.270571
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;Results/date_26_10_2023_time_10_25/&#39;
+&#39;Results/date_16_04_2024_time_11_39/&#39;
 </pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span><span class="o">.</span><span class="n">gather_single_crack_cycle_evolution</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>a/t</th>
+      <th>a (m)</th>
+      <th>Delta a (m)</th>
+      <th>c (m)</th>
+      <th>Kmax (MPa m^1/2)</th>
+      <th>F</th>
+      <th>Q</th>
+      <th>Delta K (MPa m^1/2)</th>
+      <th>Delta N</th>
+      <th>Total cycles</th>
+      <th>Toughness ratio</th>
+      <th>Load ratio</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.250000</td>
+      <td>0.002578</td>
+      <td>0.000000</td>
+      <td>0.020000</td>
+      <td>37.883303</td>
+      <td>1.962206</td>
+      <td>1.049829</td>
+      <td>9.110032</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.688787</td>
+      <td>0.71618</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.250250</td>
+      <td>0.002581</td>
+      <td>0.000003</td>
+      <td>0.020020</td>
+      <td>37.926981</td>
+      <td>1.962842</td>
+      <td>1.049829</td>
+      <td>9.120536</td>
+      <td>45.569690</td>
+      <td>45.569690</td>
+      <td>0.689581</td>
+      <td>0.71618</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.250500</td>
+      <td>0.002583</td>
+      <td>0.000003</td>
+      <td>0.020040</td>
+      <td>37.970700</td>
+      <td>1.963479</td>
+      <td>1.049829</td>
+      <td>9.131049</td>
+      <td>45.229724</td>
+      <td>90.799414</td>
+      <td>0.690376</td>
+      <td>0.71618</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.250750</td>
+      <td>0.002586</td>
+      <td>0.000003</td>
+      <td>0.020060</td>
+      <td>38.014460</td>
+      <td>1.964116</td>
+      <td>1.049829</td>
+      <td>9.141573</td>
+      <td>44.892363</td>
+      <td>135.691777</td>
+      <td>0.691172</td>
+      <td>0.71618</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.251001</td>
+      <td>0.002588</td>
+      <td>0.000003</td>
+      <td>0.020080</td>
+      <td>38.058481</td>
+      <td>1.964756</td>
+      <td>1.049829</td>
+      <td>9.152159</td>
+      <td>44.778700</td>
+      <td>180.470477</td>
+      <td>0.691972</td>
+      <td>0.71618</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>554</th>
+      <td>0.985078</td>
+      <td>0.010159</td>
+      <td>0.000040</td>
+      <td>0.078806</td>
+      <td>245.722047</td>
+      <td>5.555129</td>
+      <td>1.049829</td>
+      <td>59.090302</td>
+      <td>0.084100</td>
+      <td>6509.550468</td>
+      <td>4.467674</td>
+      <td>0.71618</td>
+    </tr>
+    <tr>
+      <th>555</th>
+      <td>0.989001</td>
+      <td>0.010199</td>
+      <td>0.000040</td>
+      <td>0.079120</td>
+      <td>247.470510</td>
+      <td>5.583550</td>
+      <td>1.049829</td>
+      <td>59.510766</td>
+      <td>0.082355</td>
+      <td>6509.632824</td>
+      <td>4.499464</td>
+      <td>0.71618</td>
+    </tr>
+    <tr>
+      <th>556</th>
+      <td>0.992943</td>
+      <td>0.010240</td>
+      <td>0.000041</td>
+      <td>0.079435</td>
+      <td>249.236162</td>
+      <td>5.612213</td>
+      <td>1.049829</td>
+      <td>59.935363</td>
+      <td>0.080641</td>
+      <td>6509.713465</td>
+      <td>4.531567</td>
+      <td>0.71618</td>
+    </tr>
+    <tr>
+      <th>557</th>
+      <td>0.996906</td>
+      <td>0.010280</td>
+      <td>0.000041</td>
+      <td>0.079752</td>
+      <td>251.019189</td>
+      <td>5.641118</td>
+      <td>1.049829</td>
+      <td>60.364138</td>
+      <td>0.078957</td>
+      <td>6509.792422</td>
+      <td>4.563985</td>
+      <td>0.71618</td>
+    </tr>
+    <tr>
+      <th>558</th>
+      <td>1.000888</td>
+      <td>0.010322</td>
+      <td>0.000041</td>
+      <td>0.080071</td>
+      <td>252.819783</td>
+      <td>5.670269</td>
+      <td>1.049829</td>
+      <td>60.797138</td>
+      <td>0.077303</td>
+      <td>6509.869725</td>
+      <td>4.596723</td>
+      <td>0.71618</td>
+    </tr>
+  </tbody>
+</table>
+<p>559 rows × 12 columns</p>
+</div></div>
 </div>
 </section>
 </section>

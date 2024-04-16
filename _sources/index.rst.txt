@@ -42,6 +42,7 @@ Hydrogen Extremely Low Probability of Rupture (HELPR) is a modular probabilistic
    demo_inspection_mitigation
    demo_sensitivity
    demo_uncertainty_types
+   demo_crack_growth_curves
 
 
 Indices and tables

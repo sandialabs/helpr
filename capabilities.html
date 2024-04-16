@@ -1,20 +1,22 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Capabilities Documentation &mdash; helpr 1.0.0 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" type="text/css" />
+  <title>Capabilities Documentation &mdash; helpr 1.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=af2ce170"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=def9ab29"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=4825356b"></script>
         <script src="_static/design-tabs.js?v=36754332"></script>
@@ -152,6 +154,7 @@
 <li class="toctree-l1"><a class="reference internal" href="demo_inspection_mitigation.html"><strong>Inspection Mitigation Analysis of Pipeline Population</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_sensitivity.html"><strong>Sensitivity Analysis of Pipeline Lifetime Evaluation</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_uncertainty_types.html"><strong>Probabilistic Evaluation for Pipe Population’s Lifetimes with Multiple Types of Uncertainty</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_crack_growth_curves.html"><strong>Demonstration of Crack Growth Curves</strong></a></li>
 </ul>
 
         </div>
@@ -551,7 +554,7 @@ and sample size has been specified, not one or the other</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.capabilities.sampling.UncertaintyStudy.generate_lhs_samples">
-<span class="sig-name descname"><span class="pre">generate_lhs_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_variables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">centered_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimization_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'random-cd'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.UncertaintyStudy.generate_lhs_samples" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">generate_lhs_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_variables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimization_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'random-cd'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.sampling.UncertaintyStudy.generate_lhs_samples" title="Permalink to this definition"></a></dt>
 <dd><p>function to generate Latin hypercube samples (LHS) using
 Scipy’s Quasi-Monte Carlo submodule</p>
 <dl class="field-list simple">
@@ -559,7 +562,6 @@ Scipy’s Quasi-Monte Carlo submodule</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>number_of_variables</strong> (<em>int</em>) – how many variables to generate samples for</p></li>
 <li><p><strong>number_of_samples</strong> (<em>int</em>) – how many LHS samples to generate</p></li>
-<li><p><strong>centered_samples</strong> (<em>bool</em>) – whether samples are bin centered or distributed randomly in bins</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -603,7 +605,7 @@ Scipy’s Quasi-Monte Carlo submodule</p>
 <span id="uncertainty-definitions-docu"></span><h2>uncertainty_definitions docu<a class="headerlink" href="#module-probabilistic.capabilities.uncertainty_definitions" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="probabilistic.capabilities.uncertainty_definitions.BetaDistribution">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">probabilistic.capabilities.uncertainty_definitions.</span></span><span class="sig-name descname"><span class="pre">BetaDistribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uncertainty_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nominal_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.uncertainty_definitions.BetaDistribution" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">probabilistic.capabilities.uncertainty_definitions.</span></span><span class="sig-name descname"><span class="pre">BetaDistribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uncertainty_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nominal_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.uncertainty_definitions.BetaDistribution" title="Permalink to this definition"></a></dt>
 <dd><p>Beta Distribution Uncertainty Class</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -613,6 +615,8 @@ Scipy’s Quasi-Monte Carlo submodule</p>
 <li><p><strong>nominal_value</strong> (<em>float</em>) – </p></li>
 <li><p><strong>a</strong> (<em>float</em>) – </p></li>
 <li><p><strong>b</strong> (<em>float</em>) – </p></li>
+<li><p><strong>loc</strong> (<em>float</em>) – </p></li>
+<li><p><strong>scale</strong> (<em>float</em>) – </p></li>
 </ul>
 </dd>
 </dl>
@@ -714,7 +718,7 @@ Scipy’s Quasi-Monte Carlo submodule</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.capabilities.uncertainty_definitions.UncertaintyCharacterization.generate_samples">
-<span class="sig-name descname"><span class="pre">generate_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_size:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state=Generator(PCG64)</span> <span class="pre">at</span> <span class="pre">0x7FF6A3535E40</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.uncertainty_definitions.UncertaintyCharacterization.generate_samples" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">generate_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.random.default_rng()</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.capabilities.uncertainty_definitions.UncertaintyCharacterization.generate_samples" title="Permalink to this definition"></a></dt>
 <dd><p>Function to sample from uncertainty distributions</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>

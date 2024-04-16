@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Probabilistic Evaluation for Single Pipe Lifetime &mdash; helpr 1.0.0 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" type="text/css" />
-      <link rel="stylesheet" href="_static/nbsphinx-code-cells.css" type="text/css" />
+  <title>Probabilistic Evaluation for Single Pipe Lifetime &mdash; helpr 1.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="_static/nbsphinx-code-cells.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=af2ce170"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=def9ab29"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=4825356b"></script>
         <script src="_static/design-tabs.js?v=36754332"></script>
@@ -72,6 +74,7 @@
 <li class="toctree-l1"><a class="reference internal" href="demo_inspection_mitigation.html"><strong>Inspection Mitigation Analysis of Pipeline Population</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_sensitivity.html"><strong>Sensitivity Analysis of Pipeline Lifetime Evaluation</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_uncertainty_types.html"><strong>Probabilistic Evaluation for Pipe Population’s Lifetimes with Multiple Types of Uncertainty</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_crack_growth_curves.html"><strong>Demonstration of Crack Growth Curves</strong></a></li>
 </ul>
 
         </div>
@@ -98,8 +101,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+  <div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
@@ -108,17 +111,8 @@
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-The autoreload extension is already loaded. To reload it, use:
-  %reload_ext autoreload
-</pre></div></div>
-</div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -131,6 +125,16 @@ The autoreload extension is already loaded. To reload it, use:
 </pre></div>
 </div>
 </div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># # turn warnings back on for general use</span>
+<span class="c1"># import warnings</span>
+<span class="c1"># warnings.filterwarnings(&#39;ignore&#39;)</span>
+</pre></div>
+</div>
+</div>
 <section id="Probabilistic-Evaluation-for-Single-Pipe-Lifetime">
 <h1><strong>Probabilistic Evaluation for Single Pipe Lifetime</strong><a class="headerlink" href="#Probabilistic-Evaluation-for-Single-Pipe-Lifetime" title="Permalink to this heading"></a></h1>
 <section id="Problem-Specification">
@@ -139,7 +143,7 @@ The autoreload extension is already loaded. To reload it, use:
 <li><p><strong>Geometry</strong></p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipe_outer_diameter</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;outer_diameter&#39;</span><span class="p">,</span>
@@ -153,7 +157,7 @@ The autoreload extension is already loaded. To reload it, use:
 <li><p><strong>Material Properties</strong></p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yield_strength</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;yield_strength&#39;</span><span class="p">,</span>
@@ -167,12 +171,12 @@ The autoreload extension is already loaded. To reload it, use:
 <li><p><strong>Operating Conditions</strong></p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">max_pressure</span> <span class="o">=</span> <span class="n">NormalDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;max_pressure&#39;</span><span class="p">,</span>
                                   <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">&#39;aleatory&#39;</span><span class="p">,</span>
-                                  <span class="n">nominal_value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">850</span><span class="p">),</span>
+                                  <span class="n">nominal_value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">840</span><span class="p">),</span>
                                   <span class="n">mean</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">850</span><span class="p">),</span>
                                   <span class="n">std_deviation</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span>  <span class="c1"># maximum pressure during oscillation, MPa</span>
 <span class="n">min_pressure</span> <span class="o">=</span> <span class="n">NormalDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;min_pressure&#39;</span><span class="p">,</span>
@@ -197,7 +201,7 @@ The autoreload extension is already loaded. To reload it, use:
 <li><p><strong>Initial Crack Dimensions</strong></p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flaw_depth</span> <span class="o">=</span> <span class="n">UniformDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flaw_depth&#39;</span><span class="p">,</span>
@@ -214,7 +218,7 @@ The autoreload extension is already loaded. To reload it, use:
 <li><p><strong>Quantity of Interest (QoI)</strong></p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plotted_variable</span> <span class="o">=</span> <span class="s1">&#39;Cycles to a(crit)&#39;</span>
@@ -225,7 +229,7 @@ The autoreload extension is already loaded. To reload it, use:
 <li><p><strong>Probabilistic Settings</strong></p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample_type</span> <span class="o">=</span> <span class="s1">&#39;lhs&#39;</span>
@@ -240,7 +244,7 @@ The autoreload extension is already loaded. To reload it, use:
 <li><p><strong>Using LHS sampling of uncertain variables</strong></p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span> <span class="o">=</span> <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">pipe_outer_diameter</span><span class="p">,</span>
@@ -263,7 +267,7 @@ The autoreload extension is already loaded. To reload it, use:
 <section id="Postprocessing">
 <h2><strong>Postprocessing</strong><a class="headerlink" href="#Postprocessing" title="Permalink to this heading"></a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span><span class="o">.</span><span class="n">generate_probabilistic_results_plots</span><span class="p">(</span><span class="n">plotted_variable</span><span class="o">=</span><span class="n">plotted_variable</span><span class="p">)</span>
@@ -274,84 +278,75 @@ The autoreload extension is already loaded. To reload it, use:
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/Users/bbschro/Library/CloudStorage/OneDrive-SandiaNationalLaboratories/FRET/Projects/HyBlend/helpr/src/helpr/utilities/plots.py:258: UserWarning: FixedFormatter should only be used together with FixedLocator
-  plt.legend(loc=0)
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
 <div class="output_area docutils container">
-<img alt="_images/demo_probabilistic_19_1.png" src="_images/demo_probabilistic_19_1.png" />
+<img alt="_images/demo_probabilistic_20_0.png" src="_images/demo_probabilistic_20_0.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/demo_probabilistic_19_2.png" src="_images/demo_probabilistic_19_2.png" />
+<img alt="_images/demo_probabilistic_20_1.png" src="_images/demo_probabilistic_20_1.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/demo_probabilistic_19_3.png" src="_images/demo_probabilistic_19_3.png" />
+<img alt="_images/demo_probabilistic_20_2.png" src="_images/demo_probabilistic_20_2.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/demo_probabilistic_19_4.png" src="_images/demo_probabilistic_19_4.png" />
+<img alt="_images/demo_probabilistic_20_3.png" src="_images/demo_probabilistic_20_3.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/demo_probabilistic_19_5.png" src="_images/demo_probabilistic_19_5.png" />
+<img alt="_images/demo_probabilistic_20_4.png" src="_images/demo_probabilistic_20_4.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/demo_probabilistic_19_6.png" src="_images/demo_probabilistic_19_6.png" />
+<img alt="_images/demo_probabilistic_20_5.png" src="_images/demo_probabilistic_20_5.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/demo_probabilistic_19_7.png" src="_images/demo_probabilistic_19_7.png" />
+<img alt="_images/demo_probabilistic_20_6.png" src="_images/demo_probabilistic_20_6.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/demo_probabilistic_19_8.png" src="_images/demo_probabilistic_19_8.png" />
+<img alt="_images/demo_probabilistic_20_7.png" src="_images/demo_probabilistic_20_7.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/demo_probabilistic_19_9.png" src="_images/demo_probabilistic_19_9.png" />
+<img alt="_images/demo_probabilistic_20_8.png" src="_images/demo_probabilistic_20_8.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/demo_probabilistic_19_10.png" src="_images/demo_probabilistic_19_10.png" />
+<img alt="_images/demo_probabilistic_20_9.png" src="_images/demo_probabilistic_20_9.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span><span class="o">.</span><span class="n">save_results</span><span class="p">()</span>
@@ -359,12 +354,12 @@ The autoreload extension is already loaded. To reload it, use:
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;Results/date_31_10_2023_time_16_27/&#39;
+&#39;Results/date_16_04_2024_time_13_15/&#39;
 </pre></div></div>
 </div>
 </section>

@@ -1,20 +1,22 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Utilities Documentation &mdash; helpr 1.0.0 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" type="text/css" />
+  <title>Utilities Documentation &mdash; helpr 1.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=af2ce170"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=def9ab29"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=4825356b"></script>
         <script src="_static/design-tabs.js?v=36754332"></script>
@@ -115,6 +117,7 @@
 <li class="toctree-l1"><a class="reference internal" href="demo_inspection_mitigation.html"><strong>Inspection Mitigation Analysis of Pipeline Population</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_sensitivity.html"><strong>Sensitivity Analysis of Pipeline Lifetime Evaluation</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_uncertainty_types.html"><strong>Probabilistic Evaluation for Pipe Population’s Lifetimes with Multiple Types of Uncertainty</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_crack_growth_curves.html"><strong>Demonstration of Crack Growth Curves</strong></a></li>
 </ul>
 
         </div>
@@ -147,7 +150,7 @@
 <span id="parameter-docu"></span><h2>parameter docu<a class="headerlink" href="#module-helpr.utilities.parameter" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="helpr.utilities.parameter.Parameter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.utilities.parameter.</span></span><span class="sig-name descname"><span class="pre">Parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_bound=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upper_bound=inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype=&lt;class</span> <span class="pre">'float'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_function=&lt;class</span> <span class="pre">'ValueError'&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.parameter.Parameter" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.utilities.parameter.</span></span><span class="sig-name descname"><span class="pre">Parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upper_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_function</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ValueError</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.parameter.Parameter" title="Permalink to this definition"></a></dt>
 <dd><p>Class to enable checking and enforcing parameter bounds.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="helpr.utilities.parameter.Parameter.check_size">
@@ -512,7 +515,7 @@ or list of filepaths if colored by variable.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="helpr.utilities.postprocessing.report_single_cycle_evolution">
 <span class="sig-prename descclassname"><span class="pre">helpr.utilities.postprocessing.</span></span><span class="sig-name descname"><span class="pre">report_single_cycle_evolution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all_results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipe_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.postprocessing.report_single_cycle_evolution" title="Permalink to this definition"></a></dt>
-<dd><p>Creates a dataframe object for plotting a single crack cycle evolution.</p>
+<dd><p>Creates a DataFrame object for plotting a single crack cycle evolution.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -521,7 +524,7 @@ or list of filepaths if colored by variable.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>single_cycle_evolution</strong> – Dataframe for plotting of single instance.</p>
+<dd class="field-even"><p><strong>single_cycle_evolution</strong> – DataFrame for plotting of single instance.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>pd.DataFrame</p>
@@ -573,7 +576,7 @@ or list of filepaths if colored by variable.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="helpr.utilities.unit_conversion.get_variable_units">
-<span class="sig-prename descclassname"><span class="pre">helpr.utilities.unit_conversion.</span></span><span class="sig-name descname"><span class="pre">get_variable_units</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#helpr.utilities.unit_conversion.get_variable_units" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">helpr.utilities.unit_conversion.</span></span><span class="sig-name descname"><span class="pre">get_variable_units</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">for_plotting</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#helpr.utilities.unit_conversion.get_variable_units" title="Permalink to this definition"></a></dt>
 <dd><p>Specifies units used for analysis variables</p>
 </dd></dl>
 

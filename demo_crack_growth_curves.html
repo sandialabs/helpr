@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demonstration of Crack Growth Curves &mdash; helpr 1.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="_static/nbsphinx-code-cells.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=def9ab29"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="_static/design-tabs.js?v=36754332"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Probabilistic Evaluation for Pipe Population’s Lifetimes with Multiple Types of Uncertainty" href="demo_uncertainty_types.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/HELPR_app_icon.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">HELPR Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="physics.html"><strong>Physics Documentation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="phys_tests.html"><strong>Tests Documentation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html"><strong>Utilities Documentation</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Probabilistic Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="capabilities.html"><strong>Capabilities Documentation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob_tests.html"><strong>Tests Documentation</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">HELPR Demo</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="demo_probabilistic.html"><strong>Probabilistic Evaluation for Single Pipe Lifetime</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_deterministic.html"><strong>Single Deterministic Pipeline Lifetime Evaluation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_inspection_mitigation.html"><strong>Inspection Mitigation Analysis of Pipeline Population</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_sensitivity.html"><strong>Sensitivity Analysis of Pipeline Lifetime Evaluation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_uncertainty_types.html"><strong>Probabilistic Evaluation for Pipe Population’s Lifetimes with Multiple Types of Uncertainty</strong></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>Demonstration of Crack Growth Curves</strong></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Crack-Growth-Curves-for-Different-Hydrogen-Volume-Fractions">Crack Growth Curves for Different Hydrogen Volume Fractions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Crack-Growth-Curves-for-Different-Load-Ratios-(R)">Crack Growth Curves for Different Load Ratios (R)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Crack-Growth-Curves-for-Different-Max-Pressures">Crack Growth Curves for Different Max Pressures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Crack-Growth-Curve-For-Air">Crack Growth Curve For Air</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">helpr</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><strong>Demonstration of Crack Growth Curves</strong></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/demo_crack_growth_curves.nblink.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">helpr.physics.api</span> <span class="kn">import</span> <span class="n">CrackEvolutionAnalysis</span>
+<span class="kn">from</span> <span class="nn">helpr.physics.environment</span> <span class="kn">import</span> <span class="n">EnvironmentSpecification</span>
+<span class="kn">from</span> <span class="nn">helpr.physics.crack_growth</span> <span class="kn">import</span> <span class="n">get_design_curve</span>
+<span class="kn">from</span> <span class="nn">helpr.utilities.unit_conversion</span> <span class="kn">import</span> <span class="n">convert_ksi_to_mpa</span><span class="p">,</span> <span class="n">convert_in_to_m</span>
+
+<span class="kn">from</span> <span class="nn">probabilistic.capabilities.uncertainty_definitions</span> <span class="kn">import</span> <span class="n">DeterministicCharacterization</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># # turn warnings back on for general use</span>
+<span class="c1"># import warnings</span>
+<span class="c1"># warnings.filterwarnings(&#39;ignore&#39;)</span>
+</pre></div>
+</div>
+</div>
+<section id="Demonstration-of-Crack-Growth-Curves">
+<h1><strong>Demonstration of Crack Growth Curves</strong><a class="headerlink" href="#Demonstration-of-Crack-Growth-Curves" title="Permalink to this heading"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipe_outer_diameter</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;outer_diameter&#39;</span><span class="p">,</span>
+                                                    <span class="n">value</span><span class="o">=</span><span class="n">convert_in_to_m</span><span class="p">(</span><span class="mi">36</span><span class="p">))</span> <span class="c1"># 36 inch outer diameter</span>
+<span class="n">wall_thickness</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;wall_thickness&#39;</span><span class="p">,</span>
+                                               <span class="n">value</span><span class="o">=</span><span class="n">convert_in_to_m</span><span class="p">(</span><span class="mf">0.406</span><span class="p">))</span> <span class="c1"># 0.406 inch wall thickness</span>
+<span class="n">yield_strength</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;yield_strength&#39;</span><span class="p">,</span>
+                                               <span class="n">value</span><span class="o">=</span><span class="n">convert_ksi_to_mpa</span><span class="p">(</span><span class="mi">52</span><span class="p">))</span>  <span class="c1"># material yield strength of 52 ksi</span>
+<span class="n">fracture_resistance</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;fracture_resistance&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">55</span><span class="p">)</span>
+<span class="n">max_pressure</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;max_pressure&#39;</span><span class="p">,</span>
+                                             <span class="n">value</span><span class="o">=</span><span class="n">convert_ksi_to_mpa</span><span class="p">(</span><span class="mf">0.84</span><span class="p">))</span> <span class="c1"># maximum pressure during oscillation MPa</span>
+<span class="n">min_pressure</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;min_pressure&#39;</span><span class="p">,</span>
+                                             <span class="n">value</span><span class="o">=</span><span class="n">convert_ksi_to_mpa</span><span class="p">(</span><span class="mf">0.638</span><span class="p">))</span> <span class="c1"># minimum pressure during oscillation (or R = 0.75)</span>
+<span class="n">temperature</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;temperature&#39;</span><span class="p">,</span>
+                                            <span class="n">value</span><span class="o">=</span><span class="mi">293</span><span class="p">)</span> <span class="c1"># K -&gt; temperature of gas degrees C</span>
+<span class="n">volume_fraction_h2</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">,</span>
+                                                   <span class="n">value</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span> <span class="c1"># % mole fraction H2 in natural gas blend</span>
+<span class="n">flaw_depth</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flaw_depth&#39;</span><span class="p">,</span>
+                                           <span class="n">value</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span> <span class="c1"># flaw 5% through pipe thickness</span>
+<span class="n">flaw_length</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flaw_length&#39;</span><span class="p">,</span>
+                                            <span class="n">value</span><span class="o">=</span><span class="mf">0.04</span><span class="p">)</span>  <span class="c1"># length of initial crack/flaw, m</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span> <span class="o">=</span> <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">pipe_outer_diameter</span><span class="p">,</span>
+                                  <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">,</span>
+                                  <span class="n">max_pressure</span><span class="o">=</span><span class="n">max_pressure</span><span class="p">,</span>
+                                  <span class="n">min_pressure</span><span class="o">=</span><span class="n">min_pressure</span><span class="p">,</span>
+                                  <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                                  <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">,</span>
+                                  <span class="n">yield_strength</span><span class="o">=</span><span class="n">yield_strength</span><span class="p">,</span>
+                                  <span class="n">fracture_resistance</span><span class="o">=</span><span class="n">fracture_resistance</span><span class="p">,</span>
+                                  <span class="n">flaw_length</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">,</span>
+                                  <span class="n">flaw_depth</span><span class="o">=</span><span class="n">flaw_depth</span><span class="p">)</span>
+<span class="n">analysis</span><span class="o">.</span><span class="n">perform_study</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<section id="Crack-Growth-Curves-for-Different-Hydrogen-Volume-Fractions">
+<h2>Crack Growth Curves for Different Hydrogen Volume Fractions<a class="headerlink" href="#Crack-Growth-Curves-for-Different-Hydrogen-Volume-Fractions" title="Permalink to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">environment_0</span> <span class="o">=</span> <span class="n">EnvironmentSpecification</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;max_pressure&#39;</span><span class="p">],</span>
+                                         <span class="n">min_pressure</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;min_pressure&#39;</span><span class="p">],</span>
+                                         <span class="n">temperature</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">],</span>
+                                         <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">environment_1</span> <span class="o">=</span> <span class="n">EnvironmentSpecification</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;max_pressure&#39;</span><span class="p">],</span>
+                                         <span class="n">min_pressure</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;min_pressure&#39;</span><span class="p">],</span>
+                                         <span class="n">temperature</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">],</span>
+                                         <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="n">environment_2</span> <span class="o">=</span> <span class="n">EnvironmentSpecification</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;max_pressure&#39;</span><span class="p">],</span>
+                                         <span class="n">min_pressure</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;min_pressure&#39;</span><span class="p">],</span>
+                                         <span class="n">temperature</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">],</span>
+                                         <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">environment_3</span> <span class="o">=</span> <span class="n">EnvironmentSpecification</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;max_pressure&#39;</span><span class="p">],</span>
+                                         <span class="n">min_pressure</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;min_pressure&#39;</span><span class="p">],</span>
+                                         <span class="n">temperature</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">],</span>
+                                         <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">analysis</span><span class="o">.</span><span class="n">postprocess_single_crack_results</span><span class="p">()</span>
+
+<span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span> <span class="o">=</span> <span class="n">get_design_curve</span><span class="p">(</span><span class="n">specified_r</span><span class="o">=</span><span class="n">environment_0</span><span class="o">.</span><span class="n">calc_r_ratio</span><span class="p">(),</span>
+                             <span class="n">specified_fugacity</span><span class="o">=</span><span class="n">environment_0</span><span class="o">.</span><span class="n">calc_fugacity_ratio</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span><span class="p">,</span> <span class="s1">&#39;r--&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span> <span class="o">=</span> <span class="n">get_design_curve</span><span class="p">(</span><span class="n">specified_r</span><span class="o">=</span><span class="n">environment_1</span><span class="o">.</span><span class="n">calc_r_ratio</span><span class="p">(),</span>
+                             <span class="n">specified_fugacity</span><span class="o">=</span><span class="n">environment_1</span><span class="o">.</span><span class="n">calc_fugacity_ratio</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span><span class="p">,</span> <span class="s1">&#39;g-.&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span> <span class="o">=</span> <span class="n">get_design_curve</span><span class="p">(</span><span class="n">specified_r</span><span class="o">=</span><span class="n">environment_2</span><span class="o">.</span><span class="n">calc_r_ratio</span><span class="p">(),</span>
+                             <span class="n">specified_fugacity</span><span class="o">=</span><span class="n">environment_2</span><span class="o">.</span><span class="n">calc_fugacity_ratio</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span><span class="p">,</span> <span class="s1">&#39;m-&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span> <span class="o">=</span> <span class="n">get_design_curve</span><span class="p">(</span><span class="n">specified_r</span><span class="o">=</span><span class="n">environment_3</span><span class="o">.</span><span class="n">calc_r_ratio</span><span class="p">(),</span>
+                             <span class="n">specified_fugacity</span><span class="o">=</span><span class="n">environment_3</span><span class="o">.</span><span class="n">calc_fugacity_ratio</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span><span class="p">,</span> <span class="s1">&#39;b:&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Varying $\chi_</span><span class="si">{H_2}</span><span class="s1">$; R=0.75; P$_</span><span class="si">{max}</span><span class="s1">$=840psi&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="sa">r</span><span class="s1">&#39;Exercised Rates ($\chi_</span><span class="si">{H_2}</span><span class="s1">$=0.1)&#39;</span><span class="p">,</span> <span class="s1">&#39;$\chi_</span><span class="si">{H_2}</span><span class="s1">$=0&#39;</span><span class="p">,</span> <span class="s1">&#39;$\chi_</span><span class="si">{H_2}</span><span class="s1">$=0.01&#39;</span><span class="p">,</span> <span class="s1">&#39;$\chi_</span><span class="si">{H_2}</span><span class="s1">$=0.1&#39;</span><span class="p">,</span> <span class="s1">&#39;$\chi_</span><span class="si">{H_2}</span><span class="s1">$=1&#39;</span><span class="p">],</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+              Cycles to a(crit)  Cycles to 25% a(crit)  Cycles to 1/2 Nc
+Total cycles       17928.262052               1.000000       8964.131026
+a/t                    0.333509               0.083377          0.270803
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_crack_growth_curves_6_1.png" src="_images/demo_crack_growth_curves_6_1.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_crack_growth_curves_6_2.png" src="_images/demo_crack_growth_curves_6_2.png" />
+</div>
+</div>
+</section>
+<section id="Crack-Growth-Curves-for-Different-Load-Ratios-(R)">
+<h2>Crack Growth Curves for Different Load Ratios (R)<a class="headerlink" href="#Crack-Growth-Curves-for-Different-Load-Ratios-(R)" title="Permalink to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">environment</span> <span class="o">=</span> <span class="n">EnvironmentSpecification</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;max_pressure&#39;</span><span class="p">],</span>
+                                       <span class="n">min_pressure</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;min_pressure&#39;</span><span class="p">],</span>
+                                       <span class="n">temperature</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">],</span>
+                                       <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">])</span>
+
+<span class="n">environment_0</span> <span class="o">=</span> <span class="n">EnvironmentSpecification</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;max_pressure&#39;</span><span class="p">],</span>
+                                       <span class="n">min_pressure</span><span class="o">=</span><span class="n">max_pressure</span><span class="o">.</span><span class="n">value</span><span class="o">*</span><span class="mf">.9</span><span class="p">,</span>
+                                       <span class="n">temperature</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">],</span>
+                                       <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">])</span>
+<span class="n">environment_1</span> <span class="o">=</span> <span class="n">EnvironmentSpecification</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;max_pressure&#39;</span><span class="p">],</span>
+                                         <span class="n">min_pressure</span><span class="o">=</span><span class="n">max_pressure</span><span class="o">.</span><span class="n">value</span><span class="o">*</span><span class="mf">.75</span><span class="p">,</span>
+                                         <span class="n">temperature</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">],</span>
+                                         <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">])</span>
+<span class="n">environment_2</span> <span class="o">=</span> <span class="n">EnvironmentSpecification</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;max_pressure&#39;</span><span class="p">],</span>
+                                         <span class="n">min_pressure</span><span class="o">=</span><span class="n">max_pressure</span><span class="o">.</span><span class="n">value</span><span class="o">*</span><span class="mf">.5</span><span class="p">,</span>
+                                         <span class="n">temperature</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">],</span>
+                                         <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">])</span>
+<span class="n">environment_3</span> <span class="o">=</span> <span class="n">EnvironmentSpecification</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;max_pressure&#39;</span><span class="p">],</span>
+                                       <span class="n">min_pressure</span><span class="o">=</span><span class="n">max_pressure</span><span class="o">.</span><span class="n">value</span><span class="o">*</span><span class="mf">.1</span><span class="p">,</span>
+                                       <span class="n">temperature</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">],</span>
+                                       <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">])</span>
+
+<span class="n">analysis</span><span class="o">.</span><span class="n">postprocess_single_crack_results</span><span class="p">()</span>
+
+<span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span> <span class="o">=</span> <span class="n">get_design_curve</span><span class="p">(</span><span class="n">specified_r</span><span class="o">=</span><span class="n">environment_0</span><span class="o">.</span><span class="n">calc_r_ratio</span><span class="p">(),</span>
+                             <span class="n">specified_fugacity</span><span class="o">=</span><span class="n">environment_0</span><span class="o">.</span><span class="n">calc_fugacity_ratio</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span><span class="p">,</span> <span class="s1">&#39;r--&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span> <span class="o">=</span> <span class="n">get_design_curve</span><span class="p">(</span><span class="n">specified_r</span><span class="o">=</span><span class="n">environment_1</span><span class="o">.</span><span class="n">calc_r_ratio</span><span class="p">(),</span>
+                             <span class="n">specified_fugacity</span><span class="o">=</span><span class="n">environment_1</span><span class="o">.</span><span class="n">calc_fugacity_ratio</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span><span class="p">,</span> <span class="s1">&#39;g-.&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span> <span class="o">=</span> <span class="n">get_design_curve</span><span class="p">(</span><span class="n">specified_r</span><span class="o">=</span><span class="n">environment_2</span><span class="o">.</span><span class="n">calc_r_ratio</span><span class="p">(),</span>
+                             <span class="n">specified_fugacity</span><span class="o">=</span><span class="n">environment_2</span><span class="o">.</span><span class="n">calc_fugacity_ratio</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span><span class="p">,</span> <span class="s1">&#39;m-&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span> <span class="o">=</span> <span class="n">get_design_curve</span><span class="p">(</span><span class="n">specified_r</span><span class="o">=</span><span class="n">environment_3</span><span class="o">.</span><span class="n">calc_r_ratio</span><span class="p">(),</span>
+                             <span class="n">specified_fugacity</span><span class="o">=</span><span class="n">environment_3</span><span class="o">.</span><span class="n">calc_fugacity_ratio</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span><span class="p">,</span> <span class="s1">&#39;b:&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="sa">f</span><span class="s1">&#39;Exercised Rates </span><span class="se">\n</span><span class="s1"> (R=</span><span class="si">{</span><span class="n">min_pressure</span><span class="o">.</span><span class="n">value</span><span class="o">/</span><span class="n">max_pressure</span><span class="o">.</span><span class="n">value</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span> <span class="s1">&#39;R=0.9&#39;</span><span class="p">,</span> <span class="s1">&#39;R=0.75&#39;</span><span class="p">,</span> <span class="s1">&#39;R=0.5&#39;</span><span class="p">,</span> <span class="s1">&#39;R=0.1&#39;</span><span class="p">],</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+<span class="n">mole_frac_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;=</span><span class="si">{</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">; &quot;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Varying R; $\chi_</span><span class="si">{H_2}</span><span class="s1">$&#39;</span> <span class="o">+</span> <span class="n">mole_frac_string</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;P$_</span><span class="si">{max}</span><span class="s1">$=840psi&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+              Cycles to a(crit)  Cycles to 25% a(crit)  Cycles to 1/2 Nc
+Total cycles       17928.262052               1.000000       8964.131026
+a/t                    0.333509               0.083377          0.270803
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_crack_growth_curves_8_1.png" src="_images/demo_crack_growth_curves_8_1.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_crack_growth_curves_8_2.png" src="_images/demo_crack_growth_curves_8_2.png" />
+</div>
+</div>
+</section>
+<section id="Crack-Growth-Curves-for-Different-Max-Pressures">
+<h2>Crack Growth Curves for Different Max Pressures<a class="headerlink" href="#Crack-Growth-Curves-for-Different-Max-Pressures" title="Permalink to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">environment_0</span> <span class="o">=</span> <span class="n">EnvironmentSpecification</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">convert_ksi_to_mpa</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span>
+                                         <span class="n">min_pressure</span><span class="o">=</span><span class="n">convert_ksi_to_mpa</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">*</span><span class="mf">.75</span><span class="p">,</span>
+                                         <span class="n">temperature</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">],</span>
+                                         <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">])</span>
+<span class="n">environment_1</span> <span class="o">=</span> <span class="n">EnvironmentSpecification</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">convert_ksi_to_mpa</span><span class="p">(</span><span class="mf">0.85</span><span class="p">),</span>
+                                         <span class="n">min_pressure</span><span class="o">=</span><span class="n">convert_ksi_to_mpa</span><span class="p">(</span><span class="mf">0.85</span><span class="p">)</span><span class="o">*</span><span class="mf">.75</span><span class="p">,</span>
+                                         <span class="n">temperature</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">],</span>
+                                         <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">])</span>
+<span class="n">environment_2</span> <span class="o">=</span> <span class="n">EnvironmentSpecification</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">convert_ksi_to_mpa</span><span class="p">(</span><span class="mf">0.05</span><span class="p">),</span>
+                                         <span class="n">min_pressure</span><span class="o">=</span><span class="n">convert_ksi_to_mpa</span><span class="p">(</span><span class="mf">0.05</span><span class="p">)</span><span class="o">*</span><span class="mf">.75</span><span class="p">,</span>
+                                         <span class="n">temperature</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">],</span>
+                                         <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">])</span>
+<span class="n">environment_3</span> <span class="o">=</span> <span class="n">EnvironmentSpecification</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">convert_ksi_to_mpa</span><span class="p">(</span><span class="mf">0.005</span><span class="p">),</span>
+                                         <span class="n">min_pressure</span><span class="o">=</span><span class="n">convert_ksi_to_mpa</span><span class="p">(</span><span class="mf">0.005</span><span class="p">)</span><span class="o">*</span><span class="mf">.75</span><span class="p">,</span>
+                                         <span class="n">temperature</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">],</span>
+                                         <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">])</span>
+
+<span class="n">analysis</span><span class="o">.</span><span class="n">postprocess_single_crack_results</span><span class="p">()</span>
+
+<span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span> <span class="o">=</span> <span class="n">get_design_curve</span><span class="p">(</span><span class="n">specified_r</span><span class="o">=</span><span class="n">environment_0</span><span class="o">.</span><span class="n">calc_r_ratio</span><span class="p">(),</span>
+                             <span class="n">specified_fugacity</span><span class="o">=</span><span class="n">environment_0</span><span class="o">.</span><span class="n">calc_fugacity_ratio</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span><span class="p">,</span> <span class="s1">&#39;r--&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span> <span class="o">=</span> <span class="n">get_design_curve</span><span class="p">(</span><span class="n">specified_r</span><span class="o">=</span><span class="n">environment_1</span><span class="o">.</span><span class="n">calc_r_ratio</span><span class="p">(),</span>
+                             <span class="n">specified_fugacity</span><span class="o">=</span><span class="n">environment_1</span><span class="o">.</span><span class="n">calc_fugacity_ratio</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span><span class="p">,</span> <span class="s1">&#39;g-.&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span> <span class="o">=</span> <span class="n">get_design_curve</span><span class="p">(</span><span class="n">specified_r</span><span class="o">=</span><span class="n">environment_2</span><span class="o">.</span><span class="n">calc_r_ratio</span><span class="p">(),</span>
+                             <span class="n">specified_fugacity</span><span class="o">=</span><span class="n">environment_2</span><span class="o">.</span><span class="n">calc_fugacity_ratio</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span><span class="p">,</span> <span class="s1">&#39;m-&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span> <span class="o">=</span> <span class="n">get_design_curve</span><span class="p">(</span><span class="n">specified_r</span><span class="o">=</span><span class="n">environment_3</span><span class="o">.</span><span class="n">calc_r_ratio</span><span class="p">(),</span>
+                             <span class="n">specified_fugacity</span><span class="o">=</span><span class="n">environment_3</span><span class="o">.</span><span class="n">calc_fugacity_ratio</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span><span class="p">,</span> <span class="s1">&#39;b:&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">mole_frac_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;=</span><span class="si">{</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">; &quot;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="sa">f</span><span class="s1">&#39;Exercised Rates </span><span class="se">\n</span><span class="s1"> (850)&#39;</span><span class="p">,</span> <span class="s1">&#39;4000&#39;</span><span class="p">,</span> <span class="s1">&#39;850&#39;</span><span class="p">,</span> <span class="s1">&#39;50&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;P$_</span><span class="si">{max}</span><span class="s1"> (psi)$&#39;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Varying P$_</span><span class="si">{max}</span><span class="s1">$; $\chi_</span><span class="si">{H_2}</span><span class="s1">$&#39;</span> <span class="o">+</span> <span class="n">mole_frac_string</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;R=0.75&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+              Cycles to a(crit)  Cycles to 25% a(crit)  Cycles to 1/2 Nc
+Total cycles       17928.262052               1.000000       8964.131026
+a/t                    0.333509               0.083377          0.270803
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_crack_growth_curves_10_1.png" src="_images/demo_crack_growth_curves_10_1.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_crack_growth_curves_10_2.png" src="_images/demo_crack_growth_curves_10_2.png" />
+</div>
+</div>
+</section>
+<section id="Crack-Growth-Curve-For-Air">
+<h2>Crack Growth Curve For Air<a class="headerlink" href="#Crack-Growth-Curve-For-Air" title="Permalink to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">volume_fraction_h2</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">,</span>
+                                                   <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># % mole fraction H2 in natural gas blend</span>
+
+<span class="n">analysis</span> <span class="o">=</span> <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">pipe_outer_diameter</span><span class="p">,</span>
+                                  <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">,</span>
+                                  <span class="n">max_pressure</span><span class="o">=</span><span class="n">max_pressure</span><span class="p">,</span>
+                                  <span class="n">min_pressure</span><span class="o">=</span><span class="n">min_pressure</span><span class="p">,</span>
+                                  <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                                  <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">,</span>
+                                  <span class="n">yield_strength</span><span class="o">=</span><span class="n">yield_strength</span><span class="p">,</span>
+                                  <span class="n">fracture_resistance</span><span class="o">=</span><span class="n">fracture_resistance</span><span class="p">,</span>
+                                  <span class="n">flaw_length</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">,</span>
+                                  <span class="n">flaw_depth</span><span class="o">=</span><span class="n">flaw_depth</span><span class="p">)</span>
+<span class="n">analysis</span><span class="o">.</span><span class="n">perform_study</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">environment_0</span> <span class="o">=</span> <span class="n">EnvironmentSpecification</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;max_pressure&#39;</span><span class="p">],</span>
+                                         <span class="n">min_pressure</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;min_pressure&#39;</span><span class="p">],</span>
+                                         <span class="n">temperature</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">],</span>
+                                         <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">environment_1</span> <span class="o">=</span> <span class="n">EnvironmentSpecification</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;max_pressure&#39;</span><span class="p">],</span>
+                                         <span class="n">min_pressure</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;min_pressure&#39;</span><span class="p">],</span>
+                                         <span class="n">temperature</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">],</span>
+                                         <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="n">environment_2</span> <span class="o">=</span> <span class="n">EnvironmentSpecification</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;max_pressure&#39;</span><span class="p">],</span>
+                                         <span class="n">min_pressure</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;min_pressure&#39;</span><span class="p">],</span>
+                                         <span class="n">temperature</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">],</span>
+                                         <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">environment_3</span> <span class="o">=</span> <span class="n">EnvironmentSpecification</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;max_pressure&#39;</span><span class="p">],</span>
+                                         <span class="n">min_pressure</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;min_pressure&#39;</span><span class="p">],</span>
+                                         <span class="n">temperature</span><span class="o">=</span><span class="n">analysis</span><span class="o">.</span><span class="n">nominal_input_parameter_values</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">],</span>
+                                         <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">analysis</span><span class="o">.</span><span class="n">postprocess_single_crack_results</span><span class="p">()</span>
+
+<span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span> <span class="o">=</span> <span class="n">get_design_curve</span><span class="p">(</span><span class="n">specified_r</span><span class="o">=</span><span class="n">environment_0</span><span class="o">.</span><span class="n">calc_r_ratio</span><span class="p">(),</span>
+                             <span class="n">specified_fugacity</span><span class="o">=</span><span class="n">environment_0</span><span class="o">.</span><span class="n">calc_fugacity_ratio</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span><span class="p">,</span> <span class="s1">&#39;r--&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span> <span class="o">=</span> <span class="n">get_design_curve</span><span class="p">(</span><span class="n">specified_r</span><span class="o">=</span><span class="n">environment_1</span><span class="o">.</span><span class="n">calc_r_ratio</span><span class="p">(),</span>
+                             <span class="n">specified_fugacity</span><span class="o">=</span><span class="n">environment_1</span><span class="o">.</span><span class="n">calc_fugacity_ratio</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span><span class="p">,</span> <span class="s1">&#39;g-.&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span> <span class="o">=</span> <span class="n">get_design_curve</span><span class="p">(</span><span class="n">specified_r</span><span class="o">=</span><span class="n">environment_2</span><span class="o">.</span><span class="n">calc_r_ratio</span><span class="p">(),</span>
+                             <span class="n">specified_fugacity</span><span class="o">=</span><span class="n">environment_2</span><span class="o">.</span><span class="n">calc_fugacity_ratio</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span><span class="p">,</span> <span class="s1">&#39;m-&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span> <span class="o">=</span> <span class="n">get_design_curve</span><span class="p">(</span><span class="n">specified_r</span><span class="o">=</span><span class="n">environment_3</span><span class="o">.</span><span class="n">calc_r_ratio</span><span class="p">(),</span>
+                             <span class="n">specified_fugacity</span><span class="o">=</span><span class="n">environment_3</span><span class="o">.</span><span class="n">calc_fugacity_ratio</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dk</span><span class="p">,</span> <span class="n">da_dn</span><span class="p">,</span> <span class="s1">&#39;b:&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Varying $\chi_</span><span class="si">{H_2}</span><span class="s1">$; R=0.75; P$_</span><span class="si">{max}</span><span class="s1">$=840psi&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="sa">r</span><span class="s1">&#39;Exercised Rates ($\chi_</span><span class="si">{H_2}</span><span class="s1">$=0)&#39;</span><span class="p">,</span> <span class="s1">&#39;$\chi_</span><span class="si">{H_2}</span><span class="s1">$=0 (Air)&#39;</span><span class="p">,</span> <span class="s1">&#39;$\chi_</span><span class="si">{H_2}</span><span class="s1">$=0.01&#39;</span><span class="p">,</span> <span class="s1">&#39;$\chi_</span><span class="si">{H_2}</span><span class="s1">$=0.1&#39;</span><span class="p">,</span> <span class="s1">&#39;$\chi_</span><span class="si">{H_2}</span><span class="s1">$=1&#39;</span><span class="p">],</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+              Cycles to a(crit)  Cycles to 25% a(crit)  Cycles to 1/2 Nc
+Total cycles       98658.454759               1.000000      49329.227379
+a/t                    0.333509               0.083377          0.280576
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_crack_growth_curves_13_1.png" src="_images/demo_crack_growth_curves_13_1.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_crack_growth_curves_13_2.png" src="_images/demo_crack_growth_curves_13_2.png" />
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="demo_uncertainty_types.html" class="btn btn-neutral float-left" title="Probabilistic Evaluation for Pipe Population’s Lifetimes with Multiple Types of Uncertainty" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023 National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retainscertain rights in this software.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
