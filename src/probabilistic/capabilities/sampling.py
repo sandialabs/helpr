@@ -151,7 +151,6 @@ class UncertaintyStudy:
     def generate_lhs_samples(self,
                              number_of_variables:int,
                              number_of_samples:int,
-                             centered_samples:bool=False,
                              optimization_method="random-cd"):
         """
         function to generate Latin hypercube samples (LHS) using 
@@ -162,10 +161,7 @@ class UncertaintyStudy:
             number_of_variables: int
                  how many variables to generate samples for
             number_of_samples: int
-                 how many LHS samples to generate
-            centered_samples: bool
-                 whether samples are bin centered or distributed randomly in bins
-                                      
+                 how many LHS samples to generate             
     
         Returns
         --------
@@ -176,7 +172,6 @@ class UncertaintyStudy:
             optimization_method = None
 
         lhs_sampler = qmc.LatinHypercube(d=number_of_variables,
-                                         centered=centered_samples,
                                          seed=self.random_state,
                                          optimization=optimization_method)
         lhs_samples = lhs_sampler.random(n=number_of_samples)

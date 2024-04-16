@@ -105,7 +105,7 @@ class VerificationCrackGrowth(unittest.TestCase):
         simulation_data1 = analysis.nominal_load_cycling
 
         file = 'data_set_1.txt'
-        verification_data1 = pd.read_csv(data_path+file, header=2, delim_whitespace=True)
+        verification_data1 = pd.read_csv(data_path+file, header=2, sep=r'\s+')
         max_error, mean_error = self.calculate_error_metrics(verification_data1,
                                                              simulation_data1)
         self.assertTrue(max_error < self.max_error_metric)
@@ -136,7 +136,7 @@ class VerificationCrackGrowth(unittest.TestCase):
         simulation_data2 = analysis.nominal_load_cycling
 
         file = 'data_set_2.txt'
-        verification_data2 = pd.read_csv(data_path+file, header=2, delim_whitespace=True)
+        verification_data2 = pd.read_csv(data_path+file, header=2, sep=r'\s+')
         max_error, mean_error = self.calculate_error_metrics(verification_data2,
                                                              simulation_data2)
         self.assertTrue(max_error < self.max_error_metric)
@@ -167,7 +167,7 @@ class VerificationCrackGrowth(unittest.TestCase):
         simulation_data3 = analysis.nominal_load_cycling
 
         file = 'data_set_3.txt'
-        verification_data3 = pd.read_csv(data_path+file, header=2, delim_whitespace=True)
+        verification_data3 = pd.read_csv(data_path+file, header=2, sep=r'\s+')
         max_error, mean_error = self.calculate_error_metrics(verification_data3, simulation_data3)
         self.assertTrue(max_error < self.max_error_metric)
         self.assertTrue(mean_error < self.mean_error_metric)

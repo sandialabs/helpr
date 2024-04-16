@@ -176,3 +176,10 @@ class PlotsTestCase(unittest.TestCase):
                                                              criteria)
         plt.close()
         assert True
+
+    def test_design_curve_plot(self):
+        """test for creation of design curve plot"""
+        self.example_results.postprocess_single_crack_results()
+        self.example_results.get_design_curve_plot()
+        plt.close()
+        assert True

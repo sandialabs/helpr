@@ -1,4 +1,0 @@
-
-[submodule "src/probabilistic"]
-	path = src/probabilistic
-	url = ../../bbschro/uq-tools.git

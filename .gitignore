@@ -1,10 +1,8 @@
 # Compiled files and logs
 *.pyc
 *.log
-*__pycache__*
 
 # Distribution / packaging
-build/
 helpr.egg-info/
 **~$**.rtf
 
@@ -23,13 +21,23 @@ examples/Figures/*
 docs/_build/
 
 
-# GUI-specific
+# Ignore GUI local configurations
+**.pyproject.user*
+**.pyproject.user.*
+
+# Ignore local output artifacts
 **/temp/**
-**/dist/**
-**/build/**
-**gui.pyproject.user*
-**gui.pyproject.user.*
-/installers/installer/
+**/out/**
+src/build/
+
+# Ignore local build artifacts
+gui/build/windows/dist/
+gui/build/windows/build/
+gui/build/mac/build/
+
+# Ignore binaries
+gui/build/installer/
+gui/build/mac/dist/
 
 
 # Mac-specific

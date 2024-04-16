@@ -52,6 +52,10 @@ class Pipe:
     def calc_inner_diameter(self):
         """Calculates inner diameter. """
         return self.outer_diameter - 2*self.wall_thickness
+    
+    def calc_t_over_r(self):
+        """calculates the ratio of wall thickness to inner radius"""
+        return self.wall_thickness/(self.inner_diameter/2)
 
     def get_single_pipe(self, sample_index):
         """Returns single pipe instance.

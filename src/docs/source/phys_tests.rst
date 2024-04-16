@@ -5,7 +5,7 @@
 
 - all tests can be evaluated via ``pytest``
 - executing ``pytest`` from the ``tests`` directory or above within the repo will execute all tests
-- executing ``pytest`` within a pecific directory will only execute tests in that directory
+- executing ``pytest`` within a specific directory will only execute tests in that directory
 - executing ``pytest path/to/text_file.py`` will only execute single specified test
 
 Unit Tests
@@ -23,17 +23,17 @@ test_crack_growth docu
 .. automodule:: helpr.tests.unit_tests.test_crack_growth
     :members:
 
-test_cycle_evolution docu
-------------------------------------
-
-.. automodule:: helpr.tests.unit_tests.test_cycle_evolution
-    :members:    
-
 test_crack_initiation docu
 ------------------------------------
 
 .. automodule:: helpr.tests.unit_tests.test_crack_initiation
     :members:
+
+test_cycle_evolution docu
+------------------------------------
+
+.. automodule:: helpr.tests.unit_tests.test_cycle_evolution
+    :members:    
 
 test_environment docu
 ------------------------------------

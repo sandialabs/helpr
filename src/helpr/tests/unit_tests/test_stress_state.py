@@ -24,6 +24,7 @@ class StressStateTestCase(unittest.TestCase):
         flaw_length = [0.001, 0.002]
         self.fracture_resistance = [44, 55]
         yield_strength = 670
+        self.stress_intensity_method = 'Anderson'
         self.pipe = Pipe(outer_diameter=[4, 5],
                          wall_thickness=[0.1, 0.11],
                          sample_size=2)
@@ -48,6 +49,7 @@ class StressStateTestCase(unittest.TestCase):
                                self.environment,
                                self.material,
                                self.defect,
+                               self.stress_intensity_method,
                                sample_size=2)
 
     def test_axial_hoop_stress_state_specification(self):
@@ -56,6 +58,7 @@ class StressStateTestCase(unittest.TestCase):
                                                self.environment,
                                                self.material,
                                                self.defect,
+                                               self.stress_intensity_method,
                                                sample_size=2)
         self.assertTrue((stress_state.initial_crack_depth > 0).all())
 
@@ -65,6 +68,7 @@ class StressStateTestCase(unittest.TestCase):
                                                                  self.environment,
                                                                  self.material,
                                                                  self.defect,
+                                                                 self.stress_intensity_method,
                                                                  sample_size=2)
         self.assertTrue((stress_state.initial_crack_depth > 0).all())
 
@@ -73,11 +77,13 @@ class StressStateTestCase(unittest.TestCase):
         material = MaterialSpecification(yield_strength=[2.02E1, 2.03E1],
                                          fracture_resistance=self.fracture_resistance,
                                          sample_size=2)
-        with self.assertRaises(ValueError):
+        with self.assertWarns(Warning):
+        # with self.assertRaises(ValueError):
             InternalAxialHoopStress(self.pipe,
                                     self.environment,
                                     material,
                                     self.defect,
+                                    self.stress_intensity_method,
                                     sample_size=2)
 
     def test_circumferential_longitudinal_stress_check(self):
@@ -85,21 +91,38 @@ class StressStateTestCase(unittest.TestCase):
         material = MaterialSpecification(yield_strength=[1.02E1, 1.03E1],
                                          fracture_resistance=self.fracture_resistance,
                                          sample_size=2)
-        with self.assertRaises(ValueError):
+        with self.assertWarns(Warning):
+        # with self.assertRaises(ValueError):
             InternalCircumferentialLongitudinalStress(self.pipe,
                                                       self.environment,
                                                       material,
                                                       self.defect,
+                                                      self.stress_intensity_method,
                                                       sample_size=2)
 
-    def test_axial_hoop_stress_intensity_factor(self):
-        """unit test of check of axial longitudinal stress exceeding yield strength"""
+    def test_axial_hoop_stress_intensity_factor_anderson(self):
+        """unit test of check of axial longitudinal stress exceeding yield strength
+        via the Anderson analytical calculation method."""
         stress_example = InternalAxialHoopStress(self.pipe,
                                                  self.environment,
                                                  self.material,
                                                  self.defect,
+                                                 'Anderson',
                                                  sample_size=2)
-        stress_example.calc_stress_intensity_factor(crack_depth=1, eta=0.5)
+        stress_example.calc_stress_intensity_factor(crack_depth=1,
+                                                    crack_length=0.05)
+
+    def test_axial_hoop_stress_intensity_factor_api(self):
+        """unit test of check of axial longitudinal stress exceeding yield strength
+        voa the API 579-1 calculation method."""
+        stress_example = InternalAxialHoopStress(self.pipe,
+                                                 self.environment,
+                                                 self.material,
+                                                 self.defect,
+                                                 'API',
+                                                 sample_size=2)
+        stress_example.calc_stress_intensity_factor(crack_depth=1,
+                                                    crack_length=0.05)
 
     def test_circumferential_longitudinal_stress_intensity_factor(self):
         """unit test of check of axial longitudinal stress exceeding yield strength"""
@@ -107,8 +130,10 @@ class StressStateTestCase(unittest.TestCase):
                                                                    self.environment,
                                                                    self.material,
                                                                    self.defect,
+                                                                   self.stress_intensity_method,
                                                                    sample_size=2)
-        stress_example.calc_stress_intensity_factor(crack_depth=1, eta=0.5)
+        stress_example.calc_stress_intensity_factor(crack_depth=1,
+                                                    crack_length=0.05)
 
 if __name__ == '__main__':
     unittest.main()

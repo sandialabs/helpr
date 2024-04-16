@@ -47,5 +47,15 @@ class PipeTestCase(unittest.TestCase):
                  wall_thickness=wall_thickness,
                  sample_size=3)
 
+    def test_simple_calcs(self):
+        """unit test to check simple pipe calculations"""
+        wall_thickness = 0.5
+        outer_diameter = 5
+        test_pipe = Pipe(outer_diameter=outer_diameter,
+                         wall_thickness=wall_thickness)
+        self.assertEqual(test_pipe.calc_average_radius(), 2.25)
+        self.assertEqual(test_pipe.calc_inner_diameter(), 4)
+        self.assertEqual(test_pipe.calc_t_over_r(), 0.25)
+
 if __name__ == '__main__':
     unittest.main()

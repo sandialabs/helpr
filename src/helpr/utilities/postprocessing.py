@@ -13,7 +13,7 @@ from helpr.physics.fracture import FailureAssessment
 
 
 def report_single_cycle_evolution(all_results, pipe_index):
-    """Creates a dataframe object for plotting a single crack cycle evolution.
+    """Creates a DataFrame object for plotting a single crack cycle evolution.
     
     Parameters
     -----------
@@ -25,7 +25,7 @@ def report_single_cycle_evolution(all_results, pipe_index):
     Returns
     -------
     single_cycle_evolution : pd.DataFrame
-        Dataframe for plotting of single instance.
+        DataFrame for plotting of single instance.
 
     """
     single_cycle_evolution = pd.DataFrame()
@@ -189,7 +189,7 @@ def calculate_failure_assessment(parameters, fatigue_results, stress_state):
     failure_assessment = \
         FailureAssessment(fracture_resistance=parameters['fracture_resistance'],
                           yield_stress=parameters['yield_strength'])
-    stress_intensity_factor = fatigue_results['Kmax (Mpa m^1/2)']
+    stress_intensity_factor = fatigue_results['Kmax (MPa m^1/2)']
     crack_depth = fatigue_results['a (m)'].copy()
     # To not include crack in considerations
     crack_depth[:] = 0

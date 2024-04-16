@@ -37,6 +37,7 @@ from helpr.utilities.plots import (generate_pipe_life_assessment_plot,
                                    plot_cycle_life_cdfs,
                                    plot_mitigation_histograms,
                                    plot_unscaled_mitigation_cdf)
+from helpr.utilities.unit_conversion import get_variable_units
 
 
 class CrackEvolutionAnalysis:
@@ -95,6 +96,7 @@ class CrackEvolutionAnalysis:
                  fracture_resistance,
                  flaw_length,
                  crack_growth_model=None,
+                 stress_intensity_method=None,
                  aleatory_samples=0,
                  epistemic_samples=0,
                  sample_type='deterministic',
@@ -124,8 +126,10 @@ class CrackEvolutionAnalysis:
             Pipe fracture resistance specification.
         flaw_length : DeterministicCharacterization or UncertaintyCharacterization
             Initial flaw length specification.
-        crack_growth_model : CrackGrowth, optional
+        crack_growth_model : dict, optional
             Specific crack growth model. Defaults to None.
+        stress_intensity_method : str, optional
+            Stress intensity factor method. Defaults to None.
         aleatory_samples : int, optional
             Number of aleatory samples. Defaults to 0.
         epistemic_samples : int, optional
@@ -142,6 +146,9 @@ class CrackEvolutionAnalysis:
 
         if crack_growth_model is None:
             crack_growth_model = {'model_name': 'code_case_2938'}
+        
+        if stress_intensity_method is None:
+            stress_intensity_method = 'Anderson'
 
         self.input_parameters = {'outer_diameter': outer_diameter,
                                  'wall_thickness': wall_thickness,
@@ -155,6 +162,7 @@ class CrackEvolutionAnalysis:
                                  'flaw_length': flaw_length}
 
         self.crack_growth_model = crack_growth_model
+        self.stress_intensity_method = stress_intensity_method
         self.step_cycles = step_cycles
         self.load_cycling = None
         self.nominal_load_cycling = None
@@ -165,15 +173,22 @@ class CrackEvolutionAnalysis:
 
         self.nominal_input_parameter_values = {}
         self.sampling_input_parameter_values = {}
+        self.nominal_intermediate_variables = {}
+        self.sampling_intermediate_variables = {}
 
         self.number_of_aleatory_samples = aleatory_samples
         self.number_of_epistemic_samples = epistemic_samples
         self.sample_type = sample_type
         self.uncertain_parameters = []
+        self.study = None
+
+        self.nominal_analysis_modules = None
+        self.uncertain_analysis_modules = None
 
         self.check_parameter_names()
         self.random_seed = self.gen_random_seed(random_seed)
         self.set_random_state()
+        self.setup_study()
 
         self.ex_rates_plot = None
         self.crack_growth_plot = None
@@ -185,12 +200,15 @@ class CrackEvolutionAnalysis:
             if parameter_name != parameter_object.name:
                 raise ValueError(f"Parameter assigned to {parameter_name} has incorrect name")
 
+    def setup_study(self):
+        """Setup crack evolution analysis modules."""
+        self.setup_deterministic_study()
+
     def perform_study(self):
         """Starts crack evolution analysis study. """
-        if self.sample_type == 'deterministic':
-            self.perform_deterministic_study()
-
-        else:
+        self.perform_deterministic_study()
+        if self.sample_type != 'deterministic':
+            self.setup_probabilistic_study()
             self.perform_probabilistic_study()
 
     def gen_random_seed(self, random_seed):
@@ -206,45 +224,43 @@ class CrackEvolutionAnalysis:
         """Sets up the random state. """
         self.random_state = np.random.default_rng(seed=self.random_seed)
 
+    def setup_deterministic_study(self):
+        """Setup modules for deterministic analysis."""
+        self.study = self.specify_study(self.input_parameters,
+                                        self.number_of_aleatory_samples,
+                                        self.number_of_epistemic_samples,
+                                        self.sample_type,
+                                        self.random_state)
+        self.nominal_input_parameter_values = self.study.create_variable_nominal_sheet()
+        self.nominal_analysis_modules = \
+            self.setup_crack_growth_analysis(self.nominal_input_parameter_values,
+                                             sample_size=1)
+        self.collect_intermediate_variables(self.nominal_analysis_modules,
+                                            nominal=True)
+
+    def setup_probabilistic_study(self):
+        """Setup modules for probabilistic analysis."""
+        self.sampling_input_parameter_values = self.study.create_variable_sample_sheet()
+        self.uncertain_parameters = self.study.get_uncertain_parameter_names()
+        self.uncertain_analysis_modules = \
+            self.setup_crack_growth_analysis(self.sampling_input_parameter_values,
+                                             sample_size=self.study.total_sample_size)
+        self.collect_intermediate_variables(self.uncertain_analysis_modules,
+                                            nominal=False)
+
     def perform_deterministic_study(self):
         """Performs a deterministic analysis. """
-        study = self.specify_study(self.input_parameters,
-                                   self.number_of_aleatory_samples,
-                                   self.number_of_epistemic_samples,
-                                   self.sample_type,
-                                   self.random_state)
-        self.nominal_input_parameter_values = study.create_variable_nominal_sheet()
-        nominal_analysis_modules = \
-            self.setup_crack_growth_analysis(self.nominal_input_parameter_values, sample_size=1)
         self.nominal_load_cycling, self.nominal_life_criteria, self.nominal_stress_state = \
-            self.execute_crack_growth_analysis(nominal_analysis_modules)
+            self.execute_crack_growth_analysis(self.nominal_analysis_modules)
         settings.RUN_STATUS = Status.FINISHED
 
     def perform_probabilistic_study(self):
         """Performs a probabilistic analysis. """
-        uncertainty_study = self.specify_study(self.input_parameters,
-                                               self.number_of_aleatory_samples,
-                                               self.number_of_epistemic_samples,
-                                               self.sample_type,
-                                               self.random_state)
-
-        self.sampling_input_parameter_values = uncertainty_study.create_variable_sample_sheet()
-        self.uncertain_parameters = uncertainty_study.get_uncertain_parameter_names()
-        uncertain_analysis_modules = \
-            self.setup_crack_growth_analysis(self.sampling_input_parameter_values,
-                                             sample_size=uncertainty_study.total_sample_size)
         self.load_cycling, self.life_criteria, self.stress_state = \
-            self.execute_crack_growth_analysis(uncertain_analysis_modules)
+            self.execute_crack_growth_analysis(self.uncertain_analysis_modules)
         if settings.is_stopping():
             settings.RUN_STATUS = Status.STOPPED
             return
-
-        self.nominal_input_parameter_values = uncertainty_study.create_variable_nominal_sheet()
-        nominal_analysis_modules = \
-            self.setup_crack_growth_analysis(self.nominal_input_parameter_values, sample_size=1)
-        self.nominal_load_cycling, self.nominal_life_criteria, self.nominal_stress_state = \
-            self.execute_crack_growth_analysis(nominal_analysis_modules)
-        settings.RUN_STATUS = Status.FINISHED
 
     @staticmethod
     def specify_study(input_parameters,
@@ -311,6 +327,7 @@ class CrackEvolutionAnalysis:
                                     environment=analysis_modules['environment'],
                                     material=analysis_modules['material'],
                                     defect=analysis_modules['defect'],
+                                    stress_intensity_method=self.stress_intensity_method,
                                     sample_size=sample_size)
         analysis_modules['crack_growth_model'] = \
             CrackGrowth(analysis_modules['environment'],
@@ -332,6 +349,36 @@ class CrackEvolutionAnalysis:
                                                 stress_state=analysis_modules['stress'])
 
         return load_cycling, life_criteria, analysis_modules['stress']
+
+    def collect_intermediate_variables(self, analysis_modules, nominal=False):
+        """Extracts intermediate variable values from analysis for pre and post processing steps"""
+        if nominal:
+            self.nominal_intermediate_variables['r_ratio'] =\
+                  analysis_modules['environment'].calc_r_ratio()
+            self.nominal_intermediate_variables['fugacity_ratio'] =\
+                  analysis_modules['environment'].calc_fugacity_ratio()
+            self.nominal_intermediate_variables['%SMYS'] = analysis_modules['stress'].percent_smys
+            self.nominal_intermediate_variables['a (m)'] =\
+                  analysis_modules['stress'].initial_crack_depth
+            self.nominal_intermediate_variables['a/2c'] = analysis_modules['defect'].a_over_c/2
+            self.nominal_intermediate_variables['t/R'] = analysis_modules['pipe'].calc_t_over_r()
+        else:
+            self.sampling_intermediate_variables['r_ratio'] =\
+                  analysis_modules['environment'].calc_r_ratio()
+            self.sampling_intermediate_variables['fugacity_ratio'] =\
+                  analysis_modules['environment'].calc_fugacity_ratio()
+            self.sampling_intermediate_variables['%SMYS'] = analysis_modules['stress'].percent_smys
+            self.sampling_intermediate_variables['a (m)'] =\
+                  analysis_modules['stress'].initial_crack_depth
+            self.sampling_intermediate_variables['a/2c'] = analysis_modules['defect'].a_over_c/2
+            self.sampling_intermediate_variables['t/R'] = analysis_modules['pipe'].calc_t_over_r()
+
+    def print_nominal_intermediate_variables(self):
+        """Prints nominal values of intermediate variables"""
+        print('Nominal Intermediate Variable Values')
+        print('------------------------------------')
+        for key, value in self.nominal_intermediate_variables.items():
+            print(f'{key} = {value}')
 
     def postprocess_single_crack_results(self, single_pipe_index=None, save_figs=False):
         """
@@ -377,13 +424,9 @@ class CrackEvolutionAnalysis:
 
         """
         if single_pipe_index is not None:
-            single_cycle_evolution = {}
-            for column_name, column_value in self.load_cycling.items():
-                single_cycle_evolution[column_name] = column_value[single_pipe_index]
-        else:
-            single_cycle_evolution = self.nominal_load_cycling
+            return report_single_cycle_evolution(self.load_cycling, single_pipe_index)
 
-        return pd.DataFrame(single_cycle_evolution)
+        return report_single_cycle_evolution(self.nominal_load_cycling, 0)
 
     def save_results(self, folder_name=None, output_dir=None):
         """Saves crack evolution simulation results.
@@ -409,11 +452,9 @@ class CrackEvolutionAnalysis:
         else:
             folder_name = str(output_dir) + '/'
 
-        self.save_parameter_characterizations(folder_name)
-
-        if self.sample_type == 'deterministic':
-            self.save_deterministic_results(folder_name)
-        else:
+        self.save_deterministic_results(folder_name)
+        if self.sample_type != 'deterministic':
+            self.save_parameter_characterizations(folder_name)
             self.save_probabilistic_results(folder_name)
 
         return folder_name
@@ -439,25 +480,36 @@ class CrackEvolutionAnalysis:
 
     def save_deterministic_results(self, folder_name):
         """Saves deterministic results to a csv file.
+        CSV file has nominal input parameters specified first,
+        then subset of cycle evolution results
 
         Parameters
         ----------
         folder_name : str
-            Folder to store csv into. 
+            Folder to store csv into
             
         """
-        life_criteria_data = pd.DataFrame()
-        for key, value in self.nominal_life_criteria.items():
-            life_criteria_data[key] = list(value[0])
+        with open(folder_name + 'Nominal_Results.csv', mode='w', encoding='utf-8') as open_file:
+            parameter_header = 'Parameter, Nominal Value, Units'
+            open_file.write(parameter_header + '\n')
+            for name, value in self.input_parameters.items():
+                parameter_description = np.array([x.strip() for x in repr(value).split(',')])
+                open_file.write(parameter_description[0] + ', '
+                                + parameter_description[2] + ', '
+                                + get_variable_units(name, for_plotting=False) + '\n')
 
-        life_criteria_data.to_csv(f'{folder_name}life_criteria.csv',
-                                  index_label=False,
-                                  index=False)
+            open_file.write('\n\n')
 
-        cleaned_name = self.clean_results_names()
-        for key, values in self.nominal_load_cycling.items():
-            values.T.to_csv(f'{folder_name}{cleaned_name[key]}.csv',
-                            index_label=False, index=False, header=False)
+            if 'Toughness ratio' not in self.nominal_load_cycling:
+                self.assemble_failure_assessment_diagram()
+
+            csv_file_data = self.gather_single_crack_cycle_evolution()
+            csv_file_data['2c/t'] = \
+                csv_file_data['c (m)']*2/self.nominal_input_parameter_values['wall_thickness']
+            desired_columns = ['Total cycles', 'a/t', '2c/t', 'Kmax (MPa m^1/2)',
+                               'Delta K (MPa m^1/2)', 'Toughness ratio', 'Load ratio']
+            analysis_results = csv_file_data[desired_columns].to_csv(path_or_buf=None, index=False)
+            open_file.write(analysis_results)
 
     def save_probabilistic_results(self, folder_name):
         """Saves probabilistic results to a csv file.
@@ -553,7 +605,10 @@ class CrackEvolutionAnalysis:
 
     def get_design_curve_plot(self):
         """Returns plot ready for GUI display. """
-        dk, da_dn = get_design_curve(specified_r=0.75, specified_fugacity=0.16973535)
+        nominal_r_ratio = self.nominal_intermediate_variables['r_ratio']
+        nominal_fugacity_ratio = self.nominal_intermediate_variables['fugacity_ratio']
+        dk, da_dn = get_design_curve(specified_r=nominal_r_ratio,
+                                     specified_fugacity=nominal_fugacity_ratio)
         filepath = plot_det_design_curve(dk, da_dn, save_fig=True)
         return filepath
 

@@ -165,7 +165,6 @@ class CycleEvolution:
     def update_c_through_delta_k(self, optimize=False):
         """Updates cycle values for c, eta, k_max, f, q, and delta k. """
         self.update_c(optimize)
-        self.update_eta()
         self.update_k_max_f_q(optimize)
         self.update_delta_k()
 
@@ -189,7 +188,7 @@ class CycleEvolution:
     def compute_cycle_n(self):
         """Computes results for a single (n) cycle. """
         self.cycle['Delta N'] = np.ones(self.number_of_pipe_instances)
-        delta_k = self.cycle_dict['Delta K (Mpa m^1/2)'].tail(1)
+        delta_k = self.cycle_dict['Delta K (MPa m^1/2)'].tail(1)
         delta_n = self.cycle['Delta N']
         self.crack_growth.update_delta_k_delta_n(delta_k=delta_k, delta_n=delta_n)
         self.cycle['Delta a (m)'] = self.crack_growth.calc_delta_a()
@@ -270,7 +269,7 @@ class CycleEvolution:
 
     def update_delta_n(self):
         """Calculates current delta n value. """
-        delta_k = self.cycle['Delta K (Mpa m^1/2)']
+        delta_k = self.cycle['Delta K (MPa m^1/2)']
         delta_a = self.cycle['Delta a (m)']
         self.crack_growth.update_delta_k_delta_a(delta_k=delta_k, delta_a=delta_a)
         self.cycle['Delta N'] = self.crack_growth.calc_delta_n()
@@ -283,35 +282,25 @@ class CycleEvolution:
         else:
             self.cycle['c (m)'] = \
                 self.cycle['a (m)']/self.stress_state.defect_specification.a_over_c
-
-    def update_eta(self):
-        """Calculates current eta value. """
-        self.cycle['Eta'] = self.calc_eta()
-
+        
     def update_k_max_f_q(self, optimize=False):
         """Calculates current k_max, f, and q values. """
         k_max, f, q = \
             self.stress_state.calc_stress_intensity_factor(crack_depth=self.cycle['a (m)'],
-                                                           eta=self.cycle['Eta'],
+                                                           crack_length=2*self.cycle['c (m)'],
                                                            optimize=optimize)
-        self.cycle['Kmax (Mpa m^1/2)'] = k_max
+        self.cycle['Kmax (MPa m^1/2)'] = k_max
         self.cycle['F'] = f
         self.cycle['Q'] = q
 
     def update_delta_k(self):
         """Calculates current delta k value. """
-        self.cycle['Delta K (Mpa m^1/2)'] = self.calc_delta_k()
-
-    def calc_eta(self):
-        """Calculates current eta value. """
-        crack_length = self.cycle['c (m)']
-        pipe_wall_thickness = self.pipe_specification.wall_thickness
-        return 2*crack_length/pipe_wall_thickness
+        self.cycle['Delta K (MPa m^1/2)'] = self.calc_delta_k()
 
     def calc_delta_k(self):
         """Calculates current delta k value. """
         # TODO: Move R ratio to stress module to allow for additional factors impacting K
-        k_max = self.cycle['Kmax (Mpa m^1/2)']
+        k_max = self.cycle['Kmax (MPa m^1/2)']
         r_ratio = self.environment_specification.r_ratio
         return k_max*(1 - r_ratio)
 
@@ -352,4 +341,4 @@ class OptimizeACrit(CycleEvolution):
         self.stress_state.a_crit = a_crit
         self.initialize_cycle_dict(optimize=True)
         self.create_cycle_dict()
-        return abs(self.material_specification.fracture_resistance - self.cycle['Kmax (Mpa m^1/2)'])
+        return abs(self.material_specification.fracture_resistance - self.cycle['Kmax (MPa m^1/2)'])

@@ -121,9 +121,9 @@ def generate_crack_growth_rate_plot(life_assessment, save_fig=False):
     """
     plt.subplots(figsize=(5, 5))
     da_over_dn = life_assessment['Delta a (m)']/life_assessment['Delta N']
-    plt.plot(life_assessment['Delta K (Mpa m^1/2)'], da_over_dn, 'ko')
+    plt.plot(life_assessment['Delta K (MPa m^1/2)'], da_over_dn, 'ko')
     plt.ylabel('da/dN (m/cycles)')
-    plt.xlabel(r'$\Delta K$ (Mpa m$^{1/2}$)')
+    plt.xlabel(r'$\Delta K$ (MPa m$^{1/2}$)')
     plt.yscale('log')
     plt.xscale('log')
     plt.grid(alpha=0.3)
@@ -254,6 +254,7 @@ def plot_cycle_life_pdfs(analysis_results,
 
     # ax.xaxis.set_major_locator(MaxNLocator(integer=True))
     plt.locator_params(axis='x', nbins=6)
+    ax.set_xticks(ax.get_xticks())
     labels = [fr'10$^{{{item.get_text()}}}$' for item in ax.get_xticklabels()]
     ax.set_xticklabels(labels)
     plt.legend(loc=0)

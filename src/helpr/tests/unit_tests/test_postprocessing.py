@@ -35,6 +35,8 @@ class PostProcessingTestCase(unittest.TestCase):
         flaw_length = 0.001
         fracture_resistance = 1
         yield_strength = 670
+        crack_growth_model = {'model_name': 'code_case_2938'}
+        stress_intensity_method = 'Anderson'
         pipe = Pipe(outer_diameter=4,
                     wall_thickness=0.1)
         defect = DefectSpecification(flaw_depth=flaw_depth,
@@ -47,9 +49,10 @@ class PostProcessingTestCase(unittest.TestCase):
         stress_state = InternalAxialHoopStress(pipe=pipe,
                                                environment=environment,
                                                material=material,
-                                               defect=defect)
+                                               defect=defect,
+                                               stress_intensity_method=stress_intensity_method)
         crack_growth = CrackGrowth(environment=environment,
-                                   growth_model_specification={'model_name': 'code_case_2938'})
+                                   growth_model_specification=crack_growth_model)
         test_crack = CycleEvolution(pipe=pipe,
                                     stress_state=stress_state,
                                     defect=defect,

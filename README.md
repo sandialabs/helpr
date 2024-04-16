@@ -14,7 +14,6 @@ The application comprises a frontend GUI and a backend module both written in Py
 Anyone who wants to contribute to the development of the open-source HELPR project
 should refer to the details in the [CONTRIBUTING](./CONTRIBUTING.md) document.
 
-
 &nbsp;
 ## Documentation
 Documentation of the technical approach underlying HELPR as well as a user guide
@@ -30,7 +29,7 @@ Application code is organized in directories in the git repository in the follow
 $
 ├───examples
 ├───gui
-│    ├───HelprGui
+│    ├───src
 │    │     ├───analyses
 │    │     ├───assets
 │    │     ├───parameters
@@ -55,7 +54,7 @@ $
 ```
 
 * `examples` - Demonstrations of HELPR capabilities through Jupyter notebooks
-* `gui/HelprGui` - Front-end Python underlying GUI
+* `gui/src` - Front-end Python underlying GUI
 * `gui/installers` - Installers used to build GUI
 * `gui/tests` - Unit tests of GUI capabilities
 * `src/docs` - Sphinx documentation generation

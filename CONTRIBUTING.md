@@ -29,15 +29,14 @@ Source code is organized as follows:
 $
 ├───examples
 ├───gui
-│    ├───HelprGui
-│    │     ├───analyses
+│    ├───src
 │    │     ├───assets
-│    │     ├───parameters
-│    │     ├───state
+│    │     ├───helprgui (submodule)
+│    │     ├───forms
+│    │     ├───models
 │    │     ├───tests
-│    │     ├───ui_files
-│    │     └───utils
-│    └───installers
+│    │     └───ui
+│    └───build
 └───src
      ├───docs
      │     └───source
@@ -54,8 +53,9 @@ $
 ```
 
 * `examples` - Demonstrations of HELPR capabilities through Jupyter notebooks
-* `gui/HelprGui` - GUI for distributable HELPR application
-* `gui/installers` - Installer scripts to build GUI distribution for Windows and macOS systems
+* `gui/src` - GUI for distributable HELPR application
+* `gui/src/helprgui` - submodule of core GUI functionality (e.g. generic parameter classes)
+* `gui/build` - Installer scripts to build GUI distribution for Windows and macOS systems
 * `src/docs` - Sphinx documentation generation
 * `src/helpr` - Python source code for physics and utilities calculations and associated capability tests
 * `src/probabilistic` - Python source code for probabilistic capabilities
@@ -67,7 +67,7 @@ This section describes how to set up a cross-platform development environment fo
 It includes instructions for both developing and distributing the GUI application to users of Windows and macOS systems.
 
 The GUI uses the Qt framework and PySide wrapper to implement the UI and to interface with the backend python HELPR library.
-This document assumes familiarity with Python 3.8, the Qt framework, and basic JavaScript, which is used in Qt UI .qml files.
+This document assumes familiarity with Python 3.9, the Qt framework, and basic JavaScript, which is used in Qt UI .qml files.
 
 **NOTE: The Qt framework has a complex licensing situation.
 The HELPR team must always verify that no incompatible modules are included in any release.**
@@ -79,7 +79,7 @@ The following terms and labels are used in this document:
     GUI         - The HELPR Graphical User Interface
     backend     - analysis code found in the HELPR module
     repo/       - path to the HELPR repository on your machine; e.g. P:/projects/helpr/repo
-    installers/ - path to the GUI installers directory, (repo/gui/installers/)
+    build/      - path to the GUI installers directory, (repo/gui/build/)
 
 <a name="gui-dev"></a>
 ## B.1. Development Environment Setup
@@ -89,8 +89,8 @@ The GUI and backend code reside within the HELPR repository.
 Clone it via the gitlab instructions. Make sure to initialize the `probabilities` submodule as well.
 
 ### Step 2. Set Up a Python Development Environment
-HELPR and the GUI require a standard Python 3.8 virtual environment.
-See Python documentation for installing Python 3.8 and creating a new virtual environment.
+HELPR and the GUI require a standard Python 3.9 virtual environment.
+See Python documentation for installing Python 3.9 and creating a new virtual environment.
 
 For development, the following requirements file contains all required python modules.
 Activate your virtualenv before installing these:
@@ -109,24 +109,20 @@ This env contains only those modules necessary for the distribution and excludes
 
     python pip install -r repo/gui/requirements.txt
 
-### Step 4. Install Qt 6.5
+### Step 4. Install Qt 6.6
 *(Note: this step requires a free Qt account)*
 
 Download the Qt online installer for Open Source Qt [here](https://www.qt.io/download-open-source).
 Open the installer and select "Custom Installation". Modify the components as follows:
 
 * Disable Qt Design studio
-* Enable Qt 6.5.2
-* Under Qt 6.5.2, enable only the following options:
+* Enable Qt 6.6
+* Under Qt 6.6, enable only the following options:
     * (Windows) MSVC 64-bit
     * (Windows) MinGW 64-bit
-    * Qt 5 compatibility module
-    * Qt shader tools
-* Under Qt 6.5.2 > Additional libraries, enable only the following:
-    * Active Qt
+    * (macOS) macOS option
+* Under Qt 6.6 > Additional libraries, enable only the following:
     * Qt Image Formats
-    * Qt PDF
-    * Qt Positioning
     * Qt WebEngine
     * Qt WebView
 
@@ -144,19 +140,19 @@ After opening the `gui` directory in QtCreator, modify the project settings as f
 4. Make sure the specified virtualenv is now selected for the project
 
 **Careful**: QtCreator on macOS will try to follow the symlinked python when it is selected during the above steps.
-If this occurs, the path will be set to `env/bin/python3.8` instead of to your virtualenv.
+If this occurs, the path will be set to `env/bin/python3.9` instead of to your virtualenv.
 Revise this path to make sure the interpreter location points to the symlink file in the virtualenv, and NOT the systemwide parent bin/python.
 
 It should be something like:
 
-    /Users/cianan/projects/helpr/envs/py3.8-dev/bin/python3.8
+    /Users/cianan/projects/helpr/envs/py3.9-dev/bin/python3.9
 
 And not:
 
-    /Library/Frameworks/Python.Framework/Versions/3.8/Python
+    /Library/Frameworks/Python.Framework/Versions/3.9/Python
 
 Once the project is set up, click the "Run" button to launch the Qt application.
-Open the .qml files in `gui/ui_files` to edit the interface.
+Open the .qml files in `gui/ui` to edit the interface.
 
 <a name="gui-distr"></a>
 ## B.2. Building the HELPR Application for Distribution
@@ -179,25 +175,25 @@ The following tools are required to build HELPR on Windows:
 
 #### Step 0. Update Version and Configuration
 Update the HELPR versioning in the .spec file and within the application code.
-Also check that the build configuration is set to `DEBUG=False` in the `gui_settings.py` file.
+Also check that the build configuration is set to `DEBUG=False` in the `app_settings.py` file.
 
 #### Step 1. Create the HELPR bundle
 Update the version number in the .spec file before running pyinstaller.
 
-    cd installers/
-    pyinstaller .\helpr_win.spec --noconfirm
+    cd build\windows\
+    pyinstaller .\build_win.spec --noconfirm
 
 To test the bundle executable:
 
-    cd installers/
+    cd build\windows\
     .\dist\HELPR\HELPR.exe
 
 #### Step 2. Build the distribution setup file
 1. Open Inno Setup compiler
-2. Select helpr.iss script file
+2. Select the  `build_win_pkg.iss` script file
 3. Click "compile"
 
-This creates the HELPR installer .exe file (named "mysetup.exe") in the `installers/installer` directory.
+This creates the HELPR installer .exe file (named "mysetup.exe") in the `build/windows/installer` directory.
 This file can be renamed and distributed to end-users.
 
 
@@ -228,13 +224,13 @@ Xcode command-line tools can be installed via the Terminal:
 
 #### Step 0. Update Version and Configuration
 Update the HELPR version fields in the *.spec, distribution.xml, and *.sh files, and within the GUI.
-Also check that the build configuration is set to `DEBUG=False` in the `gui_settings.py` file.
+Also check that the build configuration is set to `DEBUG=False` in the `app_settings.py` file.
 
 #### Step 1. Create the HELPR app bundle
-Create the bundle via the .spec script in the `installers/dist` directory.
+Create the bundle via the .spec script in the `build/mac/dist` directory.
 
-    cd installers/
-    pyinstaller helpr_mac.spec --noconfirm
+    cd build/mac/
+    pyinstaller build_mac.spec --noconfirm
 
 To verify the code-signed .app:
 
@@ -242,7 +238,7 @@ To verify the code-signed .app:
 
 To test the bundle:
 
-    cd installers/
+    cd build/mac/
     dist/HELPR/HELPR
 
 
@@ -256,7 +252,7 @@ This is done so that the bundle process can correctly identify it as a component
 Pass your codesign identity as the first argument and credential profile as the second.
 Remember to surround entries with quotes "" if there are spaces.
 
-    ./helpr_mac_create_pkg.sh "<Installer ID>" "<Profile>"
+    ./build_mac_pkg.sh "<Installer ID>" "<Profile>"
 
 Notarization may take a long time to complete. To check on the status or poll for updates:
 

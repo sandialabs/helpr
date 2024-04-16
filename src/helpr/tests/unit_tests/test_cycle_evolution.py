@@ -26,6 +26,8 @@ class CycleEvolutionTestCase(unittest.TestCase):
         flaw_length = 0.001
         yield_strength = 670
         fracture_resistance = 40
+        crack_growth_model = {'model_name': 'code_case_2938'}
+        self.stress_intensity_method = 'Anderson'
         self.pipe = Pipe(outer_diameter=4,
                          wall_thickness=0.1)
         self.defect = DefectSpecification(flaw_depth=flaw_depth,
@@ -38,9 +40,10 @@ class CycleEvolutionTestCase(unittest.TestCase):
         self.stress_state = InternalAxialHoopStress(pipe=self.pipe,
                                                     environment=self.environment,
                                                     material=self.material,
-                                                    defect=self.defect)
+                                                    defect=self.defect,
+                                                    stress_intensity_method=self.stress_intensity_method)
         self.crack_growth = CrackGrowth(environment=self.environment,
-                                        growth_model_specification={'model_name': 'code_case_2938'})
+                                        growth_model_specification=crack_growth_model)
 
     def tearDown(self):
         """teardown function"""
@@ -76,6 +79,7 @@ class CycleEvolutionTestCase(unittest.TestCase):
                                                 environment=environments,
                                                 material=self.material,
                                                 defect=defects,
+                                                stress_intensity_method=self.stress_intensity_method,
                                                 sample_size=2)
         self.material = MaterialSpecification(yield_strength=670,
                                               fracture_resistance=fracture_resistance,
@@ -105,6 +109,16 @@ class CycleEvolutionTestCase(unittest.TestCase):
         with self.assertRaises(ValueError):
             test_optimize.setup_a_crit_solve(parallel=True)
 
+    def test_stepping_by_cycles(self):
+        """test to check capability to numerically integrate in terms of cycles"""
+        test_crack = CycleEvolution(pipe=self.pipe,
+                            stress_state=self.stress_state,
+                            defect=self.defect,
+                            environment=self.environment,
+                            material=self.material,
+                            crack_growth_model=self.crack_growth)
+        test_crack.calc_life_assessment(step_cycles=True)
+        self.assertTrue(test_crack.cycle_dict['a/t'].values[-1] > 1)
 
 if __name__ == '__main__':
     unittest.main()

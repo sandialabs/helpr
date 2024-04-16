@@ -15,10 +15,10 @@ project = 'helpr'
 copyright = '2023 National Technology & Engineering Solutions of Sandia, LLC (NTESS).' +  \
             'Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains' + \
             'certain rights in this software'
-author = 'Benjamin B. Schroeder, Cianan Sims, Benjamin R. Liu, and Bailey Lucero'
+author = 'Benjamin B. Schroeder, Cianan Sims, Benjamin R. Liu, Bailey Lucero, and Michael Devin'
 
 # The full version, including alpha/beta/rc tags
-release = '1.0.0'
+release = '1.1.0'
 
 
 # -- General configuration ---------------------------------------------------
@@ -60,3 +60,13 @@ html_theme_path = ["_themes\sphinx_rtd_theme", ]
 html_static_path = ['_static']
 html_logo = "_static/HELPR_app_icon.jpg"
 html_theme_options = {'logo_only': True}
+
+# Show text as python format
+highlight_language = 'python3'
+rst_prolog = """
+.. role:: python(code)
+   :language: python
+"""
+
+# Ensure function default definitions preserved as specified
+autodoc_preserve_defaults = True

@@ -140,8 +140,8 @@ class UncertaintyCharacterization:
 
     def __repr__(self):
         repr_part1 = f'{self.name}, {self.distribution.dist.name}, {self.nominal}, '
-        repr_part2 = f'{", ".join(str(x) for x in list(self.parameters.values()))}, '
-        repr_part3 = f'{self.uncertainty_type}'
+        repr_part2 = f'{self.uncertainty_type}, '
+        repr_part3 = f'{", ".join(str(x) for x in list(self.parameters.values()))}'
         return repr_part1 + repr_part2 + repr_part3
 
     def generate_samples(self,
@@ -181,15 +181,21 @@ class BetaDistribution(UncertaintyCharacterization):
     nominal_value:float
     a:float
     b:float
+    loc:float
+    scale:float
     """
     def __init__(self,
                  name:str,
                  uncertainty_type:str,
                  nominal_value:float,
                  a:float,
-                 b:float):
+                 b:float,
+                 loc:float=None,
+                 scale:float=None):
         parameters = {'a': a,
-                      'b': b}
+                      'b': b,
+                      'loc': loc,
+                      'scale': scale}
         super().__init__(name=name,
                          uncertainty_type=uncertainty_type,
                          nominal_value=nominal_value,

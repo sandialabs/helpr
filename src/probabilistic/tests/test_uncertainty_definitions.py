@@ -49,7 +49,7 @@ class UncertaintyDefinitionTestCase(unittest.TestCase):
         self.assertEqual(var1_string, str(uncertain_var1))
         self.assertEqual(var2_string, str(deterministic_var2))
 
-        var1_repr = 'test var1, norm, 1, 0.5, 0.3, aleatory'
+        var1_repr = 'test var1, norm, 1, aleatory, 0.5, 0.3'
         var2_repr = 'test var2, deterministic, 4'
         self.assertEqual(var1_repr, repr(uncertain_var1))
         self.assertEqual(var2_repr, repr(deterministic_var2))
