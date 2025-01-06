@@ -9,3 +9,4 @@ nbsphinx
 nbsphinx-link
 ipython
 xarray
+netcdf4
