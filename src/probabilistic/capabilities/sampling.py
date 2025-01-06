@@ -1,4 +1,4 @@
-# Copyright 2023 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+# Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights
 # in this software.
 #
@@ -59,8 +59,8 @@ class UncertaintyStudy:
             elif isinstance(parameter_value, DeterministicCharacterization):
                 deterministic.append(parameter_value)
             else:
-                raise ValueError(f"input parameter {parameter_name} must be specified as " +
-                                 "uncertainty distributions or as deterministic")
+                raise ValueError(f"input parameter {parameter_name} must be specified with an " +
+                                 "uncertainty distribution or as deterministic")
 
         self.add_probabilistic_variables(distributions)
         self.add_deterministic_variables(deterministic)
@@ -345,7 +345,7 @@ class LHSStudy(UncertaintyStudy):
         equal_probability_cdf_pts = self.generate_lhs_samples(number_of_variables,
                                                               number_of_samples)
         for i, (var_name, var_dist) in enumerate(variable_distribution_dict.items()):
-            samples[var_name] = var_dist.distribution.ppf(equal_probability_cdf_pts[:, i])
+            samples[var_name] = var_dist.ppf(equal_probability_cdf_pts[:, i])
 
         return samples
 
@@ -391,7 +391,7 @@ class OneAtATimeSensitivityStudy(SensitivityStudy):
         samples = {}
         cdf_pts = self.generate_cdf_samples(number_of_samples)
         for var_name, var_dist in variable_distribution_dict.items():
-            samples[var_name] = var_dist.distribution.ppf(cdf_pts)
+            samples[var_name] = var_dist.ppf(cdf_pts)
 
         return samples
 

@@ -1,4 +1,4 @@
-# Copyright 2023 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+# Copyright 2024p National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights
 # in this software.
 #
@@ -116,6 +116,8 @@ def plot_sample_cdf(samples:np.array,
 def plot_sample_histogram(samples:np.array,
                           variable_name:str,
                           percentiles:list=False,
+                          save_fig=False,
+                          filepath="",
                           **kwargs):
     '''function to plot histogram of samples
 
@@ -136,7 +138,10 @@ def plot_sample_histogram(samples:np.array,
     plt.figure(figsize=(4, 4))
     plt.hist(samples, **kwargs)
     plt.xlabel(variable_name)
-    plt.ylabel('PDF')
+    if 'density' in kwargs and kwargs['density']:
+        plt.ylabel('PDF')
+    else:
+        plt.ylabel('Samples [#]')
     plt.grid(alpha=0.3, color='gray', linestyle='--')
 
     if percentiles:
@@ -149,6 +154,10 @@ def plot_sample_histogram(samples:np.array,
                     linestyle=next(line_cycler))
 
         plt.legend(loc=0, title='percentile')
+
+    if save_fig:
+        plt.savefig(filepath, format='png', dpi=300, bbox_inches='tight')
+    #plt.close()
 
 
 def plot_scatter_matrix(data_dict, density=False):

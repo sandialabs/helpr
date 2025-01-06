@@ -1,10 +1,10 @@
 ; -- build_win_pkg.iss --
-; Creates icon in the Programs folder of the Start Menu and creates a desktop icon.
 
 [Setup]
 WizardStyle=modern
+ArchitecturesInstallIn64BitMode=x64compatible
 AppName=HELPR
-AppVersion=1.1.0
+AppVersion=2.0.0
 AppCopyright=Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).\nUnder the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.\n\nYou should have received a copy of the BSD License along with HELPR.
 AppPublisher=Sandia National Laboratories
 AppPublisherURL=https://helpr.sandia.gov/
@@ -13,7 +13,7 @@ SignTool=Sectigo_240321 $f
 WizardSmallImageFile=icon55.bmp
 WizardImageFile=icon410x797.bmp
 DefaultDirName={autopf}\Sandia National Laboratories\HELPR
-UsePreviousAppDir=no
+UsePreviousAppDir=yes
 DisableDirPage=auto
 LicenseFile=license_win.rtf
 AllowNoIcons=yes

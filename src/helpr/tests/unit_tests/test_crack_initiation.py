@@ -1,4 +1,4 @@
-# Copyright 2023 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+# Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights
 # in this software.
 #
@@ -39,6 +39,14 @@ class CrackInitiationTestCase(unittest.TestCase):
         self.assertTrue(len(defects.flaw_depth) == 2)
         second_defect = defects.get_single_defect(1)
         self.assertTrue(defects.flaw_depth[1] == second_defect.flaw_depth)
+
+    def test_bad_surface_specification(self):
+        """unit test of check that bad specifications of defect surface are caught"""
+        bad_surface_spec = 'inner'
+        with self.assertRaises(ValueError):
+            _ = DefectSpecification(
+                self.flaw_depth, self.flaw_length, bad_surface_spec)
+
 
 if __name__ == '__main__':
     unittest.main()

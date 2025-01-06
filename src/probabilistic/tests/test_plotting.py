@@ -1,4 +1,4 @@
-# Copyright 2023 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+# Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights
 # in this software.
 #
@@ -35,6 +35,9 @@ class PlottingTestCase(unittest.TestCase):
         with basic inputs'''
         plot_sample_histogram(self.distribution.rvs(50),
                               self.x_axis_label)
+        plot_sample_histogram(self.distribution.rvs(50),
+                              self.x_axis_label,
+                              density=False)
         assert True
 
     def test_plot_scatter_matrix(self):

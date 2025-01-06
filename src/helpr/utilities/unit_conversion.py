@@ -1,4 +1,4 @@
-# Copyright 2023 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+# Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights
 # in this software.
 #
@@ -27,24 +27,34 @@ def get_variable_units(variable_name:str, for_plotting:bool=True)->str:
     else:
         left_bracket = '('
         right_bracket = ')'
+
     if variable_name == 'outer_diameter':
         return left_bracket + 'm' + right_bracket
+
     if variable_name == 'wall_thickness':
         return left_bracket + 'm' + right_bracket
+
     if variable_name == 'max_pressure':
         return left_bracket + 'MPa' + right_bracket
+
     if variable_name == 'min_pressure':
         return left_bracket + 'MPa' + right_bracket
+
     if variable_name == 'flaw_depth':
         return left_bracket + '% wall thickness' + right_bracket
+
     if variable_name == 'flaw_length':
         return left_bracket + 'm' + right_bracket
+
     if variable_name == 'yield_strength':
         return left_bracket + 'MPa' + right_bracket
+
     if variable_name == 'temperature':
         return left_bracket + 'K' + right_bracket
+
     if variable_name == 'volume_fraction_h2':
         return ''
+
     if variable_name == 'fracture_resistance':
         if for_plotting:
             return r' [MPa m$^{1/2}$]'

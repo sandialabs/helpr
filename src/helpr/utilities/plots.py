@@ -1,4 +1,4 @@
-# Copyright 2023 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+# Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights
 # in this software.
 #
@@ -16,14 +16,22 @@ from .. import settings
 
 
 def get_time_str():
+    """function to get date time in y m d - H M S format"""
     return datetime.now().strftime('%y%m%d-%H%M%S%m')
+
+
+def _get_plot_data(plot):
+    """Retrieves line data from mpl plot. Note that this doesn't work with scatter. """
+    plot_lines = plot.gca().get_lines()
+    plot_data = [ln.get_xydata() for ln in plot_lines]
+    return plot_data
 
 
 def generate_pipe_life_assessment_plot(life_assessment,
                                        life_criteria,
                                        pipe_name="",
                                        save_fig=False):
-    """Generates deterministic plot life assessment plot.
+    """Generates deterministic life assessment plot.
 
     Parameters
     -------------
@@ -60,13 +68,16 @@ def generate_pipe_life_assessment_plot(life_assessment,
         title = f'{pipe_name:s}'
         plt.title(title)
 
+    plot_lines = plt.gca().get_lines()
+    plot_data = [ln.get_xydata() for ln in plot_lines]
+
     if save_fig:
         pipe_name = pipe_name.replace(' ', '_') if pipe_name else "pipe_"
         filename = pipe_name.replace(' ', '_') + f'_lifeassessment_{get_time_str()}.png'
         filepath = os.path.join(settings.OUTPUT_DIR, filename)
         plt.savefig(filepath, format='png', dpi=300, bbox_inches='tight')
         plt.close()
-        return filepath
+        return filepath, plot_data
 
 
 def plot_pipe_life_ensemble(life_assessment,
@@ -105,8 +116,9 @@ def plot_pipe_life_ensemble(life_assessment,
         filename = f'prob_crack_evolution_ensemble_{get_time_str()}.png'
         filepath = os.path.join(settings.OUTPUT_DIR, filename)
         plt.savefig(filepath, format='png', dpi=300, bbox_inches='tight')
+        plot_data = _get_plot_data(plt)
         plt.close()
-        return filepath
+        return filepath, plot_data
 
 
 def generate_crack_growth_rate_plot(life_assessment, save_fig=False):
@@ -185,7 +197,8 @@ def plot_cycle_life_cdfs(analysis_results,
         filename = f"prob_critical_crack_cdf_{get_time_str()}.png"
         filepath = os.path.join(settings.OUTPUT_DIR, filename)
         plt.savefig(filepath, format='png', dpi=300, bbox_inches='tight')
-        return filepath
+        plot_data = _get_plot_data(plt)
+        return filepath, plot_data
 
 
 def plot_cycle_life_cdf_ci(analysis_results,
@@ -241,13 +254,17 @@ def plot_cycle_life_pdfs(analysis_results,
     cycle_life_data = analysis_results.life_criteria[criteria][0]
     number_of_aleatory_samples = analysis_results.number_of_aleatory_samples
     _, ax = plt.subplots(figsize=(4, 4))
+
+    freq_data = []
     for i in range(max(analysis_results.number_of_epistemic_samples, 1)):
         sample_indices = slice(i*number_of_aleatory_samples, (i+1)*number_of_aleatory_samples)
         cycle_life_data_subset = cycle_life_data[sample_indices]
+        not_nan_mask = np.logical_not(np.isnan(cycle_life_data_subset))
 
-        if cycle_life_data_subset.max() > 1:
+        if cycle_life_data_subset[not_nan_mask].max() > 1:
             non_unity_data = np.log10(cycle_life_data_subset[cycle_life_data_subset > 1])
             plt.hist(x=non_unity_data, bins='auto', histtype='step', density=False)
+            freq_data.append(non_unity_data)
 
     plt.plot([np.log10(analysis_results.nominal_life_criteria[criteria][0])]*2,
              plt.gca().get_ylim(), 'r--', label='nominal')
@@ -266,7 +283,8 @@ def plot_cycle_life_pdfs(analysis_results,
         filename = f"prob_critical_crack_pdf_{get_time_str()}.png"
         filepath = os.path.join(settings.OUTPUT_DIR, filename)
         plt.savefig(filepath, format='png', dpi=300, bbox_inches='tight')
-        return filepath
+        plot_data = {'nominal': _get_plot_data(plt), 'freq_data': freq_data}
+        return filepath, plot_data
 
 
 def plot_cycle_life_criteria_scatter(analysis_results,
@@ -322,26 +340,26 @@ def plot_cycle_life_criteria_scatter(analysis_results,
 
         if save_fig:
             figs = list(map(plt.figure, plt.get_fignums()))
-            filepath1 = os.path.join(settings.OUTPUT_DIR, 
-                                     f"prob_critical_crack_scatter_colorbyvariable1_{get_time_str()}.png")
-            figs[2].savefig(filepath1, format='png', dpi=300, bbox_inches='tight')
+            filepaths = []
+            for i, fig in enumerate(figs):
+                filepath = os.path.join(settings.OUTPUT_DIR,
+                                        f"prob_critical_crack_scatter_colorbyvariable{i}_{get_time_str()}.png")
+                fig.savefig(filepath, format='png', dpi=300, bbox_inches='tight')
+                filepaths.append(filepath)
 
-            filepath2 = os.path.join(settings.OUTPUT_DIR,
-                                     f"prob_critical_crack_scatter_colorbyvariable2_{get_time_str()}.png")
-            figs[3].savefig(filepath2, format='png', dpi=300, bbox_inches='tight')
-
-            filepath3 = os.path.join(settings.OUTPUT_DIR,
-                                     f"prob_critical_crack_scatter_colorbyvariable3_{get_time_str()}.png")
-            figs[5].savefig(filepath3, format='png', dpi=300, bbox_inches='tight')
-            return [filepath1, filepath2, filepath3]
+            return filepaths
 
     else:
         plt.figure(figsize=(4, 4))
+        subsets = []
         for i in range(max(analysis_results.number_of_epistemic_samples, 1)):
             sample_indices = slice(i*number_of_aleatory_samples, (i+1)*number_of_aleatory_samples)
             cycle_life_cycles_subset = cycle_life_cycles[sample_indices]
             cycle_life_values_subset = cycle_life_values[sample_indices]
             plt.scatter(cycle_life_cycles_subset, cycle_life_values_subset, s=5)
+
+            as_pts = np.array([cycle_life_cycles_subset, cycle_life_values_subset]).T
+            subsets.append(as_pts.tolist())
 
         nominal_cycle_life_cycles = analysis_results.nominal_life_criteria[criteria][0]
         nominal_cycle_life_values = analysis_results.nominal_life_criteria[criteria][1]
@@ -363,10 +381,15 @@ def plot_cycle_life_criteria_scatter(analysis_results,
             filename = f"prob_critical_crack_scatter_{get_time_str()}.png"
             filepath = os.path.join(settings.OUTPUT_DIR, filename)
             plt.savefig(filepath, format='png', dpi=300, bbox_inches='tight')
-            return filepath
+            plot_data = {
+                'nominal_pt': (nominal_cycle_life_cycles[0], nominal_cycle_life_values[0]),
+                'subsets': subsets
+            }
+            return filepath, plot_data
 
 
-def plot_sensitivity_results(analysis_results, criteria='Cycles to a(crit)', save_fig=False):
+def plot_sensitivity_results(analysis_results, criteria='Cycles to a(crit)',
+                             save_fig=False):
     """Creates a plot of sensitivity results.
 
     Parameters
@@ -381,6 +404,8 @@ def plot_sensitivity_results(analysis_results, criteria='Cycles to a(crit)', sav
     """
     cycle_life_data = analysis_results.life_criteria[criteria][0]
     plt.figure(figsize=(4, 4))
+
+    plot_data = []
     for uncertain_variable in analysis_results.uncertain_parameters:
         samples = analysis_results.sampling_input_parameter_values[uncertain_variable]
         nominal_sample = analysis_results.nominal_input_parameter_values[uncertain_variable]
@@ -393,9 +418,12 @@ def plot_sensitivity_results(analysis_results, criteria='Cycles to a(crit)', sav
         index = np.where(parameter_specific_samples == nominal_sample)[0][0]
         corresponding_outputs = np.insert(corresponding_outputs, index, nominal_result)
 
-        plt.plot(corresponding_outputs,
-                 parameter_specific_samples/nominal_sample*100,
-                 label=uncertain_variable)
+        ys = parameter_specific_samples/nominal_sample*100
+        plt.plot(corresponding_outputs, ys, label=uncertain_variable)
+        plot_data.append({
+            'label': uncertain_variable.replace('_', ' ').replace('h2', 'hydrogen'),
+            'data': np.array([corresponding_outputs, ys]).T
+        })
 
     legend = plt.legend(loc='upper left', bbox_to_anchor=(1.04, 1))
     for legend_entry in legend.get_texts():
@@ -409,7 +437,9 @@ def plot_sensitivity_results(analysis_results, criteria='Cycles to a(crit)', sav
         filename = f"sensitivity_{get_time_str()}.png"
         filepath = os.path.join(settings.OUTPUT_DIR, filename)
         plt.savefig(filepath, format='png', dpi=300, bbox_inches='tight')
-        return filepath
+        return filepath, plot_data
+
+    return None, None
 
 
 def plot_det_design_curve(dk, da_dn, save_fig=False):
@@ -427,11 +457,17 @@ def plot_det_design_curve(dk, da_dn, save_fig=False):
     """
     plt.plot(dk, da_dn, 'r--', zorder=2)
     plt.legend(['Exercised Rates', 'Design Curve'], loc=0)
+
+    plot_lines = plt.gca().get_lines()
+    plot_data = [ln.get_xydata() for ln in plot_lines]
+
     if save_fig:
         filename = f"design_curve_{get_time_str()}.png"
         filepath = os.path.join(settings.OUTPUT_DIR, filename)
         plt.savefig(filepath, format='png', dpi=300, bbox_inches='tight')
-        return filepath
+
+        # plot_data = _get_plot_data(plt)
+        return filepath, plot_data
 
 
 def plot_failure_assessment_diagram(life_assessment,
@@ -476,7 +512,10 @@ def plot_failure_assessment_diagram(life_assessment,
         filename = f"failure_assmt_{get_time_str()}.png"
         filepath = os.path.join(settings.OUTPUT_DIR, filename)
         plt.savefig(filepath, format='png', dpi=300, bbox_inches='tight')
-        return filepath
+        plot_data = _get_plot_data(plt)
+        return filepath, plot_data
+    else:
+        return None, None
 
 
 def filter_failure_assessment_data(data):
@@ -488,7 +527,8 @@ def filter_failure_assessment_data(data):
 
 
 def failure_assessment_diagram_equation(load_ratio):
-    """Calculates line from FAD equation. """
+    """Calculates line from FAD equation. 
+    Eq. 9.22 on page 9-61 of API 579-1/ASME FFS-1, June, 2016 Fitness-For-Service"""
     return (1 - 0.14*load_ratio**2)*(0.3 + 0.7*np.exp(-0.65*load_ratio**6))
 
 

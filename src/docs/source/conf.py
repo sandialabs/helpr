@@ -12,13 +12,13 @@ sys.path.insert(0, os.path.abspath(os.path.join("..", "..")))
 # -- Project information -----------------------------------------------------
 
 project = 'helpr'
-copyright = '2023 National Technology & Engineering Solutions of Sandia, LLC (NTESS).' +  \
+copyright = '2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).' +  \
             'Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains' + \
             'certain rights in this software'
 author = 'Benjamin B. Schroeder, Cianan Sims, Benjamin R. Liu, Bailey Lucero, and Michael Devin'
 
 # The full version, including alpha/beta/rc tags
-release = '1.1.0'
+release = '2.0.0'
 
 
 # -- General configuration ---------------------------------------------------

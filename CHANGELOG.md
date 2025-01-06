@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2024-12-16
+
+### Added
+- Added demo of crack growth rate calculations and advanced user options
+- Added warnings to notify users when specified input parameters violate applicability bounds for Anderson and API 579 stress intensity factor calculations
+- Added ability to specify crack length growth assumption from being a constant c/a, to being constant, or growing independently based on API 579 calculation method
+- Added ability for user to specify maximum number of cycles (currently not fully functional for probabilistic studies where cracks evolved until all meet criteria)
+- Added support for truncated lognormal distributions
+- Added API 579 stress intensity factor calculations within stress state module for external surface longitudinal direction cracks with semi-elliptical shape, driven by internal pressure.
+- Added ability to do level 2 assessment for FAD based on API 579-1
+- Added intermediate variable values to nominal results file
+
+### Changed
+- Changed how crack evolution terminates. If a/t values greater than 0.8 reached, 0.8 reported. If stress intensity factor values never reach fracture touchness nan reported.
+- Changed crack growth function to takes combination of delta_a, delta_n, or delta_k as inputs to function to calculation delta_a or delta_n
+- Changed FAD module to allow specification of different stress intensity calculation methods
+- Changed api unit test back to v1.0.0 version due to bad merge prior to v1.1.0
+
+### Removed
+- Removed functions within the crack growth moduled used to update a combination of delta_a, delta_n, or delta_k
+- Removed unit test for bad specification of crack growth based on a combination of k, a, or n being specificed
+
+
 ## [1.1.0] - 2024-04-15
 
 ### Added

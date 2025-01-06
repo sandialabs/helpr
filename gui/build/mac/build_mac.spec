@@ -19,7 +19,14 @@ try:
     import jupyter
     print("ERROR - successful Jupyter import indicates development environment is active. Halting build.")
     sys.exit(0)
-except ImportError as err:
+except ImportError or ModuleNotFoundError:
+    pass
+
+try:
+    import pytest
+    print("ERROR - successful pytest import indicates development environment is active. Halting build.")
+    sys.exit(0)
+except ImportError or ModuleNotFoundError:
     pass
 
 """
@@ -33,12 +40,12 @@ https://doc.qt.io/qt-6/qtmodules.html#gpl-licensed-addons
 # Activates filtering to exclude incompatible Qt directories and files.
 do_filtering = True
 
-version_str = "1.1.0"
+version_str = "2.0.0"
 appname = "HELPR"
 
 build_dir = Path(os.getcwd())
 repo_dir = build_dir.parent.parent.parent
-app_dir = repo_dir.joinpath('gui/src')
+app_dir = repo_dir.joinpath('gui/src/helprgui')
 lib_dir = repo_dir.joinpath('src')
 dist_dir = build_dir.joinpath(f'dist/{appname}')
 pyside_dir = build_dir.joinpath(f'dist/{appname}/PySide6')
@@ -276,9 +283,11 @@ def filter_output_files(lst):
 
 datas = [
     (app_dir.joinpath('ui'), 'ui/'),
-    (app_dir.joinpath('helprgui/ui'), 'helprgui/ui/'),
-    (app_dir.joinpath('helprgui/resources'), 'helprgui/resources/'),
+    (app_dir.joinpath('ui/resources'), 'ui/resources/'),
+    (app_dir.joinpath('hygu/ui'), 'hygu/ui/'),
+    (app_dir.joinpath('hygu/resources'), 'hygu/resources/'),
     (app_dir.joinpath('assets'), 'assets/'),
+    (lib_dir.joinpath('helpr/data'), 'data/'),
 ]
 # must recurse these or xarray will throw error after build
 datas += copy_metadata('numpy', recursive=True)

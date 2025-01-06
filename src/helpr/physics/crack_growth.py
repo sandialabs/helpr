@@ -1,4 +1,4 @@
-# Copyright 2023 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+# Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights
 # in this software.
 #
@@ -59,8 +59,8 @@ class CrackGrowth:
                             growth_model_specification=self.model_arguments,
                             sample_size=1)
 
-    def update_delta_k_delta_a(self, delta_k, delta_a):
-        """Updates delta k and delta a values. """
+    def calc_delta_n(self, delta_a, delta_k):
+        """"Calculates delta N (change in number of cycles). """
         self.delta_k = Parameter(name='delta_k',
                                  values=delta_k,
                                  lower_bound=0,
@@ -70,8 +70,25 @@ class CrackGrowth:
                                  lower_bound=0,
                                  size=self.sample_size)
 
-    def update_delta_k_delta_n(self, delta_k, delta_n):
-        """Updates delta k and delta n values. """
+        if (delta_k is None) or (delta_a is None):
+            raise ValueError('delta_k or delta_a must be specified prior to calculating delta_n')
+
+        if self.model_arguments['model_name'] == 'code_case_2938':
+            return self.calc_dn_code_case_2938()
+
+        if self.model_arguments['model_name'] == 'paris_law':
+            if ('c' in self.model_arguments) and ('m' in self.model_arguments):
+                return self.calc_dn_paris_law(self.model_arguments['c'],
+                                              self.model_arguments['m'])
+
+            raise ValueError("""c and m must be specified in growth_model_specification
+                             dictionary to use paris_law""")
+
+        raise ValueError('crack growth model must be either code_case_2938 or paris_law')
+
+    def calc_change_in_crack_size(self, delta_n, delta_k):
+        """Calculates the change in crack size given delta_k.
+        """
         self.delta_k = Parameter(name='delta_k',
                                  values=delta_k,
                                  lower_bound=0,
@@ -81,26 +98,8 @@ class CrackGrowth:
                                  lower_bound=0,
                                  size=self.sample_size)
 
-    def calc_delta_n(self):
-        """"Calculates delta N (change in number of cycles). """
-        if (self.delta_k is None) or (self.delta_a is None):
-            raise ValueError('delta_k or delta_a must be specified prior to calculating delta_n')
 
-        if self.model_arguments['model_name'] == 'code_case_2938':
-            return self.calc_dn_code_case_2938()
-
-        if self.model_arguments['model_name'] == 'paris_law':
-            if ('c' in self.model_arguments) and ('m' in self.model_arguments):
-                return self.calc_dn_paris_law(self.model_arguments['c'], self.model_arguments['m'])
-
-            raise ValueError("""c and m must be specified in growth_model_specification
-                             dictionary to use paris_law""")
-
-        raise ValueError('crack growth model must be either code_case_2938 or paris_law')
-
-    def calc_delta_a(self):
-        """"Calculates delta A (change in crack size). """
-        if (self.delta_k is None) or (self.delta_n is None):
+        if (delta_k is None) or (delta_n is None):
             raise ValueError('delta_k or delta_n must be specified prior to calculating delta_n')
 
         if self.model_arguments['model_name'] == 'code_case_2938':
@@ -108,7 +107,8 @@ class CrackGrowth:
 
         if self.model_arguments['model_name'] == 'paris_law':
             if ('c' in self.model_arguments) and ('m' in self.model_arguments):
-                return self.calc_da_paris_law(self.model_arguments['c'], self.model_arguments['m'])
+                return self.calc_da_paris_law(self.model_arguments['c'],
+                                              self.model_arguments['m'])
 
             raise ValueError("""c and m must be specified in growth_model_specification
                              dictionary to use paris_law""")
@@ -143,7 +143,10 @@ class CrackGrowth:
         """Calculates delta n (change in # of cycles) from air curve. """
         return self.calc_dn_paris_law(c, m)
 
-    def calc_code_case_2938_dn_lower_k(self, parameter=3.5E-14, m=6.5, multiplier=0.4286):
+    def calc_code_case_2938_dn_lower_k(self,
+                                       parameter=3.5E-14,
+                                       m=6.5,
+                                       multiplier=0.4286):
         """
         Calculates delta n (change in # of cycles) for lower k values
         following code case 2938 (hydrogen driven).
@@ -151,7 +154,10 @@ class CrackGrowth:
         c = self.calc_fugacity_correction(parameter, multiplier, case='low')
         return self.calc_dn_paris_law(c, m)
 
-    def calc_code_case_2938_dn_higher_k(self, parameter=1.5E-11, m=3.66, multiplier=2):
+    def calc_code_case_2938_dn_higher_k(self,
+                                        parameter=1.5E-11,
+                                        m=3.66,
+                                        multiplier=2):
         """
         Calculates delta n (change in # of cycles) for higher
         k values following code case 2938 (stress driven).
@@ -163,7 +169,10 @@ class CrackGrowth:
         """Calculates delta a (change in crack size) from air curve. """
         return self.calc_da_paris_law(c, m)
 
-    def calc_code_case_2938_da_lower_k(self, parameter=3.5E-14, m=6.5, multiplier=0.4286):
+    def calc_code_case_2938_da_lower_k(self,
+                                       parameter=3.5E-14,
+                                       m=6.5,
+                                       multiplier=0.4286):
         """
         Calculates delta a (change in crack size) for lower k values
         following code case 2938 (hydrogen driven). 
@@ -171,7 +180,10 @@ class CrackGrowth:
         c = self.calc_fugacity_correction(parameter, multiplier, case='low')
         return self.calc_da_paris_law(c, m)
 
-    def calc_code_case_2938_da_higher_k(self, parameter=1.5E-11, m=3.66, multiplier=2):
+    def calc_code_case_2938_da_higher_k(self,
+                                        parameter=1.5E-11,
+                                        m=3.66,
+                                        multiplier=2):
         """
         Calculates delta a (change in crack size) for higher
         k values following code case 2938 (stress driven).
@@ -199,16 +211,16 @@ class CrackGrowth:
         """Calculates delta n (change in # of cycles) from general paris law form. """
         filtering_criteria = (self.delta_k > 0) & (self.delta_a > 0) # & (c > 0)
         dn = np.zeros_like(self.delta_a)
-        dn[filtering_criteria] = \
-            self.delta_a[filtering_criteria]/(c*self.delta_k**m)[filtering_criteria]
+        delta_n = self.delta_a/(c*self.delta_k**m)
+        dn[filtering_criteria] = delta_n[filtering_criteria]
         return dn
 
     def calc_da_paris_law(self, c, m):
         """Calculates delta a (change in crack size) from general paris law form. """
         filtering_criteria = (self.delta_k > 0) & (self.delta_n > 0) & (c > 0)
         da = np.zeros_like(self.delta_n)
-        da[filtering_criteria] = \
-            self.delta_n*(c*self.delta_k**m)[filtering_criteria]
+        delta_a = self.delta_n*(c*self.delta_k**m)
+        da[filtering_criteria] = delta_a[filtering_criteria]
         return da
 
 
@@ -252,6 +264,5 @@ def get_design_curve(specified_r,
                                sample_size=samples)
     delta_a = 0.01*np.ones(samples)
     delta_k = np.arange(1, samples+1)
-    crack_growth.update_delta_k_delta_a(delta_k=delta_k,
-                                        delta_a=delta_a)
-    return delta_k, delta_a/crack_growth.calc_delta_n()
+    return delta_k, delta_a/crack_growth.calc_delta_n(delta_a=delta_a,
+                                                      delta_k=delta_k)

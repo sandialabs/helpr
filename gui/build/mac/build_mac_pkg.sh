@@ -20,7 +20,7 @@
 # https://stackoverflow.com/a/11487658
 
 appname="HELPR"
-version="1.1.0"  # Make sure to update distribution file entry as well
+version="2.0.0"  # Make sure to update distribution file entry as well
 appId="com.SandiaNationalLaboratories.HELPR"
 
 doDevBuild=false

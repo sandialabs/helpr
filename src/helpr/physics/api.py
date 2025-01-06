@@ -1,9 +1,9 @@
-# Copyright 2023 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+# Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights
 # in this software.
 #
 # You should have received a copy of the BSD License along with HELPR.
-
+import os
 from datetime import datetime
 import pathlib as pl
 import random as rd
@@ -12,6 +12,8 @@ import numpy as np
 import pandas as pd
 
 from probabilistic.capabilities import sampling as Sampling
+from probabilistic.capabilities.uncertainty_definitions import UncertaintyCharacterization
+from probabilistic.capabilities.plotting import plot_sample_histogram
 
 from helpr import settings
 from helpr.settings import Status
@@ -46,7 +48,8 @@ class CrackEvolutionAnalysis:
     Attributes
     ----------
     crack_growth_model
-    step_cycles
+    max_cycles
+    cycle_step
     nominal_input_parameter_values
     sampling_input_parameter_values
     number_of_aleatory_samples
@@ -79,9 +82,6 @@ class CrackEvolutionAnalysis:
     crack_growth_plot : str or None
         Filepath to generated crack growth plot.
 
-    failure_assessment_plot : str or None
-        Filepath to generated failure assessment plot.
-
     """
 
     def __init__(self,
@@ -96,12 +96,15 @@ class CrackEvolutionAnalysis:
                  fracture_resistance,
                  flaw_length,
                  crack_growth_model=None,
+                 delta_c_rule=None,
                  stress_intensity_method=None,
+                 surface=None,
                  aleatory_samples=0,
                  epistemic_samples=0,
                  sample_type='deterministic',
                  random_seed=None,
-                 step_cycles=False):
+                 max_cycles=None,
+                 cycle_step=None):
         """Initializes analysis object.
 
         Parameters
@@ -130,6 +133,8 @@ class CrackEvolutionAnalysis:
             Specific crack growth model. Defaults to None.
         stress_intensity_method : str, optional
             Stress intensity factor method. Defaults to None.
+        surface : str, optional
+            Surface on which the crack is growing. Defaults to None.
         aleatory_samples : int, optional
             Number of aleatory samples. Defaults to 0.
         epistemic_samples : int, optional
@@ -138,17 +143,32 @@ class CrackEvolutionAnalysis:
             Defaults to 'deterministic'.
         random_seed : float, optional
             Random seed used to initialize probabilistic analysis elements. Defaults to None.
-        step_cycles : int or bool, optional
-            Number of cycles of evolve crack(s). 
-            Defaults to (bool) False indicating crack evaluation by a/t values.
+        max_cycles: float or None, optional
+            Maximum number of cycles to run the life assessment for before
+            stopping. If `None`, the assessment will run until instances
+            reach a/t > 0.8. Note that an assessment may
+            stop before reaching `max_cycles` if all instances reach
+            a/t > 0.8 before that number of cycles. Default is `None`.
+        cycle_step : float or None, optional
+            Number of cycles to iterate by at each evaluation step. If
+            `None`, the number of cycles will be dynamically adjusted each
+            iteration based on the crack growth. Default is `None`.
+        delta_c_rule : str, optional
+            Defaults to 'proportional'
 
         """
 
         if crack_growth_model is None:
             crack_growth_model = {'model_name': 'code_case_2938'}
-        
+
         if stress_intensity_method is None:
-            stress_intensity_method = 'Anderson'
+            stress_intensity_method = 'anderson'
+
+        if surface is None:
+            surface = 'inside'
+
+        if delta_c_rule is None:
+            delta_c_rule = 'proportional'
 
         self.input_parameters = {'outer_diameter': outer_diameter,
                                  'wall_thickness': wall_thickness,
@@ -163,7 +183,10 @@ class CrackEvolutionAnalysis:
 
         self.crack_growth_model = crack_growth_model
         self.stress_intensity_method = stress_intensity_method
-        self.step_cycles = step_cycles
+        self.surface = surface
+        self.delta_c_rule = delta_c_rule
+        self.max_cycles = max_cycles
+        self.cycle_step = cycle_step
         self.load_cycling = None
         self.nominal_load_cycling = None
         self.life_criteria = None
@@ -190,9 +213,12 @@ class CrackEvolutionAnalysis:
         self.set_random_state()
         self.setup_study()
 
-        self.ex_rates_plot = None
         self.crack_growth_plot = None
-        self.failure_assessment_plot = None
+        self.crack_growth_plot_data = None
+
+        self.ex_rates_plot = None
+        self.design_curve_dk = None
+        self.design_curve_da_dn = None
 
     def check_parameter_names(self):
         """Function to ensure parameter object names match assigned parameter. """
@@ -249,15 +275,25 @@ class CrackEvolutionAnalysis:
                                             nominal=False)
 
     def perform_deterministic_study(self):
-        """Performs a deterministic analysis. """
+        """Performs a deterministic analysis.
+        Calculates crack growth evolution and then failure assessment"""
         self.nominal_load_cycling, self.nominal_life_criteria, self.nominal_stress_state = \
             self.execute_crack_growth_analysis(self.nominal_analysis_modules)
+        calculate_failure_assessment(self.nominal_input_parameter_values,
+                                     self.nominal_load_cycling,
+                                     self.nominal_stress_state,
+                                     self.stress_intensity_method)
         settings.RUN_STATUS = Status.FINISHED
 
     def perform_probabilistic_study(self):
-        """Performs a probabilistic analysis. """
+        """Performs a probabilistic analysis.
+        Calculates crack growth evolution and then failure assessment"""
         self.load_cycling, self.life_criteria, self.stress_state = \
             self.execute_crack_growth_analysis(self.uncertain_analysis_modules)
+        calculate_failure_assessment(self.sampling_input_parameter_values,
+                                     self.load_cycling,
+                                     self.stress_state,
+                                     self.stress_intensity_method)
         if settings.is_stopping():
             settings.RUN_STATUS = Status.STOPPED
             return
@@ -311,6 +347,7 @@ class CrackEvolutionAnalysis:
         analysis_modules['defect'] = \
             DefectSpecification(flaw_depth=parameter_value_dict['flaw_depth'],
                                 flaw_length=parameter_value_dict['flaw_length'],
+                                surface=self.surface,
                                 sample_size=sample_size)
         analysis_modules['environment'] = \
             EnvironmentSpecification(max_pressure=parameter_value_dict['max_pressure'],
@@ -342,11 +379,13 @@ class CrackEvolutionAnalysis:
                                          defect=analysis_modules['defect'],
                                          environment=analysis_modules['environment'],
                                          material=analysis_modules['material'],
-                                         crack_growth_model=analysis_modules['crack_growth_model'])
-        load_cycling = pipe_evaluation.calc_life_assessment(step_cycles=self.step_cycles)
+                                         crack_growth_model=analysis_modules['crack_growth_model'],
+                                         delta_c_rule=self.delta_c_rule)
+        load_cycling = pipe_evaluation.calc_life_assessment(
+            max_cycles=self.max_cycles, cycle_step=self.cycle_step)
         life_criteria = calc_pipe_life_criteria(cycle_results=load_cycling,
                                                 pipe=analysis_modules['pipe'],
-                                                stress_state=analysis_modules['stress'])
+                                                material=analysis_modules['material'])
 
         return load_cycling, life_criteria, analysis_modules['stress']
 
@@ -360,7 +399,7 @@ class CrackEvolutionAnalysis:
             self.nominal_intermediate_variables['%SMYS'] = analysis_modules['stress'].percent_smys
             self.nominal_intermediate_variables['a (m)'] =\
                   analysis_modules['stress'].initial_crack_depth
-            self.nominal_intermediate_variables['a/2c'] = analysis_modules['defect'].a_over_c/2
+            self.nominal_intermediate_variables['a/2c'] = analysis_modules['stress'].initial_a_over_c/2
             self.nominal_intermediate_variables['t/R'] = analysis_modules['pipe'].calc_t_over_r()
         else:
             self.sampling_intermediate_variables['r_ratio'] =\
@@ -370,7 +409,7 @@ class CrackEvolutionAnalysis:
             self.sampling_intermediate_variables['%SMYS'] = analysis_modules['stress'].percent_smys
             self.sampling_intermediate_variables['a (m)'] =\
                   analysis_modules['stress'].initial_crack_depth
-            self.sampling_intermediate_variables['a/2c'] = analysis_modules['defect'].a_over_c/2
+            self.sampling_intermediate_variables['a/2c'] = analysis_modules['stress'].initial_a_over_c/2
             self.sampling_intermediate_variables['t/R'] = analysis_modules['pipe'].calc_t_over_r()
 
     def print_nominal_intermediate_variables(self):
@@ -404,10 +443,16 @@ class CrackEvolutionAnalysis:
             specific_load_cycling = report_single_cycle_evolution(self.nominal_load_cycling,
                                                                   pipe_index=0)
 
-        self.crack_growth_plot = generate_pipe_life_assessment_plot(specific_load_cycling,
-                                                                    specific_life_criteria_result,
-                                                                    save_fig=save_figs)
-        self.ex_rates_plot = generate_crack_growth_rate_plot(specific_load_cycling, save_fig=save_figs)
+        plot_result = generate_pipe_life_assessment_plot(specific_load_cycling,
+                                                         specific_life_criteria_result,
+                                                         save_fig=save_figs)
+        if plot_result is not None:
+            # Note (Cianan): this is temp workaround to get data to frontend. TODO: standardize handling of plot data.
+            self.crack_growth_plot = plot_result[0]
+            self.crack_growth_plot_data = plot_result[1]
+
+        self.ex_rates_plot = generate_crack_growth_rate_plot(specific_load_cycling,
+                                                             save_fig=save_figs)
 
     def gather_single_crack_cycle_evolution(self, single_pipe_index=None):
         """Gets results for a single pipe crack growth analysis from an ensemble analysis.
@@ -498,10 +543,21 @@ class CrackEvolutionAnalysis:
                                 + parameter_description[2] + ', '
                                 + get_variable_units(name, for_plotting=False) + '\n')
 
-            open_file.write('\n\n')
+            open_file.write('\n')
 
-            if 'Toughness ratio' not in self.nominal_load_cycling:
-                self.assemble_failure_assessment_diagram()
+            for name, value in self.nominal_intermediate_variables.items():
+                split_text = name.split('(')
+                if len(split_text) == 2:
+                    parameter_description = np.array([split_text[0].strip(),
+                                                      '('+split_text[1].strip()])
+                else:
+                    parameter_description = np.array([split_text[0].strip(), '( )'])
+
+                open_file.write(parameter_description[0] + ', '
+                                + f'{value[0]:.5f}' + ', '
+                                + parameter_description[1] + '\n')
+
+            open_file.write('\n\n')
 
             csv_file_data = self.gather_single_crack_cycle_evolution()
             csv_file_data['2c/t'] = \
@@ -609,8 +665,9 @@ class CrackEvolutionAnalysis:
         nominal_fugacity_ratio = self.nominal_intermediate_variables['fugacity_ratio']
         dk, da_dn = get_design_curve(specified_r=nominal_r_ratio,
                                      specified_fugacity=nominal_fugacity_ratio)
-        filepath = plot_det_design_curve(dk, da_dn, save_fig=True)
-        return filepath
+
+        filepath, plot_data = plot_det_design_curve(dk, da_dn, save_fig=True)
+        return filepath, plot_data
 
     def assemble_failure_assessment_diagram(self, save_fig=False):
         """Creates failure assessment diagram. 
@@ -621,23 +678,16 @@ class CrackEvolutionAnalysis:
             Flag for saving the diagram to a png file.
         
         """
-        calculate_failure_assessment(self.nominal_input_parameter_values,
-                                     self.nominal_load_cycling,
-                                     self.nominal_stress_state)
-
         if self.sample_type == 'deterministic':
-            self.failure_assessment_plot = \
-                plot_failure_assessment_diagram(self.nominal_load_cycling,
-                                                save_fig=save_fig)
-        else:
-            calculate_failure_assessment(self.sampling_input_parameter_values,
-                                         self.load_cycling,
-                                         self.stress_state)
-            self.failure_assessment_plot = \
-                plot_failure_assessment_diagram(self.load_cycling,
-                                                self.nominal_load_cycling,
-                                                save_fig=save_fig)
+            plot, data = plot_failure_assessment_diagram(self.nominal_load_cycling,
+                                                         save_fig=save_fig)
 
+        else:
+            plot, data = plot_failure_assessment_diagram(self.load_cycling,
+                                                         self.nominal_load_cycling,
+                                                         save_fig=save_fig)
+        self.failure_assessment_plot = plot
+        return plot, data
 
     def generate_probabilistic_results_plots(self, plotted_variable):
         """Creates ensemble of plots for probabilistic analysis results. 
@@ -655,3 +705,22 @@ class CrackEvolutionAnalysis:
         plot_cycle_life_criteria_scatter(self, criteria=plotted_variable, color_by_variable=True)
         plot_cycle_life_pdfs(self, criteria=plotted_variable)
         plot_cycle_life_cdfs(self, criteria=plotted_variable)
+
+    def generate_input_parameter_plots(self, save_figs=False):
+        """Creates plots of the samples of the input parameters."""
+        plot_files = {}
+        for parameter_name, parameter_value in self.input_parameters.items():
+            plot_label = parameter_name.replace('_',' ').title() + ' ' + \
+                get_variable_units(parameter_name, for_plotting=True)
+            if isinstance(parameter_value, UncertaintyCharacterization):
+                filepath = os.path.join(settings.OUTPUT_DIR, f"InputParameter_{parameter_name}.png") if save_figs else ""
+                plot_sample_histogram(self.sampling_input_parameter_values[parameter_name],
+                                      plot_label,
+                                      density=False,
+                                      save_fig=save_figs,
+                                      filepath=filepath)
+                plot_files[parameter_name] = filepath
+            else:
+                parameter_value.plot_distribution(alternative_name=plot_label)
+
+        return plot_files

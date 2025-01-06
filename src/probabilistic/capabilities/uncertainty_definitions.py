@@ -1,4 +1,4 @@
-# Copyright 2023 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+# Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights
 # in this software.
 #
@@ -6,6 +6,7 @@
 
 import scipy.stats as sps
 import numpy as np
+import matplotlib.pyplot as plt
 
 from probabilistic.capabilities.plotting import (plot_distribution_pdf,
                                                  plot_deterministic_parameter_value)
@@ -61,6 +62,14 @@ def specify_distribution(parameter_specification):
                                            std_deviation=parameter_specification['std_deviation'],
                                            lower_bound=parameter_specification['lower_bound'],
                                            upper_bound=parameter_specification['upper_bound'])
+    elif distribution_type == 'trunc_lognormal':
+        dist = TruncatedLognormalDistribution(name=parameter_name,
+                                              uncertainty_type=uncertainty_type,
+                                              nominal_value=nominal_value,
+                                              mu=parameter_specification['mean'],
+                                              sigma=parameter_specification['std_deviation'],
+                                              lower_bound=parameter_specification['lower_bound'],
+                                              upper_bound=parameter_specification['upper_bound'])
     elif distribution_type == 'uniform':
         dist = UniformDistribution(name=parameter_name,
                                    uncertainty_type=uncertainty_type,
@@ -81,7 +90,8 @@ class DeterministicCharacterization:
     Parameters
     -----------
     name: str
-    value:float
+    value: float
+    nominal: float
     """
     def __init__(self,
                  name:str,
@@ -102,12 +112,13 @@ class DeterministicCharacterization:
         """
         return np.ones(sample_size)*self.value
 
-    def plot_distribution(self):
+    def plot_distribution(self, alternative_name=False):
         """
         Function to create plot of uncertainty distribution
         """
+        name = alternative_name if alternative_name else self.name
         plot_deterministic_parameter_value(self.value,
-                                           self.name)
+                                           name)
 
 
 class UncertaintyCharacterization:
@@ -159,16 +170,24 @@ class UncertaintyCharacterization:
         """
         return self.distribution.rvs(size=sample_size,
                                      random_state=random_state)
+    
+    def ppf(self, locations):
+        """
+        Function to extract percentile point function values (inverse of CDF) 
+        """
+        return self.distribution.ppf(locations)
 
     def plot_distribution(self,
+                          alternative_name=False,
                           plot_limits=False):
         """
         Function to create plot of uncertainty distribution
         """
+        name = alternative_name if alternative_name else self.name
         plot_distribution_pdf(self.distribution,
-                              self.name,
+                              name,
                               plot_limits)
-
+    
 
 class BetaDistribution(UncertaintyCharacterization):
     """
@@ -288,6 +307,88 @@ class TruncatedNormalDistribution(UncertaintyCharacterization):
                          nominal_value=nominal_value,
                          distribution=sps.truncnorm,
                          parameters=parameters)
+
+
+class TruncatedLognormalDistribution(UncertaintyCharacterization):
+    """
+    Truncated Lognormal Distribution Uncertainty Class
+
+    Parameters
+    ------------
+    name:str
+    uncertainty_type:str
+    nominal_value:float
+    mu:float
+    sigma:float
+    lower_bound:float
+    upper_bound:float
+    """
+    def __init__(self,
+                 name:str,
+                 uncertainty_type:str,
+                 nominal_value:float,
+                 mu:float,
+                 sigma:float,
+                 lower_bound:float,
+                 upper_bound:float):
+        self.upper_bound = upper_bound
+        self.lower_bound = lower_bound
+        parameters = {'loc': mu,
+                      'scale': sigma,
+                      'a': (np.log(lower_bound) - mu)/sigma,
+                      'b': (np.log(upper_bound) - mu)/sigma}
+        super().__init__(name=name,
+                         uncertainty_type=uncertainty_type,
+                         nominal_value=nominal_value,
+                         distribution=sps.truncnorm,
+                         parameters=parameters)
+
+    def ppf(self, locations):
+        """
+        Function to extract percentile point function values (inverse of CDF) 
+        """
+        return np.exp(self.distribution.ppf(locations))
+
+    def generate_samples(self,
+                         sample_size:int,
+                         random_state=np.random.default_rng()):
+        """
+        Function to sample from a lognormal uncertainty distribution.
+        Scipy Stats library does not contain a truncated lognormal distribution,
+        so this sampling function corrects for the use of the truncated normal distribution.
+
+        Parameters
+        ------------
+            sample_size: int
+                number of samples
+            random_state: generator
+                np default_rng instance or will be used to create randomState instance
+        """
+        normal_samples =  self.distribution.rvs(size=sample_size,
+                                                random_state=random_state)
+        return np.exp(normal_samples)
+
+    def plot_distribution(self,
+                          alternative_name=False,
+                          plot_limits=False):
+        """
+        Function to create plot of a lognormal uncertainty distribution.
+        Scipy Stats library does not contain a truncated lognormal distribution,
+        so this plotting function corrects for the use of the truncated normal distribution.
+        """
+        name = alternative_name if alternative_name else self.name
+
+        plt.figure(figsize=(4, 4))
+        if not plot_limits:
+            plot_limits = (self.lower_bound*.9, self.upper_bound*1.1)
+
+        x_points = np.linspace(plot_limits[0], plot_limits[1], 100)
+        y_points = self.distribution.pdf(np.log(x_points))/(x_points)
+
+        plt.plot(x_points, y_points)
+        plt.grid()
+        plt.xlabel(name)
+        plt.ylabel('PDF')
 
 
 class UniformDistribution(UncertaintyCharacterization):

@@ -20,7 +20,6 @@ examples/Figures/*
 # Sphinx documentation
 docs/_build/
 
-
 # Ignore GUI local configurations
 **.pyproject.user*
 **.pyproject.user.*
@@ -38,7 +37,6 @@ gui/build/mac/build/
 # Ignore binaries
 gui/build/installer/
 gui/build/mac/dist/
-
 
 # Mac-specific
 **.DS_Store**

@@ -1,4 +1,4 @@
-# Copyright 2023 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+# Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights
 # in this software.
 #
@@ -23,10 +23,20 @@ class SamplingTestCase(unittest.TestCase):
                                            std_deviation=2,
                                            uncertainty_type='aleatory')
         self.parameters['var_a2'] = \
-            Uncertainty.NormalDistribution(name='var_a2',
+            Uncertainty.TruncatedNormalDistribution(name='var_a2',
                                            nominal_value=1,
                                            mean=.57,
                                            std_deviation=1,
+                                           lower_bound=0,
+                                           upper_bound=2,
+                                           uncertainty_type='aleatory')
+        self.parameters['var_a3'] = \
+            Uncertainty.TruncatedLognormalDistribution(name='var_a3',
+                                           nominal_value=1,
+                                           mu=3,
+                                           sigma=.17,
+                                           lower_bound=0.001,
+                                           upper_bound=40,
                                            uncertainty_type='aleatory')
         self.parameters['var_e1'] = \
             Uncertainty.UniformDistribution(name='var_e1',
@@ -35,10 +45,12 @@ class SamplingTestCase(unittest.TestCase):
                                             upper_bound=1,
                                             uncertainty_type='epistemic')
         self.parameters['var_e2'] = \
-            Uncertainty.UniformDistribution(name='var_e2',
+            Uncertainty.BetaDistribution(name='var_e2',
                                             nominal_value=1,
-                                            lower_bound=-1,
-                                            upper_bound=3,
+                                            a=1,
+                                            b=2,
+                                            loc=0,
+                                            scale=1,
                                             uncertainty_type='epistemic')
         self.parameters['var_e3'] = \
             Uncertainty.NormalDistribution(name='var_e3',
@@ -82,8 +94,11 @@ class SamplingTestCase(unittest.TestCase):
         self.assertEqual(len(np.unique(study_samples['var_e2'])), number_of_epistemic_samples)
         self.assertEqual(test_study.get_total_double_loop_sample_size(),
                          number_of_aleatory_samples*number_of_epistemic_samples)
-        self.assertEqual(len(test_study.get_parameter_names()), 6)
-        self.assertEqual(len(test_study.get_uncertain_parameter_names()), 5)
+        self.assertEqual(len(test_study.get_parameter_names()), 7)
+        self.assertEqual(len(test_study.get_uncertain_parameter_names()), 6)
+        
+        self.assertTrue((2 > study_samples['var_a2']).all() and (study_samples['var_a2'] > 0).all())
+        self.assertTrue((40 > study_samples['var_a3']).all() and (study_samples['var_a3'] > 0.001).all())
 
     def test_lhs_sampling_study(self):
         """unit test of LHS study"""

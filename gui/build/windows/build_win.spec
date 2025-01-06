@@ -18,7 +18,7 @@ try:
     import jupyter
     print("ERROR - successful Jupyter import indicates development environment is active. Halting build.")
     sys.exit(0)
-except ImportError as err:
+except ImportError or ModuleNotFoundError:
     pass
 
 """
@@ -31,12 +31,12 @@ https://doc.qt.io/qt-6/qtmodules.html#gpl-licensed-addons
 
 # Specify included Qt directories and files to ensure incompatible (GPL) modules are excluded.
 do_filtering = True
-version_str = "1.1.0"
+version_str = "2.0.0"
 appname = "HELPR"
 
 build_dir = Path(os.getcwd())
 repo_dir = build_dir.parent.parent.parent
-app_dir = repo_dir.joinpath('gui/src')
+app_dir = repo_dir.joinpath('gui/src/helprgui')
 lib_dir = repo_dir.joinpath('src')
 dist_dir = build_dir.joinpath(f'dist/{appname}')
 pyside_dir = build_dir.joinpath(f'dist/{appname}/PySide6')
@@ -83,7 +83,6 @@ qt_file_whitelist = [
     'Qt6Core.dll',
     'Qt6Gui.dll',
     'Qt6Network.dll',
-
     'Qt6OpenGL.dll',
 
     'Qt6Qml.dll',
@@ -116,6 +115,14 @@ qt_file_whitelist = [
     'QtQml.pyd',
     'QtSvg.pyd',
     'QtWidgets.pyd',
+]
+
+# Misc. dirs not caught by above, that should be removed
+dirs_to_delete = [
+    pyside_dir.joinpath('qml/Qt/labs/animation'),
+    pyside_dir.joinpath('qml/Qt/labs/platform'),
+    pyside_dir.joinpath('qml/Qt/labs/sharedimage'),
+    pyside_dir.joinpath('qml/Qt/labs/wavefrontmesh'),
 ]
 
 
@@ -168,6 +175,18 @@ def filter_output_files(lst):
     return to_keep
 
 
+def delete_additional_dirs():
+    print('== DELETING ADDITIONAL DIRS ==')
+    for dirpath in dirs_to_delete:
+        print(dirpath.as_posix())
+        if dirpath.exists():
+            try:
+                shutil.rmtree(dirpath)
+                print(f"Deleted {dirpath.as_posix()}")
+            except OSError as e:
+                print(f"Could not remove dir: {dirpath} - {e.strerror}")
+
+
 block_cipher = None
 
 
@@ -179,9 +198,10 @@ res = Analysis(
         ],
         datas=[
             (app_dir.joinpath('ui'), 'ui/'),
-            (app_dir.joinpath('helprgui/ui'), 'helprgui/ui/'),
-            (app_dir.joinpath('helprgui/resources'), 'helprgui/resources/'),
+            (app_dir.joinpath('hygu/ui'), 'hygu/ui/'),
+            (app_dir.joinpath('hygu/resources'), 'hygu/resources/'),
             (app_dir.joinpath('assets'), 'assets/'),
+            (repo_dir.joinpath('src/helpr/data'), 'data/'),
         ],
         binaries=[],
         hiddenimports=[],
@@ -237,6 +257,10 @@ coll = COLLECT(
         upx_exclude=[],
         name=f'{appname}',
 )
+
+if do_filtering:
+    delete_additional_dirs()
+
 
 # Spot-check that filtering was applied
 assert pyside_dir.joinpath('Qt6Core.dll').exists()

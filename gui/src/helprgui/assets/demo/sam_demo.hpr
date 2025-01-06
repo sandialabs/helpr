@@ -1,0 +1,263 @@
+{
+    "analysis_name": {
+        "label": "Analysis name",
+        "slug": "analysis_name",
+        "value": ""
+    },
+    "stress_method": {
+        "label": "Stress intensity factor model",
+        "slug": "stress_method",
+        "value": "anderson"
+    },
+    "surface": {
+        "label": "Surface",
+        "slug": "surface",
+        "value": "inside"
+    },
+    "crack_assump": {
+        "label": "Crack length assumption",
+        "slug": "crack_assump",
+        "value": "prop"
+    },
+    "outer_diameter": {
+        "label": "Outer diameter",
+        "slug": "outer_diameter",
+        "value": 0.9144,
+        "min_value": "0",
+        "max_value": "+infinity",
+        "unit_type": "dist_sm",
+        "unit": "in",
+        "uncertainty": "ale",
+        "distr": "det",
+        "a": 0.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": "inf"
+    },
+    "wall_thickness": {
+        "label": "Wall thickness",
+        "slug": "wall_thickness",
+        "value": 0.010312400000000001,
+        "min_value": "0",
+        "max_value": "0.076",
+        "unit_type": "dist_sm",
+        "unit": "in",
+        "uncertainty": "ale",
+        "distr": "det",
+        "a": 0.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": "inf"
+    },
+    "yield_strength": {
+        "label": "Yield strength",
+        "slug": "yield_strength",
+        "value": 358.52737924475474,
+        "min_value": "0",
+        "max_value": "+infinity",
+        "unit_type": "pres",
+        "unit": "psi",
+        "uncertainty": "ale",
+        "distr": "det",
+        "a": 0.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": "inf"
+    },
+    "fracture_resistance": {
+        "label": "Fracture resistance",
+        "slug": "fracture_resistance",
+        "value": 55.0,
+        "min_value": "0",
+        "max_value": "+infinity",
+        "unit_type": "fracture",
+        "unit": "mpm",
+        "uncertainty": "ale",
+        "distr": "det",
+        "a": 0.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": "inf"
+    },
+    "max_pressure": {
+        "label": "Max pressure",
+        "slug": "max_pressure",
+        "value": 5.791596126261423,
+        "min_value": "0",
+        "max_value": "+infinity",
+        "unit_type": "pres",
+        "unit": "psi",
+        "uncertainty": "ale",
+        "distr": "tnor",
+        "a": 5.860543699193107,
+        "b": 0.1378951458633672,
+        "c": 5.446858261603005,
+        "d": 6.274229136783208
+    },
+    "min_pressure": {
+        "label": "Min pressure",
+        "slug": "min_pressure",
+        "value": 4.398855153041414,
+        "min_value": "0",
+        "max_value": "+infinity",
+        "unit_type": "pres",
+        "unit": "psi",
+        "uncertainty": "ale",
+        "distr": "tnor",
+        "a": 4.398855153041414,
+        "b": 0.1378951458633672,
+        "c": 3.9851697154513124,
+        "d": 4.8125405906315155
+    },
+    "temperature": {
+        "label": "Temperature",
+        "slug": "temperature",
+        "value": 293,
+        "min_value": "230.0",
+        "max_value": "330.0",
+        "unit_type": "temp",
+        "unit": "k",
+        "uncertainty": "ale",
+        "distr": "uni",
+        "a": 285.0,
+        "b": 300.0,
+        "c": 0.0,
+        "d": "inf"
+    },
+    "volume_fraction_h2": {
+        "label": "H2 volume fraction",
+        "slug": "volume_fraction_h2",
+        "value": 0.1,
+        "min_value": "0",
+        "max_value": "1.0",
+        "unit_type": "unitless",
+        "unit": null,
+        "uncertainty": "ale",
+        "distr": "uni",
+        "a": 0.0,
+        "b": 0.2,
+        "c": 0.0,
+        "d": "inf"
+    },
+    "flaw_depth": {
+        "label": "Crack depth",
+        "slug": "flaw_depth",
+        "value": 25.0,
+        "min_value": "0.100",
+        "max_value": "80.0",
+        "unit_type": "perc",
+        "unit": "p",
+        "uncertainty": "ale",
+        "distr": "uni",
+        "a": 20.0,
+        "b": 30.0,
+        "c": 0.0,
+        "d": "inf"
+    },
+    "flaw_length": {
+        "label": "Crack length",
+        "slug": "flaw_length",
+        "value": 0.040005,
+        "min_value": "0",
+        "max_value": "+infinity",
+        "unit_type": "dist_sm",
+        "unit": "in",
+        "uncertainty": "ale",
+        "distr": "det",
+        "a": 0.0,
+        "b": 0.0,
+        "c": 0.0,
+        "d": "inf"
+    },
+    "aleatory_samples": {
+        "label": "Aleatory samples",
+        "slug": "aleatory_samples",
+        "value": 50,
+        "min_value": "0",
+        "max_value": "2e+09",
+        "unit_type": "unitless",
+        "unit": null
+    },
+    "epistemic_samples": {
+        "label": "Epistemic samples",
+        "slug": "epistemic_samples",
+        "value": 0,
+        "min_value": "0",
+        "max_value": "2e+09",
+        "unit_type": "unitless",
+        "unit": null
+    },
+    "seed": {
+        "label": "Random seed",
+        "slug": "seed",
+        "value": 1234567,
+        "min_value": "0",
+        "max_value": "2e+09",
+        "unit_type": "unitless",
+        "unit": null
+    },
+    "n_cycles": {
+        "label": "Maximum number of cycles",
+        "slug": "n_cycles",
+        "value": null,
+        "min_value": "1.0",
+        "max_value": "2e+09",
+        "unit_type": "unitless",
+        "unit": null
+    },
+    "display_interactive_plots": {
+        "label": "Display interactive plots",
+        "slug": "display_interactive_plots",
+        "value": true
+    },
+    "create_crack_growth_plot": {
+        "label": "Create crack growth plot",
+        "slug": "create_crack_growth_plot",
+        "value": true
+    },
+    "create_failure_assessment_diagram": {
+        "label": "Create failure assessment diagram",
+        "slug": "create_failure_assessment_diagram",
+        "value": true
+    },
+    "create_exercised_rates_plot": {
+        "label": "Create exercised rates plot",
+        "slug": "create_exercised_rates_plot",
+        "value": true
+    },
+    "create_ensemble_plot": {
+        "label": "Create ensemble plot",
+        "slug": "create_ensemble_plot",
+        "value": true
+    },
+    "create_cycle_plot": {
+        "label": "Create cycle plot",
+        "slug": "create_cycle_plot",
+        "value": true
+    },
+    "create_pdf_plot": {
+        "label": "Create PDF plot",
+        "slug": "create_pdf_plot",
+        "value": true
+    },
+    "create_cdf_plot": {
+        "label": "Create CDF plot",
+        "slug": "create_cdf_plot",
+        "value": true
+    },
+    "create_sensitivity_plot": {
+        "label": "Create sensitivity plot",
+        "slug": "create_sensitivity_plot",
+        "value": true
+    },
+    "study_type": {
+        "label": "Study type",
+        "slug": "study_type",
+        "value": "sam"
+    },
+    "cycle_units": {
+        "label": "Cycle time units",
+        "slug": "cycle_time_units",
+        "value": "hr"
+    }
+}

@@ -30,17 +30,19 @@ $
 ├───examples
 ├───gui
 │    ├───src
-│    │     ├───assets
-│    │     ├───helprgui (submodule)
-│    │     ├───forms
-│    │     ├───models
-│    │     ├───tests
-│    │     └───ui
+│    │    └───helprgui
+|    │         ├───assets
+|    │         ├───forms
+|    │         ├───hygu (submodule)
+|    │         ├───models
+|    │         ├───tests
+|    │         └───ui
 │    └───build
 └───src
      ├───docs
      │     └───source
      ├───helpr
+     │     ├───data
      │     ├───physics
      │     ├───tests
      │     │     ├───unit_tests
@@ -53,8 +55,8 @@ $
 ```
 
 * `examples` - Demonstrations of HELPR capabilities through Jupyter notebooks
-* `gui/src` - GUI for distributable HELPR application
-* `gui/src/helprgui` - submodule of core GUI functionality (e.g. generic parameter classes)
+* `gui/src` - GUI module for distributable HELPR application
+* `gui/src/helprgui/hygu` - submodule library containing generic GUI components (e.g. generic parameter classes)
 * `gui/build` - Installer scripts to build GUI distribution for Windows and macOS systems
 * `src/docs` - Sphinx documentation generation
 * `src/helpr` - Python source code for physics and utilities calculations and associated capability tests
@@ -86,7 +88,7 @@ The following terms and labels are used in this document:
 
 ### Step 1. Clone the Repository
 The GUI and backend code reside within the HELPR repository.
-Clone it via the gitlab instructions. Make sure to initialize the `probabilities` submodule as well.
+Clone it via the gitlab instructions. Make sure to initialize the `probabilities` and `hygu` submodule as well.
 
 ### Step 2. Set Up a Python Development Environment
 HELPR and the GUI require a standard Python 3.9 virtual environment.
@@ -101,7 +103,6 @@ Activate your virtualenv before installing these:
 Many of these modules have incompatible licenses for distribution and are used for development only.
 For example, *jupyter* is used to verify the backend HELPR demos but should not be included in the distribution.
 The bundling scripts include an import trap which halts the process if development modules are found.
-
 
 ### Step 3. Set Up a Separate Distribution Virtual Environment
 A separate virtual environment must be created for building release-ready HELPR distributions.
@@ -145,14 +146,14 @@ Revise this path to make sure the interpreter location points to the symlink fil
 
 It should be something like:
 
-    /Users/cianan/projects/helpr/envs/py3.9-dev/bin/python3.9
+    /Users/cianan/projects/helpr/envs/py3.9r/bin/python3.9
 
 And not:
 
     /Library/Frameworks/Python.Framework/Versions/3.9/Python
 
 Once the project is set up, click the "Run" button to launch the Qt application.
-Open the .qml files in `gui/ui` to edit the interface.
+Open the .qml files in `gui/ui` to edit the interface, or use your favorite IDE with *.qml functionality.
 
 <a name="gui-distr"></a>
 ## B.2. Building the HELPR Application for Distribution
@@ -195,7 +196,6 @@ To test the bundle executable:
 
 This creates the HELPR installer .exe file (named "mysetup.exe") in the `build/windows/installer` directory.
 This file can be renamed and distributed to end-users.
-
 
 <a name="distr-mac"></a>
 ### HELPR for macOS

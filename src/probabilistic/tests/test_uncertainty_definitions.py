@@ -1,4 +1,4 @@
-# Copyright 2023 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+# Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights
 # in this software.
 #
@@ -69,7 +69,7 @@ class UncertaintyDefinitionTestCase(unittest.TestCase):
         self.assertEqual(uncertain_var1.distribution.std(), .3)
 
         uncertain_var1b = Uncertainty.NormalDistribution(name='test var1b',
-                                                        uncertainty_type='aleatory',
+                                                        uncertainty_type='epistemic',
                                                         nominal_value=1,
                                                         mean=.5,
                                                         std_deviation=.3)
@@ -104,14 +104,47 @@ class UncertaintyDefinitionTestCase(unittest.TestCase):
         self.assertEqual(uncertain_var3.distribution.mean(), 1)
         self.assertEqual(uncertain_var3.distribution.std(), np.sqrt(4/3))
 
+        num_samples4 = 100
+        uncertain_var4 = Uncertainty.TruncatedNormalDistribution(name='test var4',
+                                                        uncertainty_type='aleatory',
+                                                        nominal_value=1,
+                                                        mean=.5,
+                                                        std_deviation=.3,
+                                                        lower_bound=.3,
+                                                        upper_bound=.7)
+        random_samples = uncertain_var4.generate_samples(num_samples4,
+                                                         self.random_state)
+        self.assertEqual(len(random_samples), num_samples4)
+        self.assertTrue((random_samples > .3).all())
+        self.assertTrue((random_samples < .7).all())
+
+        num_samples5 = 120
+        uncertain_var5 = \
+            Uncertainty.TruncatedLognormalDistribution(name='test var4',
+                                                       uncertainty_type='aleatory',
+                                                       nominal_value=1,
+                                                       mu=-.3,
+                                                       sigma=.3,
+                                                       lower_bound=.4,
+                                                       upper_bound=1.2)
+        random_samples = uncertain_var5.generate_samples(num_samples5,
+                                                         self.random_state)
+        self.assertEqual(len(random_samples), num_samples5)
+        self.assertTrue((random_samples > .4).all())
+        self.assertTrue((random_samples < 1.2).all())
+
     def test_distribution_pdf_plotting(self):
-        """unit test to ensure pdf plotting of distributions does not error"""
+        """unit test to ensure plotting of parameter distributions does not error"""
         uncertain_var1 = Uncertainty.NormalDistribution(name='test var1',
-                                                uncertainty_type='aleatory',
-                                                nominal_value=1,
-                                                mean=.5,
-                                                std_deviation=.3)
-        uncertain_var1.plot_distribution()
+                                                        uncertainty_type='aleatory',
+                                                        nominal_value=1,
+                                                        mean=.5,
+                                                        std_deviation=.3)
+        uncertain_var1.plot_distribution(alternative_name='alternative name')
+
+        deterministic_var1 = Uncertainty.DeterministicCharacterization(name='test var2',
+                                                                       value=4)
+        deterministic_var1.plot_distribution(alternative_name='alternative name')
         assert True
 
 if __name__ == '__main__':

@@ -30,18 +30,19 @@ $
 ├───examples
 ├───gui
 │    ├───src
-│    │     ├───analyses
-│    │     ├───assets
-│    │     ├───parameters
-│    │     ├───state
-│    │     ├───ui_files
-│    │     └───utils
-│    └───installers
-│    └───tests
+│    │    └───helprgui
+|    │         ├───assets
+|    │         ├───forms
+|    │         ├───hygu (submodule)
+|    │         ├───models
+|    │         ├───tests
+|    │         └───ui
+│    └───build
 └───src
      ├───docs
      │     └───source
      ├───helpr
+     │     ├───data
      │     ├───physics
      │     ├───tests
      │     │     ├───unit_tests
@@ -54,9 +55,9 @@ $
 ```
 
 * `examples` - Demonstrations of HELPR capabilities through Jupyter notebooks
-* `gui/src` - Front-end Python underlying GUI
-* `gui/installers` - Installers used to build GUI
-* `gui/tests` - Unit tests of GUI capabilities
+* `gui/src` - GUI module for distributable HELPR application
+* `gui/src/helprgui/hygu` - submodule library containing generic GUI components (e.g. generic parameter classes)
+* `gui/build` - Installer scripts to build GUI distribution for Windows and macOS systems
 * `src/docs` - Sphinx documentation generation
 * `src/helpr` - Python source code for physics and utilities calculations and associated capability tests
 * `src/probabilistic` - Python source code for probabilistic capabilities

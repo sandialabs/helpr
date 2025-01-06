@@ -1,14 +1,11 @@
-# Copyright 2023 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+# Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights
 # in this software.
 #
 # You should have received a copy of the BSD License along with HELPR.
 
-import multiprocessing as mp
-from concurrent.futures import ProcessPoolExecutor as Pool
 import pandas as pd
 import numpy as np
-import scipy.optimize as opt
 from helpr import settings
 
 
@@ -39,7 +36,8 @@ class CycleEvolution:
                  defect,
                  environment,
                  material,
-                 crack_growth_model):
+                 crack_growth_model,
+                 delta_c_rule='proportional'):
         """Sets up evolution analysis model.
 
         Parameters
@@ -56,7 +54,15 @@ class CycleEvolution:
             Pipe material specification.
         crack_growth_model : CrackGrowth
             Crack growth physics model. 
-        
+        delta_c_rule : str, optional
+            Specify how the crack length growth (delta c) evolves.
+            Valid options are:
+                'proportional' : c evolves to stay proportional to crack depth (a)
+                'fixed' : c remains unchanged throughout evolution
+                'independent' : c evolves independently of crack depth.
+                 Only valid for the api stress intensity method.
+            Default option is 'proportional'
+
         """
         self.pipe_specification = pipe
         self.stress_state = stress_state
@@ -65,80 +71,34 @@ class CycleEvolution:
         self.material_specification = material
         self.number_of_pipe_instances = len(self.stress_state.initial_crack_depth)
         self.crack_growth = crack_growth_model
-
-        if len(self.stress_state.a_crit) > 1:
-            self.setup_a_crit_solve(parallel=True)
+        if delta_c_rule in ['proportional', 'fixed', 'independent']:
+            self.delta_c_rule = delta_c_rule
         else:
-            self.setup_a_crit_solve()
+            raise ValueError('Crack growth delta_c_rule is invalid. Select ' +
+                             "'proportional', 'fixed', or 'independent'.")
 
         self.cycle_dict = {}
         self.cycle = {}
-
-    def setup_a_crit_solve(self, parallel=False):
-        """Sets up solving function for 'a critical' value for each sample. """
-        all_instances = []
-        for sample_index in range(len(self.stress_state.a_crit)):
-            single_instance = {}
-            single_instance['pipe'] = self.pipe_specification.get_single_pipe(sample_index)
-            single_instance['stress_state'] = \
-                self.stress_state.get_single_stress_state(sample_index)
-            single_instance['defect'] = self.defect_specification.get_single_defect(sample_index)
-            single_instance['environment'] = \
-                self.environment_specification.get_single_environment(sample_index)
-            single_instance['material'] = \
-                self.material_specification.get_single_material(sample_index)
-            single_instance['crack_growth'] = \
-                self.crack_growth.get_single_crack_growth_model(sample_index)
-            all_instances.append(single_instance)
-
-        if parallel:
-            n_cpu = mp.cpu_count() - 1
-            if n_cpu >= len(self.stress_state.a_crit):
-                n_cpu = len(self.stress_state.a_crit)
-
-            with Pool(n_cpu) as pool:
-                results = pool.map(self.solve_for_a_crit, all_instances, chunksize=4)
-                optimization_results = list(results)
-
-            # Non-parallel form for debug
-            # optimizationResults = []
-            # for instance in all_instances:
-            #     optimizationResults.append(self.solve_for_aCrit(instance))
-
-        else:
-            optimization_results = [self.solve_for_a_crit(all_instances[0])]
-
-        holder_a_crit = []
-        holder_fracture_resistance = []
-        for sample_index in range(len(self.stress_state.a_crit)):
-            holder_a_crit.append(optimization_results[sample_index].stress_state.a_crit[0])
-            holder_fracture_resistance.append(optimization_results[sample_index].material_specification.fracture_resistance[0])
-
-        self.stress_state.a_crit = np.array(holder_a_crit)
-        self.material_specification.fracture_resistance = np.array(holder_fracture_resistance)
-
-    @staticmethod
-    def solve_for_a_crit(single_instance):
-        """Creates an individual class object to solve 'a critical' for each instance. """
-        return OptimizeACrit(pipe=single_instance['pipe'],
-                             stress_state=single_instance['stress_state'],
-                             defect=single_instance['defect'],
-                             environment=single_instance['environment'],
-                             material=single_instance['material'],
-                             crack_growth_model=single_instance['crack_growth'])
 
     def create_clean_cycle(self):
         """Resets the cycle dictionary. """
         self.cycle = {}
 
-    def calc_life_assessment(self, step_cycles:(bool or int)=False):
+    def calc_life_assessment(self, max_cycles=None, cycle_step=None):
         """Runs a fatigue crack life assessment analysis.
 
         Parameters
         ----------
-        step_cycles : bool or int, optional
-            Flag for evolving analysis by cycle or by a/t value, defaults to False (a/t).
-            Passing an int will run the analysis the specified number of cycles.
+        max_cycles : int or None, optional
+            Maximum number of cycles to run the life assessment for before
+            stopping. If `None`, the assessment will run until instances
+            reach a/t > 0.8. Note that an assessment may
+            stop before reaching `max_cycles` if all instances reach
+            a/t > 0.8 before that number of cycles. Default is `None`.
+        cycle_step : float or None, optional
+            Number of cycles to iterate by at each evaluation step. If
+            `None`, the number of cycles will be dynamically adjusted each
+            iteration based on the crack growth. Default is `None`.
 
         Returns
         -------
@@ -146,52 +106,57 @@ class CycleEvolution:
             Complete dict of results for all samples.
 
         """
+        if max_cycles is None:
+            max_cycles = np.inf
         self.initialize_cycle_dict()
         self.create_cycle_dict()
-        self.step_through_cycles(step_cycles)
+        self.step_through_cycles(max_cycles, cycle_step)
         return self.cycle_dict
 
-    def initialize_cycle_dict(self, optimize=False):
+    def initialize_cycle_dict(self):
         """Sets up initial cycle dictionary. """
         self.create_clean_cycle()
         self.cycle['a/t'] = \
             self.stress_state.initial_crack_depth/self.pipe_specification.wall_thickness
         self.cycle['a (m)'] = self.stress_state.initial_crack_depth
         self.cycle['Delta a (m)'] = np.zeros(self.number_of_pipe_instances)
-        self.update_c_through_delta_k(optimize=optimize)
         self.cycle['Delta N'] = np.zeros(self.number_of_pipe_instances)
+        self.initialize_c()
+        self.update_k_max_f_q()
+        self.update_delta_k()
         self.cycle['Total cycles'] = np.zeros(self.number_of_pipe_instances)
 
-    def update_c_through_delta_k(self, optimize=False):
+    def update_c_through_delta_k(self):
         """Updates cycle values for c, eta, k_max, f, q, and delta k. """
-        self.update_c(optimize)
-        self.update_k_max_f_q(optimize)
+        self.update_c()
+        self.update_k_max_f_q()
         self.update_delta_k()
 
-    def step_through_cycles(self, step_cycles:(bool or int)=False):
+    def step_through_cycles(self, max_cycles, cycle_step):
         """Main loop for stepping through cycles in fatigue crack analysis"""
-        if type(step_cycles) == int:
-            for _ in range(step_cycles):
-                if settings.is_stopping():
-                    break
-                self.create_clean_cycle()
-                self.compute_cycle_n()
-                self.update_cycle_dict()
-        else:
-            while not (self.cycle_dict['a/t'].values[-1] > 1).all():
-                if settings.is_stopping():
-                    break
-                self.create_clean_cycle()
-                self.compute_cycle_at()
-                self.update_cycle_dict()
+        analysis_complete = False
+        while not analysis_complete:
+            if settings.is_stopping():
+                break
 
-    def compute_cycle_n(self):
-        """Computes results for a single (n) cycle. """
-        self.cycle['Delta N'] = np.ones(self.number_of_pipe_instances)
+            self.create_clean_cycle()
+            if cycle_step is None:
+                self.compute_cycle_at()
+            else:
+                self.compute_cycle_n(cycle_step)
+
+            self.update_cycle_dict()
+            analysis_complete = self.check_stopping_criteria(max_cycles)                
+
+    def compute_cycle_n(self, cycle_step):
+        """Computes results for an explicit number of cycles. """
+        self.cycle['Delta N'] = (
+            np.ones(self.number_of_pipe_instances) * cycle_step)
         delta_k = self.cycle_dict['Delta K (MPa m^1/2)'].tail(1)
         delta_n = self.cycle['Delta N']
-        self.crack_growth.update_delta_k_delta_n(delta_k=delta_k, delta_n=delta_n)
-        self.cycle['Delta a (m)'] = self.crack_growth.calc_delta_a()
+        self.cycle['Delta a (m)'] = \
+            self.crack_growth.calc_change_in_crack_size(delta_n=delta_n,
+                                                        delta_k=delta_k)
         self.cycle['a (m)'] = self.cycle_dict['a (m)'].values[-1] + self.cycle['Delta a (m)']
         self.cycle['a/t'] = self.cycle['a (m)'] / self.pipe_specification.wall_thickness
         self.update_c_through_delta_k()
@@ -213,6 +178,17 @@ class CycleEvolution:
                                               pd.DataFrame(cycle).T],
                                              axis=0,
                                              ignore_index=True)
+
+    def check_stopping_criteria(self, max_cycles):
+        """Determines whether to stop life assessment based on current
+        crack conditions and the maximum number of cycles.
+        """
+        if np.logical_or(
+            self.cycle_dict['a/t'].values[-1] > 0.8,
+            self.cycle_dict['Total cycles'].values[-1] > max_cycles).all():
+            return True
+        else:
+            return False
 
     def create_cycle_dict(self):
         """Initialize dictionary to store full fatigue crack analysis"""
@@ -271,74 +247,58 @@ class CycleEvolution:
         """Calculates current delta n value. """
         delta_k = self.cycle['Delta K (MPa m^1/2)']
         delta_a = self.cycle['Delta a (m)']
-        self.crack_growth.update_delta_k_delta_a(delta_k=delta_k, delta_a=delta_a)
-        self.cycle['Delta N'] = self.crack_growth.calc_delta_n()
+        self.cycle['Delta N'] = self.crack_growth.calc_delta_n(delta_a=delta_a,
+                                                               delta_k=delta_k)
 
-    def update_c(self, optimize=False):
+    def initialize_c(self):
+        """Initializes value of c based on initial a/c ratio in stress state module"""
+        self.cycle['c (m)'] = \
+            self.cycle['a (m)']/self.stress_state.initial_a_over_c
+
+    def update_c(self):
         """Calculates current crack width (c) value. """
-        if optimize:
+        if self.delta_c_rule == 'proportional':
             self.cycle['c (m)'] = \
-                self.stress_state.a_crit/self.stress_state.defect_specification.a_over_c
+                self.cycle['a (m)']/self.stress_state.initial_a_over_c
+
+        if self.delta_c_rule == 'fixed':
+            self.cycle['c (m)'] = self.cycle_dict['c (m)'].values[-1]
+
+        if self.delta_c_rule == 'independent':
+            k_max_surf, _, _ = self.calc_k_max_f_q(phi=0,
+                                                   previous_step_values=True)
+            delta_k_surf = self.calc_delta_k(k_max=k_max_surf)
+            delta_c = \
+                self.crack_growth.calc_change_in_crack_size(
+                    delta_n=self.cycle_dict['Delta N'].values[-1],
+                    delta_k=delta_k_surf)
+            self.cycle['c (m)'] = self.cycle_dict['c (m)'].values[-1] + delta_c
+
+    def update_k_max_f_q(self):
+        """Updates k_max, f, and q values at current cycle. """
+        self.cycle['Kmax (MPa m^1/2)'], self.cycle['F'], self.cycle['Q'] = \
+            self.calc_k_max_f_q()
+
+    def calc_k_max_f_q(self, phi=np.pi/2, previous_step_values=False):
+        """Calculates k_max, f, and q values. """
+        if previous_step_values:
+            crack_depth = self.cycle_dict['a (m)'].values[-1]
+            crack_length = self.cycle_dict['c (m)'].values[-1]*2
         else:
-            self.cycle['c (m)'] = \
-                self.cycle['a (m)']/self.stress_state.defect_specification.a_over_c
-        
-    def update_k_max_f_q(self, optimize=False):
-        """Calculates current k_max, f, and q values. """
+            crack_depth = self.cycle['a (m)']
+            crack_length = self.cycle['c (m)']*2
+
         k_max, f, q = \
-            self.stress_state.calc_stress_intensity_factor(crack_depth=self.cycle['a (m)'],
-                                                           crack_length=2*self.cycle['c (m)'],
-                                                           optimize=optimize)
-        self.cycle['Kmax (MPa m^1/2)'] = k_max
-        self.cycle['F'] = f
-        self.cycle['Q'] = q
+            self.stress_state.calc_stress_intensity_factor(crack_depth=crack_depth,
+                                                           crack_length=crack_length,
+                                                           phi=phi)
+        return k_max, f, q
 
     def update_delta_k(self):
-        """Calculates current delta k value. """
-        self.cycle['Delta K (MPa m^1/2)'] = self.calc_delta_k()
-
-    def calc_delta_k(self):
-        """Calculates current delta k value. """
+        """Updates delta k value at current cycle. """
         # TODO: Move R ratio to stress module to allow for additional factors impacting K
-        k_max = self.cycle['Kmax (MPa m^1/2)']
-        r_ratio = self.environment_specification.r_ratio
-        return k_max*(1 - r_ratio)
+        self.cycle['Delta K (MPa m^1/2)'] = self.calc_delta_k(k_max=self.cycle['Kmax (MPa m^1/2)'])
 
-
-class OptimizeACrit(CycleEvolution):
-    """ACrit optimization solver using a single cycle instance.
-
-    Attributes
-    ----------
-    pipe
-    stress_state
-    defect
-    environment
-    material
-    crack_growth_model
-
-    """
-    def setup_a_crit_solve(self, parallel=False):
-        """Initializes solver for a critical value. """
-        if parallel:
-            a_crit_opt_error = ValueError("""Multiple aCrit values passed to Optimize_ACrit
-                                           object when only one should be""")
-            raise a_crit_opt_error
-        self.minimize_for_a_crit()
-
-    def minimize_for_a_crit(self):
-        """Performs optimization for crit value. """
-        opt.minimize(fun=self.determine_a_crit,
-                     x0=self.stress_state.a_crit,
-                     method='Nelder-Mead',
-                     tol=1E-6,
-                     options={'disp': False})
-
-    def determine_a_crit(self, a_crit):
-        """Acts as objective function for optimization of a crit. """
-        # lower bound bounding due to minimize function not taking bound currently
-        a_crit = max(a_crit, 0)
-        self.stress_state.a_crit = a_crit
-        self.initialize_cycle_dict(optimize=True)
-        self.create_cycle_dict()
-        return abs(self.material_specification.fracture_resistance - self.cycle['Kmax (MPa m^1/2)'])
+    def calc_delta_k(self, k_max):
+        """Calculates delta k value. """
+        return k_max*(1 - self.environment_specification.r_ratio)

@@ -1,4 +1,4 @@
-# Copyright 2023 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+# Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights
 # in this software.
 #
@@ -14,13 +14,14 @@ class DefectSpecification:
     -----------
     flaw_depth
     flaw_length
+    surface
     location_factor
-    a_over_c
 
     """
     def __init__(self,
                  flaw_depth,
                  flaw_length,
+                 surface='inside',
                  sample_size=1,
                  location_factor=1):
         """Creates initial flaw specification.
@@ -31,6 +32,9 @@ class DefectSpecification:
             List of initial crack depths, % of pipe wall thickness.
         flaw_length : list
             List of initial crack lengths, in meters
+        surface : str, optional
+            Specification on whether the defect is on the inside or outside pipe surface.
+            Valid options are `'inside'` or `'outside'`.
         sample_size: int, optional
             Study sample size, defaults to 1.
         location_factor: int
@@ -45,17 +49,13 @@ class DefectSpecification:
         self.flaw_length = Parameter('flaw_length',
                                      flaw_length,
                                      lower_bound=0)
+        if surface.lower() in ['inside', 'outside']:
+            self.surface = surface.lower()
+        else:
+            raise ValueError('surface must be specified as `inside` or `outside`')
         self.location_factor = Parameter('location_factor',
                                          location_factor,
                                          size=sample_size)
-        self.a_over_c = None  # set by stress module
-
-    def set_a_over_c(self, flaw_depth):
-        """
-        Sets the a/c (depth/length) value using crack depth.
-        Currently assumed to be a constant ratio.
-        """
-        self.a_over_c = flaw_depth/(self.flaw_length/2)
 
     def get_single_defect(self, sample_index):
         """Returns single defect instance from ensemble defect object.

@@ -1,4 +1,4 @@
-# Copyright 2023 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+# Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights
 # in this software.
 #
@@ -33,31 +33,21 @@ class CrackGrowthTestCase(unittest.TestCase):
         """unit test of default behavior of crack growth module"""
         test_crack = CrackGrowth(environment=self.environment,
                                  growth_model_specification=self.growth_model_specification)
-        test_crack.update_delta_k_delta_a(self.delta_k, self.delta_a)
-        self.assertGreater(test_crack.calc_delta_n(), 0)
-        test_crack.update_delta_k_delta_a(0, 0)
-        self.assertEqual(test_crack.calc_delta_n(), 0)
-        test_crack.update_delta_k_delta_n(self.delta_k, self.delta_n)
-        self.assertGreater(test_crack.calc_delta_a(), 0)
-        test_crack.update_delta_k_delta_n(0, 0)
-        self.assertEqual(test_crack.calc_delta_a(), 0)
-
-    def test_bad_default(self):
-        """unit test of default behavior of crack growth module with missing specifications"""
-        test_crack = CrackGrowth(environment=self.environment,
-                                 growth_model_specification=self.growth_model_specification)
-        with self.assertRaises(ValueError):
-            test_crack.calc_delta_n()
-
-        with self.assertRaises(ValueError):
-            test_crack.calc_delta_a()
+        self.assertGreater(test_crack.calc_delta_n(delta_a=self.delta_a,
+                                                   delta_k=self.delta_k), 0)
+        self.assertEqual(test_crack.calc_delta_n(delta_a=0,
+                                                 delta_k=0), 0)
+        self.assertGreater(test_crack.calc_change_in_crack_size(delta_n=self.delta_n, 
+                                                                delta_k=self.delta_k), 0)
+        self.assertEqual(test_crack.calc_change_in_crack_size(delta_n=0, 
+                                                              delta_k=0), 0)
 
     def test_input_types(self):
         """unit test for passing lists of inputs to crack growth module"""
         test_crack = CrackGrowth(environment=self.environment,
                                  growth_model_specification=self.growth_model_specification)
-        test_crack.update_delta_k_delta_a(.1, .1)
-        delta_n_scalar = test_crack.calc_delta_n()
+        delta_n_scalar = test_crack.calc_delta_n(delta_a=.1, 
+                                                 delta_k=.1)
 
         environment = EnvironmentSpecification(max_pressure=[5, self.max_pressure],
                                                min_pressure=[1, self.min_pressure],
@@ -66,9 +56,8 @@ class CrackGrowthTestCase(unittest.TestCase):
         test_crack = CrackGrowth(environment=environment,
                                  growth_model_specification=self.growth_model_specification,
                                  sample_size=2)
-        test_crack.update_delta_k_delta_a(np.array([0.5, self.delta_k]),
-                                        np.array([0.2, self.delta_a]))
-        delta_array = test_crack.calc_delta_n()
+        delta_array = test_crack.calc_delta_n(delta_a=np.array([0.2, self.delta_a]),
+                                              delta_k=np.array([0.5, self.delta_k]))
 
         self.assertNotEqual(delta_n_scalar, delta_array[0])
         self.assertEqual(delta_n_scalar, delta_array[1])
@@ -81,9 +70,10 @@ class CrackGrowthTestCase(unittest.TestCase):
                                                volume_fraction_h2=0)
         test_crack = CrackGrowth(environment=environment,
                                  growth_model_specification=self.growth_model_specification)
-        test_crack.update_delta_k_delta_a(self.delta_k, self.delta_a)
-
-        self.assertEqual(test_crack.calc_delta_n(), test_crack.calc_air_curve_dn())
+        
+        self.assertEqual(test_crack.calc_delta_n(delta_a=self.delta_a,
+                                                 delta_k=self.delta_k),
+                                                 test_crack.calc_air_curve_dn())
 
     def test_100pct_h2(self):
         """unit test that crack growth following ASME curve"""
@@ -94,12 +84,13 @@ class CrackGrowthTestCase(unittest.TestCase):
         test_crack = CrackGrowth(environment=environment,
                                  growth_model_specification=self.growth_model_specification)
 
-        test_crack.update_delta_k_delta_a(delta_k=1, delta_a=self.delta_a)
-        self.assertEqual(test_crack.calc_delta_n(), test_crack.calc_air_curve_dn())
-        test_crack.update_delta_k_delta_a(delta_k=10, delta_a=self.delta_a)
-        self.assertEqual(test_crack.calc_delta_n(), test_crack.calc_code_case_2938_dn_lower_k())
-        test_crack.update_delta_k_delta_a(delta_k=100, delta_a=self.delta_a)
-        self.assertEqual(test_crack.calc_delta_n(), test_crack.calc_code_case_2938_dn_higher_k())
+        self.assertEqual(test_crack.calc_delta_n(delta_a=self.delta_a, delta_k=1), test_crack.calc_air_curve_dn())
+        self.assertEqual(test_crack.calc_delta_n(delta_a=self.delta_a,
+                                                 delta_k=10),
+                                                 test_crack.calc_code_case_2938_dn_lower_k())
+        self.assertEqual(test_crack.calc_delta_n(delta_a=self.delta_a,
+                                                 delta_k=100),
+                                                 test_crack.calc_code_case_2938_dn_higher_k())
 
 
     def test_invalid_fugacity_correction_case(self):
@@ -119,11 +110,11 @@ class CrackGrowthTestCase(unittest.TestCase):
                                                               'c': c_parameter,
                                                               'm': m_parameter})
 
-        test_crack.update_delta_k_delta_a(self.delta_k, self.delta_a)
-        self.assertEqual(test_crack.calc_delta_n(),
+        self.assertEqual(test_crack.calc_delta_n(delta_a=self.delta_a,
+                                                 delta_k=self.delta_k),
                          self.delta_a/(c_parameter*self.delta_k**m_parameter))
-        test_crack.update_delta_k_delta_n(self.delta_k, self.delta_n)
-        self.assertEqual(test_crack.calc_delta_a(),
+        self.assertEqual(test_crack.calc_change_in_crack_size(delta_n=self.delta_n,
+                                                              delta_k=self.delta_k),
                          self.delta_n*(c_parameter*self.delta_k**m_parameter))
 
     def test_bad_crack_growth_model_specifications(self):
@@ -131,17 +122,19 @@ class CrackGrowthTestCase(unittest.TestCase):
         test_crack = CrackGrowth(environment=self.environment,
                                  growth_model_specification={'model_name': 'paris_law'})
 
-        test_crack.update_delta_k_delta_a(self.delta_k, self.delta_a)
         with self.assertRaises(ValueError):
-            test_crack.calc_delta_n()
+            test_crack.calc_delta_n(delta_a=self.delta_a,
+                                    delta_k=self.delta_k)
 
         test_crack2 = CrackGrowth(environment=self.environment,
                                   growth_model_specification={'model_name': 'something_else'})
-        test_crack2.update_delta_k_delta_a(self.delta_k, self.delta_a)
+
         with self.assertRaises(ValueError):
-            test_crack2.calc_delta_n()
+            test_crack2.calc_delta_n(delta_a=self.delta_a,
+                                     delta_k=self.delta_k)
         with self.assertRaises(ValueError):
-            test_crack2.calc_delta_a()
+            test_crack2.calc_change_in_crack_size(delta_n=self.delta_n,
+                                                  delta_k=self.delta_k)
 
     def test_design_curve_function(self):
         """unit test to check that design curve calculation function performs as expected"""

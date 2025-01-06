@@ -5,6 +5,7 @@ fonttools==4.42.1
 kiwisolver==1.4.5
 macholib==1.16.2
 matplotlib==3.6.3
+netCDF4==1.7.1.post2
 numpy==1.24.1
 packaging==23.1
 pandas==1.5.3
