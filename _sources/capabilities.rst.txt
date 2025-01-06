@@ -1,12 +1,6 @@
 **Capabilities Documentation**
 **********************************
 
-.. parallel_evaluations docu 
-.. =============================
-
-.. .. automodule:: probabilistic.capabilities.parallel_evaluations
-    .. :members:
-
 plotting docu 
 =================
 

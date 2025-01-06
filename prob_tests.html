@@ -1,30 +1,28 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tests Documentation &mdash; helpr 1.1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  <title>Tests Documentation &mdash; helpr 2.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=def9ab29"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
-        <script src="_static/design-tabs.js?v=36754332"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=51b770b3"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/design-tabs.js?v=f930bc37"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Probabilistic Evaluation for Single Pipe Lifetime" href="demo_probabilistic.html" />
+    <link rel="next" title="Single Deterministic Pipeline Lifetime Evaluation" href="demo_deterministic.html" />
     <link rel="prev" title="Capabilities Documentation" href="capabilities.html" /> 
 </head>
 
@@ -110,12 +108,13 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">HELPR Demo</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="demo_probabilistic.html"><strong>Probabilistic Evaluation for Single Pipe Lifetime</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_deterministic.html"><strong>Single Deterministic Pipeline Lifetime Evaluation</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="demo_inspection_mitigation.html"><strong>Inspection Mitigation Analysis of Pipeline Population</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="demo_sensitivity.html"><strong>Sensitivity Analysis of Pipeline Lifetime Evaluation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_probabilistic.html"><strong>Probabilistic Evaluation for Single Pipe Lifetime</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_uncertainty_types.html"><strong>Probabilistic Evaluation for Pipe Population’s Lifetimes with Multiple Types of Uncertainty</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_sensitivity.html"><strong>Sensitivity Analysis of Pipeline Lifetime Evaluation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_inspection_mitigation.html"><strong>Inspection Mitigation Analysis of Pipeline Population</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_crack_growth_curves.html"><strong>Demonstration of Crack Growth Curves</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_advanced_user_options.html"><strong>Advanced User Options</strong></a></li>
 </ul>
 
         </div>
@@ -143,42 +142,42 @@
            <div itemprop="articleBody">
              
   <section id="tests-documentation">
-<h1><strong>Tests Documentation</strong><a class="headerlink" href="#tests-documentation" title="Permalink to this heading"></a></h1>
+<h1><strong>Tests Documentation</strong><a class="headerlink" href="#tests-documentation" title="Link to this heading"></a></h1>
 <section id="module-probabilistic.tests.test_plotting">
-<span id="test-plotting-docu"></span><h2>test_plotting docu<a class="headerlink" href="#module-probabilistic.tests.test_plotting" title="Permalink to this heading"></a></h2>
+<span id="test-plotting-docu"></span><h2>test_plotting docu<a class="headerlink" href="#module-probabilistic.tests.test_plotting" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="probabilistic.tests.test_plotting.PlottingTestCase">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">probabilistic.tests.test_plotting.</span></span><span class="sig-name descname"><span class="pre">PlottingTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_plotting.PlottingTestCase" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">probabilistic.tests.test_plotting.</span></span><span class="sig-name descname"><span class="pre">PlottingTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_plotting.PlottingTestCase" title="Link to this definition"></a></dt>
 <dd><p>class for unit tests of plotting module</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_plotting.PlottingTestCase.setUp">
-<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_plotting.PlottingTestCase.setUp" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_plotting.PlottingTestCase.setUp" title="Link to this definition"></a></dt>
 <dd><p>function to specify common plotting inputs</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_plotting.PlottingTestCase.tearDown">
-<span class="sig-name descname"><span class="pre">tearDown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_plotting.PlottingTestCase.tearDown" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">tearDown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_plotting.PlottingTestCase.tearDown" title="Link to this definition"></a></dt>
 <dd><p>teardown function</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_plotting.PlottingTestCase.test_histogram_plotting">
-<span class="sig-name descname"><span class="pre">test_histogram_plotting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_plotting.PlottingTestCase.test_histogram_plotting" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">test_histogram_plotting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_plotting.PlottingTestCase.test_histogram_plotting" title="Link to this definition"></a></dt>
 <dd><p>unit test to check the histogram plotting does not error
 with basic inputs</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_plotting.PlottingTestCase.test_pdf_plotting">
-<span class="sig-name descname"><span class="pre">test_pdf_plotting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_plotting.PlottingTestCase.test_pdf_plotting" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">test_pdf_plotting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_plotting.PlottingTestCase.test_pdf_plotting" title="Link to this definition"></a></dt>
 <dd><p>unit test to check the pdf plotting function does not error
 with basic inputs</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_plotting.PlottingTestCase.test_plot_scatter_matrix">
-<span class="sig-name descname"><span class="pre">test_plot_scatter_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_plotting.PlottingTestCase.test_plot_scatter_matrix" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">test_plot_scatter_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_plotting.PlottingTestCase.test_plot_scatter_matrix" title="Link to this definition"></a></dt>
 <dd><p>unit test to check the scatter plot creation does not error</p>
 </dd></dl>
 
@@ -186,119 +185,119 @@ with basic inputs</p>
 
 </section>
 <section id="module-probabilistic.tests.test_sampling">
-<span id="test-sampling-docu"></span><h2>test_sampling docu<a class="headerlink" href="#module-probabilistic.tests.test_sampling" title="Permalink to this heading"></a></h2>
+<span id="test-sampling-docu"></span><h2>test_sampling docu<a class="headerlink" href="#module-probabilistic.tests.test_sampling" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="probabilistic.tests.test_sampling.SamplingTestCase">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">probabilistic.tests.test_sampling.</span></span><span class="sig-name descname"><span class="pre">SamplingTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">probabilistic.tests.test_sampling.</span></span><span class="sig-name descname"><span class="pre">SamplingTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase" title="Link to this definition"></a></dt>
 <dd><p>class for unit tests of sampling module</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_sampling.SamplingTestCase.setUp">
-<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.setUp" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.setUp" title="Link to this definition"></a></dt>
 <dd><p>function to specify common sampling inputs</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_sampling.SamplingTestCase.tearDown">
-<span class="sig-name descname"><span class="pre">tearDown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.tearDown" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">tearDown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.tearDown" title="Link to this definition"></a></dt>
 <dd><p>teardown function</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_sampling.SamplingTestCase.test_bounding_sensitivity_study">
-<span class="sig-name descname"><span class="pre">test_bounding_sensitivity_study</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_bounding_sensitivity_study" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">test_bounding_sensitivity_study</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_bounding_sensitivity_study" title="Link to this definition"></a></dt>
 <dd><p>unit test of sensitivity study</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_sampling.SamplingTestCase.test_deterministic_parameter_specification">
-<span class="sig-name descname"><span class="pre">test_deterministic_parameter_specification</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_deterministic_parameter_specification" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">test_deterministic_parameter_specification</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_deterministic_parameter_specification" title="Link to this definition"></a></dt>
 <dd><p>unit test to check that deterministic variables are placed in sample sheet correctly</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_sampling.SamplingTestCase.test_distributions_with_same_name">
-<span class="sig-name descname"><span class="pre">test_distributions_with_same_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_distributions_with_same_name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">test_distributions_with_same_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_distributions_with_same_name" title="Link to this definition"></a></dt>
 <dd><p>unit test for error message when two variables are specified with same name</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_sampling.SamplingTestCase.test_incorrect_uncertainty_type_specified">
-<span class="sig-name descname"><span class="pre">test_incorrect_uncertainty_type_specified</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_incorrect_uncertainty_type_specified" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">test_incorrect_uncertainty_type_specified</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_incorrect_uncertainty_type_specified" title="Link to this definition"></a></dt>
 <dd><p>unit test of random MC sampling with no epistemic variables specified</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_sampling.SamplingTestCase.test_lhs_random_seed_specification">
-<span class="sig-name descname"><span class="pre">test_lhs_random_seed_specification</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_lhs_random_seed_specification" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">test_lhs_random_seed_specification</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_lhs_random_seed_specification" title="Link to this definition"></a></dt>
 <dd><p>unit test for random seed specification</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_sampling.SamplingTestCase.test_lhs_sampling_study">
-<span class="sig-name descname"><span class="pre">test_lhs_sampling_study</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_lhs_sampling_study" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">test_lhs_sampling_study</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_lhs_sampling_study" title="Link to this definition"></a></dt>
 <dd><p>unit test of LHS study</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_sampling.SamplingTestCase.test_monte_carlo_random_seed_specification">
-<span class="sig-name descname"><span class="pre">test_monte_carlo_random_seed_specification</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_monte_carlo_random_seed_specification" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">test_monte_carlo_random_seed_specification</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_monte_carlo_random_seed_specification" title="Link to this definition"></a></dt>
 <dd><p>unit test for random seed specification</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_sampling.SamplingTestCase.test_no_aleatory_samples_specified">
-<span class="sig-name descname"><span class="pre">test_no_aleatory_samples_specified</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_no_aleatory_samples_specified" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">test_no_aleatory_samples_specified</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_no_aleatory_samples_specified" title="Link to this definition"></a></dt>
 <dd><p>unit test for error message when aleatory variable specified with no aleatory samples</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_sampling.SamplingTestCase.test_no_aleatory_variable_specified">
-<span class="sig-name descname"><span class="pre">test_no_aleatory_variable_specified</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_no_aleatory_variable_specified" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">test_no_aleatory_variable_specified</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_no_aleatory_variable_specified" title="Link to this definition"></a></dt>
 <dd><p>unit test for error message when epistemic samples specified with
 no aleatory variables</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_sampling.SamplingTestCase.test_no_aleatory_variables">
-<span class="sig-name descname"><span class="pre">test_no_aleatory_variables</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_no_aleatory_variables" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">test_no_aleatory_variables</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_no_aleatory_variables" title="Link to this definition"></a></dt>
 <dd><p>unit test of random MC sampling with no aleatoric variables specified</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_sampling.SamplingTestCase.test_no_epistemic_samples_specified">
-<span class="sig-name descname"><span class="pre">test_no_epistemic_samples_specified</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_no_epistemic_samples_specified" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">test_no_epistemic_samples_specified</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_no_epistemic_samples_specified" title="Link to this definition"></a></dt>
 <dd><p>unit test for error message when epistemic variable specified with
 no epistemic samples</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_sampling.SamplingTestCase.test_no_epistemic_variable_specified">
-<span class="sig-name descname"><span class="pre">test_no_epistemic_variable_specified</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_no_epistemic_variable_specified" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">test_no_epistemic_variable_specified</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_no_epistemic_variable_specified" title="Link to this definition"></a></dt>
 <dd><p>unit test for error message when epistemic samples specified with
 no epistemic variables</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_sampling.SamplingTestCase.test_no_epistemic_variables">
-<span class="sig-name descname"><span class="pre">test_no_epistemic_variables</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_no_epistemic_variables" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">test_no_epistemic_variables</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_no_epistemic_variables" title="Link to this definition"></a></dt>
 <dd><p>unit test of random MC sampling with no epistemic variables specified</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_sampling.SamplingTestCase.test_one_at_a_time_sensitivity_study">
-<span class="sig-name descname"><span class="pre">test_one_at_a_time_sensitivity_study</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_one_at_a_time_sensitivity_study" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">test_one_at_a_time_sensitivity_study</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_one_at_a_time_sensitivity_study" title="Link to this definition"></a></dt>
 <dd><p>unit test of sensitivity study</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_sampling.SamplingTestCase.test_random_sampling_study">
-<span class="sig-name descname"><span class="pre">test_random_sampling_study</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_random_sampling_study" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">test_random_sampling_study</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_random_sampling_study" title="Link to this definition"></a></dt>
 <dd><p>unit test of random MC sampling study</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_sampling.SamplingTestCase.test_sensitivity_study">
-<span class="sig-name descname"><span class="pre">test_sensitivity_study</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_sensitivity_study" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">test_sensitivity_study</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.test_sensitivity_study" title="Link to this definition"></a></dt>
 <dd><p>unit test of sensitivity study</p>
 </dd></dl>
 
@@ -306,44 +305,44 @@ no epistemic variables</p>
 
 </section>
 <section id="module-probabilistic.tests.test_uncertainty_definitions">
-<span id="test-uncertainty-definitions-docu"></span><h2>test_uncertainty_definitions docu<a class="headerlink" href="#module-probabilistic.tests.test_uncertainty_definitions" title="Permalink to this heading"></a></h2>
+<span id="test-uncertainty-definitions-docu"></span><h2>test_uncertainty_definitions docu<a class="headerlink" href="#module-probabilistic.tests.test_uncertainty_definitions" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">probabilistic.tests.test_uncertainty_definitions.</span></span><span class="sig-name descname"><span class="pre">UncertaintyDefinitionTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">probabilistic.tests.test_uncertainty_definitions.</span></span><span class="sig-name descname"><span class="pre">UncertaintyDefinitionTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase" title="Link to this definition"></a></dt>
 <dd><p>class for unit tests of uncertainty definition module</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.setUp">
-<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.setUp" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.setUp" title="Link to this definition"></a></dt>
 <dd><p>function to specify common inputs for uncertainty definition module</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.tearDown">
-<span class="sig-name descname"><span class="pre">tearDown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.tearDown" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">tearDown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.tearDown" title="Link to this definition"></a></dt>
 <dd><p>teardown function</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.test_distribution_pdf_plotting">
-<span class="sig-name descname"><span class="pre">test_distribution_pdf_plotting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.test_distribution_pdf_plotting" title="Permalink to this definition"></a></dt>
-<dd><p>unit test to ensure pdf plotting of distributions does not error</p>
+<span class="sig-name descname"><span class="pre">test_distribution_pdf_plotting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.test_distribution_pdf_plotting" title="Link to this definition"></a></dt>
+<dd><p>unit test to ensure plotting of parameter distributions does not error</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.test_distribution_specification_function">
-<span class="sig-name descname"><span class="pre">test_distribution_specification_function</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.test_distribution_specification_function" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">test_distribution_specification_function</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.test_distribution_specification_function" title="Link to this definition"></a></dt>
 <dd><p>unit test for distribution specification function</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.test_parameter_information_extraction">
-<span class="sig-name descname"><span class="pre">test_parameter_information_extraction</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.test_parameter_information_extraction" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">test_parameter_information_extraction</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.test_parameter_information_extraction" title="Link to this definition"></a></dt>
 <dd><p>unit test of printing out distribution information</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.test_sample_uncertainty_definition">
-<span class="sig-name descname"><span class="pre">test_sample_uncertainty_definition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.test_sample_uncertainty_definition" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">test_sample_uncertainty_definition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.test_sample_uncertainty_definition" title="Link to this definition"></a></dt>
 <dd><p>unit test of sampling from uncertainty definitions</p>
 </dd></dl>
 
@@ -357,13 +356,13 @@ no epistemic variables</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="capabilities.html" class="btn btn-neutral float-left" title="Capabilities Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="demo_probabilistic.html" class="btn btn-neutral float-right" title="Probabilistic Evaluation for Single Pipe Lifetime" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="demo_deterministic.html" class="btn btn-neutral float-right" title="Single Deterministic Pipeline Lifetime Evaluation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023 National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retainscertain rights in this software.</p>
+    <p>&#169; Copyright 2024 National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retainscertain rights in this software.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
