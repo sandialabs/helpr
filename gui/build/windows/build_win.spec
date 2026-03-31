@@ -1,7 +1,7 @@
 # -*- mode: python ; coding: utf-8 -*-
 
 """
-Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
 
 You should have received a copy of the BSD License along with HELPR.
@@ -24,6 +24,9 @@ except ImportError or ModuleNotFoundError:
 """
 Creates code bundle for Windows distribution.
 
+    cd build\windows\
+    pyinstaller .\build_win.spec --noconfirm
+
 This script also excludes license-incompatible modules according to:
 https://doc.qt.io/qt-6/qtmodules.html#gpl-licensed-addons
 
@@ -31,7 +34,7 @@ https://doc.qt.io/qt-6/qtmodules.html#gpl-licensed-addons
 
 # Specify included Qt directories and files to ensure incompatible (GPL) modules are excluded.
 do_filtering = True
-version_str = "2.0.0"
+version_str = "2.1.0"
 appname = "HELPR"
 
 build_dir = Path(os.getcwd())
@@ -47,25 +50,38 @@ print(f"Lib dir exists {lib_dir.exists()}: {lib_dir}")
 print(f"Build dir exists {build_dir.exists()}: {build_dir}")
 
 
-pyside_dir_blacklist = [
+# GPL v3-only modules (MUST exclude - incompatible with HELPR's BSD license)
+# See: https://doc.qt.io/qt-6/licensing.html and individual module pages
+gpl_only_blacklist = [
     'QtCharts',
     'QtCoAP',
     'DataVisualization',
+    'QtDataVisualization',
+    'QtGraphs',
+    'QtGrpc',
+    'QtHttpServer',
     'Lottie',
     'MQTT',
     'NetworkAuthorization',
     'QtQuick3D',
+    'QtQuick3DPhysics',
     'Timeline',
+    'QtQuickTimeline',
     'VirtualKeyboard',
     'Wayland',
-    'Scene3D',
+    'Qt5Compat',
+]
 
-    'QtDataVisualization',
+# Additional modules excluded by project policy (not needed, reduces size/attack surface)
+additional_blacklist = [
+    'Scene3D',
     'QtRemoteObjects',
     'QtSensors',
     'QtWebChannel',
     'QtWebSockets',
 ]
+
+pyside_dir_blacklist = gpl_only_blacklist + additional_blacklist
 
 pyside_qml_subdir_whitelist = [
     'QtCore',
@@ -128,55 +144,47 @@ dirs_to_delete = [
 
 def filter_output_files(lst):
     """
-    Rebuilds file lists based on whitelists.
+    Excludes GPL-licensed Qt modules from the build.
     DO NOT DISABLE THIS - it ensures only license-compatible modules are included.
 
+    Uses a blacklist approach: keep everything except known GPL-incompatible modules.
     """
     to_keep = []
     for (dest, source, kind) in lst:
-        if 'PySide6' in dest:
-            fpath = Path(dest)
-            parts = fpath.parts
+        fpath = Path(dest)
+        parts = fpath.parts
 
-            # For simplicity, check for main GPL modules first
-            skip = False
-            for entry in pyside_dir_blacklist:
-                if entry in parts:
-                    skip = True
-                    break
-            if skip:
-                print(f"Excluding {fpath}")
+        # Check against GPL module blacklist
+        skip = False
+        for entry in pyside_dir_blacklist:
+            if entry in parts:
+                skip = True
+                break
+        if skip:
+            print(f"Excluding (GPL): {fpath}")
+            continue
+
+        # Exclude translations (not needed, reduces size)
+        if 'PySide6' in dest and 'translations' in parts:
+            print(f"Excluding (translations): {fpath}")
+            continue
+
+        # Exclude specific plugin dirs that aren't needed
+        if 'PySide6' in dest and 'plugins' in parts:
+            if 'platforminputcontexts' in parts or 'qmltooling' in parts:
+                print(f"Excluding (plugin): {fpath}")
                 continue
 
-            if 'translations' in parts:
-                print(f"Excluding {fpath}")
-                continue
-
-            elif 'plugins' in parts:
-                if 'platforminputcontexts' not in parts and 'qmltooling' not in parts:
-                    to_keep.append((dest, source, kind))
-
-            elif 'qml' in parts:
-                # qml/ sub-directories
-                for name in pyside_qml_subdir_whitelist:
-                    if name in parts:
-                        to_keep.append((dest, source, kind))
-
-            else:
-                # top-level DLLs and .pyd files
-                if os.path.split(dest)[1] in qt_file_whitelist:
-                    to_keep.append((dest, source, kind))
-                else:
-                    print(f"Excluding {fpath}")
-
-        else:
-            to_keep.append((dest, source, kind))
+        to_keep.append((dest, source, kind))
 
     return to_keep
 
 
-def delete_additional_dirs():
-    print('== DELETING ADDITIONAL DIRS ==')
+def post_build_cleanup():
+    """Remove GPL-licensed modules that may have been pulled in by binary dependency analysis."""
+    print('== POST-BUILD CLEANUP ==')
+
+    # Delete specific directories
     for dirpath in dirs_to_delete:
         print(dirpath.as_posix())
         if dirpath.exists():
@@ -186,8 +194,27 @@ def delete_additional_dirs():
             except OSError as e:
                 print(f"Could not remove dir: {dirpath} - {e.strerror}")
 
+    # Scan entire dist tree and remove anything matching blacklisted entries.
+    # For DLL matching, normalize Qt6XYZ -> QtXYZ to match blacklist entries like 'QtCharts'.
+    def matches_blacklist(fpath):
+        for entry in pyside_dir_blacklist:
+            if entry in fpath.parts:
+                return True
+            # Normalize stem: Qt6Charts -> QtCharts, Qt63DCore -> Qt3DCore
+            stem = fpath.stem
+            normalized = stem.replace('Qt6', 'Qt', 1)
+            if entry in stem or entry in normalized:
+                return True
+        return False
 
-block_cipher = None
+    for fpath in sorted(dist_dir.rglob('*'), reverse=True):
+        if matches_blacklist(fpath) and fpath.exists():
+            if fpath.is_dir():
+                shutil.rmtree(fpath)
+                print(f"Deleted dir: {fpath}")
+            else:
+                fpath.unlink()
+                print(f"Deleted file: {fpath}")
 
 
 res = Analysis(
@@ -201,17 +228,14 @@ res = Analysis(
             (app_dir.joinpath('hygu/ui'), 'hygu/ui/'),
             (app_dir.joinpath('hygu/resources'), 'hygu/resources/'),
             (app_dir.joinpath('assets'), 'assets/'),
-            (repo_dir.joinpath('src/helpr/data'), 'data/'),
+            (repo_dir.joinpath('src/helpr/data'), 'data/')
         ],
         binaries=[],
         hiddenimports=[],
         hookspath=[],
         hooksconfig={},
-        runtime_hooks=[],
+        runtime_hooks=['rthook_pyside6_dll_path.py'],
         excludes=[],
-        win_no_prefer_redirects=False,
-        win_private_assemblies=False,
-        cipher=block_cipher,
         noarchive=False,
 )
 
@@ -227,7 +251,7 @@ if do_filtering:
     res.datas = filter_output_files(res.datas)
 
 
-pyz = PYZ(res.pure, res.zipped_data, cipher=block_cipher)
+pyz = PYZ(res.pure)
 
 exe = EXE(
         pyz,
@@ -246,6 +270,7 @@ exe = EXE(
         target_arch=None,
         codesign_identity=None,
         entitlements_file=None,
+        contents_directory='.',
 )
 coll = COLLECT(
         exe,
@@ -259,7 +284,7 @@ coll = COLLECT(
 )
 
 if do_filtering:
-    delete_additional_dirs()
+    post_build_cleanup()
 
 
 # Spot-check that filtering was applied
@@ -277,3 +302,6 @@ for item in pyside_dir_blacklist:
     assert not fpath.exists()
 
 assert do_filtering
+
+print('\a')  # terminal bell
+print(f'== BUILD COMPLETE: {appname} {version_str} ==')

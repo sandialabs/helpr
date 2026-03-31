@@ -1,4 +1,4 @@
-# Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+# Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights
 # in this software.
 #
@@ -8,7 +8,8 @@ from helpr.utilities.parameter import Parameter
 
 
 class Pipe:
-    """Class defining physical Pipe properties.
+    """
+    Class defining physical Pipe properties.
     
     Attributes
     ----------
@@ -16,65 +17,60 @@ class Pipe:
     wall_thickness
     pipe_avg_radius
     inner_diameter
-    
     """
+
     def __init__(self,
                  outer_diameter,
-                 wall_thickness,
-                 sample_size=1):
+                 wall_thickness):
         """
+        Initialize the pipe with geometric parameters.
+
         Parameters
         --------
-        outer_diameter : float
+        outer_diameter : float, m
             Outer diameter of the pipe.
-        wall_thickness : float
+        wall_thickness : float, m
             Thickness of the pipe wall.
-        sample_size : int
-            Analysis sample size.
-        
         """
         self.outer_diameter = Parameter('outer_diameter',
-                                        outer_diameter,
-                                        lower_bound=0,
-                                        size=sample_size)
+                                        value=outer_diameter,
+                                        lower_bound=0)
         self.wall_thickness = Parameter('wall_thickness',
-                                        wall_thickness,
+                                        value=wall_thickness,
                                         lower_bound=0,
-                                        upper_bound=self.outer_diameter/2,
-                                        size=sample_size)
+                                        upper_bound=self.outer_diameter/2)
         self.pipe_avg_radius = self.calc_average_radius()
         self.inner_diameter = self.calc_inner_diameter()
 
     def calc_average_radius(self):
-        """Calculates average pipe radius. """
-        return (self.outer_diameter - self.wall_thickness)/2
-
-    def calc_inner_diameter(self):
-        """Calculates inner diameter. """
-        return self.outer_diameter - 2*self.wall_thickness
-    
-    def calc_t_over_r(self):
-        """calculates the ratio of wall thickness to inner radius"""
-        return self.wall_thickness/(self.inner_diameter/2)
-
-    def get_single_pipe(self, sample_index):
-        """Returns single pipe instance.
-
-        Parameters
-        ----------
-        sample_index : int
-            Index of requested pipe instance.
+        """
+        Calculates the average pipe radius.
 
         Returns
         -------
-        Pipe
-            Single pipe instance.
-        
+        float
+            The average radius of the pipe.
         """
-        outer_diameter = self.outer_diameter[sample_index] \
-            if len(self.outer_diameter) > sample_index else self.outer_diameter
-        wall_thickness = self.wall_thickness[sample_index] \
-            if len(self.wall_thickness) > sample_index else self.wall_thickness
-        return Pipe(outer_diameter=outer_diameter,
-                    wall_thickness=wall_thickness,
-                    sample_size=1)
+        return (self.outer_diameter - self.wall_thickness)/2
+
+    def calc_inner_diameter(self):
+        """
+        Calculates the inner diameter of the pipe.
+
+        Returns
+        -------
+        float
+            The inner diameter of the pipe.
+        """
+        return self.outer_diameter - 2*self.wall_thickness
+
+    def calc_t_over_r(self):
+        """
+        Calculates the ratio of wall thickness to inner radius.
+
+        Returns
+        -------
+        float
+            The ratio of wall thickness to inner radius.
+        """
+        return self.wall_thickness/(self.inner_diameter/2)

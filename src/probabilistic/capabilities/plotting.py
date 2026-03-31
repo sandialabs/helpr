@@ -1,4 +1,4 @@
-# Copyright 2024p National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+# Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights
 # in this software.
 #
@@ -9,11 +9,20 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from itertools import cycle
 
-'''Module for holding plotting functionality'''
+"""Module for holding plotting functionality"""
 
 
 def initiate_plot_settings():
-    '''function to initiate plotting settings'''
+    """
+    Initialize default plotting settings.
+
+    Returns
+    -------
+    tuple
+        A tuple containing two itertools.cycle objects:
+        - line_cycler: cycle through line styles.
+        - color_cycler: cycle through colors.
+    """
     lines = ['-', '--', '-.', ':']
     colors = ['r', 'k', 'orange', 'purple', 'g']
     line_cycler = cycle(lines)
@@ -24,15 +33,19 @@ def initiate_plot_settings():
 def plot_distribution_pdf(distribution,
                           variable_name,
                           plot_limits=False):
-    '''function to plot distribution pdf
+    """
+    Plot the probability density function (PDF) of a distribution.
 
     Parameters
-    -----------
-    distribution
-    variable_name
-    plot_limits: bool
-        Defaults to False
-    '''
+    ----------
+    distribution : object
+        A distribution object with `.mean()`, `.std()`, and `.pdf()` methods (e.g., from scipy.stats).
+    variable_name : str
+        Name of the variable to be displayed on the x-axis.
+    plot_limits : tuple of float, optional
+        Tuple specifying (min, max) x-axis limits for plotting. If False (default),
+        limits are set to ±3 standard deviations from the mean.
+    """
     plt.figure(figsize=(4, 4))
     if not plot_limits:
         plot_spread = distribution.std()*3
@@ -49,13 +62,16 @@ def plot_distribution_pdf(distribution,
 
 def plot_deterministic_parameter_value(value,
                                        variable_name):
-    '''function to plot deterministic value
+    """
+    Plot a deterministic parameter value as a single point on the x-axis.
 
     Parameters
     ----------
-    value
-    variable_name
-    '''
+    value : float
+        The deterministic value to be plotted.
+    variable_name : str
+        Name of the variable to be displayed on the x-axis.
+    """
     plt.figure(figsize=(4, 4))
     plt.plot(value, 0, 'ks')
     plt.grid()
@@ -64,23 +80,43 @@ def plot_deterministic_parameter_value(value,
     plt.xticks([value])
 
 
+def plot_time_series_parameter_value(value,
+                                     variable_name):
+    """
+    Plot a deterministic value as a time series.
+
+    Parameters
+    ----------
+    value : array-like
+        Series of values to plot over time.
+    variable_name : str
+        Name of the variable to be displayed on the y-axis.
+    """
+    plt.figure(figsize=(4, 4))
+    plt.plot(value, 'k-')
+    plt.grid()
+    plt.ylabel(variable_name)
+    plt.xlabel('Cycles [#]')
+
+
 def plot_sample_cdf(samples:np.array,
                     variable_name:str,
                     percentiles:list=False,
                     **kwargs):
-    '''function to plot cdf of samples
+    """
+    Plot the cumulative distribution function (CDF) from a set of samples.
 
     Parameters
     ----------
     samples: np.array
-        data to be plotted
+        Data to be plotted
     variable_name: str
-        name of data to be plotted
+        Name of data to be plotted
     percentiles: list
-        percentiles to include on plot
-    kwargs: dict
-        additional histogram function inputs
-    '''
+        Percentiles to include on plot
+    **kwargs: dict
+        Additional histogram function inputs
+    """
     quantiles = np.sort(samples)[::-1]
     cumprob = np.linspace(0, 1, len(samples), endpoint=False)
 
@@ -119,19 +155,24 @@ def plot_sample_histogram(samples:np.array,
                           save_fig=False,
                           filepath="",
                           **kwargs):
-    '''function to plot histogram of samples
+    """
+    Plot a histogram of sample data with optional percentile annotations.
 
     Parameters
     ----------
     samples: np.array
-        data to be plotted
+        Data to be plotted
     variable_name: str
-        name of data to be plotted
+        Name of data to be plotted
     percentiles: list
-        percentiles to include on plot
+        Percentiles to include on plot
+    save_fig : bool, default False
+        If True, saves the figure to the specified filepath.
+    filepath : str, default ""
+        Path to save the figure if `save_fig` is True.
     kwargs: dict
-        additional histogram function inputs
-    '''
+        Additional histogram function inputs
+    """
     if 'bins' not in kwargs:
         kwargs['bins'] = 'auto'
 
@@ -161,14 +202,17 @@ def plot_sample_histogram(samples:np.array,
 
 
 def plot_scatter_matrix(data_dict, density=False):
-    '''function to plot scatter matrix of samples from multiple parameters
-    
+    """
+    Generate a scatter matrix plot for visualizing relationships between multiple variables.
+
     Parameters
-    -----------
-    data_dict: dict
-    density: bool
-        Defaults to False
-    '''
+    ----------
+    data_dict : dict
+        Dictionary where keys are parameter names and values are lists or arrays of samples.
+    density : bool
+        If True, histograms on the diagonal show probability densities instead of counts.
+        Default is False.
+    """
     data_frame = pd.DataFrame(data_dict)
     axs = pd.plotting.scatter_matrix(data_frame, figsize=(9, 9))
 

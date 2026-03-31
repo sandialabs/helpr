@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+ * Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
  * Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
  * You should have received a copy of the BSD License along with HELPR.
  */
@@ -9,13 +9,16 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Window
 import QtQuick.Controls.Material
+
 import "Chart.js" as Chart
 import "../hygu/ui/utils.js" as Utils
 import "../hygu/ui/components"
 import "../hygu/ui/components/buttons"
 import "../hygu/ui/pages"
+import "../hygu/ui/parameters"
 import "components"
 import "charts"
+
 import hygu.classes
 import helpr.classes
 
@@ -28,12 +31,26 @@ ResultPage {
     property var ensembleData
     property var pdfData
     property int plotAnimDuration: 0
-    property int plotH: 400
-    property int plotSmW: 500
-    property int plotW: 550
+    property int plotW: 450
+    property int plotH: 420
+    property int plotSmallW: 390
+    property int plotSmallH: 360
+    property int plotLgW: plotW * 1.5
+    property int plotLgH: plotH * 1.5
+    property int sectionMargin: 30
     property var probFadData
     property CrackEvolutionResultsForm pyform
     property var sensitivityData
+    property var sensitivityDataFad
+
+    Connections {
+        target: pyform
+
+        function onImaFinished(status)
+        {
+            displayInspectionMitigationResults(status);
+        }
+    }
 
     function dynamicColor(i, total) {
         var r = 100 + i * 155 / total;
@@ -93,23 +110,42 @@ ResultPage {
         } else {
             fmtVal = Math.round(val * 1000) / 1000;
         }
-        if (param.input_type === "tnor") {
-            // let dstr = param.d_is_null ? "\u221E" : param.d;
-            let dstr = param.d_is_null ? "inf" : param.d;
-            elem.textRef.text = "<strong>" + param.label_rtf + "</strong>: " + fmtVal + " " + param.get_unit_disp + " (Normal " + param.a + "+/-" + param.b + ", bounds " + param.c + "-" + dstr + ", " + param.uncertainty_disp + ")";
-        } else if (param.input_type === "tlog") {
-            let dstr = param.d_is_null ? "inf" : param.d;
-            elem.textRef.text = "<strong>" + param.label_rtf + "</strong>: " + fmtVal + " " + param.get_unit_disp + " (Lognormal " + param.a + "+/-" + param.b + ", bounds " + param.c + "-" + dstr + ", " + param.uncertainty_disp + ")";
-        } else if (param.input_type === "nor") {
-            elem.textRef.text = "<strong>" + param.label_rtf + "</strong>: " + fmtVal + " " + param.get_unit_disp + " (Normal " + param.a + " +/- " + param.b + ", " + param.uncertainty_disp + ")";
-        } else if (param.input_type === "log") {
-            elem.textRef.text = "<strong>" + param.label_rtf + "</strong>: " + fmtVal + " " + param.get_unit_disp + " (Lognormal " + param.a + " +/- " + param.b + ", " + param.uncertainty_disp + ")";
-        } else if (param.input_type === "uni") {
-            elem.textRef.text = "<strong>" + param.label_rtf + "</strong>: " + fmtVal + " " + param.get_unit_disp + " (Uniform " + param.a + " to " + param.b + ", " + param.uncertainty_disp + ")";
-        } else {
-            elem.textRef.text = "<strong>" + param.label_rtf + "</strong>: " + fmtVal + " " + param.get_unit_disp;
+        let unit = param.get_unit_disp;
+        let lbl = "<strong>" + param.label_rtf + "</strong>: " + fmtVal + " " + unit;
+
+        // Deterministic studies use only the nominal value regardless of distribution
+        let isDet = pyform.study_type.value === 'det';
+        if (isDet || param.input_type === "det")
+        {
+            elem.textRef.text = lbl;
         }
-        if (param.uncertainty_plot !== "") {
+        else if (param.input_type === "tnor")
+        {
+            let dstr = param.upper_is_null ? "\u221E" : Utils.hround(param.upper);
+            elem.textRef.text = lbl + " (Normal " + Utils.hround(param.mean) + "\u00B1" + Utils.hround(param.std) + ", bounds " + Utils.hround(param.lower) + "\u2013" + dstr + ", " + param.uncertainty_disp + ")";
+        }
+        else if (param.input_type === "tlog")
+        {
+            let dstr = param.upper_is_null ? "\u221E" : Utils.hround(param.upper);
+            elem.textRef.text = lbl + " (Lognormal \u03BC=" + Utils.hround(param.mu) + " \u03C3=" + Utils.hround(param.sigma) + ", bounds " + Utils.hround(param.lower) + "\u2013" + dstr + ", " + param.uncertainty_disp + ")";
+        }
+        else if (param.input_type === "nor")
+        {
+            elem.textRef.text = lbl + " (Normal " + Utils.hround(param.mean) + "\u00B1" + Utils.hround(param.std) + ", " + param.uncertainty_disp + ")";
+        }
+        else if (param.input_type === "log")
+        {
+            elem.textRef.text = lbl + " (Lognormal \u03BC=" + Utils.hround(param.mu) + " \u03C3=" + Utils.hround(param.sigma) + ", " + param.uncertainty_disp + ")";
+        }
+        else if (param.input_type === "uni")
+        {
+            elem.textRef.text = lbl + " (Uniform " + Utils.hround(param.lower) + "\u2013" + Utils.hround(param.upper) + ", " + param.uncertainty_disp + ")";
+        }
+        else
+        {
+            elem.textRef.text = lbl;
+        }
+        if (!isDet && param.uncertainty_plot !== "") {
             elem.btnRef.visible = true;
             elem.filepath = param.uncertainty_plot;
         } else {
@@ -119,7 +155,8 @@ ResultPage {
     }
 
     function updateContent() {
-        let images = [crackGrowthPlot, designCurvePlot, detFadPlot, ensemblePlot, cyclePlot, pdfPlot, cdfPlot, probFadPlot, senPlot];
+        let images = [crackGrowthPlot, designCurvePlot, detFadPlot, ensemblePlot, cyclePlot,
+            pdfPlot, cdfPlot, probFadPlot, senPlot, randomLoadingProfilePlot];
         images.forEach((img, i) => clearImage(img));
 
         detSection.visible = false;
@@ -148,9 +185,24 @@ ResultPage {
         Utils.showChoiceParam(stress_method, pyform.stress_method);
         Utils.showChoiceParam(surface, pyform.surface);
         Utils.showChoiceParam(crack_assump, pyform.crack_assump);
-        Utils.showBasicParam(n_ale, pyform.n_ale);
-        Utils.showBasicParam(n_epi, pyform.n_epi);
+
+        let isBounds = pyform.study_type.value === 'bnd';
+        n_ale.visible = !isBounds;
+        n_epi.visible = !isBounds;
+        if (!isBounds) {
+            Utils.showBasicParam(n_ale, pyform.n_ale);
+            Utils.showBasicParam(n_epi, pyform.n_epi);
+        }
         Utils.showBasicParam(seed, pyform.seed);
+
+        Utils.showChoiceParam(evolution_method, pyform.evolution_method);
+        if (pyform.evolution_method.value === "cycles") {
+            Utils.showBasicParam(cycle_step_size, pyform.cycle_step_size);
+        }
+        else {
+            cycle_step_size.text = "<strong>" + pyform.cycle_step_size.label + "</strong>: --";
+        }
+
         if (pyform.n_cycles.value === 0) {
             // Val of 0 indicates null
             // n_cycles.text = "<strong>" + pyform.n_cycles.label + "</strong>: a/t";
@@ -158,6 +210,23 @@ ResultPage {
         } else {
             n_cycles.visible = true;
             n_cycles.text = "<strong>Max cycles</strong>: " + pyform.n_cycles.value;
+        }
+        
+        // Show random loading profile if used OR show pressures
+        if (pyform.random_loading_profile && pyform.random_loading_profile.value && pyform.random_loading_profile.value !== "") {
+            p_min.visible = false;
+            p_max.visible = false;
+            randomLoadingProfile.visible = true;
+            randomLoadingProfile.text = "<strong>Random loading profile (" + pyform.profile_units.value + ")</strong>: " + pyform.random_loading_profile.value;
+            randomLoadingProfilePlot.visible = true;
+            updateImage(randomLoadingProfilePlot, pyform.loading_profile_plot);
+        } else {
+            randomLoadingProfile.visible = false;
+            randomLoadingProfilePlot.visible = false;
+            p_min.visible = true;
+            p_max.visible = true;
+            showDistrParam(p_max, pyform.p_max);
+            showDistrParam(p_min, pyform.p_min);
         }
 
         showDistrParam(smys, pyform.smys);
@@ -169,9 +238,8 @@ ResultPage {
         showDistrParam(thickness, pyform.thickness);
         showDistrParam(yield_str, pyform.yield_str);
         showDistrParam(frac_resist, pyform.frac_resist);
+        showDistrParam(residual_stress_intensity, pyform.stress_intensity);
         showDistrParam(vol_h2, pyform.vol_h2);
-        showDistrParam(p_max, pyform.p_max);
-        showDistrParam(p_min, pyform.p_min);
         showDistrParam(temp, pyform.temp);
         showDistrParam(crack_dep, pyform.crack_dep);
         showDistrParam(crack_len, pyform.crack_len);
@@ -190,16 +258,17 @@ ResultPage {
         }
 
         // Analysis complete and successful
-        // status.text = "complete";
-        // status.color = color_success;
         statusIcon.visible = true;
         statusIcon.iconColor = color_success;
 
         let showInteractive = pyform.show_interactive_charts;
 
+        imaSection.visible = true;
+
         if (pyform.study_type.value === 'det') {
             n_ale.visible = false;
             n_epi.visible = false;
+            imaSection.visible = false;
 
             detInterCharts.visible = showInteractive;
             detStaticCharts.visible = !showInteractive;
@@ -243,32 +312,89 @@ ResultPage {
         } else {
             if (showInteractive) {
                 sensitivityData = parsePlotData(pyform.sensitivity_data);
+                sensitivityDataFad = parsePlotData(pyform.sensitivity_data_fad);
                 senPlot.visible = false;
+                senPlotFad.visible = false;
                 senInterChart.visible = true;
+                senInterChartFad.visible = true;
             } else {
                 updateImage(senPlot, pyform.sen_plot);
+                updateImage(senPlotFad, pyform.sen_plot_fad);
                 senPlot.visible = true;
+                senPlotFad.visible = true;
                 senInterChart.visible = false;
+                senInterChartFad.visible = false;
             }
             senSection.visible = true;
+            imaSection.visible = false;
         }
-        updateHeight();
+
+        // load any existing results from backend
+        displayInspectionMitigationResults();
     }
 
-    // Updates ContentHeight of scroll section.
-    // Do this separately from above so it can be tied to heightChanged event of Flickable.
-    function updateHeight() {
-        if (pyform === null)
-            return;
-        let study = pyform.study_type.value;
-        if (study === 'prb') {
-            resultSection.contentHeight = 1800;
-        } else if (study === 'det') {
-            resultSection.contentHeight = 1400;
-        } else {
-            resultSection.contentHeight = 820;
-        }
+    /**
+     * Careful! This call uses the "frozen" state model of this analysis (pyform), but the inputs are bound to the main form (app_form).
+     * So must retrieve them manually and then pass to pyform function.
+     *
+     */
+    function inspectionMitigationAnalysis()
+    {
+        alert.level = 1;
+        alert.msg = "";
+        imaButton.enabled = false;
+        clearImage(imaHistogramPlot);
+        clearImage(imaCdfPlot);
+        imaSpinner.visible = true;
+        imaInputSummary.text = "";
+        imaCloseWarning.text = "Don't close this form while the analysis is in-progress";
+        imaCloseWarning.visible = true;
+
+        app_form.request_inspection_mitigation_analysis(pyform.analysis_id);
+        // now wait for event to trigger on form
     }
+
+    function displayInspectionMitigationResults(status)
+    {
+        imaButton.enabled = true;
+        imaSpinner.visible = false;
+        clearImage(imaHistogramPlot);
+        clearImage(imaCdfPlot);
+        // imaPercentMitigated.text = "";
+
+        imaInputSummary.text = "";
+        imaCloseWarning.visible = false;
+
+        const resultJson = pyform.ima_results;
+        if (resultJson === "" || resultJson === null)
+        {
+            return;
+        }
+
+        const results = JSON.parse(resultJson);
+
+        if (results === "")
+        {
+            return;
+        }
+
+        if (results.status !== 1)
+        {
+            alert.level = 2;
+            alert.msg = results.message;
+            return;
+        }
+
+        updateImage(imaHistogramPlot, results.histogram_plot);
+        updateImage(imaCdfPlot, results.cdf_plot);
+
+        // Display input values
+        imaInputSummary.text = "<b>Analysis Parameters:</b><br/>" +
+                               "Probability of detection: " + (results.probability_of_detection * 100).toFixed(0) + "%<br/>" +
+                               "Detection resolution: " + (results.detection_resolution * 100).toFixed(0) + "%<br/>" +
+                               "Inspection interval: " + results.inspection_interval + " days";
+    }
+
 
     Pane {
         anchors.fill: parent
@@ -315,7 +441,7 @@ ResultPage {
                     anchors.top: parent.top
                     height: 40
                     spacing: 4
-                    visible: pyform && pyform.finished && !pyform.has_error
+                    visible: pyform && pyform.finished
 
                     IconButton {
                         id: restoreParamsBtn
@@ -442,7 +568,14 @@ ResultPage {
                 boundsBehavior: Flickable.StopAtBounds
                 boundsMovement: Flickable.FollowBoundsBehavior
                 clip: true
-                contentHeight: (paramSection.height + detSection.height + senSection.height + probSection.height)
+                contentHeight: {
+                    // Use actual y positions (computed by anchor system) for reliable sizing
+                    if (imaSection.visible) return imaSection.y + imaSection.height + sectionMargin;
+                    if (detSection.visible) return detSection.y + detSection.height + sectionMargin;
+                    if (probSection.visible) return probSection.y + probSection.height + sectionMargin;
+                    if (senSection.visible) return senSection.y + senSection.height + sectionMargin;
+                    return paramSection.height + sectionMargin;
+                }
                 contentWidth: parent.width
 
                 // increase scroll speed
@@ -455,310 +588,462 @@ ResultPage {
                     policy: ScrollBar.AlwaysOn
                 }
 
-                onHeightChanged: {
-                    updateHeight();
-                }
-
                 ScrollMouseArea {
                     container: resultSection
                 }
-                Column {
+
+                CollapsibleSection {
                     id: paramSection
+                    asHeader: true
+                    startOpen: true
+                    title: "Analysis Specification"
+                    iconSrc: "vials-solid"
+                    titleFontSize: 15
+                    w: parent.width - 50
 
-                    FormSectionHeader {
-                        bottomPad: 8
-                        iconSrc: "vials-solid"
-                        rWidth: barWidth
-                        title: "Analysis Specification"
-                    }
-                    VSpacer {
-                        height: 5
-                    }
-                    FormSectionHeader2 {
-                        bottomPad: 5
-                        fontSize: 12
-                        // iconSrc: "vials-solid"
-                        rWidth: barWidth - 20
-                        title: "Analysis Description"
-                        topPad: 10
-                    }
-                    Row {
-                        id: paramRow1
+                    ColumnLayout {
+                        parent: paramSection.containerRef
 
-                        spacing: 35
+                        VSpacer {
+                            height: 5
+                        }
+                        FormSectionHeader2 {
+                            bottomPad: 2
+                            fontSize: 12
+                            // iconSrc: "vials-solid"
+                            rWidth: barWidth - 20
+                            title: "Analysis Description"
+                            topPad: 0
+                        }
+                        Row {
+                            id: paramRow1
 
-                        Column {
-                            ResultParamText {
-                                id: study_type
+                            spacing: 35
 
+                            Column {
+                                ResultParamText {id: study_type}
+                                ResultParamText {id: seed}
                             }
-                            ResultParamText {
-                                id: seed
-
+                            Column {
+                                ResultParamText {id: n_ale}
+                                ResultParamText {id: n_epi}
+                            }
+                            Column {
+                                ResultParamText {id: crack_assump}
+                                ResultParamText {id: stress_method}
+                                ResultParamText {id: surface}
+                            }
+                            Column {
+                                ResultParamText {id: n_cycles}
+                                ResultParamText {id: evolution_method}
+                                ResultParamText {id: cycle_step_size}
                             }
                         }
-                        Column {
-                            ResultParamText {
-                                id: n_ale
-
-                            }
-                            ResultParamText {
-                                id: n_epi
-
-                            }
-                            ResultParamText {
-                                id: n_cycles
-
-                            }
-                        }
-                        Column {
-                            ResultParamText {
-                                id: crack_assump
-
-                            }
-                            ResultParamText {
-                                id: stress_method
-                            }
-                            ResultParamText {
-                                id: surface
-                            }
-                        }
-                    }
-                    VSpacer {
-                        height: 15
-                    }
-                    FormSectionHeader2 {
-                        bottomPad: 5
-                        fontSize: 12
-                        // iconSrc: "vials-solid"
-                        rWidth: barWidth - 20
-                        title: "User Inputs"
-                        topPad: 10
-                    }
-                    Row {
-                        id: paramRow2
-
-                        spacing: 35
-
-                        Column {
-                            UncertainResultParam {
-                                id: out_diam
-
-                            }
-                            UncertainResultParam {
-                                id: thickness
-
-                            }
-                            UncertainResultParam {
-                                id: yield_str
-
-                            }
-                            UncertainResultParam {
-                                id: frac_resist
-
-                            }
-                            UncertainResultParam {
-                                id: vol_h2
-
-                            }
-                        }
-                        Column {
-                            UncertainResultParam {
-                                id: p_max
-
-                            }
-                            UncertainResultParam {
-                                id: p_min
-
-                            }
-                            UncertainResultParam {
-                                id: temp
-
-                            }
-                            UncertainResultParam {
-                                id: crack_dep
-
-                            }
-                            UncertainResultParam {
-                                id: crack_len
-
-                            }
-                        }
-                    }
-                    VSpacer {
-                        height: 15
-                    }
-                    FormSectionHeader2 {
-                        bottomPad: 5
-                        fontSize: 12
-                        // iconSrc: "vials-solid"
-                        rWidth: barWidth - 20
-                        title: "Calculated Parameters"
-                        topPad: 10
-                    }
-                    Row {
-                        id: paramRow3
-
-                        spacing: 35
-
-                        Column {
-                            UncertainResultParam {
-                                id: smys
-
-                            }
-                            UncertainResultParam {
-                                id: r_ratio
-
-                            }
-                        }
-                        Column {
-                            UncertainResultParam {
-                                id: a_m
-
-                            }
-                            UncertainResultParam {
-                                id: a_c
-
-                            }
-                        }
-                        Column {
-                            UncertainResultParam {
-                                id: t_r
-
-                            }
-                        }
-                    }
-                }
-                Column {
-                    id: detSection
-
-                    anchors.top: paramSection.bottom
-                    anchors.topMargin: 30
-
-                    FormSectionHeader {
-                        bottomPad: 8
-                        iconSrc: "chart-line-solid"
-                        rWidth: barWidth
-                        title: "Plotted Results (Deterministic)"
-                        topPad: 10
-                    }
-                    Grid {
-                        id: detInterCharts
-                        columnSpacing: 10
-                        columns: 2
-                        rowSpacing: 10
-                        rows: 2
-
-                        CrackGrowthChart {
-                            plotData: crackGrowthData
-                        }
-                        DesignCurveChart {
-                            plotData: designCurveData
-                        }
-                        DetFadChart {
-                            plotData: detFadData
-                        }
-                    }
-                    Grid {
-                        id: detStaticCharts
-                        columnSpacing: 10
-                        columns: 2
-                        rowSpacing: 10
-                        rows: 2
-
-                        SimImage {
-                            id: crackGrowthPlot
-
+                        
+                        // Display random loading profile on its own line if present
+                        Text {
+                            id: randomLoadingProfile
+                            visible: false
+                            text: ""
+                            font.pixelSize: 12
+                            textFormat: Text.RichText
+                            wrapMode: Text.WordWrap
+                            width: barWidth - 40
+                            Layout.topMargin: 10
                         }
                         SimImage {
-                            id: designCurvePlot
-
+                            id: randomLoadingProfilePlot
+                            width: plotW
+                            height: plotH
+                            Layout.preferredWidth: plotW
+                            Layout.preferredHeight: plotH
                         }
-                        SimImage {
-                            id: detFadPlot
+                        
+                        VSpacer {
+                            height: 15
+                        }
+                        FormSectionHeader2 {
+                            bottomPad: 2
+                            fontSize: 12
+                            // iconSrc: "vials-solid"
+                            rWidth: barWidth - 20
+                            title: "User Inputs"
+                            topPad: 0
+                        }
+                        Row {
+                            id: paramRow2
 
+                            spacing: 35
+
+                            Column {
+                                UncertainResultParam {
+                                    id: out_diam
+                                }
+                                UncertainResultParam {
+                                    id: thickness
+                                }
+                                UncertainResultParam {
+                                    id: yield_str
+                                }
+                                UncertainResultParam {
+                                    id: frac_resist
+                                }
+                                UncertainResultParam {
+                                    id: residual_stress_intensity
+                                }
+                                UncertainResultParam {
+                                    id: vol_h2
+                                }
+                            }
+                            Column {
+                                UncertainResultParam {
+                                    id: p_max
+
+                                }
+                                UncertainResultParam {
+                                    id: p_min
+
+                                }
+                                UncertainResultParam {
+                                    id: temp
+
+                                }
+                                UncertainResultParam {
+                                    id: crack_dep
+
+                                }
+                                UncertainResultParam {
+                                    id: crack_len
+
+                                }
+                            }
                         }
                         VSpacer {
-                            height: 40
+                            height: 15
+                        }
+                        FormSectionHeader2 {
+                            bottomPad: 2
+                            fontSize: 12
+                            // iconSrc: "vials-solid"
+                            rWidth: barWidth - 20
+                            title: "Calculated Parameters"
+                            topPad: 0
+                        }
+                        Row {
+                            id: paramRow3
+
+                            spacing: 35
+
+                            Column {
+                                UncertainResultParam {
+                                    id: smys
+
+                                }
+                                UncertainResultParam {
+                                    id: r_ratio
+
+                                }
+                            }
+                            Column {
+                                UncertainResultParam {
+                                    id: a_m
+
+                                }
+                                UncertainResultParam {
+                                    id: a_c
+
+                                }
+                            }
+                            Column {
+                                UncertainResultParam {
+                                    id: t_r
+
+                                }
+                            }
                         }
                     }
                 }
-                Column {
+
+                CollapsibleSection {
+                    id: detSection
+                    asHeader: true
+                    startOpen: true
+                    iconSrc: "chart-line-solid"
+                    title: "Plotted Results (Deterministic)"
+                    titleFontSize: 15
+                    w: parent.width - 50
+                    anchors.top: paramSection.bottom
+                    anchors.topMargin: sectionMargin
+
+                    Column {
+                        // id: detSection
+                        parent: detSection.containerRef
+
+                        Grid {
+                            id: detInterCharts
+                            columnSpacing: 10
+                            columns: 2
+                            rowSpacing: 10
+                            rows: 2
+
+                            CrackGrowthChart {
+                                plotData: crackGrowthData
+                            }
+                            DesignCurveChart {
+                                plotData: designCurveData
+                            }
+                            DetFadChart {
+                                plotData: detFadData
+                            }
+                        }
+                        Grid {
+                            id: detStaticCharts
+                            columnSpacing: 10
+                            columns: 2
+                            rowSpacing: 10
+                            rows: 2
+
+                            SimImage {id: crackGrowthPlot; width: plotW; height: plotH; }
+                            SimImage {id: designCurvePlot; width: plotW; height: plotH; }
+                            SimImage {id: detFadPlot; width: plotW; height: plotH; }
+                            VSpacer {
+                                height: 40
+                            }
+                        }
+                    }
+                }
+
+
+                CollapsibleSection {
                     id: senSection
-
+                    asHeader: true
+                    startOpen: true
+                    iconSrc: "chart-line-solid"
+                    title: "Plotted Results (Sensitivity)"
+                    titleFontSize: 15
+                    w: parent.width - 50
                     anchors.top: paramSection.bottom
-                    anchors.topMargin: 30
+                    anchors.topMargin: sectionMargin
 
-                    FormSectionHeader {
-                        bottomPad: 8
-                        iconSrc: "chart-line-solid"
-                        rWidth: barWidth
-                        title: "Plotted Results (Sensitivity)"
-                        topPad: 10
-                    }
-                    Row {
-                        SensitivityChart {
-                            id: senInterChart
-                            plotData: sensitivityData
-                        }
-                        SimImage {
-                            id: senPlot
+                    Column {
+                        parent: senSection.containerRef
 
+                        Grid {
+                            columns: 2
+                            spacing: 20
+
+                            // Cycles to a(crit) sensitivity plot
+                            SensitivityChart {
+                                id: senInterChart
+                                plotData: sensitivityData
+                                chartTitle: "Cycles to a(crit)"
+                            }
+                            SimImage {id: senPlot; width: plotW; height: plotH; }
+
+                            // Cycles to FAD line sensitivity plot
+                            SensitivityChart {
+                                id: senInterChartFad
+                                plotData: sensitivityDataFad
+                                chartTitle: "Cycles to FAD line"
+                            }
+                            SimImage {id: senPlotFad; width: plotW; height: plotH; }
                         }
-                    }
-                    VSpacer {
-                        height: 20
+                        VSpacer {
+                            height: 20
+                        }
                     }
                 }
-                Column {
+
+                CollapsibleSection {
                     id: probSection
-
+                    asHeader: true
+                    startOpen: true
+                    iconSrc: "chart-line-solid"
+                    title: "Plotted Results (Probabilistic)"
+                    titleFontSize: 15
+                    w: parent.width - 50
                     anchors.top: paramSection.bottom
-                    anchors.topMargin: 30
+                    anchors.topMargin: sectionMargin
 
-                    FormSectionHeader {
-                        bottomPad: 8
-                        iconSrc: "chart-line-solid"
-                        rWidth: barWidth
-                        title: "Plotted Results (Probabilistic)"
-                        topPad: 10
-                    }
-                    Grid {
-                        id: prbInterCharts
-                        columns: 2
-                        spacing: 20
+                    Column {
+                        parent: probSection.containerRef
+                        Grid {
+                            id: prbInterCharts
+                            columns: 2
+                            spacing: 20
 
-                        EnsembleChart {
-                            plotData: ensembleData
+                            EnsembleChart {
+                                plotData: ensembleData
+                            }
+                            CycleChart {
+                                plotData: cycleData
+                            }
+                            ProbFadChart {
+                                plotData: probFadData
+                            }
+                            PdfChart {
+                                plotData: pdfData
+                            }
+                            CdfChart {
+                                plotData: cdfData
+                            }
                         }
-                        CycleChart {
-                            plotData: cycleData
-                        }
-                        ProbFadChart {
-                            plotData: probFadData
-                        }
-                        PdfChart {
-                            plotData: pdfData
-                        }
-                        CdfChart {
-                            plotData: cdfData
-                        }
-                    }
-                    Grid {
-                        id: prbStaticCharts
-                        columns: 2
-                        spacing: 20
+                        Grid {
+                            id: prbStaticCharts
+                            columns: 2
+                            spacing: 20
 
-                        SimImage {id: ensemblePlot; height: 420; }
-                        SimImage {id: cyclePlot; height: 420; }
-                        SimImage {id: probFadPlot; height: 420; }
-                        SimImage {id: pdfPlot; height: 420; }
-                        SimImage {id: cdfPlot; height: 420; }
-                    }
-                    VSpacer {
-                        height: 20
+                            SimImage {id: ensemblePlot; width: plotW; height: plotH; }
+                            SimImage {id: cyclePlot; width: plotW; height: plotH; }
+                            SimImage {id: probFadPlot; width: plotW; height: plotH; }
+                            SimImage {id: pdfPlot; width: plotW; height: plotH; }
+                            SimImage {id: cdfPlot; width: plotW; height: plotH; }
+                        }
+                        VSpacer {
+                            height: 20
+                        }
                     }
                 }
+
+
+                CollapsibleSection {
+                    id: imaSection
+                    asHeader: true
+                    startOpen: true
+                    // iconSrc: "chart-line-solid"
+                    title: "Inspection Mitigation Specification"
+                    titleFontSize: 15
+                    w: parent.width - 50
+                    anchors.top: detSection.visible ? detSection.bottom : (senSection.visible ? senSection.bottom : probSection.bottom)
+                    anchors.topMargin: sectionMargin
+                    anchors.bottomMargin: sectionMargin
+
+                    ColumnLayout {
+                        parent: imaSection.containerRef
+                        width: parent.width
+
+                        FloatParamField {
+                            id: probDetectionInput
+                            param: probability_of_detection_c
+                            tipText: "Probability of a crack being detected at each inspection"
+                        }
+
+                        FloatParamField {
+                            id: detectionResolutionInput
+                            param: detection_resolution_c
+                            tipText: "Crack depth that is detectable by inspection. For example, a value of 0.3 indicates any crack larger than 30% of wall thickness is detectable."
+                        }
+
+                        IntParamField {
+                            id: inspectionIntervalInput
+                            param: inspection_interval_c
+                            tipText: "Days between each inspection"
+                        }
+
+                        RowLayout {
+                            Layout.leftMargin: 122
+                            Layout.bottomMargin: 8
+                            Layout.fillWidth: true
+
+                            Button {
+                                id: imaButton
+                                Layout.preferredWidth: defaultInputW
+                                Material.roundedScale: Material.SmallScale
+                                Material.accent: Material.BlueGrey
+                                highlighted: true
+
+                                onClicked: {
+                                    forceActiveFocus();
+                                    inspectionMitigationAnalysis();
+                                }
+
+                                Row {
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    spacing: 0
+
+                                    AppIcon {
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        icon.width: 16
+                                        source: 'bolt-solid'
+                                        iconColor: "white"
+                                    }
+
+                                    Text {
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        text: "Calculate"
+                                        font.pixelSize: 16
+                                        font.bold: true
+                                        color: "white"
+                                    }
+                                }
+                            }
+
+                            BusyIndicator {
+                                id: imaSpinner
+                                visible: false
+                                height: 40
+                                Layout.preferredHeight: 40
+                                running: true
+                            }
+
+
+                        }
+
+                        SectionAlert {id: alert; }
+
+                        Text {
+                            id: imaCloseWarning
+                            font.pixelSize: 14
+                            font.bold: false
+                            font.italic: true
+                            text: ""
+
+                        }
+
+                        Text {
+                            id: imaInputSummary
+                            font.pixelSize: 14
+                            text: ""
+                            textFormat: Text.RichText
+                            Layout.topMargin: 2
+                            Layout.bottomMargin: 10
+                        }
+
+                        Column {
+                            spacing: 5
+                            Layout.topMargin: 0
+                            Layout.bottomMargin: 0
+
+                            Rectangle {
+                                width: plotLgW
+                                height: width / (imaHistogramPlot.sourceSize.width / imaHistogramPlot.sourceSize.height || 1)
+                                color: "transparent";
+                                SimImage {
+                                    anchors.fill: parent
+                                    id: imaHistogramPlot
+                                }
+                            }
+                            Rectangle {
+                                width: plotLgW
+                                height: width / (imaCdfPlot.sourceSize.width / imaCdfPlot.sourceSize.height || 1)
+                                color: "transparent";
+                                SimImage {
+                                    anchors.fill: parent
+                                    id: imaCdfPlot
+                                }
+                            }
+
+                        }
+
+                        VSpacer {
+                            height: 25
+                        }
+
+                    }
+                }
+
+
             }
         }
     }

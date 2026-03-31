@@ -1,0 +1,11 @@
+{
+  "distr": "det",
+  "label": "Test Pressure",
+  "max_value": "100.0",
+  "min_value": "0",
+  "slug": "test_pressure",
+  "uncertainty": "ale",
+  "unit": "mpa",
+  "unit_type": "pres",
+  "value": 50.0
+}

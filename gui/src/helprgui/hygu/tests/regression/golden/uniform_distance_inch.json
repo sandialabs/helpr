@@ -1,0 +1,13 @@
+{
+  "distr": "uni",
+  "label": "Outer Diameter",
+  "lower": 0.5969,
+  "max_value": "2.5",
+  "min_value": "0",
+  "slug": "outer_diameter",
+  "uncertainty": "ale",
+  "unit": "in",
+  "unit_type": "dist_sm",
+  "upper": 0.6223,
+  "value": 0.6095999999999999
+}

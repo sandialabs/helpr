@@ -1,5 +1,5 @@
 """
-Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
 
 You should have received a copy of the BSD License along with HELPR.
@@ -11,6 +11,7 @@ import logging
 from pathlib import Path
 
 from PySide6.QtCore import (QObject, Slot, Signal, QUrl, Property)
+from PySide6.QtGui import QClipboard, QImage
 from PySide6.QtQml import QmlElement
 
 from ..displays import QueueDisplay
@@ -20,7 +21,7 @@ from ..threads import AnalysisThread
 
 try:
     from ... import app_settings
-except ImportError or ModuleNotFoundError:
+except (ImportError, ModuleNotFoundError):
     import app_settings
 
 
@@ -67,7 +68,6 @@ class AppForm(QObject):
     """
     db: type(ModelBase)
     queue_controller: type(QueueDisplay) = None
-    result_forms: dict = {}
     thread: AnalysisThread
 
     analysisStarted = Signal(type(ModelBase))
@@ -84,6 +84,7 @@ class AppForm(QObject):
     def __init__(self, model_class):
         """Initializes backend store and thread controller. """
         super().__init__(parent=None)
+        self.result_forms = {}
         self.db = model_class()
         self.db.history_changed += lambda x: self.historyChanged.emit()
 
@@ -105,7 +106,7 @@ class AppForm(QObject):
 
         Notes
         -----
-        May receive misc. inputs from other events.
+        May receive inputs from other events.
 
         Returns
         -------
@@ -113,7 +114,7 @@ class AppForm(QObject):
             True if form state is valid.
 
         """
-        valid_resp = self.db.check_valid()  # 3 is error, 2 is warning, 1 is info, 0 is no issues
+        valid_resp = self.db.check_valid()
         self._toggle_form_alert(valid_resp)
         return valid_resp.status in [InputStatus.WARN, InputStatus.INFO, InputStatus.GOOD]
 
@@ -165,6 +166,18 @@ class AppForm(QObject):
 
         """
         raise NotImplementedError()
+
+    @Slot(str)
+    def copy_image_to_clipboard(self, img_str):
+        """Copies image filepath string to user's OS clipboard. """
+        if app_settings.IS_WINDOWS:
+            # remove prefix slash for Windows file paths
+            img_str = img_str.removeprefix("file:///")
+        else:
+            img_str = img_str.removeprefix("file://")
+        clip = QClipboard()
+        img = QImage(img_str)
+        clip.setImage(img, QClipboard.Mode.Clipboard)
 
     def handle_child_requests_form_overwrite(self, data: dict):
         """ Overwrites main state with parameter data from dict. """

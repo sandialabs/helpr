@@ -1,5 +1,5 @@
 """
-Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
 
 You should have received a copy of the BSD License along with HELPR.
@@ -24,6 +24,14 @@ class InputStatus(enum.IntEnum):
     WARN = 3
 
 
+class MathSymbol:
+    MU = u"\u03BC"
+    SIGMA = u"\u03C3"
+    PI = u"\u03C0"
+    ALPHA = u"\u03B1"
+    BETA = u"\u03B2"
+
+
 class ValidationResponse:
     status: InputStatus
     message: str = ""
@@ -31,6 +39,12 @@ class ValidationResponse:
     def __init__(self, stat=InputStatus.GOOD, msg=''):
         self.status = stat
         self.message = msg
+
+    def __str__(self):
+        return f"status: {self.status}, message: {self.message}"
+
+    def __repr__(self):
+        return f"status: {self.status}, message: {self.message}"
 
 
 def hround(x, p=5):
@@ -63,14 +77,14 @@ def get_num_str(val) -> str:
 
     else:
         abs_val = abs(val)
-        if abs_val > 1000:
+        if abs_val == 0:
+            result = "0"
+        elif abs_val > 1000:
             result = f"{val:.0e}"
         elif abs_val >= 1:
             result = f"{val:.1f}"
         elif abs_val >= 0.01:
             result = f"{val:.3f}"
-        elif abs_val == 0:
-            result = "0"
         else:
             result = f"{val:.3e}"
     return result

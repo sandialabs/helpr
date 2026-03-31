@@ -39,3 +39,19 @@ class CycleUnits(BaseChoiceList):
     labels = ['Hour', 'Day']
     hr = 'hr'
     day = 'day'
+
+class EvolutionMethod(BaseChoiceList):
+    keys = ['a_t', 'cycles']
+    labels = ['a/t', 'Cycles']
+    a_t = 'a_t'
+    cycles = 'cycles'
+
+
+class LoadingProfileUnits(BaseChoiceList):
+    keys = ['psi', 'mpa', 'bar']
+    labels = ['psi', 'MPa', 'bar']
+    psi = 'psi'
+    mpa = 'mpa'
+    bar = 'bar'
+
+

@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+ * Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
  * Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
  * You should have received a copy of the BSD License along with HELPR.
  */
@@ -10,136 +10,312 @@ import QtQuick.Window
 import QtQuick.Controls.Material 2.12
 
 import "../components"
+import "../utils.js" as Utils
+
 import hygu.classes
 
 
 Item {
-    property UncertainFormField param;
-    property string tipText;
-    property bool hasError: false
-    property string errorMsg: "test long error msg ERROR HERE"
-    property bool isReadOnly: false
-
     id: paramContainer
+
+    property UncertainFormField param;
+    property alias labelRef: paramLabel
+    property string tipText;
+    property bool isReadOnly: false
+    property bool hasError: false
+    property bool showUnits: true
+    property string errorMsg: ""
+
+    // must match backend string values from distributions.DistributionParam. Note that the property names can't be uppercased!
+    property string param_nominal: "nominal"
+    property string param_mean: "mean"
+    property string param_std: "std"
+    property string param_mu: "mu"
+    property string param_sigma: "sigma"
+    property string param_lower: "lower"
+    property string param_upper: "upper"
+    // Beta distribution
+    property string param_alpha: "alpha"
+    property string param_beta: "beta"
+
+    property string distr_det: "det"
+    property string distr_uniform: "uni"
+    property string distr_normal: "nor"
+    property string distr_lognormal: "log"
+    property string distr_beta: "beta"
+    property string distr_trunc_normal: "tnor"
+    property string distr_trunc_lognormal: "tlog"
+
+    // track sub-parameter error states
+    property var subparamErrorStates: ({
+        param_nominal: { status: 1, message: "" },
+        param_mean: { status: 1, message: "" },
+        param_std: { status: 1, message: "" },
+        param_mu: { status: 1, message: "" },
+        param_sigma: { status: 1, message: "" },
+        param_lower: { status: 1, message: "" },
+        param_upper: { status: 1, message: "" },
+        param_alpha: { status: 1, message: "" },
+        param_beta: { status: 1, message: "" }
+    })
+
+    Behavior on opacity {NumberAnimation { duration: 100 }}
+
+    Layout.preferredHeight: paramInputRow.height + alertDisplayRow.height;
 
     Component.onCompleted:
     {
+        refresh();
+
+        // Initialize/force validation for all parameters to populate error states
+        if (param)
+        {
+            param.update_all_validation_states();
+        }
+    }
+
+    // Method to update error for a specific sub-parameter
+    function updateSubparamError(paramName, status, message) {
+        subparamErrorStates[paramName] = {
+            status: status,
+            message: message
+        };
+
+        // Update overall error state
+        updateErrorState();
+    }
+
+    // Method to determine overall error state
+    function updateErrorState() {
+        let hasAnyError = false;
+        let errorMessages = [];
+
+        // Check all sub-parameters - status 0 is ERROR
+        for (let key in subparamErrorStates)
+        {
+            let error = subparamErrorStates[key];
+            if (error.status === 0 && error.message) {  // status 0 indicates error
+                hasAnyError = true;
+                errorMessages.push(error.message);
+            }
+        }
+
+        // Update error properties
+        hasError = hasAnyError;
+        errorMsg = errorMessages.length > 0 ? errorMessages[0] : "";  // Show first error
+
+        // Refresh UI based on error state
         refresh();
     }
 
     function refresh()
     {
+        // Apply validation states to each input field
+        for (let key in subparamErrorStates)
+        {
+            let error = subparamErrorStates[key];
+
+            if (key === param_nominal && param.use_nominal)
+            {
+                nominalInput.toggleAlert(error.status, error.message);
+                // if (param.input_type === distr_det)
+                // {
+                //     valueInput.toggleAlert(error.status, error.message);
+                // }
+                // else
+                // {
+                // }
+            }
+
+            else if (key === param_mean)
+            {
+                meanInput.toggleAlert(error.status, error.message);
+            }
+            else if (key === param_std)
+            {
+                stdInput.toggleAlert(error.status, error.message);
+            }
+            else if (key === param_mu)
+            {
+                muInput.toggleAlert(error.status, error.message);
+            }
+            else if (key === param_sigma)
+            {
+                sigmaInput.toggleAlert(error.status, error.message);
+            }
+            else if (key === param_lower)
+            {
+                lowerBoundInput.toggleAlert(error.status, error.message);
+            }
+            else if (key === param_upper)
+            {
+                upperBoundInput.toggleAlert(error.status, error.message);
+            }
+            else if (key === param_alpha)
+            {
+                alphaInput.toggleAlert(error.status, error.message);
+            }
+            else if (key === param_beta)
+            {
+                betaInput.toggleAlert(error.status, error.message);
+            }
+        }
+
         if (hasError)
         {
-            paramContainer.Layout.preferredHeight = 80;
+            // paramContainer.Layout.preferredHeight = 80;
             paramLabel.color = color_danger;
-            alertMsg.text = errorMsg;
-            alertDisplay.visible = true;
+            // alertDisplayRow.visible = true;
         }
         else
         {
-            paramContainer.Layout.preferredHeight = 40;
+            // paramContainer.Layout.preferredHeight = 40;
             paramLabel.color = color_primary;
-            alertMsg.text = "";
-            alertDisplay.visible = false;
+            // alertDisplayRow.visible = false;
         }
 
-        valueLabel.visible = false;
-        valueInput.visible = false;
+        // valueLabel.visible = false;
+        // valueInput.visible = false;
 
-        // truncated
+        meanLabel.visible = false;
+        meanInput.visible = false;
+        stdLabel.visible = false;
+        stdInput.visible = false;
         muLabel.visible = false;
         muInput.visible = false;
         sigmaLabel.visible = false;
         sigmaInput.visible = false;
-        normalCLabel.visible = false;
-        normalCInput.visible = false;
-        normalDLabel.visible = false;
-        normalDInput.visible = false;
+        lowerBoundLabel.visible = false;
+        lowerBoundInput.visible = false;
+        upperBoundLabel.visible = false;
+        upperBoundInput.visible = false;
 
-        // uniform
-        uniformALabel.visible = false;
-        uniformAInput.visible = false;
-        uniformBLabel.visible = false;
-        uniformBInput.visible = false;
+        alphaLabel.visible = false;
+        alphaInput.visible = false;
+        betaLabel.visible = false;
+        betaInput.visible = false;
 
         unitSelector.currentIndex = param.get_unit_index();
-
+        unitSelector.visible = showUnits;
+        unitLabel.visible = showUnits;
 
         if (isReadOnly)
         {
-            valueLabel.visible = true;
-            valueLabel.text.font.italic = true;
-            valueInput.visible = true;
+            nominalLabel.visible = true;
+            nominalLabel.text.font.italic = true;
 
-            valueInput.text = param.value;
+            nominalInput.visible = true;
+            nominalInput.text = Utils.hround(param.value);
+            nominalInput.readOnly = true;
+
             inputTypeSelector.visible = false;
-            valueInput.readOnly = true;
             return;
         }
 
         let inputType = param.input_type;
         inputTypeSelector.currentIndex = param.get_input_type_index();
 
-        let isProb = inputType !== 'det';
-        valueLabel.visible = !isProb;
-        valueInput.visible = !isProb;
-        uncertaintyLabel.visible = isProb;
-        uncertaintySelector.visible = isProb;
-        nominalLabel.visible = isProb;
-        nominalInput.visible = isProb;
+        let isProb = inputType !== distr_det;
+        // valueLabel.visible = !isProb;
+        // valueInput.visible = !isProb;
 
-        if (inputType === 'det')
+        uncertaintyLabel.visible = param.show_uncertainty_type;
+        uncertaintySelector.visible = param.show_uncertainty_type;
+
+        nominalLabel.visible = param.show_nominal;
+        nominalInput.visible = param.show_nominal;
+
+        if (inputType === distr_det)
         {
-            valueInput.text = param.value;
+            // value input only
+            nominalInput.text = Utils.hround(param.value);
+            nominalInput.tooltipText = param.nominal_tooltip;
+            // nominalLabel.visible = false;
         }
-        else if (inputType === 'uni')
+        else if (inputType === distr_normal || inputType === distr_trunc_normal)
         {
-            uniformALabel.visible = true;
-            uniformAInput.visible = true;
-            uniformBLabel.visible = true;
-            uniformBInput.visible = true;
+            // normal distributions use mean and std
+            meanLabel.visible = true;
+            meanInput.visible = true;
+            stdLabel.visible = true;
+            stdInput.visible = true;
 
             uncertaintySelector.currentIndex = param.get_uncertainty_index();
-            nominalInput.text = param.value;
-            uniformAInput.text = param.a;
-            uniformBInput.text = param.b;
+            nominalInput.text = Utils.hround(param.value);
+            nominalInput.tooltipText = param.nominal_tooltip;
+            meanInput.text = Utils.hround(param.mean);
+            meanInput.tooltipText = param.mean_tooltip;
+            stdInput.text = Utils.hround(param.std);
+            stdInput.tooltipText = param.std_tooltip;
         }
-
-        else
+        else if (inputType === distr_lognormal || inputType === distr_trunc_lognormal)
         {
+            // lognormal distributions use mu and sigma
             muLabel.visible = true;
             muInput.visible = true;
             sigmaLabel.visible = true;
             sigmaInput.visible = true;
 
             uncertaintySelector.currentIndex = param.get_uncertainty_index();
-            nominalInput.text = param.value;
-            muInput.text = param.a;
-            sigmaInput.text = param.b;
+            nominalInput.text = Utils.hround(param.value);
+            nominalInput.tooltipText = param.nominal_tooltip;
+            muInput.text = Utils.hround(param.mu);
+            muInput.tooltipText = param.mu_tooltip;
+            sigmaInput.text = Utils.hround(param.sigma);
+            sigmaInput.tooltipText = param.sigma_tooltip;
+        }
+        else if (inputType === distr_uniform)
+        {
+            uncertaintySelector.currentIndex = param.get_uncertainty_index();
+            nominalInput.text = Utils.hround(param.value);
+            nominalInput.tooltipText = param.nominal_tooltip;
+        }
+        else if (inputType === distr_beta)
+        {
+            uncertaintySelector.currentIndex = param.get_uncertainty_index();
+            nominalInput.text = Utils.hround(param.value);
+            nominalInput.tooltipText = param.nominal_tooltip;
 
-            if (inputType === 'tnor' || inputType === 'tlog')
-            {
-                normalCLabel.visible = true;
-                normalCInput.visible = true;
-                normalDLabel.visible = true;
-                normalDInput.visible = true;
-                normalCInput.text = param.c;
-                normalDInput.refresh();
-            }
+            alphaInput.visible = true;
+            alphaLabel.visible = true;
+            betaInput.visible = true;
+            betaLabel.visible = true;
+            alphaInput.text = Utils.hround(param.alpha);
+            alphaInput.tooltipText = param.alpha_tooltip;
+            betaInput.text = Utils.hround(param.beta);
+            betaInput.tooltipText = param.beta_tooltip;
         }
 
-        valueInput.refreshLims();
-        nominalInput.refreshLims();
-        muInput.refreshLims();
-        sigmaInput.refreshLims();
-        uniformAInput.refreshLims();
-        uniformBInput.refreshLims();
+        if (inputType === distr_trunc_lognormal || inputType === distr_trunc_normal || inputType === distr_uniform)
+        {
+            lowerBoundLabel.visible = true;
+            lowerBoundInput.visible = true;
+            upperBoundLabel.visible = true;
+            upperBoundInput.visible = true;
+
+            lowerBoundInput.text = Utils.hround(param.lower);
+            lowerBoundInput.tooltipText = param.lower_tooltip;
+            // upperBoundInput.text = param.upper;
+            upperBoundInput.refresh();  // nullable
+            upperBoundInput.tooltipText = param.upper_tooltip;
+        }
+
+        // valueInput.refreshLimits();
+        nominalInput.refreshLimits();
+        meanInput.refreshLimits();
+        stdInput.refreshLimits();
+        muInput.refreshLimits();
+        sigmaInput.refreshLimits();
+        lowerBoundInput.refreshLimits();
+        alphaInput.refreshLimits();
+        betaInput.refreshLimits();
+        // upperBoundInput.refreshLimits();
     }
 
     Row
     {
         id: paramInputRow
+        height: isWindows ? 48 : 48
 
         Component.onCompleted:
         {
@@ -149,8 +325,9 @@ Item {
         GridLayout {
             id: paramGrid
             rows: 2
-            columns: 9
+            columns: 10
             flow: GridLayout.TopToBottom
+            rowSpacing: isWindows ? 2 : 0
 
             Connections {
                 target: param
@@ -158,6 +335,46 @@ Item {
                 function onModelChanged() { refresh(); }
                 function onUncertaintyChanged() { refresh(); }
                 function onUnitChanged() { refresh(); }
+
+                // Tooltip update connections
+                function onNominalTooltipChanged(tooltip) {
+                    nominalInput.tooltipText = tooltip;
+                    // if (param.input_type === distr_det)
+                    // {
+                    //     valueInput.tooltipText = tooltip;
+                    // }
+                }
+                function onMeanTooltipChanged(tooltip) {
+                    meanInput.tooltipText = tooltip;
+                }
+                function onStdTooltipChanged(tooltip) { 
+                    stdInput.tooltipText = tooltip;
+                }
+                function onMuTooltipChanged(tooltip) {
+                    muInput.tooltipText = tooltip;
+                }
+                function onSigmaTooltipChanged(tooltip) { 
+                    sigmaInput.tooltipText = tooltip;
+                }
+                function onLowerTooltipChanged(tooltip) {
+                    lowerBoundInput.tooltipText = tooltip;
+                }
+                function onUpperTooltipChanged(tooltip) {
+                    upperBoundInput.tooltipText = tooltip;
+                }
+                function onAlphaTooltipChanged(tooltip) {
+                    alphaInput.tooltipText = tooltip;
+                }
+                function onBetaTooltipChanged(tooltip) {
+                    betaInput.tooltipText = tooltip;
+                }
+
+                // Validation update connections
+                function onSubparamValidationChanged(paramName, status, message)
+                {
+                    // Update the specific sub-parameter error state
+                    updateSubparamError(paramName, status, message);
+                }
             }
 
             Item { }
@@ -190,13 +407,12 @@ Item {
             }
             DenseComboBox {
                 id: unitSelector
-                model: param?.unit_choices // ?? null
+                model: param?.unit_choices ?? null
                 currentIndex: param?.get_unit_index() ?? 0
                 onActivated: {
-                    if (param !== null) param.unit = displayText
+                    if (param !== null) param.unit = displayText;
                 }
                 Layout.maximumWidth: medInputW
-
             }
 
             InputTopLabel {
@@ -206,28 +422,32 @@ Item {
 
             DenseComboBox {
                 id: inputTypeSelector
-                textRole: "text"
-                valueRole: "value"
-                model: ListModel {
-                    ListElement { value: "det"; text: "Deterministic" }
-                    ListElement { value: "tnor"; text: "Normal" }
-                    ListElement { value: "tlog"; text: "Lognormal" }
-                    ListElement { value: "uni"; text: "Uniform" }
+                // textRole: "text"
+                // valueRole: "value"
+                model: param?.distr_choices ?? null
+                // model: ListModel {
+                //     ListElement { value: "det"; text: "Deterministic" }
+                //     ListElement { value: "tnor"; text: "Normal" }
+                //     ListElement { value: "tlog"; text: "Lognormal" }
+                //     ListElement { value: "uni"; text: "Uniform" }
+                // }
+                currentIndex: param?.get_input_type_index() ?? 0
+                onActivated: {
+                    if (param !== null) param.set_input_type_from_index(currentIndex);
                 }
-                currentIndex: param.get_input_type_index()
-                onActivated: param.input_type = currentValue
-                Layout.maximumWidth: 115
+                Layout.maximumWidth: distributionInputW
+                Layout.preferredWidth: distributionInputW
             }
 
-            InputTopLabel {
-                id: valueLabel
-                text: ""
-            }
-            DoubleTextInput {
-                id: valueInput
-                field: 'value'
-                Layout.maximumWidth: medInputW
-            }
+            // InputTopLabel {
+            //     id: valueLabel
+            //     text: ""
+            // }
+            // DoubleTextInput {
+            //     id: valueInput
+            //     field: 'value'
+            //     Layout.maximumWidth: medInputW
+            // }
 
             InputTopLabel {
                 id: nominalLabel
@@ -247,8 +467,7 @@ Item {
             DenseComboBox {
                 id: uncertaintySelector
                 visible: false
-                // Layout.maximumWidth: 100
-                Layout.maximumWidth: 90
+                Layout.maximumWidth: uncertaintyInputW
                 textRole: "text"
                 valueRole: "value"
                 model: ListModel {
@@ -261,14 +480,36 @@ Item {
                 }
             }
 
-            // Truncated Normal/lognormal inputs
+            // Normal distribution inputs
+            InputTopLabel {
+                id: meanLabel
+                text: "Mean"
+            }
+            DoubleTextInput {
+                id: meanInput
+                field: 'mean'
+                Layout.maximumWidth: shortInputW
+            }
+
+            InputTopLabel {
+                id: stdLabel
+                text: "Std dev"
+            }
+            DoubleTextInput {
+                id: stdInput
+                field: 'std'
+                useLimits: false
+                Layout.maximumWidth: shortInputW
+            }
+
+            // Lognormal distribution inputs
             InputTopLabel {
                 id: muLabel
                 text: "\u03BC"
             }
             DoubleTextInput {
                 id: muInput
-                field: 'a'
+                field: 'mu'
                 Layout.maximumWidth: shortInputW
             }
 
@@ -278,60 +519,67 @@ Item {
             }
             DoubleTextInput {
                 id: sigmaInput
-                field: 'b'
+                field: 'sigma'
                 useLimits: false
                 Layout.maximumWidth: shortInputW
             }
 
             InputTopLabel {
-                id: normalCLabel
+                id: lowerBoundLabel
                 text: "Lower bound"
             }
             DoubleTextInput {
-                id: normalCInput
-                field: 'c'
+                id: lowerBoundInput
+                field: 'lower'
                 Layout.maximumWidth: shortInputW
             }
 
             InputTopLabel {
-                id: normalDLabel
+                id: upperBoundLabel
                 text: "Upper bound"
             }
             DoubleNullableTextInput {
-                id: normalDInput
-                field: 'd'
+                id: upperBoundInput
+                field: 'upper'
                 Layout.maximumWidth: shortInputW
-                min: 1
+                // min: 1
             }
 
-            // Uniform distr inputs
+            // Lognormal distribution inputs
             InputTopLabel {
-                id: uniformALabel
-                text: "Lower bound"
+                id: alphaLabel
+                text: "\u03B1"
             }
             DoubleTextInput {
-                id: uniformAInput
-                field: 'a'
+                id: alphaInput
+                field: 'alpha'
                 Layout.maximumWidth: shortInputW
             }
 
             InputTopLabel {
-                id: uniformBLabel
-                text: "Upper bound"
+                id: betaLabel
+                text: "\u03B2"
             }
             DoubleTextInput {
-                id: uniformBInput
-                field: 'b'
+                id: betaInput
+                field: 'beta'
                 Layout.maximumWidth: shortInputW
             }
+
         }
     }
 
     Row
     {
-        id: alertDisplay
+        id: alertDisplayRow
         anchors.top: paramInputRow.bottom
         leftPadding: 125
+        visible: hasError
+        height: hasError ? 30 : 0
+        clip: true  // clip contents during animation
+        Behavior on height {
+            NumberAnimation { duration: 100 }
+        }
 
         AppIcon {
             id: alertIcon
@@ -342,7 +590,7 @@ Item {
         }
         Text {
             id: alertMsg
-            text: ""
+            text: errorMsg
             anchors.topMargin: 4
             font.italic: true
             anchors.verticalCenter: parent.verticalCenter

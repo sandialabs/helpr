@@ -21,11 +21,20 @@ Canvas {
     property var memorizedData
     property var memorizedOptions
     property alias animationRunning: chartAnimator.running
-    
+
     signal animationFinished()
+
+    // Check if context is valid before operations
+    function hasValidContext() {
+        var ctx = root.getContext('2d');
+        return ctx !== null && root.visible && root.width > 0 && root.height > 0;
+    }
 
     function animateToNewData()
     {
+        if (!hasValidContext() || !jsChart) {
+            return;
+        }
         chartAnimationProgress = 0.1;
         jsChart.update();
         chartAnimator.restart();
@@ -63,7 +72,9 @@ Canvas {
                 handler(mouseEvent);
             }
 
-            root.requestPaint();
+            if (root.hasValidContext()) {
+                root.requestPaint();
+            }
         }
 
         onClicked: function(mouse) {
@@ -90,7 +101,7 @@ Canvas {
         id: chartAnimator
         target: root
         property: "chartAnimationProgress"
-        alwaysRunToEnd: true
+        alwaysRunToEnd: false  // Changed to false so we can stop it when hidden
         to: 1
         duration: root.animationDuration
         easing.type: root.animationEasingType
@@ -100,21 +111,35 @@ Canvas {
     }
 
     onChartAnimationProgressChanged: {
-        root.requestPaint();
+        if (hasValidContext()) {
+            root.requestPaint();
+        }
+    }
+
+    onVisibleChanged: {
+        // Stop animations when becoming invisible to prevent errors
+        if (!visible) {
+            chartAnimator.stop();
+        }
     }
 
     onPaint: {
-        if(root.getContext('2d') != null && memorizedContext != root.getContext('2d') || memorizedData != root.chartData || memorizedOptions != root.chartOptions) {
-            var ctx = root.getContext('2d');
+        var ctx = root.getContext('2d');
 
+        // Guard against invalid context (can happen when component is hidden/destroyed)
+        if (ctx === null || !visible) {
+            return;
+        }
+
+        if(memorizedContext != ctx || memorizedData != root.chartData || memorizedOptions != root.chartOptions) {
             jsChart = new Chart.build(ctx, {
                 type: root.chartType,
                 data: root.chartData,
                 options: root.chartOptions
                 });
 
-            memorizedData = root.chartData ;
-            memorizedContext = root.getContext('2d');
+            memorizedData = root.chartData;
+            memorizedContext = ctx;
             memorizedOptions = root.chartOptions;
 
             root.jsChart.bindEvents(function(newHandler) {event.handler = newHandler;});
@@ -122,17 +147,19 @@ Canvas {
             chartAnimator.start();
         }
 
-        jsChart.draw(chartAnimationProgress);
+        if (jsChart) {
+            jsChart.draw(chartAnimationProgress);
+        }
     }
 
     onWidthChanged: {
-        if(jsChart) {
+        if(jsChart && hasValidContext()) {
             jsChart.resize();
         }
     }
 
     onHeightChanged: {
-        if(jsChart) {
+        if(jsChart && hasValidContext()) {
             jsChart.resize();
         }
     }

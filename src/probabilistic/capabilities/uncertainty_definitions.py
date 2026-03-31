@@ -1,4 +1,4 @@
-# Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+# Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights
 # in this software.
 #
@@ -9,24 +9,37 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from probabilistic.capabilities.plotting import (plot_distribution_pdf,
-                                                 plot_deterministic_parameter_value)
+                                                 plot_deterministic_parameter_value,
+                                                 plot_time_series_parameter_value)
 
-""" Module for defining uncertainty definitions and capabilities """
+""" Module for defining uncertainty definitions and capabilities. """
 
 
 def specify_distribution(parameter_specification):
-    '''function to generate specified distribution type object
+    """
+    Generate a distribution object based on a parameter specification.
+
     Parameters
     ----------
-    parameter_specification: dict
-        dictionary containing specification of desired uncertainty distribution
-    
+    parameter_specification : dict
+        Dictionary containing the specification of the desired uncertainty distribution.
+        Required keys vary depending on the `distribution_type` and may include:
+
+            - 'distribution_type': str, type of distribution (e.g., 'normal', 'beta')
+            - 'uncertainty_type': str, type of uncertainty
+            - 'nominal_value': float
+            - Other distribution-specific parameters (e.g., 'mean', 'std_deviation', 'a', 'b')
+
     Returns
     -------
-    dist: UncertaintyCharacterization
-        specified distribution type object
+    UncertaintyCharacterization or DeterministicCharacterization
+        A distribution object based on the specification.
 
-    '''
+    Raises
+    ------
+    ValueError
+        If an unsupported distribution type is specified.
+    """
     distribution_type = parameter_specification['distribution_type']
     parameter_name = parameter_specification['name']
     if distribution_type != 'deterministic':
@@ -85,60 +98,214 @@ def specify_distribution(parameter_specification):
 
 class DeterministicCharacterization:
     """
-    Generic Deterministic Parameter Class
+    Representation of a deterministic parameter.
 
-    Parameters
-    -----------
-    name: str
-    value: float
-    nominal: float
+    Attributes
+    ----------
+    name : str
+        The name of the parameter.
+    value : float
+        The deterministic value of the parameter.
+    nominal : float
+        The same as `value`, used for compatibility with uncertain parameter interface.
     """
+
     def __init__(self,
                  name:str,
                  value:float):
+        """
+        Initialize a DeterministicCharacterization instance.
+
+        Parameters
+        ----------
+        name : str
+            The name of the parameter.
+        value : float
+            The deterministic value of the parameter.
+        """
         self.name = name
         self.value = value
         self.nominal = value
 
     def __str__(self):
+        """
+        Return a human-readable string representation of the object.
+
+        Returns
+        -------
+        str
+            A string indicating the parameter name and its deterministic value.
+        """
         return f'{self.name} is a deterministic variable with value {self.value}'
 
     def __repr__(self):
+        """
+        Return a detailed string representation for debugging.
+
+        Returns
+        -------
+        str
+            A concise summary of the deterministic parameter.
+        """
         return f'{self.name}, deterministic, {self.value}'
 
     def generate_samples(self, sample_size):
         """
-        Function to generate deterministic samples (same values)
+        Generate repeated deterministic samples.
+
+        Parameters
+        ----------
+        sample_size : int
+            Number of samples to generate.
+
+        Returns
+        -------
+        np.ndarray
+            Array filled with the same deterministic value.
         """
         return np.ones(sample_size)*self.value
 
     def plot_distribution(self, alternative_name=False):
         """
-        Function to create plot of uncertainty distribution
+        Create plot of uncertainty distribution.
+
+        Parameters
+        ----------
+        alternative_name : str or bool, optional
+            Alternative label for the plot. If False (default), uses self.name.
         """
         name = alternative_name if alternative_name else self.name
         plot_deterministic_parameter_value(self.value,
                                            name)
 
 
+class TimeSeriesCharacterization(DeterministicCharacterization):
+    """
+    Representation of a deterministic time-series parameter.
+
+    Attributes
+    ----------
+    name : str
+        The name of the parameter.
+    value : np.ndarray
+        The deterministic time series values.
+    nominal : np.ndarray
+        Same as `value`, used for compatibility.
+    """
+
+    def __init__(self,
+                 name: str,
+                 value: np.ndarray):
+        """
+        Initialize the TimeSeriesCharacterization object.
+
+        Parameters
+        ----------
+        name : str
+            The name of the time series parameter.
+        value : np.array, list
+            The time series values. Should be a 1D array or list.
+        """
+        # Ensure value is a numpy array
+        if isinstance(value, list):
+            value = np.array(value)
+        elif not isinstance(value, np.ndarray):
+            raise ValueError("Value must be a numpy array or a list.")
+
+        super().__init__(name, value)  # Call the parent constructor
+
+    def __str__(self):
+        """
+        Return a string representation of the object.
+
+        Returns
+        -------
+        str
+            String representation of the object.
+        """
+        return f'{self.name} is a TimeSeries variable with value {self.value}'
+
+    def __repr__(self):
+        """
+        Return a detailed string representation of the object.
+
+        Returns
+        -------
+        str
+            Detailed string representation of the object.
+        """
+        return f'{self.name}, time series, {self.value}'
+
+    def generate_samples(self, sample_size):
+        """
+        Generate copies of the time series.
+
+        Parameters
+        ----------
+        sample_size : int
+            The number of samples to generate.
+
+        Returns
+        -------
+        np.array
+            Array of time series values repeated to match the sample size.
+        """
+        return np.tile(self.value, (sample_size, 1))
+
+    def plot_distribution(self, alternative_name=False):
+        """
+        Create plot of uncertainty distribution.
+
+        Parameters
+        ----------
+        alternative_name : str, optional
+            Alternative name to use for the plot. Defaults to False.
+        """
+        name = alternative_name if alternative_name else self.name
+        plot_time_series_parameter_value(self.value,
+                                         name)
+
+
 class UncertaintyCharacterization:
     """
-    Generic Uncertainty Distribution Class
+    Generic class for uncertain (probabilistic) parameters.
 
-    Parameters
-    ------------
-    name:str
-    uncertainty_type:str
-    nominal_value:float
-    distribution:str
-    parameters:dict
+    Attributes
+    ----------
+    name : str
+        Name of the parameter.
+    uncertainty_type : str
+        Type of uncertainty.
+    nominal : float
+        Nominal value.
+    distribution : object
+        The actual scipy.stats distribution object.
+    parameters : dict
+        Parameters used to initialize the distribution.
     """
+
     def __init__(self,
                  name:str,
                  uncertainty_type:str,
                  nominal_value:float,
                  distribution:str,
                  parameters:dict):
+        """
+        Initialize an UncertaintyCharacterization instance.
+
+        Parameters
+        ----------
+        name : str
+            Name of the uncertain parameter.
+        uncertainty_type : str
+            Type of uncertainty (e.g., 'aleatory', 'epistemic').
+        nominal_value : float
+            The nominal (central or reference) value for the parameter.
+        distribution : str
+            A reference to a SciPy distribution constructor (e.g., `scipy.stats.norm`).
+        parameters : dict
+            Dictionary of parameters required to initialize the distribution.
+        """
         self.name = name
         self.uncertainty_type = uncertainty_type
         self.nominal = nominal_value
@@ -146,10 +313,26 @@ class UncertaintyCharacterization:
         self.parameters = parameters
 
     def __str__(self):
+        """
+        Return a human-readable string representation of the object.
+
+        Returns
+        -------
+        str
+            Description of the uncertain parameter and its distribution.
+        """
         return f'{self.name} is a probabilistic variable represented with a ' +\
                f'{self.distribution.dist.name} distribution and parameters {str(self.parameters)}'
 
     def __repr__(self):
+        """
+        Return a concise representation of the object for debugging.
+
+        Returns
+        -------
+        str
+            Concise summary of the uncertain parameter, including distribution and values.
+        """
         repr_part1 = f'{self.name}, {self.distribution.dist.name}, {self.nominal}, '
         repr_part2 = f'{self.uncertainty_type}, '
         repr_part3 = f'{", ".join(str(x) for x in list(self.parameters.values()))}'
@@ -159,21 +342,36 @@ class UncertaintyCharacterization:
                          sample_size:int,
                          random_state=np.random.default_rng()):
         """
-        Function to sample from uncertainty distributions
+        Generate samples from the uncertainty distribution.
 
         Parameters
-        ------------
-            sample_size: int
-                number of samples
-            random_state: generator
-                np default_rng instance or will be used to create randomState instance
+        ----------
+        sample_size : int
+            Number of samples to draw.
+        random_state : Generator, optional
+            NumPy random number generator. If not specified, uses default_rng().
+
+        Returns
+        -------
+        np.ndarray
+            Array of generated samples.
         """
         return self.distribution.rvs(size=sample_size,
                                      random_state=random_state)
     
     def ppf(self, locations):
         """
-        Function to extract percentile point function values (inverse of CDF) 
+        Compute the Percent Point Function (inverse CDF) at given probabilities.
+
+        Parameters
+        ----------
+        locations : array_like
+            Probabilities at which to evaluate the inverse CDF.
+
+        Returns
+        -------
+        np.ndarray
+            Quantiles corresponding to the input probabilities.
         """
         return self.distribution.ppf(locations)
 
@@ -181,28 +379,37 @@ class UncertaintyCharacterization:
                           alternative_name=False,
                           plot_limits=False):
         """
-        Function to create plot of uncertainty distribution
+        Plot the probability density function of the distribution.
+
+        Parameters
+        ----------
+        alternative_name : str or bool, optional
+            Alternative name to use in the plot label. Defaults to self.name.
+        plot_limits : bool, optional
+            Whether to include bounds/limits in the plot. Defaults to False.
         """
         name = alternative_name if alternative_name else self.name
         plot_distribution_pdf(self.distribution,
                               name,
                               plot_limits)
-    
+
 
 class BetaDistribution(UncertaintyCharacterization):
     """
-    Beta Distribution Uncertainty Class
+    Beta distribution-based uncertainty characterization.
 
-    Parameters
+    Attributes
     ----------
-    name:str
-    uncertainty_type:str
-    nominal_value:float
-    a:float
-    b:float
-    loc:float
-    scale:float
+    name : str
+    uncertainty_type : str
+    nominal_value : float
+    distribution : scipy.stats._distn_infrastructure.rv_frozen
+    a : float
+    b : float
+    loc : float
+    scale : float
     """
+
     def __init__(self,
                  name:str,
                  uncertainty_type:str,
@@ -211,6 +418,26 @@ class BetaDistribution(UncertaintyCharacterization):
                  b:float,
                  loc:float=None,
                  scale:float=None):
+        """
+        Initialize a BetaDistribution instance with the given parameters.
+
+        Parameters
+        ----------
+        name : str
+            Name of the uncertain parameter.
+        uncertainty_type : str
+            Type of uncertainty (e.g., 'aleatory', 'epistemic').
+        nominal_value : float
+            Nominal or reference value associated with the parameter.
+        a : float
+            Alpha shape parameter of the beta distribution.
+        b : float
+            Beta shape parameter of the beta distribution.
+        loc : float, optional
+            Location parameter of the beta distribution. Defaults to 0 if None.
+        scale : float, optional
+            Scale parameter of the beta distribution. Defaults to 1 if None.
+        """
         parameters = {'a': a,
                       'b': b,
                       'loc': loc,
@@ -224,22 +451,45 @@ class BetaDistribution(UncertaintyCharacterization):
 
 class NormalDistribution(UncertaintyCharacterization):
     """
-    Normal Distribution Uncertainty Class
+    Normal distribution-based uncertainty characterization.
 
-    Parameters
+    Attributes
     ----------
-    name:str
-    uncertainty_type:str
-    nominal_value:float
-    mean:float
-    std_deviation:float
+    name : str
+    uncertainty_type : str
+    nominal : float
+    distribution : scipy.stats._distn_infrastructure.rv_frozen
+    'loc': float
+    'scale': float
     """
+
     def __init__(self,
                  name:str,
                  uncertainty_type:str,
                  nominal_value:float,
                  mean:float,
                  std_deviation:float):
+        """
+        Initialize a NormalDistribution instance.
+
+        Parameters
+        ----------
+        name : str
+            Name of the uncertain parameter.
+        uncertainty_type : str
+            Type of uncertainty (e.g., 'aleatory', 'epistemic').
+        nominal_value : float
+            Nominal or reference value of the parameter.
+        mean : float
+            Mean (`loc`) of the normal distribution.
+        std_deviation : float
+            Standard deviation (`scale`) of the normal distribution.
+
+        Notes
+        -----
+        Internally, the normal distribution is represented using a frozen
+        `scipy.stats.norm` object with the specified `loc` and `scale`.
+        """
         parameters = {'loc': mean,
                       'scale': std_deviation}
         super().__init__(name=name,
@@ -253,13 +503,14 @@ class LognormalDistribution(UncertaintyCharacterization):
     """
     Log-Normal Distribution Uncertainty Class
 
-    Parameters
+    Attributes
     -----------
-    name:str
-    uncertainty_type:str
-    nominal_value:float
-    mu:float
-    sigma:float
+    name : str
+    uncertainty_type : str
+    nominal_value : float
+    distribution : scipy.stats._distn_infrastructure.rv_frozen
+    's': float
+    'scale': float
     """
     def __init__(self,
                  name:str,
@@ -267,6 +518,29 @@ class LognormalDistribution(UncertaintyCharacterization):
                  nominal_value:float,
                  mu:float,
                  sigma:float):
+        """
+        Initialize a LognormalDistribution instance.
+
+        Parameters
+        ----------
+        name : str
+            Name of the uncertain parameter.
+        uncertainty_type : str
+            Type of uncertainty (e.g., 'aleatory', 'epistemic').
+        nominal_value : float
+            Nominal or reference value associated with the parameter.
+        mu : float
+            Mean of the underlying normal distribution.
+        sigma : float
+            Standard deviation of the underlying normal distribution. Used as the shape parameter `s`.
+
+        Notes
+        -----
+        The log-normal distribution is parameterized such that:
+            - `scale = exp(mu)`
+            - `s = sigma`
+        The resulting distribution is `scipy.stats.lognorm(s=s, scale=exp(mu))`.
+        """
         parameters = {'scale': np.exp(mu),
                       's': sigma}
         super().__init__(name=name,
@@ -278,17 +552,18 @@ class LognormalDistribution(UncertaintyCharacterization):
 
 class TruncatedNormalDistribution(UncertaintyCharacterization):
     """
-    Truncated Normal Distribution Uncertainty Class
+    Truncated normal distribution-based uncertainty characterization.
 
-    Parameters
-    ------------
-    name:str
-    uncertainty_type:str
-    nominal_value:float
-    mean:float
-    std_deviation:float
-    lower_bound:float
-    upper_bound:float
+    Attributes
+    ----------
+    name : str
+    uncertainty_type : str
+    nominal_value : float
+    distribution : scipy.stats._distn_infrastructure.rv_frozen
+    'loc' : float
+    'scale' : float
+    'a' : float
+    'b' : float
     """
     def __init__(self,
                  name:str,
@@ -298,6 +573,34 @@ class TruncatedNormalDistribution(UncertaintyCharacterization):
                  std_deviation:float,
                  lower_bound:float,
                  upper_bound:float):
+        """
+        Initialize a TruncatedNormalDistribution instance.
+
+        Parameters
+        ----------
+        name : str
+            Name of the uncertain parameter.
+        uncertainty_type : str
+            Type of uncertainty (e.g., 'aleatory', 'epistemic').
+        nominal_value : float
+            Nominal or reference value associated with the parameter.
+        mean : float
+            Mean (`loc`) of the original normal distribution.
+        std_deviation : float
+            Standard deviation (`scale`) of the original normal distribution.
+        lower_bound : float
+            Lower bound of the truncated distribution.
+        upper_bound : float
+            Upper bound of the truncated distribution.
+
+        Notes
+        -----
+        The truncation is defined in standardized form using:
+            - a = (lower_bound - mean) / std_deviation
+            - b = (upper_bound - mean) / std_deviation
+        The resulting distribution is equivalent to:
+            `scipy.stats.truncnorm(a, b, loc=mean, scale=std_deviation)`
+        """
         parameters = {'loc': mean,
                       'scale': std_deviation,
                       'a': (lower_bound - mean)/std_deviation,
@@ -313,15 +616,18 @@ class TruncatedLognormalDistribution(UncertaintyCharacterization):
     """
     Truncated Lognormal Distribution Uncertainty Class
 
-    Parameters
-    ------------
-    name:str
-    uncertainty_type:str
-    nominal_value:float
-    mu:float
-    sigma:float
-    lower_bound:float
-    upper_bound:float
+    Attributes
+    ----------
+    name : str
+    uncertainty_type : str
+    nominal_value : float
+    distribution : scipy.stats._distn_infrastructure.rv_frozen
+    'loc' : float
+    'scale' : float
+    'a' : float
+    'b' : float
+    lower_bound : float
+    upper_bound : float
     """
     def __init__(self,
                  name:str,
@@ -331,6 +637,26 @@ class TruncatedLognormalDistribution(UncertaintyCharacterization):
                  sigma:float,
                  lower_bound:float,
                  upper_bound:float):
+        """
+        Initialize a TruncatedLognormalDistribution instance.
+
+        Parameters
+        ----------
+        name : str
+            Name of the uncertain parameter.
+        uncertainty_type : str
+            Type of uncertainty (e.g., 'aleatory', 'epistemic').
+        nominal_value : float
+            Nominal or reference value associated with the parameter.
+        mu : float
+            Mean of the underlying normal distribution (in log space).
+        sigma : float
+            Standard deviation of the underlying normal distribution (in log space).
+        lower_bound : float
+            Lower bound of the truncated lognormal distribution (in real space).
+        upper_bound : float
+            Upper bound of the truncated lognormal distribution (in real space).
+        """
         self.upper_bound = upper_bound
         self.lower_bound = lower_bound
         parameters = {'loc': mu,
@@ -345,7 +671,17 @@ class TruncatedLognormalDistribution(UncertaintyCharacterization):
 
     def ppf(self, locations):
         """
-        Function to extract percentile point function values (inverse of CDF) 
+        Compute the percentile point function (inverse CDF) values in real space.
+
+        Parameters
+        ----------
+        locations : array_like
+            Probabilities at which to evaluate the inverse CDF.
+
+        Returns
+        -------
+        np.ndarray
+            Quantile values in real (lognormal) space.
         """
         return np.exp(self.distribution.ppf(locations))
 
@@ -353,16 +689,19 @@ class TruncatedLognormalDistribution(UncertaintyCharacterization):
                          sample_size:int,
                          random_state=np.random.default_rng()):
         """
-        Function to sample from a lognormal uncertainty distribution.
-        Scipy Stats library does not contain a truncated lognormal distribution,
-        so this sampling function corrects for the use of the truncated normal distribution.
+        Generate samples from a truncated lognormal distribution.
 
         Parameters
-        ------------
-            sample_size: int
-                number of samples
-            random_state: generator
-                np default_rng instance or will be used to create randomState instance
+        ----------
+        sample_size : int
+            Number of samples to generate.
+        random_state : Generator, optional
+            NumPy random number generator instance. If not provided, uses default_rng().
+
+        Returns
+        -------
+        np.ndarray
+            Samples drawn from the truncated lognormal distribution.
         """
         normal_samples =  self.distribution.rvs(size=sample_size,
                                                 random_state=random_state)
@@ -372,9 +711,15 @@ class TruncatedLognormalDistribution(UncertaintyCharacterization):
                           alternative_name=False,
                           plot_limits=False):
         """
-        Function to create plot of a lognormal uncertainty distribution.
-        Scipy Stats library does not contain a truncated lognormal distribution,
-        so this plotting function corrects for the use of the truncated normal distribution.
+        Plot the probability density function (PDF) of the truncated lognormal distribution.
+
+        Parameters
+        ----------
+        alternative_name : str or bool, optional
+            Alternative label for the plot. If False (default), uses the parameter name.
+        plot_limits : tuple of float or bool, optional
+            Tuple (min, max) specifying x-axis limits for the plot. If False, defaults
+            to 90%–110% of the lower and upper bounds.
         """
         name = alternative_name if alternative_name else self.name
 
@@ -395,20 +740,43 @@ class UniformDistribution(UncertaintyCharacterization):
     """
     Uniform Distribution Uncertainty Class
 
-    Parameters
-    ------------
-    name:str
-    uncertainty_type:str
-    nominal_value:float
-    lower_bound:float
-    upper_bound:float
+    Attributes
+    ----------
+    name : str
+    uncertainty_type : str
+    nominal_value : float
+    distribution : scipy.stats._distn_infrastructure.rv_frozen
+    'loc' : float
+    'scale' : float
     """
+
     def __init__(self,
                  name:str,
                  uncertainty_type:str,
                  nominal_value:float,
                  lower_bound:float,
                  upper_bound:float):
+        """
+        Initialize a UniformDistribution instance.
+
+        Parameters
+        ----------
+        name : str
+            Name of the uncertain parameter.
+        uncertainty_type : str
+            Type of uncertainty (e.g., 'aleatory', 'epistemic').
+        nominal_value : float
+            Nominal or reference value associated with the parameter.
+        lower_bound : float
+            Lower bound of the uniform distribution.
+        upper_bound : float
+            Upper bound of the uniform distribution.
+
+        Raises
+        ------
+        ValueError
+            If the lower bound is greater than the upper bound.
+        """
         if lower_bound > upper_bound:
             raise ValueError(f'parameter {name} lower bound {lower_bound}'
                              f' is greater the upper bound {upper_bound}')

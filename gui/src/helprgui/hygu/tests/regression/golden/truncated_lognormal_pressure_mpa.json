@@ -1,0 +1,15 @@
+{
+  "distr": "tlog",
+  "label": "Test Pressure",
+  "lower": 30.0,
+  "max_value": "100.0",
+  "min_value": "0",
+  "mu": 3.912,
+  "sigma": 0.2,
+  "slug": "test_pressure",
+  "uncertainty": "epi",
+  "unit": "mpa",
+  "unit_type": "pres",
+  "upper": 70.0,
+  "value": 50.0
+}

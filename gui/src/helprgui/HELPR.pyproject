@@ -41,6 +41,10 @@
         "ui/Chart.js",
         "ui/Chart.qml",
         "ui/charts/CrackGrowthChart.qml",
-        "assets/logo/icon.ico"
+        "assets/logo/icon.ico",
+        "hygu/ui/components/SubSectionHeader.qml",
+        "hygu/ui/parameters/UncertainParamField.qml",
+        "hygu/ui/parameters/DoubleNullableTextInput.qml",
+        "hygu/ui/parameters/DoubleTextInput.qml"
     ]
 }

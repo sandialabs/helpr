@@ -1,5 +1,5 @@
 """
-Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
 
 You should have received a copy of the BSD License along with HELPR.
@@ -59,19 +59,19 @@ class FormFieldBase(QObject):
         """Parameter label in rich-text formatting; e.g. Volume H<sub>2</sub>. """
         return self._param.label_rtf
 
-    @Property(bool, constant=True)
+    @Property(bool, notify=modelChanged)
     def enabled(self):
         """Whether parameter is currently enabled and ready for changes. """
         return bool(self._param.enabled)
 
-    @Property(str, constant=True)
+    @Property(str, notify=modelChanged)
     def alert(self):
-        """Whether parameter is currently enabled and ready for changes. """
+        """Alert message for this parameter, if any. """
         return str(self._param.get_alert())
 
-    @Property(int, constant=True)
+    @Property(int, notify=modelChanged)
     def status(self):
-        """Whether parameter is currently enabled and ready for changes. """
+        """Input status of this parameter. """
         return int(self._param.status.value)
 
     @Property(str)
@@ -265,10 +265,14 @@ class IntFormField(FormFieldBase):
     def set_value(self, val):
         if val is None or val == '':
             val = None
+        old_is_null = self._param.is_null
         self._param.value = val
         self.valueChanged.emit(val)
+        # Also emit if null state changed
+        if old_is_null != self._param.is_null:
+            self.modelChanged.emit()
 
-    @Property(bool, constant=True)
+    @Property(bool, notify=valueChanged)
     def is_null(self):
         return self._param.is_null
 
@@ -277,7 +281,7 @@ class IntFormField(FormFieldBase):
         """Sets value to null because QML doesn't support passing different dtype value (null)."""
         self.set_value(None)
 
-    value = Property(int or None, get_value, set_value, notify=valueChanged)
+    value = Property(int, get_value, set_value, notify=valueChanged)
 
 
 @QmlElement
@@ -358,8 +362,12 @@ class NumFormField(FormFieldBase):
     def set_value(self, val):
         if val is None or val == '':
             val = None
+        old_is_null = self._param.is_null
         self._param.value = val
         self.valueChanged.emit(val)
+        # Also emit if null state changed
+        if old_is_null != self._param.is_null:
+            self.modelChanged.emit()
 
     def get_unit(self):
         return self._param.unit
@@ -368,22 +376,18 @@ class NumFormField(FormFieldBase):
         self._param.set_unit_from_display(val)
         self.unitChanged.emit(val)
 
-    @Property(bool, constant=True)
+    @Property(bool, notify=valueChanged)
     def is_null(self):
         return self._param.is_null
 
     @Slot()
-    def set_null(self):
-        """Sets value to null because QML doesn't support passing different dtype value (null)."""
-        self.set_value(None)
-
     @Slot(str)
-    def set_null(self, field):
-        """Overload Sets value to null; accepts field specifier for compatibility with other field types. """
+    def set_null(self, field: str = ""):
+        """Sets value to null. Accepts optional field specifier for compatibility with other field types."""
         self.set_value(None)
 
     unit = Property(str, get_unit, set_unit, notify=unitChanged)
-    value = Property(float or None, get_value, set_value, notify=valueChanged)
+    value = Property(float, get_value, set_value, notify=valueChanged)
 
     # =================
     # UTILITY FUNCTIONS
@@ -419,7 +423,7 @@ class NumListFormField(FormFieldBase):
         Event emitted when parameter unit is changed.
 
     """
-    valueChanged = Signal(float)
+    valueChanged = Signal(str)
     unitChanged = Signal(str)
 
     _param: NumField

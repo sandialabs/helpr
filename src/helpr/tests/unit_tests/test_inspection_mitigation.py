@@ -1,90 +1,127 @@
-# Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+# Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights
 # in this software.
 #
 # You should have received a copy of the BSD License along with HELPR.
 
 import unittest
-import pandas as pd
 import numpy as np
+import pandas as pd
 import numpy.random as npr
 
-from helpr.physics.inspection_mitigation import (InspectionMitigation,
-                                                 inspect_crack,
-                                                 mitigate_crack)
+from helpr.physics.inspection_mitigation import InspectionMitigation
 
 
 class InspectionMitigationTestCase(unittest.TestCase):
     """
-    unit tests for inspection and mitigation module
+    Class for unit tests of Inspection Mitigation module.
+    
+    Attributes
+    ----------
+    probability_of_detection : float
+        Probability of detection for the inspection.
+    detection_resolution : float
+        Detection resolution for the inspection.
+    inspection_frequency : int
+        Frequency of the inspection.
+    inspection_mitigation : InspectionMitigation
+        InspectionMitigation object.
     """
+    
     def setUp(self):
-        """
-        function for specifying common inspection mitigation module inputs
-        """
-        self.probability_of_detection = 0.5
+        """Set up the test case with initial parameters."""
+        self.probability_of_detection = 0.8
         self.detection_resolution = 0.1
-        self.inspection_frequency = 2
-        self.inspection_mitigation = InspectionMitigation(self.probability_of_detection,
-                                                          self.detection_resolution,
-                                                          self.inspection_frequency)
-        self.random_state = npr.default_rng(123)
+        self.inspection_frequency = 50
+        self.inspection_mitigation = InspectionMitigation(
+            self.probability_of_detection,
+            self.detection_resolution,
+            self.inspection_frequency
+        )
 
-    def tearDown(self):
-        """"
-        teardown function
-        """
+    def test_initialization(self):
+        """Test the initialization of the InspectionMitigation class."""
+        self.assertEqual(self.inspection_mitigation.probability_of_detection,
+                         self.probability_of_detection)
+        self.assertEqual(self.inspection_mitigation.detection_resolution,
+                         self.detection_resolution)
+        self.assertEqual(self.inspection_mitigation.inspection_frequency,
+                         self.inspection_frequency)
 
     def test_determine_inspection_schedule(self):
-        '''test of determining inspection schedule function'''
-        cycle_1 = [1, 2, 3, 4, 5]
-        cycle_2 = [2, 4, 6, 8, 10]
-        cycle_3 = [0, 3, 6, 9, 12]
-        cycle_count = pd.DataFrame({1: cycle_1, 2: cycle_2, 3: cycle_3})
-        number_of_inspections, inspection_array = \
-            self.inspection_mitigation.determine_inspection_schedule(cycle_count)
-        self.assertEqual(number_of_inspections, 6)
-        self.assertIsNone(np.testing.assert_array_equal(inspection_array,
-                                                        np.array([2, 4, 6, 8, 10, 12])))
+        """Test the determine_inspection_schedule method."""
+        cycle_count = [0, 100, 200, 300]
+        expected_schedule = np.array([50, 100, 150, 200, 250, 300])
+        result = self.inspection_mitigation.determine_inspection_schedule(cycle_count,
+                                                                          self.inspection_frequency)
+        np.testing.assert_array_equal(result, expected_schedule)
 
-    def test_inspection_indices(self):
-        '''test of inspection indices function'''
-        cycle_1 = [1, 4, 7, 10, 13, 16, 19]
-        cycle_2 = [0, 3, 6, 9, 12, 15, 18]
-        cycle_count = pd.DataFrame({1: cycle_1, 2: cycle_2})
-        number_of_inspections = 3
-        inspection_array = np.array([5, 10, 19])
-        inspection_indices = \
-            self.inspection_mitigation.determine_inspection_indices(cycle_count,
-                                                                    number_of_inspections,
-                                                                    inspection_array)
-        expected_response = pd.DataFrame({1: [2, 3, 6],
-                                          2: [2, 4, np.nan]})
-        self.assertIsNone(pd.testing.assert_frame_equal(inspection_indices,
-                                                        expected_response))
+    def test_inspect_crack(self):
+        """Test the inspect_crack method."""
+        inspection_schedule = [5, 100, 200, 250]
+        crack_sizes = [0.05, 0.15, 0.2, 0.25]
+        failure_criteria = 0.2
+        cycle_count = [0, 100, 200, 300]
 
-    def test_crack_inspection(self):
-        '''unit test for crack inspection function'''
-        inspection_indices = pd.Series([1, 2, 5, 6, 7])
-        crack_size = pd.Series([0.01, 0.05, 0.1, 0.15, 0.2, 0.22, 0.25])
-        cycle_count = pd.Series([1, 2, 3, 4, 5, 6, 7])
-        inspection_array = np.array([1, 2, 5, 6, 7])
-        failure_criteria = 0.24
-        detectable = inspect_crack(inspection_indices,
-                                   crack_size,
-                                   failure_criteria,
-                                   self.detection_resolution,
-                                   inspection_array,
-                                   cycle_count)
-        self.assertEqual(detectable.tolist(), [False, False, True, True, False])
+        expected_state = np.array(['Not Detectable', 'Detectable', 'Failed', 'Failed'], dtype=object)
+        result = self.inspection_mitigation.inspect_crack(inspection_schedule,
+                                                          crack_sizes,
+                                                          failure_criteria,
+                                                          self.detection_resolution,
+                                                          cycle_count)
+        np.testing.assert_array_equal(result, expected_state)
 
-    def test_crack_mitigation(self):
-        '''unit test for crack mitigation function'''
-        detectable = pd.Series([True, False, True, True])
-        mitigation = mitigate_crack(detectable,
-                                    self.random_state,
-                                    self.probability_of_detection)
-        self.assertEqual(mitigation.tolist(), [False, False, True, True])
+    def test_mitigate_crack(self):
+        """Test the mitigate_crack method."""
+        state_array = np.array(['Not Detectable', 'Detectable', 'Detectable', 'Not Detectable'],
+                               dtype=object)
+        random_state = npr.default_rng(seed=42)  # Set seed for reproducibility
+        result = self.inspection_mitigation.mitigate_crack(state_array,
+                                                           random_state,
+                                                           self.probability_of_detection)
+
+        # Check that the result is modified correctly
+        self.assertIn('Mitigated', result)
+
+        # Use np.where to find indices of 'Detected'
+        detected_indices = np.where(result == 'Detected')[0]
+        if detected_indices.size > 0:
+            self.assertTrue(np.all(result[detected_indices[0]:] == 'Mitigated'))
+        else:
+            self.assertTrue(True)  # If there are no 'Detected', we can assert True
+
+    def test_count_inspections_until_mitigated(self):
+        """Test the count_inspections_until_mitigated method."""
+        mitigation_state = np.array(['Not Detectable', 'Detectable', 'Mitigated', 'Detectable'],
+                                    dtype=object)
+        inspection_schedule = [50, 100, 150, 200]
+
+        result = self.inspection_mitigation.count_inspections_until_mitigated(mitigation_state,
+                                                                              inspection_schedule)
+        self.assertEqual(result, 150)  # The inspection cycle corresponding to 'Mitigated'
+
+        # Test with no mitigated state
+        mitigation_state_no_mitigation = np.array(['Not Detecteable', 'Detectable', 'Detectable'],
+                                                  dtype=object)
+        result_no_mitigation = \
+            self.inspection_mitigation.count_inspections_until_mitigated(mitigation_state_no_mitigation,
+                                                                         inspection_schedule)
+        self.assertTrue(np.isnan(result_no_mitigation))  # Should return np.nan
+
+    def test_inspect_then_mitigate(self):
+        """Test the inspect_then_mitigate method."""
+        load_cycling = [
+            {'Total cycles': [0, 100, 200, 300], 'a/t': [0.05, 0.15, 0.25, 0.35]},
+            {'Total cycles': [0, 150, 250, 350], 'a/t': [0.02, 0.12, 0.22, 0.32]}
+        ]
+        failure_criteria = np.array([0.2, 0.3])
+        random_state = npr.default_rng(seed=42)  # Set seed for reproducibility
+
+        result = self.inspection_mitigation.inspect_then_mitigate(load_cycling,
+                                                                  failure_criteria,
+                                                                  random_state)
+        # Should return a list of the same length as load_cycling
+        self.assertEqual(len(result), len(load_cycling))
 
 if __name__ == '__main__':
     unittest.main()

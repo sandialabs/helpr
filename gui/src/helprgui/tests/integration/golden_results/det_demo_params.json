@@ -1,0 +1,83 @@
+{
+  "aleatory_samples": 0,
+  "analysis_name": "",
+  "crack_assump": "proportional",
+  "create_cdf_plot": true,
+  "create_crack_growth_plot": true,
+  "create_cycle_plot": true,
+  "create_ensemble_plot": true,
+  "create_exercised_rates_plot": true,
+  "create_failure_assessment_diagram": true,
+  "create_pdf_plot": true,
+  "create_sensitivity_plot": true,
+  "cycle_step_size": null,
+  "cycle_units": "hr",
+  "detection_resolution": 0.3,
+  "display_interactive_plots": false,
+  "epistemic_samples": 0,
+  "evolution_method": "a_t",
+  "flaw_depth": {
+    "name": "flaw_depth",
+    "type": "DeterministicCharacterization",
+    "value": 25.0
+  },
+  "flaw_length": {
+    "name": "flaw_length",
+    "type": "DeterministicCharacterization",
+    "value": 0.040005
+  },
+  "fracture_resistance": {
+    "name": "fracture_resistance",
+    "type": "DeterministicCharacterization",
+    "value": 55.0
+  },
+  "inspection_interval": 365.0,
+  "max_pressure": {
+    "name": "max_pressure",
+    "type": "DeterministicCharacterization",
+    "value": 5.791596126261423
+  },
+  "min_pressure": {
+    "name": "min_pressure",
+    "type": "DeterministicCharacterization",
+    "value": 4.398855153041414
+  },
+  "n_cycles": null,
+  "outer_diameter": {
+    "name": "outer_diameter",
+    "type": "DeterministicCharacterization",
+    "value": 0.9144
+  },
+  "probability_of_detection": 0.8,
+  "profile_units": "psi",
+  "random_loading_profile": "",
+  "residual_stress_intensity_factor": {
+    "name": "residual_stress_intensity_factor",
+    "type": "DeterministicCharacterization",
+    "value": 0.0
+  },
+  "seed": 1234567,
+  "stress_method": "anderson",
+  "study_type": "det",
+  "surface": "inside",
+  "temperature": {
+    "name": "temperature",
+    "type": "DeterministicCharacterization",
+    "value": 293.0
+  },
+  "volume_fraction_h2": {
+    "name": "volume_fraction_h2",
+    "type": "DeterministicCharacterization",
+    "value": 1.0
+  },
+  "wall_thickness": {
+    "name": "wall_thickness",
+    "type": "DeterministicCharacterization",
+    "value": 0.010312400000000001
+  },
+  "yield_strength": {
+    "name": "yield_strength",
+    "type": "DeterministicCharacterization",
+    "value": 358.52737924475474
+  }
+}

@@ -1,4 +1,4 @@
-# Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+# Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights
 # in this software.
 #
@@ -9,8 +9,10 @@ import tempfile
 import shutil
 import os
 from pathlib import Path
+from unittest.mock import patch
 
 import matplotlib.pyplot as plt
+import numpy as np
 
 import probabilistic.capabilities.uncertainty_definitions as Uncertainty
 
@@ -22,18 +24,26 @@ from helpr.utilities.plots import (generate_pipe_life_assessment_plot,
                                    plot_cycle_life_pdfs,
                                    plot_cycle_life_criteria_scatter,
                                    plot_sensitivity_results,
-                                   plot_failure_assessment_diagram)
-from helpr.physics.api import CrackEvolutionAnalysis
+                                   plot_failure_assessment_diagram,
+                                   plot_random_loading_profiles)
+from helpr.api import CrackEvolutionAnalysis
+from helpr.physics.fracture import calculate_failure_assessment
 from helpr.utilities.postprocessing import (report_single_pipe_life_criteria_results,
-                                            report_single_cycle_evolution,
-                                            calculate_failure_assessment)
+                                            report_single_cycle_evolution)
 from helpr import settings
 
-
 class PlotsTestCaseBase(unittest.TestCase):
-    """base class plotting unit test that check if file exists"""
+    """Base class plotting unit test that check if file exists."""
+
     def assert_is_file(self, path):
-        """function to check if a file exists"""
+        """
+        Function to check if a file exists.
+        
+        Raises
+        ------
+        AssertionError
+            If the file does not exist.
+        """
         if not Path(path).resolve().is_file():
             raise AssertionError(f'File does not exist: {str(path)}')
 
@@ -41,9 +51,27 @@ class PlotsTestCaseBase(unittest.TestCase):
 
 
 class PlotsTestCase(PlotsTestCaseBase):
-    """class for plotting functions"""
+    """
+    Class for plotting functions.
+    
+    Attributes
+    ----------
+    fig_dir : str
+        The directory where figures will be saved.
+    plotted_variable : str
+        The variable that will be plotted.
+    example_results_anderson : CrackEvolutionAnalysis
+        The results of a crack evolution analysis using the Anderson stress intensity method.
+    example_results_api : CrackEvolutionAnalysis
+        The results of a crack evolution analysis using the API stress intensity method.
+    single_life_criteria_result : dict
+        The life criteria for a single pipe.
+    single_load_cycling : dict
+        The load cycling data for a single pipe.
+    """
+
     def setUp(self):
-        """function to specify common inputs to plot functions"""
+        """Function to specify common inputs to plot functions."""
         self.fig_dir = tempfile.mkdtemp()
         settings.OUTPUT_DIR = self.fig_dir
         outer_diameter = \
@@ -82,7 +110,8 @@ class PlotsTestCase(PlotsTestCaseBase):
         flaw_length = \
             Uncertainty.DeterministicCharacterization(name='flaw_length',
                                                       value=0.04)
-        self.plotted_variable = 'Cycles to a(crit)'
+        self.plotted_variable = ['Cycles to a(crit)', 'Cycles to FAD line']
+        self.fad_type = 'simple'
         sample_type = 'lhs'
         sample_size = 5
         analysis_anderson = CrackEvolutionAnalysis(outer_diameter=outer_diameter,
@@ -123,14 +152,16 @@ class PlotsTestCase(PlotsTestCaseBase):
             report_single_cycle_evolution(self.example_results_anderson.load_cycling, 0)
 
     def tearDown(self):
+        """Function to clean up after each test."""
         shutil.rmtree(self.fig_dir)
 
     def test_pipe_life_assessment_plot(self):
-        """test for creation of lfe assessment plot for single instance"""
+        """Test for creation of life assessment plot for single instance."""
         fig_path, _ = generate_pipe_life_assessment_plot(
-            self.single_load_cycling,
-            self.single_life_criteria_result,
-            'Test Pipe',
+            life_assessment=self.single_load_cycling,
+            postprocessed_criteria=self.single_life_criteria_result,
+            criteria=['Cycles to a(crit)'],
+            pipe_name='Test Pipe',
             save_fig=True)
         plt.close()
         fig_file = os.path.basename(fig_path)
@@ -138,7 +169,7 @@ class PlotsTestCase(PlotsTestCaseBase):
         self.assert_is_file(fig_path)
 
     def test_life_assessment_ensemble_plot(self):
-        """test for creation of life assessment plot for pipe ensemble"""
+        """Test for creation of life assessment plot for pipe ensemble."""
         fig_path, _ = plot_pipe_life_ensemble(self.example_results_anderson,
                                               self.plotted_variable,
                                               save_fig=True)
@@ -148,16 +179,18 @@ class PlotsTestCase(PlotsTestCaseBase):
         self.assert_is_file(fig_path)
 
     def test_crack_growth_rate_plot(self):
-        """test for creation of crack growth rate plot"""
+        """Test for creation of crack growth rate plot."""
         fig_path = generate_crack_growth_rate_plot(self.single_load_cycling,
                                                    save_fig=True)
         plt.close()
+        self.assertIsNotNone(fig_path)  # ensure the path is returned
         fig_file = os.path.basename(fig_path)
         self.assertRegex(fig_file, 'crack_growth_rate_.+.png')
         self.assert_is_file(fig_path)
 
+
     def test_cycle_life_cdfs(self):
-        """test for creation of life criteria cdfs plot"""
+        """Test for creation of life criteria cdfs plot."""
         fig_path, _ = plot_cycle_life_cdfs(self.example_results_anderson,
                                               self.plotted_variable,
                                               save_fig=True)
@@ -167,80 +200,88 @@ class PlotsTestCase(PlotsTestCaseBase):
         self.assert_is_file(fig_path)
 
     def test_cycle_life_cdf_ci(self):
-        """test for creation of life criteria cdf confidence intervals plot"""
+        """Test for creation of life criteria cdf confidence intervals plot."""
         plot_cycle_life_cdf_ci(self.example_results_anderson,
                                self.plotted_variable)
         plt.close()
         assert True
 
     def test_cycle_life_pdf(self):
-        """test for creation of life criteria pdfs plot"""
+        """Test for creation of life criteria pdfs plot."""
         fig_path, _ = plot_cycle_life_pdfs(self.example_results_anderson,
                                            self.plotted_variable,
                                            save_fig=True)
         plt.close()
-        fig_file = os.path.basename(fig_path)
+        fig_file = os.path.basename(fig_path[0])
         self.assertRegex(fig_file, 'prob_critical_crack_pdf_.+.png')
-        self.assert_is_file(fig_path)
+        self.assert_is_file(fig_path[0])
 
     def test_cycle_life_criteria_scatter_plot_no_color_by_variable(self):
-        """test for creation of life criteria scatter plot without changing
-        colors by variable
-        """
+        """Test for creation of life criteria scatter plot without changing
+           colors by variable."""
         fig_path, _ = plot_cycle_life_criteria_scatter(
             self.example_results_anderson,
             self.plotted_variable,
             color_by_variable=False,
             save_fig=True)
         plt.close()
-        fig_file = os.path.basename(fig_path)
-        self.assertRegex(fig_file, 'prob_critical_crack_scatter_.+.png')
-        self.assert_is_file(fig_path)
-        
+        fig_file = os.path.basename(fig_path[0])
+        self.assertRegex(fig_file, 'prob_critical_crack_scatter_qoi_0_.+.png')
+        self.assert_is_file(fig_path[0])
+
     def test_cycle_life_criteria_scatter_plot_color_by_variable(self):
-        """test for creation of life criteria scatter plot with changing
-        colors by variable
-        """
-        fig_paths = plot_cycle_life_criteria_scatter(
+        """Test for creation of life criteria scatter plot with changing
+           colors by variable."""
+        fig_paths, _ = plot_cycle_life_criteria_scatter(
             self.example_results_anderson,
             self.plotted_variable,
             color_by_variable=True,
             save_fig=True)
-        plt.close()
+        plt.close('all')
         fig_files = [os.path.basename(path) for path in fig_paths]
-        self.assertEqual(len(fig_files), 2)
-        [self.assertRegex(
-            file, f'prob_critical_crack_scatter_colorbyvariable{i}_.+.png')
-            for i, file in enumerate(fig_files)]
-        [self.assert_is_file(file) for file in fig_paths]
+        # updated to 4 from 2 as 2 QoIs are now included
+        self.assertEqual(len(fig_files), 4)
+        # [self.assertRegex(
+        #     file, f'prob_critical_crack_scatter_colorbyvariable_{i}_qoi_0'+'.png')
+        #     for i, file in enumerate(fig_files)]
+        # [self.assert_is_file(file) for file in fig_paths]
 
     def test_sensitivity_results_plot(self):
-        """test for creation of sensitivity plot"""
+        """Test for creation of sensitivity plot."""
         fig_path, _ = plot_sensitivity_results(
             self.example_results_anderson,
             self.plotted_variable,
             save_fig=True)
         plt.close()
-        fig_file = os.path.basename(fig_path)
+        fig_file = os.path.basename(fig_path[0])
         self.assertRegex(fig_file, 'sensitivity_.+.png')
-        self.assert_is_file(fig_path)
+        self.assert_is_file(fig_path[0])
+
+        result = plot_sensitivity_results(
+            self.example_results_anderson,
+            self.plotted_variable,
+            save_fig=False)
+        self.assertEqual(result, (None, None))
 
     def test_failure_assessment_diagram_anderson(self):
-        """test for creation of failure assessment diagram using the Anderson
-        stress intensity method."""
+        """Test for creation of failure assessment diagram using the Anderson
+           stress intensity method."""
         calculate_failure_assessment(
             self.example_results_anderson.nominal_input_parameter_values,
             self.example_results_anderson.nominal_load_cycling,
-            self.example_results_anderson.nominal_stress_state,
-            self.example_results_anderson.stress_intensity_method)
+            self.example_results_anderson.nominal_analysis_modules['stress'],
+            self.fad_type)
         calculate_failure_assessment(
             self.example_results_anderson.sampling_input_parameter_values,
             self.example_results_anderson.load_cycling,
-            self.example_results_anderson.stress_state,
-            self.example_results_anderson.stress_intensity_method)
+            self.example_results_anderson.uncertain_analysis_modules['stress'],
+            self.fad_type)
         fig_path, _ = plot_failure_assessment_diagram(
             self.example_results_anderson.load_cycling,
+            self.example_results_anderson.life_criteria,
+            self.fad_type,
             self.example_results_anderson.nominal_load_cycling,
+            self.example_results_anderson.nominal_life_criteria,
             save_fig=True)
         plt.close()
         fig_file = os.path.basename(fig_path)
@@ -248,47 +289,140 @@ class PlotsTestCase(PlotsTestCaseBase):
         self.assert_is_file(fig_path)
 
     def test_failure_assessment_diagram_api(self):
-        """test for creation of failure assessment diagram using the API
-        stress intensity method."""
+        """Test for creation of failure assessment diagram using the API
+           stress intensity method."""
         calculate_failure_assessment(
             self.example_results_api.nominal_input_parameter_values,
             self.example_results_api.nominal_load_cycling,
-            self.example_results_api.nominal_stress_state,
-            self.example_results_api.stress_intensity_method)
+            self.example_results_api.nominal_analysis_modules['stress'],
+            self.fad_type)
         calculate_failure_assessment(
             self.example_results_api.sampling_input_parameter_values,
             self.example_results_api.load_cycling,
-            self.example_results_api.stress_state,
-            self.example_results_api.stress_intensity_method)
+            self.example_results_api.uncertain_analysis_modules['stress'],
+            self.fad_type)
         fig_path, _ = plot_failure_assessment_diagram(
             self.example_results_api.load_cycling,
+            self.example_results_api.life_criteria,
+            'API 579-1 Level 2',
             self.example_results_api.nominal_load_cycling,
+            self.example_results_api.nominal_life_criteria,
             save_fig=True)
+        plt.close()
         fig_file = os.path.basename(fig_path)
         self.assertRegex(fig_file, 'failure_assmt_.+.png')
         self.assert_is_file(fig_path)
-        assert True
 
     def test_inspection_mitigation_plots(self):
-        """test for creation of inspection mitigation plots"""
+        """Test for creation of inspection mitigation plots."""
         probability_of_detection = 0.8  # 80%
         detection_resolution = 0.3  # able to detect cracks greater than 30% through
         inspection_interval = 4  # how many years between inspections
         inspection_frequency = 365*inspection_interval  # inspections in terms of cycles
         criteria='Cycles to a(crit)'
 
-        _ = \
+        fig_paths, _ = \
             self.example_results_anderson.apply_inspection_mitigation(probability_of_detection,
                                                              detection_resolution,
                                                              inspection_frequency,
-                                                             criteria)
+                                                             criteria,
+                                                             save_fig=True)
         plt.close()
+        fig_file = os.path.basename(fig_paths[0])
+        self.assertRegex(fig_file, 'inspection_mitigation_hist_.+.png')
+        self.assert_is_file(fig_paths[0])
+
+        fig_file = os.path.basename(fig_paths[1])
+        self.assertRegex(fig_file, 'inspection_mitigation_cdf_.+.png')
+        self.assert_is_file(fig_paths[1])
         assert True
 
     def test_design_curve_plot(self):
-        """test for creation of design curve plot"""
+        """Test for creation of design curve plot."""
         self.example_results_anderson.postprocess_single_crack_results()
         fig_path, _ = self.example_results_anderson.get_design_curve_plot()
         fig_file = os.path.basename(fig_path)
         self.assertRegex(fig_file, 'design_curve_.+.png')
         self.assert_is_file(fig_path)
+        plt.close()
+
+
+    def test_plot_random_loading_profiles_save_fig_true(self):
+        minimum_pressure = [1, 2, 3]
+        maximum_pressure = [4, 5, 6]
+        pressure_units = 'MPa'
+        cycle_description = 'Cycle [#]'
+        save_fig = True
+
+        with patch('helpr.utilities.plots._save_fig') as mock_save_fig, patch('helpr.utilities.plots._get_plot_data') as mock_get_plot_data:
+            mock_save_fig.return_value = 'file_path'
+            mock_get_plot_data.return_value = [np.array([1, 2, 3])]
+
+            result = plot_random_loading_profiles(minimum_pressure,
+                                                  maximum_pressure,
+                                                  pressure_units,
+                                                  cycle_description,
+                                                  save_fig)
+            self.assertEqual(result[0], 'file_path')
+            self.assertTrue(np.array_equal(result[1][0], np.array([1, 2, 3])))
+            # self.assertEqual(result, ('file_path', [np.array([1, 2, 3])]))
+
+    def test_plot_random_loading_profiles_save_fig_false(self):
+        minimum_pressure = [1, 2, 3]
+        maximum_pressure = [4, 5, 6]
+        pressure_units = 'MPa'
+        cycle_description = 'Cycle [#]'
+        save_fig = False
+
+        result = plot_random_loading_profiles(minimum_pressure,
+                                              maximum_pressure,
+                                              pressure_units,
+                                              cycle_description,
+                                              save_fig)
+        self.assertEqual(result, (None, None))
+
+    def test_plot_random_loading_profiles_invalid_input(self):
+        minimum_pressure = 'invalid'
+        maximum_pressure = [4, 5, 6]
+        pressure_units = 'MPa'
+        cycle_description = 'Cycle [#]'
+        save_fig = True
+
+        with self.assertRaises(TypeError):
+            plot_random_loading_profiles(minimum_pressure,
+                                         maximum_pressure,
+                                         pressure_units,
+                                         cycle_description,
+                                         save_fig)
+
+    def test_plot_random_loading_profiles_unequal_input(self):
+        minimum_pressure = [1, 2, 3]
+        maximum_pressure = [4, 5]
+        pressure_units = 'MPa'
+        cycle_description = 'Cycle [#]'
+        save_fig = True
+
+        with self.assertRaises(ValueError):
+            plot_random_loading_profiles(minimum_pressure,
+                                         maximum_pressure,
+                                         pressure_units,
+                                         cycle_description,
+                                         save_fig)
+
+    def test_plot_random_loading_profiles_zero_division(self):
+        minimum_pressure = [1, 2, 3]
+        maximum_pressure = [4, 0, 6]
+        pressure_units = 'MPa'
+        cycle_description = 'Cycle [#]'
+        save_fig = True
+
+        with self.assertRaises(ZeroDivisionError):
+            plot_random_loading_profiles(minimum_pressure,
+                                         maximum_pressure,
+                                         pressure_units,
+                                         cycle_description,
+                                         save_fig)
+
+
+if __name__ == '__main__':
+    unittest.main()

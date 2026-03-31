@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+ * Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
  * Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
  * You should have received a copy of the BSD License along with HELPR.
  */
@@ -10,6 +10,7 @@ import QtQuick.Dialogs
 import QtQuick.Window
 import QtQuick.Controls.Material 2.12
 
+import "../hygu/ui/utils.js" as Utils
 import "../hygu/ui/components"
 import "../hygu/ui/components/buttons"
 import "../hygu/ui/parameters"
@@ -94,15 +95,42 @@ FormPage {
             oldNumEpi = nEpi;
             oldNumAle = nAle;
 
-            epiInput.enabled = studyType !== studyKeyDet;
-            epiInput.opacity = studyType !== studyKeyDet ? 1 : fadeVal;
-            aleInput.enabled = studyType !== studyKeyDet;
-            aleInput.opacity = studyType !== studyKeyDet ? 1 : fadeVal;
+            let showSamples = studyType !== studyKeyDet && studyType !== studyKeyBound;
+            section2.visible = showSamples;
+            epiInput.visible = showSamples;
+            epiInput.enabled = showSamples;
+            epiInput.opacity = showSamples ? 1 : fadeVal;
+            aleInput.visible = showSamples;
+            aleInput.enabled = showSamples;
+            aleInput.opacity = showSamples ? 1 : fadeVal;
 
             nCyclesInput.enabled = studyType === studyKeyDet || studyType === studyKeyProb;
             nCyclesInput.opacity = studyType === studyKeyDet || studyType === studyKeyProb ? 1 : fadeVal;
 
             nCyclesWarning.visible = studyType === studyKeyProb;
+        }
+
+        cycleStepSizeInput.enabled = evolution_method_c.value === "cycles";
+        cycleStepSizeWarning.visible = evolution_method_c.value === "cycles" && cycle_step_size_c.value > 1;
+
+        // random loading profile overrides min and max pressures
+        if (Utils.isNullish(random_loading_profile_c.value))
+        {
+            profileUnitsInput.enabled = false;
+            profileUnitsInput.opacity = fadeVal;
+            minPressureInput.enabled = true;
+            minPressureInput.opacity = 1;
+            maxPressureInput.enabled = true;
+            maxPressureInput.opacity = 1;
+        }
+        else
+        {
+            profileUnitsInput.enabled = true;
+            profileUnitsInput.opacity = 1;
+            minPressureInput.enabled = false;
+            minPressureInput.opacity = fadeVal;
+            maxPressureInput.enabled = false;
+            maxPressureInput.opacity = fadeVal;
         }
     }
 
@@ -205,8 +233,8 @@ FormPage {
                         id: advSettingsSection
                         w: sectionW
                         title: "Advanced..."
-                        titleFontSize: labelFontSize;
-                        isItalic: true
+                        titleFontSize: labelFontSize + 1;
+                        isItalic: false
                         asHeader: false
                         startOpen: false
                         btnRef.anchors.leftMargin: 330
@@ -214,6 +242,13 @@ FormPage {
                         ColumnLayout {
                             parent: advSettingsSection.containerRef
                             Layout.leftMargin: 5
+
+                            SubSectionHeader {
+                                title: "Model Assumptions"
+                                topMargin: 5
+                                fontSize: labelFontSize
+                                textColor: headerColor
+                            }
 
                             RowLayout {
                                 ChoiceParamField {
@@ -230,13 +265,14 @@ FormPage {
 
                                 ButtonPopup {
                                     id: stressPopup
-                                    h: stressCol.height + 30
-                                    w: stressCol.width + 10
+                                    h: 620
+                                    w: 920
                                     tipText: "View illustration of stress intensity methods"
 
                                     ColumnLayout {
                                         id: stressCol
                                         parent: stressPopup.contentRef
+                                        anchors.fill: parent
 
                                         Text {
                                             text: "<b>Stress Intensity Factor Models</b>"
@@ -248,24 +284,24 @@ FormPage {
 
                                             Column {
                                                 spacing: 5
-                                                SimImage {
-                                                    filename: appDir + "ui/resources/pipe_geom_infinite.png";
-                                                    source: appDir + "ui/resources/pipe_geom_infinite.png";
-                                                    height: 400
+                                                Image {
+                                                    source: "resources/pipe_geom_infinite.png"
+                                                    height: 300
+                                                    fillMode: Image.PreserveAspectFit
                                                     sourceSize.height: height
                                                 }
                                                 Text {
-                                                    text: "Infinite crack length (left) and finite crack length (right"
+                                                    text: "Infinite crack length (left) and finite crack length (right)"
                                                     font.italic: true
                                                     font.pointSize: 12
                                                 }
                                             }
                                             Column {
                                                 spacing: 5
-                                                SimImage {
-                                                    filename: appDir + "ui/resources/pipe_geom_elliptical.png";
-                                                    source: appDir + "ui/resources/pipe_geom_elliptical.png"
-                                                    height: 400
+                                                Image {
+                                                    source: "resources/pipe_geom_elliptical.png"
+                                                    height: 300
+                                                    fillMode: Image.PreserveAspectFit
                                                     sourceSize.height: height
                                                 }
                                                 Text {
@@ -319,6 +355,8 @@ FormPage {
                                             horizontalAlignment: Text.AlignLeft
                                             leftPadding: 10
                                         }
+
+                                        Item { Layout.fillHeight: true }
                                     }
                                 }
                             }
@@ -335,6 +373,13 @@ FormPage {
                                 selector.Layout.preferredWidth: longInputW
                                 selector.Layout.maximumWidth: longInputW
                                 tipText: "Assumption about correlation between crack depth and length growth"
+                            }
+
+                            SubSectionHeader {
+                                title: "Analysis Specifications"
+                                topMargin: 15
+                                fontSize: labelFontSize
+                                textColor: headerColor
                             }
 
                             IntParamField {
@@ -354,7 +399,7 @@ FormPage {
                                 Behavior on Layout.preferredHeight {NumberAnimation { duration: 100 }}
 
                                 Text {
-                                    text: "Cracks may evolve past cycle count due to current numerical implementation being limited by slowest evolving cracks"
+                                    text: "Cracks may evolve past cycle count due to adaptive time stepping implementation unless using fixed cycle step size option"
                                     color: color_text_warning
                                     anchors.margins: 10
                                     anchors.fill: parent
@@ -368,6 +413,46 @@ FormPage {
                                 }
                             }
 
+                            ChoiceParamField {
+                                id: evolutionMethodInput
+                                param: evolution_method_c
+                                selector.Layout.preferredWidth: medInputW
+                                selector.Layout.maximumWidth: medInputW
+                                tipText: "Determines whether crack growth is evolved in terms of crack depth normalized " +
+                                    "by wall thickness (a/t) or a specified number of cycles. \nWhen a/t is used the numerical " +
+                                    "step size selection is adaptive leading to faster computations, which may result in some " +
+                                    "numerical error. \nEvolving using a cycle step size of one is currently required when " +
+                                    "using random loading profiles."
+                            }
+                            IntParamField {
+                                id: cycleStepSizeInput
+                                param: cycle_step_size_c
+                                allowNull: true
+                                tipText: "Step size by which to evolve cracks during analysis. Ignored if using a/t for evolving cracks."
+                            }
+
+                            Rectangle {
+                                id: cycleStepSizeWarning
+                                // visible: cycle_step_size_c.value > 1
+                                Layout.preferredWidth: 500
+                                Layout.leftMargin: paramLabelWidth
+                                radius: 5
+                                color: color_warning
+                                Layout.preferredHeight: 30
+
+                                Text {
+                                    text: "Step sizes > 1 may result in numerical error"
+                                    color: color_text_warning
+                                    anchors.margins: 10
+                                    anchors.fill: parent
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    horizontalAlignment: Text.AlignLeft
+                                    verticalAlignment: Text.AlignVCenter
+                                    font.pointSize: labelFontSize
+                                    font.bold: true
+                                }
+                            }
+
                             IntParamField {
                                 param: seed_c
                                 allowNull: false
@@ -378,6 +463,7 @@ FormPage {
                                 id: doInteractiveCharts
                                 param: do_interactive_charts_c
                             }
+
                         }
                     }
 
@@ -385,21 +471,24 @@ FormPage {
                         id: section2
                         title: "Probabilistic"
                         iconSrc: 'chart-simple-solid'
+                        visible: study_type_c.value !== studyKeyDet && study_type_c.value !== studyKeyBound
                     }
                     IntParamField {
                         id: aleInput
                         param: n_ale_c
                         minValue: 0
-                        enabled: study_type_c.value !== studyKeyDet
-                        opacity: study_type_c.value !== studyKeyDet ? 1 : fadeVal
+                        visible: study_type_c.value !== studyKeyDet && study_type_c.value !== studyKeyBound
+                        enabled: study_type_c.value !== studyKeyDet && study_type_c.value !== studyKeyBound
+                        opacity: visible ? 1 : fadeVal
                         tipText: "Number of aleatory samples used in the analysis. Large sample size may substantially prolong analysis."
                     }
                     IntParamField {
                         id: epiInput
                         param: n_epi_c
                         minValue: 0
-                        enabled: study_type_c.value !== studyKeyDet
-                        opacity: study_type_c.value !== studyKeyDet ? 1 : fadeVal
+                        visible: study_type_c.value !== studyKeyDet && study_type_c.value !== studyKeyBound
+                        enabled: study_type_c.value !== studyKeyDet && study_type_c.value !== studyKeyBound
+                        opacity: visible ? 1 : fadeVal
                         tipText: "Number of epistemic samples used in the analysis. Large sample size may substantially prolong analysis."
                     }
 
@@ -437,17 +526,63 @@ FormPage {
                         param: frac_resist_c
                         tipText: "Measured fracture toughness at maximum hydrogen pressure"
                     }
+                    UncertainParamField {
+                        param: stress_intensity_c
+                        labelRef.wrapMode: Text.WordWrap
+                        tipText: "Describe residual stress via static, explicit intensity factor"
+                    }
+
 
                     FormSectionHeader {
                         id: section5
                         title: "Operating Conditions"
                         iconSrc: 'temperature-half-solid'
                     }
+                    FileSelector {
+                        id: randomLoadingProfileInput
+                        param: random_loading_profile_c
+                        inputLength: 400
+                        Layout.preferredHeight: 45
+                        tipText: "Select a CSV file containing random loading profile data. Overrides minimum and maximum pressure parameters if used. To re-enable pressure inputs, clear file selector."
+                        fileDialog.onAccepted: {
+                            app_form.set_random_loading_profile(fileDialog.selectedFile);
+                        }
+                        extraButton.onClicked: {
+                            app_form.clear_random_loading_profile();
+                        }
+
+                        IconTextButton {
+                            id: templateDownloadButton
+                            parent: randomLoadingProfileInput.contentRow
+                            height: 36
+                            Layout.preferredHeight: 36
+                            Layout.preferredWidth: 80
+                            img: 'file-arrow-down-solid'
+                            btnText: "Template"
+
+                            onClicked: {
+                                let url = appDir + "assets/demo/random_loading_demo.csv";
+                                Qt.openUrlExternally(url);
+                            }
+                        }
+
+                    }
+
+                    ChoiceParamField {
+                        id: profileUnitsInput
+                        selector.Layout.preferredWidth: medInputW
+                        selector.Layout.maximumWidth: medInputW
+                        param: profile_units_c
+                        tipText: "Units of the random loading profile data"
+                    }
+
                     UncertainParamField {
+                        id: maxPressureInput
                         param: p_max_c
                         tipText: "Maximum gas pressure"
                     }
                     UncertainParamField {
+                        id: minPressureInput
                         param: p_min_c
                         tipText: "Minimum gas pressure"
                     }
@@ -562,17 +697,21 @@ FormPage {
                 id: alertSection
                 visible: false
                 Layout.alignment: Qt.AlignLeft
-                Layout.leftMargin: 10
+                Layout.leftMargin: 6
+                Layout.rightMargin: 6
+                Layout.bottomMargin: 7
                 color: color_danger
                 radius: 5
-                Layout.preferredHeight: 30
+                Layout.preferredHeight: 40
                 Layout.preferredWidth: alertContents.width
+                // Layout.fillWidth: true
+                // Layout.maximumWidth: parent.width - submitBtn.width - 100
 
                 Row {
                     id: alertContents
-                    spacing: 5
+                    spacing: 4
                     anchors.verticalCenter: parent.verticalCenter
-                    leftPadding: 8
+                    leftPadding: 4
 
                     AppIcon {
                         id: alertIcon
@@ -590,6 +729,7 @@ FormPage {
                         font.pointSize: 12
                         font.bold: true
                         anchors.verticalCenter: parent.verticalCenter
+                        wrapMode: Text.WordWrap
                     }
                 }
 

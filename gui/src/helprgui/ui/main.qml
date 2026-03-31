@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+ * Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
  * Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
  * You should have received a copy of the BSD License along with HELPR.
  */
@@ -86,6 +86,15 @@ ApplicationWindow {
     property int longInputW: 220
     property int sectionW: 850
     property int defaultInputW: medInputW;
+    property int uncertaintyInputW: medInputW;
+    property int distributionInputW: defaultSelectorW;
+
+    // Platform-specific input field sizing
+    property int inputFieldHeight: isWindows ? 28 : 24;
+    property int inputFieldPadding: isWindows ? 5 : 5;
+    property int paramRowHeight: isWindows ? 32 : 30;
+    property int paramRowErrorHeight: isWindows ? 62 : 60;
+    property int choiceRowHeight: isWindows ? 32 : 34;
 
     Connections {
         target: app_form

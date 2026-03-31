@@ -1,0 +1,102 @@
+{
+  "aleatory_samples": 50,
+  "analysis_name": "",
+  "crack_assump": "proportional",
+  "create_cdf_plot": true,
+  "create_crack_growth_plot": true,
+  "create_cycle_plot": true,
+  "create_ensemble_plot": true,
+  "create_exercised_rates_plot": true,
+  "create_failure_assessment_diagram": true,
+  "create_pdf_plot": true,
+  "create_sensitivity_plot": true,
+  "cycle_step_size": null,
+  "cycle_units": "hr",
+  "detection_resolution": 0.3,
+  "display_interactive_plots": false,
+  "epistemic_samples": 0,
+  "evolution_method": "a_t",
+  "flaw_depth": {
+    "lower_bound": 20.0,
+    "name": "flaw_depth",
+    "nominal": 25.0,
+    "type": "UniformDistribution",
+    "uncertainty_type": "aleatory",
+    "upper_bound": 30.0
+  },
+  "flaw_length": {
+    "name": "flaw_length",
+    "type": "DeterministicCharacterization",
+    "value": 0.040005
+  },
+  "fracture_resistance": {
+    "name": "fracture_resistance",
+    "type": "DeterministicCharacterization",
+    "value": 55.0
+  },
+  "inspection_interval": 365.0,
+  "max_pressure": {
+    "lower_bound": 5.446858261603005,
+    "mean": 5.860543699193107,
+    "name": "max_pressure",
+    "nominal": 5.791596126261423,
+    "std_deviation": 0.1378951458633672,
+    "type": "TruncatedNormalDistribution",
+    "uncertainty_type": "aleatory",
+    "upper_bound": 6.274229136783208
+  },
+  "min_pressure": {
+    "lower_bound": 3.9851697154513124,
+    "mean": 4.398855153041414,
+    "name": "min_pressure",
+    "nominal": 4.398855153041414,
+    "std_deviation": 0.1378951458633672,
+    "type": "TruncatedNormalDistribution",
+    "uncertainty_type": "aleatory",
+    "upper_bound": 4.8125405906315155
+  },
+  "n_cycles": null,
+  "outer_diameter": {
+    "name": "outer_diameter",
+    "type": "DeterministicCharacterization",
+    "value": 0.9144
+  },
+  "probability_of_detection": 0.8,
+  "profile_units": "psi",
+  "random_loading_profile": "",
+  "residual_stress_intensity_factor": {
+    "name": "residual_stress_intensity_factor",
+    "type": "DeterministicCharacterization",
+    "value": 0.0
+  },
+  "seed": 1234567,
+  "stress_method": "anderson",
+  "study_type": "sam",
+  "surface": "inside",
+  "temperature": {
+    "lower_bound": 285.0,
+    "name": "temperature",
+    "nominal": 293.0,
+    "type": "UniformDistribution",
+    "uncertainty_type": "aleatory",
+    "upper_bound": 300.0
+  },
+  "volume_fraction_h2": {
+    "lower_bound": 0.0,
+    "name": "volume_fraction_h2",
+    "nominal": 0.1,
+    "type": "UniformDistribution",
+    "uncertainty_type": "aleatory",
+    "upper_bound": 0.2
+  },
+  "wall_thickness": {
+    "name": "wall_thickness",
+    "type": "DeterministicCharacterization",
+    "value": 0.010312400000000001
+  },
+  "yield_strength": {
+    "name": "yield_strength",
+    "type": "DeterministicCharacterization",
+    "value": 358.52737924475474
+  }
+}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+ * Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
  * Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
  * You should have received a copy of the BSD License along with HELPR.
  */
@@ -21,6 +21,11 @@ TextEdit {
         id: ma
         anchors.fill: parent
         hoverEnabled: true
+
+        // Ensure text selection works when TextEdit inside a Flickable
+        propagateComposedEvents: true  // Allow events to pass through
+        onPressed: mouse.accepted = false
+        onReleased: mouse.accepted = false
     }
 
     ToolTip {

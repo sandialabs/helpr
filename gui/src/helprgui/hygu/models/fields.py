@@ -1,10 +1,12 @@
 """
-Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
 
 You should have received a copy of the BSD License along with HELPR.
 
 """
+import copy
+
 import numpy as np
 
 from ..utils.distributions import BaseChoiceList
@@ -170,6 +172,61 @@ class FieldBase:
 
         if notify_from_model:
             self.changed_by_model.notify(self)
+
+    def __deepcopy__(self, memo):
+        """Custom deep copy that skips unpickle-able child components.
+
+        Parameters
+        ----------
+        memo : dict
+            Dictionary of already copied objects to avoid infinite recursion.
+
+        Returns
+        -------
+        FieldBase
+            Deep copy of this instance without unpickle-able child components.
+        """
+        # Create a new instance of the same class
+        cls = self.__class__
+        result = cls.__new__(cls)
+        memo[id(self)] = result
+
+        # Avoid circular imports
+        from ..forms.fields import FormFieldBase
+
+        # Copy each attribute but skip form fields, if any are found, and clear event listeners
+        for key, value in self.__dict__.items():
+            if isinstance(value, FormFieldBase):
+                continue
+
+            elif isinstance(value, Event):
+                # temporarily remove attached listeners to avoid deep/recursive nesting of sub-objects.
+                listeners = value.listeners
+                value.clear()
+                setattr(result, key, copy.deepcopy(value, memo))
+                value.listeners = listeners
+
+            elif isinstance(value, list):
+                # Check lists similarly
+                new_list = []
+                for item in value:
+                    if isinstance(item, FormFieldBase):
+                        continue
+                    elif isinstance(item, Event):
+                        listeners = item.listeners
+                        item.clear()
+                        new_list.append(copy.deepcopy(item, memo))
+                        item.listeners = listeners
+                    else:
+                        new_list.append(copy.deepcopy(item, memo))
+
+                setattr(result, key, new_list)
+
+            else:
+                # Deep copy everything else normally
+                setattr(result, key, copy.deepcopy(value, memo))
+
+        return result
 
 
 class StringField(FieldBase):
@@ -414,7 +471,7 @@ class NumField(FieldBase):
     def set_from_model(self, raw):
         """Sets raw value via backend model. """
         raw = self._dtype(raw)
-        if self.in_range(raw):
+        if self.in_range_raw(raw):
             super().set_from_model(raw)
 
     def get_unit_index(self):
@@ -454,6 +511,10 @@ class NumField(FieldBase):
     @property
     def unit_choices_display(self):
         return self._display_units
+
+    @property
+    def distr_choices_display(self):
+        return ['NOT', 'IMPLEMENTED']
 
     @property
     def min_value_str(self):
@@ -687,7 +748,7 @@ class NumListField(FieldBase):
         else:
             self._unit_choices = []
             self._display_units = []
-            for un_id, un_disp in zip((self.unit_type.units(), self.unit_type.display_units)):
+            for un_id, un_disp in zip(self.unit_type.units(), self.unit_type.display_units):
                 if un_id in unit_choices:
                     self._unit_choices.append(un_id)
                     self._display_units.append(un_disp)

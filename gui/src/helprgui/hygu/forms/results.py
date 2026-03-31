@@ -1,5 +1,5 @@
 """
-Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
 
 You should have received a copy of the BSD License along with HELPR.
@@ -9,7 +9,6 @@ import logging
 from datetime import datetime
 import webbrowser
 
-from PySide6.QtGui import QClipboard, QImage
 from PySide6.QtCore import (QObject, Slot, Signal, QUrl, Property)
 from PySide6.QtQml import QmlElement
 
@@ -154,8 +153,8 @@ class ResultsForm(QObject):
     finished = Property(bool, fget=lambda self: self._finished, notify=finishedChanged)
     canceled = Property(bool, fget=lambda self: self._canceled)
 
-    has_warning = Property(bool, fget=lambda self: self._state.has_warning, constant=True)
-    warning_message = Property(str, fget=lambda self: self._state.warning_message, constant=True)
+    has_warning = Property(bool, fget=lambda self: bool(self._state and self._state.has_warning), constant=True)
+    warning_message = Property(str, fget=lambda self: self._state.warning_message if self._state else "", constant=True)
 
     state = Property(type(ModelBase), fget=lambda self: self._state)
     analysis_id = Property(int, fget=lambda self: self._analysis_id, constant=True)
@@ -186,13 +185,18 @@ class ResultsForm(QObject):
         output_dir = self.state.get_output_dir()
         if output_dir is not None:
             webbrowser.open("file:///" + output_dir.as_posix())
+        elif hasattr(self.state, 'session_dir') and self.state.session_dir.value:
+            webbrowser.open("file:///" + self.state.session_dir.value)
 
-    @Slot(str)
-    def copy_image_to_clipboard(self, img_str):
-        """Copies image filepath string to user's OS clipboard. """
-        clip = QClipboard()
-        img = QImage(img_str)
-        clip.setImage(img, QClipboard.Mode.Clipboard)
+
+    @Property(str, constant=True)
+    def output_directory(self):
+        """Gets data output directory """
+        output_dir = self.state.get_output_dir()
+        if output_dir is not None:
+            return str(output_dir)
+        else:
+            return ""
 
     # =====================
     # IN-PROGRESS TEMP DATA

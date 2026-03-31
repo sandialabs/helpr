@@ -1,5 +1,5 @@
 """
-Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
 
 You should have received a copy of the BSD License along with HELPR.
@@ -15,7 +15,27 @@ from ..models import models
 class TestModelBase(unittest.TestCase):
 
     def setUp(self):
+        # Reset SESSION_DIR to avoid cross-test contamination from app_settings.init()
+        try:
+            import app_settings
+        except (ImportError, ModuleNotFoundError):
+            try:
+                from .. import app_settings
+            except (ImportError, ModuleNotFoundError):
+                from ... import app_settings
+        self._original_session_dir = app_settings.SESSION_DIR
+        app_settings.SESSION_DIR = None
         self.model = models.ModelBase()
+
+    def tearDown(self):
+        try:
+            import app_settings
+        except (ImportError, ModuleNotFoundError):
+            try:
+                from .. import app_settings
+            except (ImportError, ModuleNotFoundError):
+                from ... import app_settings
+        app_settings.SESSION_DIR = self._original_session_dir
 
     def test_initial_values(self):
         """Tests initial values of ModelBase instance"""

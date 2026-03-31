@@ -1,5 +1,5 @@
 """
-Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
 
 You should have received a copy of the BSD License along with HELPR.
@@ -63,8 +63,12 @@ class StateAnalysisTestCase(unittest.TestCase):
         self.state.stress_method.value = StressMethod.api
         self.assertTrue(self.state.stress_method.value == StressMethod.api)
 
+        # Reduce sample count for API stress method which is significantly
+        # more computationally intensive than Anderson
+        self.state.n_ale.value = 10
+
         self.appform.request_analysis()
-        test_utils.wait_for_analysis(self, t_max=25)
+        test_utils.wait_for_analysis(self, t_max=60)
 
         ac = self.appform.result_forms[1]
         self.assertTrue(ac.state.is_finished)

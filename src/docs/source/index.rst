@@ -14,6 +14,13 @@ Welcome to the HELPR Documentation
 
 Hydrogen Extremely Low Probability of Rupture (HELPR) is a modular probabilistic fracture mechanics platform developed to assess structural integrity of natural gas infrastructure for transmission and distribution of hydrogen natural gas blends. HELPR contains fatigue and fracture engineering models allowing fast computations, while its probabilistic framework enables exploration and characterization of the sensitivity of predicted outcomes to uncertainties of the pipeline structure and operation.
 
+Quick Description
+-----------------
+
+- **HELPR Documentation** covers all physical and utility modules used in modeling.  
+- **Probabilistic Documentation** includes capabilities, tests, and sampling methods.  
+- **HELPR Demo** walks through sample use cases and advanced options.
+
 .. toctree::
    :maxdepth: 2
    :caption: HELPR Documentation
@@ -44,10 +51,14 @@ Hydrogen Extremely Low Probability of Rupture (HELPR) is a modular probabilistic
    demo_inspection_mitigation
    demo_crack_growth_curves
    demo_advanced_user_options
+   demo_failure_assessment_diagram
+   demo_random_loading
+   demo_residual_stress
+   demo_stress_intensity_factor
 
 
-Indices and tables
-==================
+Indices and Tables
+------------------
 
 * :ref:`genindex`
 * :ref:`modindex`

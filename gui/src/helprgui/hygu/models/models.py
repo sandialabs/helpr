@@ -1,19 +1,22 @@
 """
-Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
 
 You should have received a copy of the BSD License along with HELPR.
 
 """
+import copy
 import json
 import logging
 import os
 from datetime import datetime
 from pathlib import Path
 
+from .fields_probabilistic import UncertainField
+
 try:
     from ... import app_settings
-except ImportError or ModuleNotFoundError:
+except (ImportError, ModuleNotFoundError):
     import app_settings
 
 from ..models.fields import StringField
@@ -118,6 +121,48 @@ class ModelBase:
 
         self.fields = []
 
+    def __deepcopy__(self, memo):
+        """Custom deep copy that skips unpickle-able child components like form fields.
+
+        Parameters
+        ----------
+        memo : dict
+            Dictionary of already copied objects to avoid infinite recursion.
+            
+        Returns
+        -------
+        ModelBase
+            Deep copy of this instance without unpickle-able child components.
+        """
+        # Create a new instance of the same class
+        cls = self.__class__
+        result = cls.__new__(cls)
+        memo[id(self)] = result
+        
+        # Avoid circular imports
+        from ..forms.fields import FormFieldBase
+
+        # Copy each attribute but skip form fields, if any are found
+        for key, value in self.__dict__.items():
+            if isinstance(value, FormFieldBase):
+                continue
+
+            elif isinstance(value, list):
+                # Handle lists that might contain form fields
+                new_list = []
+                for item in value:
+                    if isinstance(item, FormFieldBase):
+                        continue
+                    else:
+                        new_list.append(copy.deepcopy(item, memo))
+                setattr(result, key, new_list)
+
+            else:
+                # Deep copy everything else
+                setattr(result, key, copy.deepcopy(value, memo))
+        
+        return result
+
     def post_init(self):
         """ Final setup after model fields are created. """
         # do not trigger change events with intermediate params
@@ -159,6 +204,12 @@ class ModelBase:
         else:
             return None
 
+    def refresh_field_validation_states(self):
+        """Updates validation states of all fields. """
+        for field in self.fields:
+            if isinstance(field, UncertainField):
+                field.update_all_validation_states()
+
     # ===========================================
     # ========= DATA CONVERSION & PARSING =======
     def load_data_from_file(self, filepath):
@@ -188,7 +239,9 @@ class ModelBase:
             self._record_state_change()
         else:
             self._log(f"Can't load data - file not found {filepath.as_posix()}")
+
         self._record_changes = recording
+        self.refresh_field_validation_states()
 
     def load_data_from_dict(self, data: dict):
         """Overwrites state parameter data from complete dict as a single history state change.
@@ -207,6 +260,7 @@ class ModelBase:
         self._record_state_change()
         # restore tracking state
         self._record_changes = recording
+        self.refresh_field_validation_states()
 
     def save_to_file(self, filepath=None):
         """Saves current state to file. Overwrites current save-file path if different.
@@ -301,6 +355,7 @@ class ModelBase:
             self._from_dict(new_current)
 
         self._record_changes = recording
+        self.refresh_field_validation_states()
         self.history_changed.notify(self)
 
     def redo_state_change(self):
@@ -314,6 +369,7 @@ class ModelBase:
             self._from_dict(dct)
 
         self._record_changes = recording
+        self.refresh_field_validation_states()
         self.history_changed.notify(self)
 
     def can_undo(self) -> bool:

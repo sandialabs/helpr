@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+ * Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
  * Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
  * You should have received a copy of the BSD License along with HELPR.
  */
@@ -10,6 +10,7 @@ import "../../hygu/ui/utils.js" as Utils
 
 Rectangle {
     property var plotData;
+    property string chartTitle: "Cycles to a(crit)"
     enabled: plotData !== null && plotData !== undefined
     visible: plotData !== null && plotData !== undefined
     color: "white"
@@ -78,7 +79,7 @@ Rectangle {
                         },
                         scaleLabel: {
                             display: true,
-                            labelString: 'Cycles to a(crit)',
+                            labelString: chartTitle,
                             fontSize: 18,
                             fontColor: "#000"
                         },

@@ -1,0 +1,13 @@
+{
+  "distr": "nor",
+  "label": "Operating Pressure",
+  "max_value": "13.8",
+  "mean": 6.894757293168361,
+  "min_value": "0",
+  "slug": "operating_pressure",
+  "std": 0.34473786465841805,
+  "uncertainty": "ale",
+  "unit": "psi",
+  "unit_type": "pres",
+  "value": 6.894757293168361
+}

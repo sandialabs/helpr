@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+# Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
 # You should have received a copy of the BSD License along with HELPR.
 
@@ -20,7 +20,7 @@
 # https://stackoverflow.com/a/11487658
 
 appname="HELPR"
-version="2.0.0"  # Make sure to update distribution file entry as well
+version="2.1.0"  # Make sure to update distribution file entry as well
 appId="com.SandiaNationalLaboratories.HELPR"
 
 doDevBuild=false

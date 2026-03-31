@@ -1,0 +1,13 @@
+{
+  "alpha": 2.0,
+  "beta": 5.0,
+  "distr": "beta",
+  "label": "Efficiency Factor",
+  "max_value": "1.0",
+  "min_value": "0",
+  "slug": "efficiency_factor",
+  "uncertainty": "ale",
+  "unit": "mpa",
+  "unit_type": "pres",
+  "value": 0.5
+}

@@ -1,5 +1,5 @@
 """
-Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
 
 You should have received a copy of the BSD License along with HELPR.
@@ -9,11 +9,11 @@ import json
 import logging
 
 import numpy as np
-from PySide6.QtCore import Property
+from PySide6.QtCore import Property, Signal
 from PySide6.QtQml import QmlElement
 
 from helprgui.hygu.forms.results import ResultsForm
-from helprgui.hygu.forms.fields import ChoiceFormField, IntFormField, StringFormField, BoolFormField
+from helprgui.hygu.forms.fields import ChoiceFormField, IntFormField, StringFormField, BoolFormField, NumFormField
 from helprgui.hygu.forms.fields_probabilistic import UncertainFormField
 
 from helprgui.models.models import State
@@ -39,7 +39,7 @@ class CrackEvolutionResultsForm(ResultsForm):
     ----------
     plots
     study_type_disp
-    study_type
+
     out_diam
     thickness
     p_max
@@ -52,10 +52,18 @@ class CrackEvolutionResultsForm(ResultsForm):
     crack_len
     n_ale
     n_epi
-    smys
     seed
+    n_cycles
+    study_type
+    stress_method
+    stress_intensity
+    surface
+    crack_assump
+    evolution_method
+    cycle_step_size
 
     """
+    imaFinished: Signal = Signal(bool)
 
     # Parameter controllers used to process data in form and to display it in results pane for completed analyses.
     _out_diam: UncertainFormField = None
@@ -74,14 +82,25 @@ class CrackEvolutionResultsForm(ResultsForm):
     _n_cycles: IntFormField = None
     _study_type: ChoiceFormField = None
     _stress_method: ChoiceFormField = None
+    _stress_intensity: UncertainFormField = None
     _surface: ChoiceFormField = None
     _crack_assump: ChoiceFormField = None
+    _evolution_method: ChoiceFormField = None
+    _cycle_step_size: IntFormField = None
 
     _smys: UncertainFormField = None
     _r_ratio: UncertainFormField = None
     _a_m: UncertainFormField = None
     _a_c: UncertainFormField = None
     _t_r: UncertainFormField = None
+
+    _random_loading_profile: StringFormField = None
+    _profile_units: ChoiceFormField = None
+
+    _probability_of_detection: NumFormField = None
+    _detection_resolution: NumFormField = None
+    _inspection_interval: IntFormField = None
+    _ima_results: dict = None
 
     def __init__(self, analysis_id: int, prelim_state, *args, **kwargs):
         """Initializes controller with key data for analysis being submitted, including unique id.
@@ -115,7 +134,10 @@ class CrackEvolutionResultsForm(ResultsForm):
         self._study_type = ChoiceFormField(param=self._state.study_type)
         self._stress_method = ChoiceFormField(param=self._state.stress_method)
         self._surface = ChoiceFormField(param=self._state.surface)
+        self._stress_intensity = UncertainFormField(param=self._state.stress_intensity)
         self._crack_assump = ChoiceFormField(param=self._state.crack_assump)
+        self._evolution_method = ChoiceFormField(param=self._state.evolution_method)
+        self._cycle_step_size = IntFormField(param=self._state.cycle_step_size)
 
         self._out_diam = UncertainFormField(param=self._state.out_diam)
         self._thickness = UncertainFormField(param=self._state.thickness)
@@ -138,20 +160,27 @@ class CrackEvolutionResultsForm(ResultsForm):
         self._a_c = UncertainFormField(param=self._state.a_c)
         self._t_r = UncertainFormField(param=self._state.t_r)
 
+        self._random_loading_profile = StringFormField(param=self._state.random_loading_profile)
+        self._profile_units = ChoiceFormField(param=self._state.profile_units)
+
+        self._probability_of_detection = NumFormField(param=self._state.probability_of_detection)
+        self._detection_resolution = NumFormField(param=self._state.detection_resolution)
+        self._inspection_interval = NumFormField(param=self._state.inspection_interval)
+
         super().finish_state_update()
 
-    @Property(list)
-    def plots(self):
-        """List of plots as prefixed filepaths for use in QML. """
-        results = []
-        if self.state is not None:
-            results.append(f"file:{self.state.ensemble_plot}")
-            results.append(f"file:{self.state.cycle_plot}")
-            results.append(f"file:{self.state.cycle_cbv_plot}")
-            results.append(f"file:{self.state.pdf_plot}")
-            results.append(f"file:{self.state.cdf_plot}")
-            results.append(f"file:{self.state.fad_plot}")
-        return results
+    # =====================
+    # Post-Process Analyses
+    def update_ima_complete(self, ima_results:dict):
+        """Store inspection mitigation analysis post-process results for retrieval by GUI, and notify it as well."""
+        self._ima_results = ima_results
+        self.imaFinished.emit(True)
+
+    @Property(str, constant=True)
+    def ima_results(self):
+        if self._ima_results is None:
+            return ''
+        return json.dumps(self._ima_results)
 
     # =====================
     # IN-PROGRESS TEMP DATA
@@ -165,7 +194,10 @@ class CrackEvolutionResultsForm(ResultsForm):
     study_type = Property(ChoiceFormField, fget=lambda self: self._study_type)
     stress_method = Property(ChoiceFormField, fget=lambda self: self._stress_method)
     surface = Property(ChoiceFormField, fget=lambda self: self._surface)
+    stress_intensity = Property(UncertainFormField, fget=lambda self: self._stress_intensity)
     crack_assump = Property(ChoiceFormField, fget=lambda self: self._crack_assump)
+    evolution_method = Property(ChoiceFormField, fget=lambda self: self._evolution_method)
+    cycle_step_size = Property(IntFormField, fget=lambda self: self._cycle_step_size)
 
     thickness = Property(UncertainFormField, fget=lambda self: self._thickness)
     out_diam = Property(UncertainFormField, fget=lambda self: self._out_diam)
@@ -184,6 +216,13 @@ class CrackEvolutionResultsForm(ResultsForm):
     a_c = Property(UncertainFormField, fget=lambda self: self._a_c)
     t_r = Property(UncertainFormField, fget=lambda self: self._t_r)
 
+    random_loading_profile = Property(StringFormField, fget=lambda self: self._random_loading_profile)
+    profile_units = Property(ChoiceFormField, fget=lambda self: self._profile_units)
+
+    probability_of_detection = Property(NumFormField, fget=lambda self: self._probability_of_detection)
+    detection_resolution = Property(NumFormField, fget=lambda self: self._detection_resolution)
+    inspection_interval = Property(NumFormField, fget=lambda self: self._inspection_interval)
+
     n_ale = Property(IntFormField, fget=lambda self: self._n_ale)
     n_epi = Property(IntFormField, fget=lambda self: self._n_epi)
     seed = Property(IntFormField, fget=lambda self: self._seed)
@@ -191,6 +230,20 @@ class CrackEvolutionResultsForm(ResultsForm):
 
     # =====================
     # PLOTS
+    @Property(list)
+    def plots(self):
+        """List of plots as prefixed filepaths for use in QML. """
+        results = []
+        if self.state is not None:
+            results.append(f"file:{self.state.ensemble_plot}")
+            results.append(f"file:{self.state.cycle_plot}")
+            results.append(f"file:{self.state.pdf_plot}")
+            results.append(f"file:{self.state.cdf_plot}")
+            results.append(f"file:{self.state.fad_plot}")
+            for plot in (self.state.cycle_cbv_plots or []):
+                results.append(f"file:{plot}")
+        return results
+
     @Property(bool, constant=True)
     def show_interactive_charts(self):
         """Whether to display static or interactive charts. """
@@ -241,8 +294,20 @@ class CrackEvolutionResultsForm(ResultsForm):
 
     @Property(str, constant=True)
     def sen_plot(self):
-        """String filepath of sensitivity plot. """
+        """String filepath of sensitivity plot for Cycles to a(crit). """
         result = self.state.sen_plot if self.state is not None and self.state.sen_plot else ""
+        return result
+
+    @Property(str, constant=True)
+    def sen_plot_fad(self):
+        """String filepath of sensitivity plot for Cycles to FAD line. """
+        result = self.state.sen_plot_fad if self.state is not None and self.state.sen_plot_fad else ""
+        return result
+
+    @Property(str, constant=True)
+    def loading_profile_plot(self):
+        """String filepath of random loading profile plot. """
+        result = self.state.loading_profile_plot if self.state is not None and self.state.loading_profile_plot else ""
         return result
 
     @Property(list, constant=True)
@@ -267,7 +332,7 @@ class CrackEvolutionResultsForm(ResultsForm):
             step = int(len(xs) / max_num)
             xs = xs[1::step]
             ys = ys[1::step]
-        result = [{'x': x, 'y': y} for x, y in zip(xs, ys)]
+        result = [{'x': float(x), 'y': float(y)} for x, y in zip(xs, ys)]
         return result
 
     def _prep_arr_2d(self, arr, skip_x_0=False):
@@ -281,19 +346,19 @@ class CrackEvolutionResultsForm(ResultsForm):
             if skip_x_0 and elem[0] == 0:
                 continue
 
-            result.append({'x': elem[0], 'y': elem[1]})
+            result.append({'x': float(elem[0]), 'y': float(elem[1])})
         return result
 
     def _prep_point(self, arr):
         if np.any(np.isnan(arr)):
             result = []
         else:
-            result = [{'x': arr[0], 'y': arr[1]}]
+            result = [{'x': float(arr[0]), 'y': float(arr[1])}]
         return result
 
     @Property(str, constant=True)
     def crack_growth_data(self):
-        if self.state.crack_growth_plot is None or not self.state.do_crack_growth_plot.value:
+        if not self.state.crack_growth_plot or not self.state.do_crack_growth_plot.value:
             return ''
 
         data = self.state.crack_growth_data
@@ -301,13 +366,13 @@ class CrackEvolutionResultsForm(ResultsForm):
             'a_t': self._prep_arr_2d(data['a_t']),
             'acrit_pt': self._prep_point(data['acrit_pt']),
             '25acrit_pt': self._prep_point(data['25acrit_pt']),
-            'half_pt': self._prep_point(data['half_pt']),
+            # 'half_pt': self._prep_point(data['half_pt']),
         }
         return json.dumps(result)
 
     @Property(str, constant=True)
     def design_curve_data(self):
-        if self.state.design_curve_plot is None or not self.state.do_design_curve_plot.value:
+        if not self.state.design_curve_plot or not self.state.do_design_curve_plot.value:
             return ''
 
         data = self.state.design_curve_data
@@ -319,77 +384,104 @@ class CrackEvolutionResultsForm(ResultsForm):
 
     @Property(str, constant=True)
     def det_fad_data(self):
-        if self.state.fad_plot is None or not self.state.do_fad_plot.value:
+        if not self.state.fad_plot or not self.state.do_fad_plot.value:
             return ''
 
         data = self.state.fad_data
         result = {
             'ln1': self._prep_arr_2d(data['ln1']),
+            'evolution': self._prep_arr_2d(data['evolution']),
             'pt1': self._prep_point(data['pt1']),
+            'beyond_pt': self._prep_point(data['beyond_pt']),
         }
         return json.dumps(result)
 
     @Property(str, constant=True)
     def ensemble_data(self):
-        if self.state.ensemble_plot is None or not self.state.do_ensemble_plot.value:
+        if not self.state.ensemble_plot or not self.state.do_ensemble_plot.value:
             return ''
         data = self.state.ensemble_data
         result = {
             'lines': [self._prep_arr_2d(ln) for ln in data['lines']],
-            'pts': self._prep_arr_2d(data['pts'], True),
+            'pts_acrit': self._prep_arr_2d(data['pts_acrit'], True),
+            'pts_fad': self._prep_arr_2d(data['pts_fad'], True),
         }
         return json.dumps(result)
 
     @Property(str, constant=True)
     def cycle_data(self):
-        if self.state.cycle_plot is None or not self.state.do_cycle_plot.value:
+        if not self.state.cycle_plot or not self.state.do_cycle_plot.value:
             return ''
         data = self.state.cycle_data
         result = {
-            'subsets': [self._prep_arr_2d(ln, True) for ln in data['subsets']],
-            'nominal_pt': self._prep_point(data['nominal_pt']),
+            'subsets_acrit': [self._prep_arr_2d(ln, True) for ln in data['subsets_acrit']],
+            'nominal_pt_acrit': self._prep_point(data['nominal_pt_acrit']),
+            'subsets_fad': [self._prep_arr_2d(ln, True) for ln in data['subsets_fad']],
+            'nominal_pt_fad': self._prep_point(data['nominal_pt_fad']),
         }
         return json.dumps(result)
 
     @Property(str, constant=True)
     def prob_fad_data(self):
-        if self.state.fad_plot is None or not self.state.do_fad_plot.value:
+        if not self.state.fad_plot or not self.state.do_fad_plot.value:
             return ''
         data = self.state.fad_data
+        nom_line = data.get('nominal_line', [])
         result = {
             'line': [self._prep_arr_2d(ln) for ln in data['lines']],
-            'pts': [self._prep_arr_2d(data['pts'])],
+            'pts': self._prep_arr_2d(data['pts']),
             'nominal_pt': self._prep_point(data['nominal_pt']),
+            'nominal_line': self._prep_arr_2d(nom_line) if len(nom_line) > 0 else [],
         }
         return json.dumps(result)
 
     @Property(str, constant=True)
     def pdf_data(self):
-        if self.state.pdf_plot is None or not self.state.do_pdf_plot.value:
+        if not self.state.pdf_plot or not self.state.do_pdf_plot.value:
             return ''
         data = self.state.pdf_data
         result = {
-            'lines': [self._prep_arr_2d(ln) for ln in data['bin_data']],
-            'nominal': [self._prep_arr_2d(ln) for ln in data['nominal']],
+            'acrit_bins': [self._prep_arr_2d(ln) for ln in data['acrit_bins']],
+            'acrit_nominal': data['acrit_nominal'],
+            'fad_bins': [self._prep_arr_2d(ln) for ln in data['fad_bins']],
+            'fad_nominal': data['fad_nominal'],
         }
         return json.dumps(result)
 
     @Property(str, constant=True)
     def cdf_data(self):
-        if self.state.cdf_plot is None or not self.state.do_cdf_plot.value:
+        if not self.state.cdf_plot or not self.state.do_cdf_plot.value:
             return ''
         data = self.state.cdf_data
         result = {
-            'lines': [self._prep_arr_2d(ln, True) for ln in data['lines']],
-            'nominal': [self._prep_arr_2d(data['nominal'])]
+            'acrit_lines': [self._prep_arr_2d(ln, True) for ln in data['acrit_lines']],
+            'acrit_nominal': [self._prep_arr_2d(data['acrit_nominal'])],
+            'fad_lines': [self._prep_arr_2d(ln, True) for ln in data['fad_lines']],
+            'fad_nominal': [self._prep_arr_2d(data['fad_nominal'])],
         }
         return json.dumps(result)
 
     @Property(str, constant=True)
     def sensitivity_data(self):
+        """JSON data for Cycles to a(crit) sensitivity chart."""
         if self.state.sen_plot is None or not self.state.do_sen_plot.value:
             return ''
         data = self.state.sen_data
+        results = []
+        for elem in data:
+            dc = {
+                'label': elem['label'],
+                'data': self._prep_arr_2d(elem['data'])
+            }
+            results.append(dc)
+        return json.dumps(results)
+
+    @Property(str, constant=True)
+    def sensitivity_data_fad(self):
+        """JSON data for Cycles to FAD line sensitivity chart."""
+        if self.state.sen_plot_fad is None or not self.state.do_sen_plot.value:
+            return ''
+        data = self.state.sen_data_fad
         results = []
         for elem in data:
             dc = {

@@ -1,5 +1,5 @@
 """
-Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
 
 You should have received a copy of the BSD License along with HELPR.
@@ -17,7 +17,7 @@ import logging
 from helprgui import app_settings
 from helprgui.hygu.forms.fields import StringFormField, NumListFormField, NumFormField
 from helprgui.hygu.models.fields import ChoiceField, NumField, StringField, NumListField, IntField, BoolField
-from helprgui.hygu.models.fields_probabilistic import UncertainField
+from helprgui.models.fields import HelprUncertainField
 
 # import rc_resources
 
@@ -77,11 +77,13 @@ def main():
 
     param_refs = {}
     class_pairs = {ChoiceField: ChoiceFormField,
-                   UncertainField: UncertainFormField,
+                   HelprUncertainField: UncertainFormField,
                    StringField: StringFormField,
                    NumListField: NumListFormField,
+                   NumField: NumFormField,
                    IntField: IntFormField,
                    BoolField: BoolFormField}
+
     for attr, value in app_form.db.__dict__.items():
         fc = class_pairs.get(type(value), None)
         if fc is not None:

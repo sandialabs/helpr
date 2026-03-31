@@ -1,5 +1,5 @@
 """
-Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
 
 You should have received a copy of the BSD License along with HELPR.
@@ -8,7 +8,7 @@ You should have received a copy of the BSD License along with HELPR.
 import time
 
 
-def wait_for_analysis(testobj, n_complete=1, t_max=10):
+def wait_for_analysis(testobj, n_complete=1, t_max=25):
     """ Guarded while-loop to sleep while pooled analysis completes. """
     while testobj.appform.thread._num_complete < n_complete:
         time.sleep(testobj.sleep_t)

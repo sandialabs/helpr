@@ -1,10 +1,11 @@
 """
-Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
 
 You should have received a copy of the BSD License along with HELPR.
 
 """
+from enum import Enum
 
 
 class MetaChoiceList(type):
@@ -39,15 +40,20 @@ class BaseChoiceList(metaclass=MetaChoiceList):
 
 
 class Distributions(BaseChoiceList):
-    """Distribution options for input parameter sampling. """
-    keys = ['det', 'tnor', 'tlog', 'uni', 'nor', 'log']
-    labels = ['Deterministic', 'Normal (truncated)', 'Lognormal (truncated)', 'Uniform', 'Normal', 'Lognormal']
+    """
+    Distribution options for input parameter sampling.
+    Note that the available options can be adjusted per-project via the UncertainField._valid_distributions attribute.
+
+    """
+    keys = ['det', 'tnor', 'tlog', 'uni', 'nor', 'log', 'beta']
+    labels = ['Deterministic', 'Normal (truncated)', 'Lognormal (truncated)', 'Uniform', 'Normal', 'Lognormal', 'Beta']
     det = 'det'
     tnor = 'tnor'
     tlog = 'tlog'
     uni = 'uni'
     nor = 'nor'
     log = 'log'
+    beta = 'beta'
 
 
 class Uncertainties(BaseChoiceList):
@@ -58,3 +64,17 @@ class Uncertainties(BaseChoiceList):
     epi = 'epi'
 
 
+class DistributionParam:
+    """Enum representing distribution parameter names for uncertain fields."""
+    NOMINAL = 'nominal'
+    STD = 'std'
+    MEAN = 'mean'
+    MU = 'mu'
+    SIGMA = 'sigma'
+    LOWER = 'lower'
+    UPPER = 'upper'
+    ALPHA = 'alpha'
+    BETA = 'beta'
+
+    # def __str__(self):
+    #     return self.value

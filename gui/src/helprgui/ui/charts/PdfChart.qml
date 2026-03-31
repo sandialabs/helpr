@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+ * Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
  * Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
  * You should have received a copy of the BSD License along with HELPR.
  */
@@ -15,6 +15,49 @@ Rectangle {
     height: plotH
     width: plotW
 
+    function addQoiHistograms(result, bins, nominalVal, color, nomColor, label) {
+        // Histogram step lines (added first to determine max Y for nominal line)
+        var maxY = 0;
+        if (bins) {
+            for (let i = 0; i < bins.length; i++) {
+                let setLabel = label + (bins.length === 1 ? "" : " " + (i+1));
+                for (let j = 0; j < bins[i].length; j++) {
+                    if (bins[i][j].y > maxY) maxY = bins[i][j].y;
+                }
+                result['datasets'].push({
+                    label: setLabel,
+                    showLine: true,
+                    lineTension: 0,
+                    data: bins[i],
+                    borderColor: color,
+                    backgroundColor: color,
+                    pointRadius: 0,
+                    pointHoverRadius: 0,
+                    pointStyle: "line",
+                    fill: false,
+                });
+            }
+        }
+
+        // Nominal vertical line (scaled to histogram max)
+        if (nominalVal && nominalVal !== 0 && maxY > 0) {
+            result['datasets'].push({
+                label: label + " Nominal",
+                fill: false,
+                showLine: true,
+                lineTension: 0,
+                borderDash: [20, 5],
+                data: [{x: nominalVal, y: 0}, {x: nominalVal, y: maxY * 1.1}],
+                pointRadius: 0,
+                pointHoverRadius: 0,
+                pointBackgroundColor: nomColor,
+                backgroundColor: nomColor,
+                borderColor: nomColor,
+                pointStyle: "line"
+            });
+        }
+    }
+
     Chart {
         chartType: 'scatter'
         animationDuration: plotAnimDuration
@@ -25,42 +68,12 @@ Rectangle {
             var result = {'datasets': []};
             if (plotData)
             {
-                let data = {
-                    label: "nominal",
-                    fill: false,
-                    showLine: true,
-                    lineTension: 0,
-                    borderDash: [20, 5],
-                    data: plotData["nominal"][0],
-                    pointRadius: 0,
-                    pointHoverRadius: 0,
-                    pointBackgroundColor: "red",
-                    backgroundColor: "red",
-                    borderColor: 'red',
-                    pointStyle: "line"
-                };
-                result['datasets'].push(data);
-
-                let lineData = plotData['lines'];
-                for (let i = 0; i < lineData.length; i++)
-                {
-                    let label = (lineData.length === 1) ? "sample set" : "set " + (i+1);
-                    let color = randomColor(0.8);
-                    let data = {
-                        label: label,
-                        showLine: true,
-                        lineTension: 0,
-                        data: lineData[i],
-                        borderColor: color,
-                        backgroundColor: color,
-                        pointRadius: 0,
-                        pointHoverRadius: 0,
-                        pointStyle: "line",
-                        fill: false,
-                    };
-                    result['datasets'].push(data);
-                }
-
+                addQoiHistograms(result,
+                                 plotData['acrit_bins'], plotData['acrit_nominal'],
+                                 'black', 'red', 'Cycles to a(crit)');
+                addQoiHistograms(result,
+                                 plotData['fad_bins'], plotData['fad_nominal'],
+                                 'green', 'darkgreen', 'Cycles to FAD line');
             }
             return result;
         }
@@ -76,11 +89,17 @@ Rectangle {
                     }
                 },
                 legend: {
-                    position: 'right',
+                    position: 'bottom',
                     labels: {
                         fontSize: 14,
                         fontColor: "#000",
-                        usePointStyle: true
+                        usePointStyle: true,
+                        filter: function(item, chart) {
+                            let lbl = item.text;
+                            return lbl === 'Cycles to a(crit)' ||
+                                   lbl === 'Cycles to FAD line' ||
+                                   lbl.includes('Nominal');
+                        }
                     }
                 },
                 scales: {
@@ -88,14 +107,13 @@ Rectangle {
                         ticks: {
                             fontSize: 18,
                             fontColor: "#000",
-                            // Show values as exponent
                             callback: function(value, index, values) {
                                 return '10' + Utils.numToSuperscript(value);
                             }
                         },
                         scaleLabel: {
                             display: true,
-                            labelString: 'Cycles to a(crit)',
+                            labelString: 'Cycles to Criteria',
                             fontSize: 18,
                             fontColor: "#000"
                         },

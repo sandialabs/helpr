@@ -1,4 +1,4 @@
-# Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+# Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights
 # in this software.
 #
@@ -10,24 +10,52 @@ from scipy.stats import qmc
 from probabilistic.capabilities.uncertainty_definitions import (UncertaintyCharacterization,
                                                    DeterministicCharacterization)
 
-""" module for sampling uncertainty definitions """
+"""Module for sampling uncertainty definitions."""
 
 
 class UncertaintyStudy:
     """
-    Generic Uncertainty Study Class
+    Manages uncertain and deterministic variables, handles sample generation, 
+    and stores variable samples for downstream probabilistic analysis.
 
-    Parameters
-    ------------
-    number_of_aleatory_samples:int
-    number_of_epistemic_samples:int
-    random_state
+    Attributes
+    ----------
+    number_of_aleatory_samples : int
+        Number of samples to generate for aleatory (random) uncertainty.
+    number_of_epistemic_samples : int
+        Number of samples to generate for epistemic (knowledge-based) uncertainty.
+    random_state : int, np.random.Generator, or None
+        Random seed or random number generator instance for reproducibility.
+    aleatory_variables : dict
+        Dictionary holding aleatory variable definitions.
+    epistemic_variables : dict
+        Dictionary holding epistemic variable definitions.
+    deterministic_variables : dict
+        Dictionary holding deterministic variable definitions.
+    sample_sheet : dict
+        Dictionary containing sampled values for all variables.
+    nominal_sample_sheet : dict
+        Dictionary containing nominal values for all variables.
+    total_sample_size : int or None
+        Total number of samples across uncertainty types, if calculated.
     """
+
     def __init__(self,
                  number_of_aleatory_samples:int,
                  number_of_epistemic_samples:int,
                  random_state):
+        """
+        Initialize an UncertaintyStudy instance with sample sizes and a random state.
 
+        Parameters
+        ----------
+        number_of_aleatory_samples : int
+            Number of samples to generate for aleatory (random) uncertainty.
+        number_of_epistemic_samples : int
+            Number of samples to generate for epistemic (knowledge-based) uncertainty.
+        random_state : int, np.random.Generator, or None
+            Random seed or random number generator instance for reproducibility.
+        """
         self.number_of_aleatory_samples = number_of_aleatory_samples
         self.number_of_epistemic_samples = number_of_epistemic_samples
         self.aleatory_variables = {}
@@ -39,17 +67,41 @@ class UncertaintyStudy:
         self.random_state = random_state
 
     def get_parameter_names(self):
-        """function to both deterministic and probabilistic variable names"""
+        """
+        Get all parameter names (deterministic and probabilistic).
+
+        Returns
+        -------
+        list of str
+            All variable names included in the study.
+        """
         return list(self.deterministic_variables.keys()) + list(self.aleatory_variables.keys()) +\
               list(self.epistemic_variables.keys())
 
     def get_uncertain_parameter_names(self):
-        """function to determine total number of uncertain variables in study"""
+        """
+        Get names of all uncertain parameters.
+
+        Returns
+        -------
+        list of str
+            Names of aleatory and epistemic variables.
+        """
         return list(self.aleatory_variables.keys()) + list(self.epistemic_variables.keys())
 
     def add_variables(self, input_parameters):
         """
-        Function to add all uncertain variables to uncertainty study
+        Add uncertain and deterministic variables to the study.
+
+        Parameters
+        ----------
+        input_parameters : dict
+            Dictionary of parameter names and associated uncertainty or deterministic characterization.
+
+        Raises
+        ------
+        ValueError
+            If a parameter is not associated with a recognized characterization.
         """
         distributions = []
         deterministic = []
@@ -67,12 +119,24 @@ class UncertaintyStudy:
         self.relevant_error_checks()
 
     def relevant_error_checks(self):
-        """function to perform error checks on specified study details"""
+        """Perform error checks on specified study details."""
         self.error_check_for_variable_unique_variable_names()
         self.error_check_for_distributions_if_sample_size()
 
     def add_probabilistic_variables(self, distribution_set):
-        """function to add probabilistic variables to study"""
+        """
+        Add probabilistic variables to the study.
+
+        Parameters
+        ----------
+        distribution_set : list 
+            List of uncertain variables with specified type.
+
+        Raises
+        ------
+        ValueError
+            If a variable has an invalid uncertainty type.
+        """
         for variable_distribution in distribution_set:
             if variable_distribution.uncertainty_type == 'aleatory':
                 self.add_variable_name(variable_distribution,
@@ -86,12 +150,26 @@ class UncertaintyStudy:
 
 
     def add_deterministic_variables(self, deterministic_set):
-        """function to add deterministic variables to study"""
+        """
+        Add deterministic variables to the study.
+
+        Parameters
+        ----------
+        deterministic_set : list of DeterministicCharacterization
+            List of deterministic variables to add.
+        """
         for variable in deterministic_set:
             self.add_variable_name(variable, self.deterministic_variables)
 
     def error_check_for_variable_unique_variable_names(self):
-        """function to check that all variables have unique names"""
+        """
+        Check that each variable name is unique across all categories.
+
+        Raises
+        ------
+        ValueError
+            If a variable is assigned to multiple uncertainty types or both uncertain and deterministic.
+        """
         shared_uncertainty_keys = \
             set(self.aleatory_variables).intersection(self.epistemic_variables)
         if shared_uncertainty_keys:
@@ -106,8 +184,12 @@ class UncertaintyStudy:
 
     def error_check_for_distributions_if_sample_size(self):
         """
-        function to check that both an uncertainty distribution exists
-        and sample size has been specified, not one or the other
+        Check that sample sizes align with uncertainty variable definitions.
+
+        Raises
+        ------
+        ValueError
+            If sample sizes are provided without corresponding distributions.
         """
         has_aleatory_variables = bool(self.aleatory_variables)
         has_epistemic_variables = bool(self.epistemic_variables)
@@ -123,8 +205,13 @@ class UncertaintyStudy:
 
     def error_check_for_distributions_and_sample_size(self):
         """
-        function to check that both an uncertainty distribution exists
-        and sample size has been specified, not one or the other
+        Check that both an uncertainty distribution exists
+        and sample size has been specified, not one or the other.
+        
+        Raises
+        ------
+        ValueError
+            If only one of sample size or uncertainty distribution is provided.
         """
         has_aleatory_variables = bool(self.aleatory_variables)
         has_epistemic_variables = bool(self.epistemic_variables)
@@ -142,7 +229,19 @@ class UncertaintyStudy:
     @staticmethod
     def add_variable_name(variable_distribution, location):
         """
-        function to ensure two variables don't have the same name
+        Ensure that variable names are unique within a given category.
+
+        Parameters
+        ----------
+        variable_distribution : UncertaintyCharacterization or DeterministicCharacterization
+            The variable object.
+        location : dict
+            The dictionary of variables to add to.
+
+        Raises
+        ------
+        ValueError
+            If a variable with the same name already exists.
         """
         if location.setdefault(variable_distribution.name,
                                variable_distribution) != variable_distribution:
@@ -153,20 +252,21 @@ class UncertaintyStudy:
                              number_of_samples:int,
                              optimization_method="random-cd"):
         """
-        function to generate Latin hypercube samples (LHS) using 
-        Scipy's Quasi-Monte Carlo submodule
+        Generate Latin hypercube samples (LHS) using Scipy's Quasi-Monte Carlo submodule.
 
         Parameters
-        -----------
-            number_of_variables: int
-                 how many variables to generate samples for
-            number_of_samples: int
-                 how many LHS samples to generate             
-    
+        ----------
+        number_of_variables : int
+            Number of input dimensions.
+        number_of_samples : int
+            Number of LHS points to generate.
+        optimization_method : str, optional
+            Optimization method for LHS sampling. Defaults to 'random-cd'.
+
         Returns
-        --------
-                lhs_samples (np.array(number_of_samples, number_of_variables))
-                - LHS samples
+        -------
+        np.ndarray
+            Array of LHS samples of shape (number_of_samples, number_of_variables).
         """
         if number_of_variables == 1:
             optimization_method = None
@@ -179,7 +279,12 @@ class UncertaintyStudy:
 
     def add_aleatory_samples_to_sample_sheet(self, samples):
         """
-        function to add aleatory variable samples to uncertainty study sample sheet
+        Add aleatory variable samples to uncertainty study sample sheet.
+        
+        Parameters
+        ----------
+        samples : dict
+            Dictionary mapping variable names to sample arrays.
         """
         if self.number_of_epistemic_samples == 0:
             num_epistemic_samples = 1
@@ -191,7 +296,12 @@ class UncertaintyStudy:
 
     def add_epistemic_samples_to_sample_sheet(self, samples):
         """
-        function to add epistemic variable samples to uncertainty study sample sheet
+        Add epistemic variable samples to uncertainty study sample sheet.
+        
+        Parameters
+        ----------
+        samples : dict
+            Dictionary mapping variable names to sample arrays.
         """
         if self.number_of_aleatory_samples == 0:
             num_aleatory_samples = 1
@@ -204,14 +314,26 @@ class UncertaintyStudy:
 
     def add_deterministic_samples_to_sample_sheet(self, parameter, sample_size):
         """
-        function to add deterministic samples to sample sheet
+        Add deterministic samples to sample sheet.
+
+        Parameters
+        ----------
+        parameter : dict
+            Dictionary of deterministic variable names and objects.
+        sample_size : int
+            Total number of samples to generate per variable.
         """
         for var_name, var_values in parameter.items():
             self.sample_sheet[var_name] = var_values.generate_samples(sample_size)
 
     def calc_total_number_of_variables(self):
         """
-        function to determine total number of uncertain variables in uncertainty study
+        Determine total number of uncertain variables in uncertainty study.
+
+        Returns
+        -------
+        int
+            Total number of aleatory and epistemic variables.
         """
         aleatory_variables = self.calc_number_of_variables(self.aleatory_variables)
         epistemic_variables = self.calc_number_of_variables(self.epistemic_variables)
@@ -220,14 +342,34 @@ class UncertaintyStudy:
     @staticmethod
     def calc_number_of_variables(variable_dict):
         """
-        function to calculate the number of variables in a dictionary
+        Calculate the number of variables in a dictionary.
+
+        Parameters
+        ----------
+        variable_dict : dict
+            Dictionary of variable definitions.
+
+        Returns
+        -------
+        int
+            Number of entries in the dictionary.
         """
         return len(variable_dict)
 
     @staticmethod
     def collect_variable_nominal_values(variable_dict):
         """
-        function to collect nominal values of variables
+        Collect nominal values for a set of variables.
+
+        Parameters
+        ----------
+        variable_dict : dict
+            Dictionary of variables with nominal values.
+
+        Returns
+        -------
+        dict
+            Mapping of variable names to their nominal values.
         """
         samples = {}
         for variable_name, variable in variable_dict.items():
@@ -236,7 +378,12 @@ class UncertaintyStudy:
 
     def create_variable_nominal_sheet(self):
         """
-        function to create sample sheet holding variables nominal values
+        Create a nominal sample sheet from all variable types.
+
+        Returns
+        -------
+        dict
+            Dictionary of nominal sample values.
         """
         aleatory_nominals = self.collect_variable_nominal_values(self.aleatory_variables)
         epistemic_nominals = self.collect_variable_nominal_values(self.epistemic_variables)
@@ -249,30 +396,39 @@ class UncertaintyStudy:
 
     def add_nominal_values_to_sample_sheet(self, nominal_values):
         """
-        function for adding nominal values to sample sheet for generic sampling study
+        Add nominal values to sample sheet for generic sampling study.
+
+        Parameters
+        ----------
+        nominal_values : dict
+            Dictionary of nominal values by variable name.
         """
         for var_name, var_value in nominal_values.items():
-            self.nominal_sample_sheet[var_name] = var_value
+            self.nominal_sample_sheet[var_name] = [var_value]
 
     def get_total_double_loop_sample_size(self):
         """
-        function to get sample size for double loop style uncertainty study
+        Get sample size for double loop style uncertainty study.
+        
+        Returns
+        -------
+        int
+            Product of aleatory and epistemic sample counts.
         """
         return max(self.number_of_aleatory_samples, 1)*max(self.number_of_epistemic_samples, 1)
 
 
 class SensitivityStudy(UncertaintyStudy):
     """
-    Generic Sensitivity Study Class
+    Implement base functionality for sampling-based sensitivity analyses.
 
-    Parameters
-    ------------
-    number_of_aleatory_samples:int
-    number_of_epistemic_samples:int
-    random_state
+    Attributes
+    ----------
+    Inherits all attributes from UncertaintyStudy.
     """
     def relevant_error_checks(self):
-        """function to perform error checks on specified study details"""
+        """Ensures all variable names are unique across aleatory, 
+        epistemic, and deterministic categories."""
         self.error_check_for_variable_unique_variable_names()
 
 
@@ -280,20 +436,31 @@ class RandomStudy(UncertaintyStudy):
     """
     Random Sampling Uncertainty Study Class
 
-    Parameters
-    ------------
-    number_of_aleatory_samples:int
-    number_of_epistemic_samples:int
-    random_state
+    Attributes
+    ----------
+    Inherits all attributes from UncertaintyStudy.
     """
+
     def relevant_error_checks(self):
-        """function to perform error checks on specified study details"""
+        """Perform error checks on specified study details."""
         self.error_check_for_variable_unique_variable_names()
         self.error_check_for_distributions_and_sample_size()
 
     def collect_variables(self, variable_distribution_dict, number_of_samples):
         """
-        function to collect variable samples for random sampling study
+        Collect samples for variables using random sampling.
+
+        Parameters
+        ----------
+        variable_distribution_dict : dict
+            Dictionary of variable names to distribution objects.
+        number_of_samples : int
+            Number of samples to generate.
+
+        Returns
+        -------
+        dict
+            Dictionary of samples by variable name.
         """
         samples = {}
         for var_name, var_dist in variable_distribution_dict.items():
@@ -303,7 +470,12 @@ class RandomStudy(UncertaintyStudy):
 
     def create_variable_sample_sheet(self):
         """
-        function to create sample sheet and add samples for random sampling study
+        Create sample sheet and add samples for random sampling study.
+
+        Returns
+        -------
+        dict
+            Completed sample sheet.
         """
         sample_func = self.collect_variables
         aleatory_samples = sample_func(self.aleatory_variables,
@@ -323,22 +495,33 @@ class RandomStudy(UncertaintyStudy):
 
 class LHSStudy(UncertaintyStudy):
     """
-    LHS Uncertainty Study Class
+    Uses LHS to efficiently sample input space of uncertain variables.
 
-    Parameters
-    ------------
-    number_of_aleatory_samples:int
-    number_of_epistemic_samples:int
-    random_state
+    Attributes
+    ----------
+    Inherits all attributes from UncertaintyStudy.
     """
+
     def relevant_error_checks(self):
-        """function to perform error checks on specified study details"""
+        """Perform error checks on specified study details."""
         self.error_check_for_variable_unique_variable_names()
         self.error_check_for_distributions_and_sample_size()
 
     def collect_variables(self, variable_distribution_dict, number_of_samples):
         """
-        function to collect variable samples for LHS study
+        Collect variable samples for LHS study.
+
+        Parameters
+        ----------
+        variable_distribution_dict : dict
+            Dictionary of variable names and distributions.
+        number_of_samples : int
+            Number of LHS samples to generate.
+
+        Returns
+        -------
+        dict
+            Dictionary of variable samples.
         """
         samples = {}
         number_of_variables = self.calc_total_number_of_variables()
@@ -351,7 +534,12 @@ class LHSStudy(UncertaintyStudy):
 
     def create_variable_sample_sheet(self):
         """
-        function to create sample sheet for LHS study
+        Create sample sheet for LHS study.
+
+        Returns
+        -------
+        dict
+            Completed sample sheet.
         """
         sample_func = self.collect_variables
         aleatory_samples = sample_func(self.aleatory_variables,
@@ -371,22 +559,36 @@ class LHSStudy(UncertaintyStudy):
 
 class OneAtATimeSensitivityStudy(SensitivityStudy):
     """
-    Single Variable Sampling-Based Sensitivity Study
+    Varies one variable at a time across its distribution while
+    holding others at their nominal values.
 
-    Parameters
-    ------------
-    number_of_aleatory_samples:int
-    number_of_epistemic_samples:int
-    random_state
+    Attributes
+    ----------
+    Inherits all attributes from SensitivityStudy and UncertaintyStudy.
     """
+
     def relevant_error_checks(self):
-        """function to perform error checks on specified study details"""
+        """Perform error checks on specified study details. 
+        Checks for unique variable names and consistency between
+        distributions and sample sizes."""
         self.error_check_for_variable_unique_variable_names()
         self.error_check_for_distributions_and_sample_size()
 
     def collect_variables(self, variable_distribution_dict, number_of_samples):
         """
-        function to collect samples for uncertain variables for sampling based sensitivity study
+        Collect samples for uncertain variables for sampling based sensitivity study.
+
+        Parameters
+        ----------
+        variable_distribution_dict : dict
+            Dictionary of variable names and distributions.
+        number_of_samples : int
+            Number of CDF-based samples to generate.
+
+        Returns
+        -------
+        dict
+            Dictionary of variable samples.
         """
         samples = {}
         cdf_pts = self.generate_cdf_samples(number_of_samples)
@@ -396,7 +598,19 @@ class OneAtATimeSensitivityStudy(SensitivityStudy):
         return samples
 
     def generate_cdf_samples(self, number_of_samples):
-        """function to specify percentiles sampled from cdf"""
+        """
+        Specify percentiles sampled from CDF.
+        
+        Parameters
+        ----------
+        number_of_samples : int
+            Number of percentile points to generate.
+
+        Returns
+        -------
+        np.ndarray
+            Array of percentiles.
+        """
         cdf_samples = self.generate_lhs_samples(1, number_of_samples, optimization_method=None)
         return cdf_samples.reshape(-1)
 
@@ -404,8 +618,20 @@ class OneAtATimeSensitivityStudy(SensitivityStudy):
                                                 aleatory_samples,
                                                 epistemic_samples):
         """
-        function to add sensitivity study samples to sample sheet for sampling based
-        sensitivity study
+        Add sensitivity study samples to sample sheet for sampling based
+        sensitivity study.
+
+        Parameters
+        ----------
+        aleatory_samples : dict
+            Sampled aleatory variable values.
+        epistemic_samples : dict
+            Sampled epistemic variable values.
+
+        Returns
+        -------
+        dict
+            Populated sample sheet.
         """
         aleatory_samples_size = self.number_of_aleatory_samples
         epistemic_sample_size = self.number_of_epistemic_samples
@@ -438,7 +664,12 @@ class OneAtATimeSensitivityStudy(SensitivityStudy):
 
     def create_variable_sample_sheet(self):
         """
-        function to create sample sheet for sampling based sensitivity study
+        Create sample sheet for one-at-a-time sensitivity study.
+
+        Returns
+        -------
+        dict
+            Completed sample sheet.
         """
         sample_func = self.collect_variables
         aleatory_samples = sample_func(self.aleatory_variables,
@@ -453,7 +684,7 @@ class OneAtATimeSensitivityStudy(SensitivityStudy):
         return self.sample_sheet
 
     def determine_total_sample_size(self):
-        """function to determine the total sample size of the study"""
+        """Determine the total sample size of the study."""
         number_of_aleatory_variables = self.calc_number_of_variables(self.aleatory_variables)
         number_of_epistemic_variables = self.calc_number_of_variables(self.epistemic_variables)
         self.total_sample_size = \
@@ -463,27 +694,53 @@ class OneAtATimeSensitivityStudy(SensitivityStudy):
 
 class BoundingStudy(OneAtATimeSensitivityStudy):
     """
-    Bounding Sensitivity Study Class
+    A sensitivity study where each variable is sampled at its bounding percentiles, 
+    holding all other variables at their nominal values.
 
-    Parameters
-    ------------
-    number_of_aleatory_samples:int
-    number_of_epistemic_samples:int
-    random_state
+    Attributes
+    ----------
+    Inherits all attributes from OneAtATimeSensitivityStudy and UncertaintyStudy.
     """
+
     def relevant_error_checks(self):
-        """function to perform error checks on specified study details"""
+        """Ensures that all variables have unique names across aleatory,
+        epistemic, and deterministic groups."""
         self.error_check_for_variable_unique_variable_names()
 
     def generate_cdf_samples(self, _):
-        """function to specify percentiles sampled from cdf"""
+        """
+        Generate bounding percentile values for sampling.
+        Ignores input and returns the lower and upper CDF percentiles.
+
+        Parameters
+        ----------
+        _ : any
+            Ignored input.
+
+        Returns
+        -------
+        np.ndarray
+            Array with two values: [0.01, 0.99].
+        """
         return np.array([0.01, 0.99])
 
     def add_sensitivity_samples_to_sample_sheet(self,
                                                 aleatory_samples,
                                                 epistemic_samples):
         """
-        function to add samples from bounding sensitivity study to sample sheet
+        Add bounding sensitivity samples to the sample sheet.
+
+        Parameters
+        ----------
+        aleatory_samples : dict
+            Dictionary of aleatory variable samples (2 per variable).
+        epistemic_samples : dict
+            Dictionary of epistemic variable samples (2 per variable).
+
+        Returns
+        -------
+        dict
+            The populated sample sheet for the study.
         """
         column_length = self.calc_total_number_of_variables()*2
 
@@ -503,4 +760,5 @@ class BoundingStudy(OneAtATimeSensitivityStudy):
         return self.sample_sheet
 
     def determine_total_sample_size(self):
+        """Compute total sample size for bounding sensitivity study."""
         self.total_sample_size = self.calc_total_number_of_variables()*2

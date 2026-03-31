@@ -1,4 +1,4 @@
-# Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+# Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights
 # in this software.
 #
@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 import probabilistic.capabilities.uncertainty_definitions as Uncertainty
 
 from helpr.utilities.unit_conversion import convert_in_to_m, convert_ksi_to_mpa
-from helpr.physics.api import CrackEvolutionAnalysis
+from helpr.api import CrackEvolutionAnalysis
 
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -24,8 +24,35 @@ os.makedirs(figure_path, exist_ok=True)
 
 
 class VerificationCrackGrowth(unittest.TestCase):
-    """Class for verification tests of crack growth rate calculations"""
+    """
+    Class for verification tests of crack growth rate calculations.
+    
+    Attributes
+    ----------
+    mean_error_metric : float
+        Mean error metric for verification tests (%)
+    max_error_metric : float
+        Maximum error metric for verification tests (%)
+    outer_diameter : Uncertainty.DeterministicCharacterization
+        Outer diameter of the pipe (m)
+    wall_thickness : Uncertainty.DeterministicCharacterization
+        Thickness of the pipe wall (m)
+    flaw_depth : Uncertainty.DeterministicCharacterization
+        Depth of the flaw (%)
+    max_pressure : Uncertainty.DeterministicCharacterization
+        Maximum pressure (MPa)
+    temperature : Uncertainty.DeterministicCharacterization
+        Temperature (K)
+    yield_strength : Uncertainty.DeterministicCharacterization
+        Yield strength (ksi)
+    fracture_resistance : Uncertainty.DeterministicCharacterization
+        Fracture resistance
+    flaw_length : Uncertainty.DeterministicCharacterization
+        Length of the flaw (m)
+    """
+
     def setUp(self):
+        """Set up common inputs for verification tests."""
         self.mean_error_metric = 10  # %
         self.max_error_metric = 30  # %
         self.outer_diameter = \
@@ -54,24 +81,65 @@ class VerificationCrackGrowth(unittest.TestCase):
                                                       value=0.04)
 
     def tearDown(self):
-        """teardown function"""
+        """Teardown function."""
 
     def calculate_crack_evolution_error(self, truth, simulation_data):
-        """function for calculating % rel. err. between predictions and data"""
-        interpolated_points = np.interp(truth['N'], simulation_data['Total cycles'][0],
-                                        simulation_data['a/t'][0])
+        """
+        Function for calculating % rel. err. between predictions and data.
+        
+        Parameters
+        ----------
+        truth : pandas.DataFrame
+            Truth data.
+        simulation_data : list of pandas.DataFrame
+            Simulation data.
+
+        Returns
+        -------
+        error : float
+            % relative error.
+        """
+        interpolated_points = np.interp(truth['N'], simulation_data[0]['Total cycles'],
+                                        simulation_data[0]['a/t'])
         return (truth['a/t'] - interpolated_points)/truth['a/t']*100
 
     def calculate_error_metrics(self, truth, simulation_data):
-        """function for calculating error metrics"""
+        """
+        Function for calculating error metrics.
+        
+        Parameters
+        ----------
+        truth : pandas.DataFrame
+            Truth data.
+        simulation_data : list of pandas.DataFrame
+            Simulation data.
+
+        Returns
+        -------
+        max_error : float
+            Maximum error.
+        mean_error : float
+            Mean error.
+        """
         percent_error = self.calculate_crack_evolution_error(truth, simulation_data)
         return abs(percent_error).max(), abs(percent_error).mean()
 
     def verification_raw_comparison_plot(self, verification_data, simulation_data, condition):
-        """function for creating verification comparison plots"""
+        """
+        Function for creating verification comparison plots.
+        
+        Parameters
+        ----------
+        verification_data : pandas.DataFrame
+            Verification data.
+        simulation_data : list of pandas.DataFrame
+            Simulation data.
+        condition : str
+            Condition for plot title.
+        """
         plt.figure()
         plt.plot(verification_data['N'], verification_data['a/t'], 'k--', label='verification')
-        plt.plot(simulation_data['Total cycles'][0], simulation_data['a/t'][0],
+        plt.plot(simulation_data[0]['Total cycles'], simulation_data[0]['a/t'],
                  'r-', label='prediction')
         plt.xlabel('# of cycles')
         plt.ylabel('fractional crack length (a/t)')
@@ -84,7 +152,7 @@ class VerificationCrackGrowth(unittest.TestCase):
         plt.close()
 
     def test_dataset_1(self):
-        """"verification test using dataset 1"""
+        """"Verification test using dataset 1."""
         min_pressure = \
             Uncertainty.DeterministicCharacterization(name='min_pressure',
                                                       value=self.max_pressure.value*.5)
@@ -115,7 +183,7 @@ class VerificationCrackGrowth(unittest.TestCase):
                                               '100% H2, 200 bar, R=0.5')
 
     def test_dataset_2(self):
-        """verification test using dataset 2"""
+        """Verification test using dataset 2."""
         min_pressure = \
             Uncertainty.DeterministicCharacterization(name='min_pressure',
                                                       value=self.max_pressure.value*.7)
@@ -146,7 +214,7 @@ class VerificationCrackGrowth(unittest.TestCase):
                                               '100% H2, 200 bar, R=0.7')
 
     def test_dataset_3(self):
-        """verification test using dataset 3"""
+        """Verification test using dataset 3."""
         min_pressure = \
             Uncertainty.DeterministicCharacterization(name='min_pressure',
                                                       value=self.max_pressure.value*.5)

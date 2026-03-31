@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+ * Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
  * Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
  * You should have received a copy of the BSD License along with HELPR.
  */
@@ -31,22 +31,18 @@ Item {
     {
         if (hasError)
         {
-            paramContainer.Layout.preferredHeight = 80;
+            paramContainer.Layout.preferredHeight = paramRowErrorHeight;
             paramLabel.color = color_danger;
             alertMsg.text = errorMsg;
             alertDisplay.visible = true;
         }
         else
         {
-            paramContainer.Layout.preferredHeight = 36;
+            paramContainer.Layout.preferredHeight = paramRowHeight;
             paramLabel.color = color_primary;
             alertMsg.text = "";
             alertDisplay.visible = false;
         }
-
-        valueLabel.visible = true;
-        valueLabel.text = "";
-        valueLabel.enabled = param.enabled;
 
         valueInput.visible = true;
         valueInput.text = param.value;
@@ -54,7 +50,7 @@ Item {
     }
 
 
-    Row
+    RowLayout
     {
         id: paramInputRow
 
@@ -63,53 +59,39 @@ Item {
             refresh();
         }
 
-        GridLayout {
-            id: paramGrid
-            rows: 2
-            columns: 2
-            flow: GridLayout.TopToBottom
+        Connections {
+            target: param
+            function onModelChanged() { refresh(); }
+        }
 
-            Connections {
-                target: param
-                function onModelChanged() { refresh(); }
+        Text {
+            id: paramLabel
+            text: param?.label ?? ''
+            Layout.preferredWidth: paramLabelWidth
+            horizontalAlignment: Text.AlignLeft
+            font.pointSize: labelFontSize
+
+            MouseArea {
+                id: ma
+                anchors.fill: parent
+                hoverEnabled: true
             }
 
-            Item {
+            ToolTip {
+                delay: 200
+                timeout: 3000
+                visible: tipText ? ma.containsMouse : false
+                text: tipText
             }
-            Text {
-                id: paramLabel
-                text: param?.label ?? ''
-                Layout.preferredWidth: paramLabelWidth
-                horizontalAlignment: Text.AlignLeft
-                font.pointSize: labelFontSize
+        }
 
-                MouseArea {
-                    id: ma
-                    anchors.fill: parent
-                    hoverEnabled: true
-                }
-
-                ToolTip {
-                    delay: 200
-                    timeout: 3000
-                    visible: tipText ? ma.containsMouse : false
-                    text: tipText
-                }
-            }
-
-            InputTopLabel {
-                id: valueLabel
-                text: ""
-            }
-            StringTextField {
-                id: valueInput
-                text: param.value
-                field: "value"
-                Layout.maximumWidth: inputLength
-                Layout.preferredWidth: inputLength
-                horizontalAlignment: Text.AlignLeft
-                // width: inputLength
-            }
+        StringTextField {
+            id: valueInput
+            text: param.value
+            field: "value"
+            Layout.maximumWidth: inputLength
+            Layout.preferredWidth: inputLength
+            horizontalAlignment: Text.AlignLeft
         }
     }
 

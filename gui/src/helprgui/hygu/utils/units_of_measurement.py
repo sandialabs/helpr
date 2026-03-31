@@ -1,11 +1,11 @@
 """
-Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
 
 You should have received a copy of the BSD License along with HELPR.
 
 """
-
+import numpy as np
 
 from .helpers import hround
 import scipy.constants as scp
@@ -146,10 +146,78 @@ class UnitType:
             return None
         old_c = cls.unit_data[cls.std_unit] if old is None else cls.unit_data[old]
         new_c = cls.unit_data[cls.std_unit] if new is None else cls.unit_data[new]
-        result = old_c * val / new_c
+        result = (old_c * val) * (1 / new_c)  # all conversion floats yield standard unit (e.g. meters) so must divide to get to non-standard
         if do_round:
             result = hround(result)
         return result
+
+    @classmethod
+    def convert_mu(cls, val, old=None, new=None, do_round=False):
+        """
+        Converts mu value from old to new units, with optional rounding.
+        Mu based on natural log of random value so can't use normal conversion approach.
+
+        Parameters
+        ----------
+        val : float
+            Value to convert.
+
+        old : str or None
+            Units of input value. If None, standard unit (e.g. meters) will be used.
+
+        new : str or None
+            Units of output. If None, standard unit (e.g. meters) will be used.
+
+        do_round : bool, default=False
+            Whether output should be rounded.
+
+        Returns
+        -------
+        float or None
+            Value converted from old units, into new units.
+
+        """
+        if val is None:
+            return None
+        old_c = 1 if old is None else cls.unit_data[old]
+        new_c = 1 if new is None else cls.unit_data[new]
+
+        std_val = val + np.log(old_c)  # i.e. intermediate form in standard units
+        result = std_val + np.log(1 / new_c)  # conversion value assumes going to standard unit so must use reciprocal to get to non-standard
+
+        if do_round:
+            result = hround(result)
+        return result
+
+    @classmethod
+    def convert_difference(cls, val, old=None, new=None, do_round=False):
+        """
+        Converts a difference/delta value from old to new units.
+
+        For most unit types, this is the same as convert(). For scale-based units
+        like Temperature, this applies only the scale factor without offset.
+
+        Use this for values that represent differences (like standard deviation)
+        rather than absolute values (like mean temperature).
+
+        Parameters
+        ----------
+        val : float
+            Difference value to convert.
+        old : str or None
+            Units of input value. If None, standard unit will be used.
+        new : str or None
+            Units of output. If None, standard unit will be used.
+        do_round : bool, default=False
+            Whether output should be rounded.
+
+        Returns
+        -------
+        float or None
+            Difference value converted from old units to new units.
+        """
+        # For non-scale units, difference conversion is the same as regular conversion
+        return cls.convert(val, old=old, new=new, do_round=do_round)
 
     @classmethod
     def units(cls) -> list:
@@ -264,6 +332,68 @@ class Temperature(UnitType):
             result = hround(result)
         return result
 
+    @classmethod
+    def convert_mu(cls, val, old=None, new=None, do_round=False):
+        if val is None:
+            return None
+        if old == cls.f:
+            val_k = np.log( (np.exp(val) - 32)*5/9 + 273.15 )
+        elif old == cls.c:
+            val_k = np.log(np.exp(val) + 273.15)
+        else:
+            val_k = val
+
+        if new == cls.f:
+            result = np.log((np.exp(val_k) - 273.15) * 9/5 + 32)
+        elif new == cls.c:
+            result = np.log(np.exp(val_k) - 273.15)
+        else:
+            result = val_k
+
+        if do_round:
+            result = hround(result)
+        return result
+
+    @classmethod
+    def convert_difference(cls, val, old=None, new=None, do_round=False):
+        """
+        Converts a temperature difference value (e.g., standard deviation) between units.
+
+        Unlike convert(), this only applies the scale factor without the offset.
+        A 10K difference equals a 10C difference (same scale size), but a 18F difference.
+
+        Parameters
+        ----------
+        val : float
+            Temperature difference value to convert.
+        old : str or None
+            Units of input value. If None, Kelvin will be used.
+        new : str or None
+            Units of output. If None, Kelvin will be used.
+        do_round : bool, default=False
+            Whether output should be rounded.
+
+        Returns
+        -------
+        float or None
+            Temperature difference converted from old units to new units.
+        """
+        if val is None:
+            return None
+
+        # Scale factors relative to Kelvin (K and C have same scale, F is 9/5)
+        scale_factors = {'k': 1.0, 'c': 1.0, 'f': 9.0/5.0}
+
+        old_scale = scale_factors.get(old, 1.0) if old else 1.0
+        new_scale = scale_factors.get(new, 1.0) if new else 1.0
+
+        # Convert: old units -> Kelvin -> new units (using only scale, no offset)
+        result = val * (old_scale / new_scale)
+
+        if do_round:
+            result = hround(result)
+        return result
+
 
 class Fracture(UnitType):
     """Fracture unit type.
@@ -297,6 +427,16 @@ class Angle(UnitType):
     std_unit = 'rad'
 
 
+class LongTime(UnitType):
+    label = 'longtime'
+    unit_data = {'day': scp.day, 'week': scp.week, 'year': scp.year, 'second': 1}  # standard time is in seconds
+    display_units = ['day', 'week', 'year']
+    day = 'day'
+    week = 'week'
+    year = 'year'
+    std_unit = 'second'
+
+
 UNIT_TYPES_DICT = {
     'unitless': Unitless,
     'dist': Distance,
@@ -308,7 +448,8 @@ UNIT_TYPES_DICT = {
     'perc': BasicPercent,
     'massflow': MassFlow,
     'angle': Angle,
+    'longtime': LongTime,
 }
 
-UNIT_TYPES_LIST = [SmallDistance, Distance, Pressure, Temperature, Fracture, Fractional, BasicPercent, MassFlow, Angle]
+UNIT_TYPES_LIST = [SmallDistance, Distance, Pressure, Temperature, Fracture, Fractional, BasicPercent, MassFlow, Angle, LongTime]
 

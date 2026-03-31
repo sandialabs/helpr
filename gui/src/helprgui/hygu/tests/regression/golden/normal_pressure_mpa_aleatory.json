@@ -1,0 +1,13 @@
+{
+  "distr": "nor",
+  "label": "Test Pressure",
+  "max_value": "100.0",
+  "mean": 50.0,
+  "min_value": "0",
+  "slug": "test_pressure",
+  "std": 10.0,
+  "uncertainty": "ale",
+  "unit": "mpa",
+  "unit_type": "pres",
+  "value": 50.0
+}

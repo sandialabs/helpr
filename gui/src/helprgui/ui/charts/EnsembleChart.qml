@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+ * Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
  * Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
  * You should have received a copy of the BSD License along with HELPR.
  */
@@ -38,19 +38,33 @@ Rectangle {
             var result = {'datasets': []};
             if (plotData)
             {
-                let data = {
+                let acritData = {
                     label: "Cycles to a(crit)",
                     fill: true,
                     pointRadius: 3,
                     radius: 3,
                     pointHoverRadius: 3,
-                    data: plotData['pts'],
-                    pointStyle: "circle",
+                    data: plotData['pts_acrit'],
+                    pointStyle: "star",
                     pointBackgroundColor: "black",
                     backgroundColor: "black",
                     borderWidth: 3
                 };
-                result['datasets'].push(data);
+                result['datasets'].push(acritData);
+
+                let fadData = {
+                    label: "Cycles to FAD line",
+                    fill: true,
+                    pointRadius: 3,
+                    radius: 3,
+                    pointHoverRadius: 3,
+                    data: plotData['pts_fad'],
+                    pointStyle: "rect",
+                    pointBackgroundColor: "green",
+                    backgroundColor: "green",
+                    borderWidth: 3
+                };
+                result['datasets'].push(fadData);
 
                 let lineData = plotData['lines'];
                 for (let i = 0; i < lineData.length; i++)
@@ -84,7 +98,7 @@ Rectangle {
                 },
                 hover: { mode: 'point' },
                 legend: {
-                    position: 'right',
+                    position: 'bottom',
                     labels: {
                         fontSize: 14,
                         fontColor: "#000",
@@ -106,7 +120,7 @@ Rectangle {
                         },
                         scaleLabel: {
                             display: true,
-                            labelString: 'Total cycles',
+                            labelString: 'Total Cycles [#]',
                             fontSize: 18,
                             fontColor: "#000"
                         },

@@ -14,6 +14,17 @@
         "slug": "surface",
         "value": "inside"
     },
+    "residual_stress_intensity_factor": {
+        "label": "Residual stress intensity factor",
+        "slug": "residual_stress_intensity_factor",
+        "value": 0.0,
+        "min_value": "0",
+        "max_value": "+infinity",
+        "unit_type": "fracture",
+        "unit": "mpm",
+        "uncertainty": "ale",
+        "distr": "det"
+    },
     "crack_assump": {
         "label": "Crack length assumption",
         "slug": "crack_assump",
@@ -28,11 +39,7 @@
         "unit_type": "dist_sm",
         "unit": "in",
         "uncertainty": "ale",
-        "distr": "det",
-        "a": 0.0,
-        "b": 0.0,
-        "c": 0.0,
-        "d": "inf"
+        "distr": "det"
     },
     "wall_thickness": {
         "label": "Wall thickness",
@@ -43,11 +50,7 @@
         "unit_type": "dist_sm",
         "unit": "in",
         "uncertainty": "ale",
-        "distr": "det",
-        "a": 0.0,
-        "b": 0.0,
-        "c": 0.0,
-        "d": "inf"
+        "distr": "det"
     },
     "yield_strength": {
         "label": "Yield strength",
@@ -58,11 +61,7 @@
         "unit_type": "pres",
         "unit": "psi",
         "uncertainty": "ale",
-        "distr": "det",
-        "a": 0.0,
-        "b": 0.0,
-        "c": 0.0,
-        "d": "inf"
+        "distr": "det"
     },
     "fracture_resistance": {
         "label": "Fracture resistance",
@@ -73,11 +72,7 @@
         "unit_type": "fracture",
         "unit": "mpm",
         "uncertainty": "ale",
-        "distr": "det",
-        "a": 0.0,
-        "b": 0.0,
-        "c": 0.0,
-        "d": "inf"
+        "distr": "det"
     },
     "max_pressure": {
         "label": "Max pressure",
@@ -89,10 +84,10 @@
         "unit": "psi",
         "uncertainty": "ale",
         "distr": "tnor",
-        "a": 5.860543699193107,
-        "b": 0.1378951458633672,
-        "c": 5.446858261603005,
-        "d": 6.274229136783208
+        "mean": 5.860543699193107,
+        "std": 0.1378951458633672,
+        "lower": 5.446858261603005,
+        "upper": 6.274229136783208
     },
     "min_pressure": {
         "label": "Min pressure",
@@ -104,10 +99,10 @@
         "unit": "psi",
         "uncertainty": "ale",
         "distr": "tnor",
-        "a": 4.398855153041414,
-        "b": 0.1378951458633672,
-        "c": 3.9851697154513124,
-        "d": 4.8125405906315155
+        "mean": 4.398855153041414,
+        "std": 0.1378951458633672,
+        "lower": 3.9851697154513124,
+        "upper": 4.8125405906315155
     },
     "temperature": {
         "label": "Temperature",
@@ -119,10 +114,8 @@
         "unit": "k",
         "uncertainty": "ale",
         "distr": "uni",
-        "a": 285.0,
-        "b": 300.0,
-        "c": 0.0,
-        "d": "inf"
+        "lower": 285.0,
+        "upper": 300.0
     },
     "volume_fraction_h2": {
         "label": "H2 volume fraction",
@@ -134,10 +127,8 @@
         "unit": null,
         "uncertainty": "ale",
         "distr": "uni",
-        "a": 0.0,
-        "b": 0.2,
-        "c": 0.0,
-        "d": "inf"
+        "lower": 0.0,
+        "upper": 0.2
     },
     "flaw_depth": {
         "label": "Crack depth",
@@ -149,25 +140,19 @@
         "unit": "p",
         "uncertainty": "ale",
         "distr": "uni",
-        "a": 20.0,
-        "b": 30.0,
-        "c": 0.0,
-        "d": "inf"
+        "lower": 20.0,
+        "upper": 30.0
     },
     "flaw_length": {
         "label": "Crack length",
         "slug": "flaw_length",
         "value": 0.040005,
-        "min_value": "0",
+        "min_value": "2.540e-08",
         "max_value": "+infinity",
         "unit_type": "dist_sm",
         "unit": "in",
         "uncertainty": "ale",
-        "distr": "det",
-        "a": 0.0,
-        "b": 0.0,
-        "c": 0.0,
-        "d": "inf"
+        "distr": "det"
     },
     "aleatory_samples": {
         "label": "Aleatory samples",
@@ -208,7 +193,31 @@
     "display_interactive_plots": {
         "label": "Display interactive plots",
         "slug": "display_interactive_plots",
-        "value": true
+        "value": false
+    },
+    "random_loading_profile": {
+        "label": "Random loading profile",
+        "slug": "random_loading_profile",
+        "value": ""
+    },
+    "profile_units": {
+        "label": "Loading profile units",
+        "slug": "profile_units",
+        "value": "psi"
+    },
+    "evolution_method": {
+        "label": "Evolution method",
+        "slug": "evolution_method",
+        "value": "a_t"
+    },
+    "cycle_step_size": {
+        "label": "Cycle step size",
+        "slug": "cycle_step_size",
+        "value": 1,
+        "min_value": "1.0",
+        "max_value": "1e+06",
+        "unit_type": "unitless",
+        "unit": null
     },
     "create_crack_growth_plot": {
         "label": "Create crack growth plot",
@@ -249,6 +258,33 @@
         "label": "Create sensitivity plot",
         "slug": "create_sensitivity_plot",
         "value": true
+    },
+    "probability_of_detection": {
+        "label": "Probability of detection",
+        "slug": "probability_of_detection",
+        "value": 0.8,
+        "min_value": "0",
+        "max_value": "1.0",
+        "unit_type": "unitless",
+        "unit": null
+    },
+    "detection_resolution": {
+        "label": "Detection resolution",
+        "slug": "detection_resolution",
+        "value": 0.3,
+        "min_value": "0",
+        "max_value": "0.800",
+        "unit_type": "unitless",
+        "unit": null
+    },
+    "inspection_interval": {
+        "label": "Inspection interval",
+        "slug": "inspection_interval",
+        "value": 31536000.0,
+        "min_value": "9e+04",
+        "max_value": "9e+10",
+        "unit_type": "longtime",
+        "unit": "day"
     },
     "study_type": {
         "label": "Study type",

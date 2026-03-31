@@ -1,5 +1,5 @@
 """
-Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
 
 You should have received a copy of the BSD License along with HELPR.
@@ -15,10 +15,10 @@ from multiprocessing import Manager
 # TODO: clean this
 try:
     import app_settings
-except ImportError or ModuleNotFoundError:
+except (ImportError, ModuleNotFoundError):
     try:
         from .. import app_settings
-    except ImportError or ModuleNotFoundError:
+    except (ImportError, ModuleNotFoundError):
         from ... import app_settings
 
 from ..models import models
@@ -53,25 +53,8 @@ class AnalysisThread(threading.Thread):
     """
     pool: Pool
     state: type(models.ModelBase)
-    # number of analyses executing
-    _num_active: int = 0
-    _num_complete: int = 0
     # max number of analyses allowed in queue at a time
     _max_active: int = 4
-    # increasing identifier for analyses; must be unique.
-    _current_id: int = 0
-    _do_shutdown: bool = False
-    is_shutdown = False
-    manager: Manager
-
-    # list of analyses waiting to execute. Each entry is tuple: (id, state_copy, analysis_func, started_callback, finished_callback)
-    _queue: list = []
-    # map of data for analyses currently executing {id: callback function}
-    _active_analysis_map: dict = {}
-    _state_map: dict = {}
-    # track futures in case of error
-    _future_map: dict = {}
-    status_dict: dict
 
     def __init__(self, state: type(models.ModelBase), num_processes=None):
         """Initializes pool with specified process count.
@@ -90,6 +73,16 @@ class AnalysisThread(threading.Thread):
         """
         self._log("Initializing AnalysisThread with pool.")
         super().__init__()
+
+        self._num_active = 0
+        self._num_complete = 0
+        self._current_id = 0
+        self._do_shutdown = False
+        self.is_shutdown = False
+        self._queue = []
+        self._active_analysis_map = {}
+        self._state_map = {}
+        self._future_map = {}
 
         self.manager = Manager()
         self.status_dict = self.manager.dict()
@@ -126,12 +119,17 @@ class AnalysisThread(threading.Thread):
                 (analysis_id, analysis_func, state_copy, started_callback, finished_callback) = self._queue.pop(0)
 
                 # save copy of analysis state object for later use as results display model
-                self._num_active += 1
-                state_copy.set_id(analysis_id)
-                state_copy.started_at = datetime.now()
-                self._state_map[analysis_id] = state_copy
+                # OR, if it's already a dict, as is the case with post-process analyses, just pass-through
+                if not isinstance(state_copy, dict):
+                    self._num_active += 1
+                    state_copy.set_id(analysis_id)
+                    state_copy.started_at = datetime.now()
+                    self._state_map[analysis_id] = state_copy
+                    params = state_copy.get_prepped_param_dict()
+                else:
+                    self._num_active += 1
+                    params = state_copy
 
-                params = state_copy.get_prepped_param_dict()
                 if app_settings.USE_SUBPROCESS:
                     self.status_dict[analysis_id] = True
                     future = self.pool.submit(analysis_func, analysis_id, params, self.status_dict)
@@ -146,7 +144,7 @@ class AnalysisThread(threading.Thread):
                         self._process_results(future=None, results=res)
                     except Exception as err:
                         log.exception("Exception occurred during non-pool analysis call")
-                        self._dev_process_exception(err=err)
+                        self._dev_process_exception(err=err, analysis_id=analysis_id)
 
                 self._active_analysis_map[analysis_id] = finished_callback
 
@@ -168,12 +166,17 @@ class AnalysisThread(threading.Thread):
         self._log("Halting thread.")
         return
 
-    def request_new_analysis(self, state_obj, analysis_func, started_callback: callable, finished_callback: callable) -> int or None:
+    def request_new_analysis(self,
+                             state_data,
+                             analysis_func,
+                             started_callback: callable,
+                             finished_callback: callable,
+                             ) -> int or None:
         """Begins flow for new analysis by obtaining id and adding it to queue with callbacks.
 
         Parameters
         ----------
-        state_obj : type(models.ModelBase)
+        state_data : type(models.ModelBase) or dict
             Deep copy of state model backing the analysis.
         analysis_func : function
             Reference to analysis function to call
@@ -189,9 +192,15 @@ class AnalysisThread(threading.Thread):
 
         """
         self._log(f'new analysis requested ({self._num_active} / {self._max_active} active)')
-        analysis_id = self._get_next_id()
-        # state must not have any listeners from parent objects, or they'll get cloned and must be pickleable
-        self._queue.append((analysis_id, analysis_func, state_obj, started_callback, finished_callback))
+
+        # If post-process analysis, don't increment IDs
+        if isinstance(state_data, dict):
+            analysis_id = state_data['analysis_id']
+        else:
+            analysis_id = self._get_next_id()
+
+        # state must not have any listeners from parent objects or they'll get cloned and must be pickleable
+        self._queue.append((analysis_id, analysis_func, state_data, started_callback, finished_callback))
         return analysis_id
 
     def cancel_analysis(self, a_id):
@@ -237,28 +246,42 @@ class AnalysisThread(threading.Thread):
             self._log(msg)
             log.exception(err)
 
-        # Update status of cloned state object
-        state = self._state_map[analysis_id]
-        state.is_finished = True
-        state.finished_at = datetime.now()
+        # Update status of cloned state object, if available (not present for dict-based analyses)
+        state = self._state_map.pop(analysis_id, None)
+        if state is not None:
+            state.is_finished = True
+            state.finished_at = datetime.now()
 
         if 'error' in results:
-            # self._log("Error encountered during analysis.")
             log.error(results['error'])
-
         else:
             log.info("Analysis complete - processing data from sub-process.")
 
+        # Ensure analysis_id is in results for dict-based (post-process) analyses
+        results['analysis_id'] = analysis_id
+
         analysis_finished_callback = self._active_analysis_map.pop(analysis_id, None)
         if analysis_finished_callback is None:
-            raise KeyError("Analysis ID not found when processing results")
+            log.error(f"Analysis ID {analysis_id} not found when processing results")
+            return
 
         analysis_finished_callback(state, results)
 
-    def _dev_process_exception(self, err):
+    def _dev_process_exception(self, err, analysis_id=None):
         """Handles exception when pooling is not active. """
         self._num_active -= 1
         self._log(f"Analysis task failed with error: {err}")
+
+        if analysis_id is not None:
+            self._state_map.pop(analysis_id, None)
+            callback = self._active_analysis_map.pop(analysis_id, None)
+            if callback is not None:
+                error_results = {
+                    'status': -1,
+                    'error': err,
+                    'message': f"Analysis failed: {err}"
+                }
+                callback(None, error_results)
 
     def _get_next_id(self):
         """Returns unique int id for next submitted analysis. """

@@ -1,5 +1,5 @@
 """
-Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
 
 You should have received a copy of the BSD License along with HELPR.
@@ -25,7 +25,7 @@ USE_LOGFILE = True
 
 APPNAME = "HELPR"
 APPNAME_LOWER = APPNAME.lower()
-VERSION = "2.0.0"
+VERSION = "2.1.0"
 
 BASE_DIR = Path(os.path.dirname(__file__))
 SESSION_DIR = None
@@ -55,17 +55,19 @@ def init():
     if config_file.exists():
         config.read(config_file.as_posix())
 
-        # Parse user-set session directory. Will create it if doesn't exist.
-        ses_dir = config.get('DEFAULT', 'session_dir', fallback=None)
-        if ses_dir not in ["", None]:
-            try:
-                SESSION_DIR = Path(ses_dir)
-                if not SESSION_DIR.exists():
-                    SESSION_DIR.mkdir(parents=True, exist_ok=True)
-                USER_SET_SESSION_DIR = True
-            except Exception:
-                SESSION_DIR = None
-                USER_SET_SESSION_DIR = False
+        # Only restore user-set session directory in installed app mode.
+        # In dev mode, always create a fresh session directory per launch.
+        if APPLICATION_MODE:
+            ses_dir = config.get('DEFAULT', 'session_dir', fallback=None)
+            if ses_dir not in ["", None]:
+                try:
+                    SESSION_DIR = Path(ses_dir)
+                    if not SESSION_DIR.exists():
+                        SESSION_DIR.mkdir(parents=True, exist_ok=True)
+                    USER_SET_SESSION_DIR = True
+                except Exception:
+                    SESSION_DIR = None
+                    USER_SET_SESSION_DIR = False
 
     else:
         # if it doesn't exist (i.e. first run) create it
@@ -73,9 +75,8 @@ def init():
         with open(config_file.as_posix(), 'w') as fl:
             config.write(fl)
 
-    # Create/set defaults if config processing not available or failed
+    # Create fresh session directory if not restored from config
     if SESSION_DIR in [None, ""]:
-        # Not user-set so create default directory
         SESSION_DIR = helpers.init_session_dir(parent_dir=DATA_DIR)
 
     log_dir = SESSION_DIR

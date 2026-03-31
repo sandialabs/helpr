@@ -1,4 +1,4 @@
-# Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+# Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights
 # in this software.
 #
@@ -146,6 +146,36 @@ class UncertaintyDefinitionTestCase(unittest.TestCase):
                                                                        value=4)
         deterministic_var1.plot_distribution(alternative_name='alternative name')
         assert True
+
+    def test_time_series_characterization(self):
+        """unit test for TimeSeriesCharacterization class"""
+        name = "TestSeries"
+        value = np.array([1, 2, 3, 4, 5])
+        time_series = Uncertainty.TimeSeriesCharacterization(name, value)
+
+        # Test initialization
+        self.assertEqual(time_series.name, name)
+        np.testing.assert_array_equal(time_series.value, value)
+        np.testing.assert_array_equal(time_series.nominal, value)
+
+        # Test string representation
+        expected_str = f'{name} is a TimeSeries variable with value {value}'
+        self.assertEqual(str(time_series), expected_str)
+
+        # Test representation
+        expected_repr = f'{name}, time series, {value}'
+        self.assertEqual(repr(time_series), expected_repr)
+
+        # Test generate_samples
+        sample_size = 3
+        expected_samples = np.tile(value, (sample_size, 1))
+        generated_samples = time_series.generate_samples(sample_size)
+        np.testing.assert_array_equal(generated_samples, expected_samples)
+
+        # Test plot_distribution
+        # This is a placeholder test as the actual plotting function is not implemented
+        time_series.plot_distribution()
+        time_series.plot_distribution(alternative_name="AlternativeName")
 
 if __name__ == '__main__':
     unittest.main()

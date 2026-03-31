@@ -1,4 +1,4 @@
-# Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+# Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights
 # in this software.
 #
@@ -44,6 +44,7 @@ SESSION_DIR = OUTPUT_DIR.joinpath(f"session_{INIT_TIME_STR}")
 
 
 def get_settings_str():
+    """function get analysis settings in a string format"""
     msg = (f"==== Active Settings ====\n"
            f"Init time: {INIT_TIME_STR}\n"
            f"Output dir: {OUTPUT_DIR}\n"
@@ -69,9 +70,9 @@ def is_stopped():
 
 def is_stopping():
     """Checks if analysis stopping flag is set. """
-    # GUI process manager is in sep process and can't change flag directly; it will update the shared status dict
+    # GUI process manager is in sep process and can't change flag directly;
+    # it will update the shared status dict
     if USING_GUI and ANALYSIS_ID in GUI_STATUS_DICT and GUI_STATUS_DICT[ANALYSIS_ID] is False:
         return True
 
-    else:
-        return RUN_STATUS == Status.STOPPING
+    return RUN_STATUS == Status.STOPPING

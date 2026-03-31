@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+ * Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
  * Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
  * You should have received a copy of the BSD License along with HELPR.
  */
@@ -15,6 +15,43 @@ Rectangle {
     height: plotH
     width: plotW
 
+    function addQoiScatter(result, subsets, nominalPt, color, nomColor, label) {
+        // Nominal point
+        if (nominalPt && nominalPt.length > 0) {
+            result['datasets'].push({
+                label: label + " Nominal",
+                fill: true,
+                pointRadius: 5,
+                radius: 5,
+                pointHoverRadius: 5,
+                data: nominalPt,
+                pointStyle: "star",
+                pointBackgroundColor: nomColor,
+                backgroundColor: nomColor,
+                borderWidth: 1
+            });
+        }
+
+        // Sample subsets
+        if (subsets) {
+            for (let i = 0; i < subsets.length; i++) {
+                let setLabel = label + (subsets.length === 1 ? "" : " set " + (i+1));
+                result['datasets'].push({
+                    label: setLabel,
+                    fill: true,
+                    pointRadius: 3,
+                    radius: 3,
+                    pointHoverRadius: 3,
+                    pointStyle: "circle",
+                    data: subsets[i],
+                    pointBackgroundColor: color,
+                    backgroundColor: color,
+                    borderWidth: 0
+                });
+            }
+        }
+    }
+
     Chart {
         chartType: 'scatter'
         animationDuration: plotAnimDuration
@@ -25,40 +62,12 @@ Rectangle {
             var result = {'datasets': []};
             if (plotData)
             {
-                let data = {
-                    label: "nominal",
-                    fill: true,
-                    pointRadius: 5,
-                    radius: 5,
-                    pointHoverRadius: 5,
-                    data: plotData['nominal_pt'],
-                    pointStyle: "circle",
-                    pointBackgroundColor: "red",
-                    backgroundColor: "red",
-                    borderWidth: 1
-                };
-                result['datasets'].push(data);
-
-                let lineData = plotData['subsets'];
-                for (let i = 0; i < lineData.length; i++)
-                {
-                    let label = (lineData.length === 1) ? "sample set" : "set " + (i+1);
-                    let clr = randomColor(1);
-                    let ln = lineData[i];
-                    let data = {
-                        label: label,
-                        fill: true,
-                        pointRadius: 3,
-                        radius: 3,
-                        pointHoverRadius: 3,
-                        pointStyle: "circle",
-                        data: ln,
-                        pointBackgroundColor: clr,
-                        backgroundColor: clr,
-                        borderWidth: 0
-                    };
-                    result['datasets'].push(data);
-                }
+                addQoiScatter(result,
+                              plotData['subsets_acrit'], plotData['nominal_pt_acrit'],
+                              'rgba(0, 0, 0, 0.5)', 'red', 'Cycles to a(crit)');
+                addQoiScatter(result,
+                              plotData['subsets_fad'], plotData['nominal_pt_fad'],
+                              'rgba(0, 128, 0, 0.5)', 'darkgreen', 'Cycles to FAD line');
             }
             return result;
         }
@@ -76,11 +85,16 @@ Rectangle {
                 },
                 hover: { mode: 'point' },
                 legend: {
-                    position: 'right',
+                    position: 'bottom',
                     labels: {
                         fontSize: 14,
                         fontColor: "#000",
                         usePointStyle: true,
+                        filter: function(item, chart) {
+                            return item.text.includes('Nominal') ||
+                                   item.text === 'Cycles to a(crit)' ||
+                                   item.text === 'Cycles to FAD line';
+                        }
                     }
                 },
                 scales: {

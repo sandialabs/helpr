@@ -1,0 +1,13 @@
+{
+  "distr": "nor",
+  "label": "Temperature",
+  "max_value": "400.0",
+  "mean": 300.0,
+  "min_value": "200.0",
+  "slug": "temperature",
+  "std": 15.0,
+  "uncertainty": "epi",
+  "unit": "k",
+  "unit_type": "temp",
+  "value": 300.0
+}

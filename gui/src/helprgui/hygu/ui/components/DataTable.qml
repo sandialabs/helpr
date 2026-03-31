@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+ * Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
  * Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
  * You should have received a copy of the BSD License along with HELPR.
  */
@@ -32,6 +32,8 @@ Rectangle {
     property bool allowSort: true;
     // disable autosizing if cell heights vary (i.e. wordwrap is likely)
     property bool autoSizeHeight: true;
+    property bool showVScrollbar: true;
+    property bool showHScrollbar: false;
 
     // array of strings defining RTF column header text.
     property var headers: [];
@@ -121,7 +123,7 @@ Rectangle {
             var newH = (nRows + 1) * rowH + headerH;
             if (newH > tableH) newH = tableH;
             if (newH > maxH) newH = maxH;
-            tableView.height = newH;
+            // tableView.height = newH;
             Layout.preferredHeight = newH;
         }
     }
@@ -169,16 +171,19 @@ Rectangle {
 
     TableView {
         id: tableView
-        height: tableH
+        height: tableH - headerH
         width: parent.width
         anchors.top: dataHeader.bottom
         columnSpacing: 1
         rowSpacing: 1
         clip: true
         interactive: false
+        boundsBehavior: Flickable.StopAtBounds
         selectionBehavior: TableView.SelectCells
         selectionMode: TableView.ContiguousSelection
         selectionModel: ItemSelectionModel { model: tableView.model }
+        ScrollBar.vertical: ScrollBar { id: vbar; active: showVScrollbar; }
+        ScrollBar.horizontal: ScrollBar { id: hbar; active: showHScrollbar; }
 
         MouseArea
         {

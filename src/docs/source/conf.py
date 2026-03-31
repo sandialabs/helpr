@@ -12,13 +12,13 @@ sys.path.insert(0, os.path.abspath(os.path.join("..", "..")))
 # -- Project information -----------------------------------------------------
 
 project = 'helpr'
-copyright = '2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).' +  \
+copyright = '2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).' +  \
             'Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains' + \
             'certain rights in this software'
-author = 'Benjamin B. Schroeder, Cianan Sims, Benjamin R. Liu, Bailey Lucero, and Michael Devin'
+author = 'Benjamin B. Schroeder, Cianan Sims, Benjamin R. Liu, Bailey Lucero, Michael Devin, and Charlene Palacio'
 
 # The full version, including alpha/beta/rc tags
-release = '2.0.0'
+release = '2.1.0'
 
 
 # -- General configuration ---------------------------------------------------
@@ -45,7 +45,6 @@ templates_path = ['_templates']
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-suppress_warnings = ["config.cache"]
 
 # -- Options for HTML output -------------------------------------------------
 

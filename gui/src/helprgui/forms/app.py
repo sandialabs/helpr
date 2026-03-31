@@ -1,22 +1,23 @@
 """
-Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
 Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
 
 You should have received a copy of the BSD License along with HELPR.
 
 """
 import copy
+import json
 import logging
 
-from helprgui.hygu.models.fields_probabilistic import UncertainField
 from helprgui.hygu.models.models import ModelBase
 from helprgui.hygu.forms import forms
 
-from PySide6.QtCore import Slot, QObject
+from PySide6.QtCore import Slot, QObject, Property, QUrl
 from PySide6.QtQml import QmlElement
 
 from helprgui import app_settings
-from helprgui.models.models import State, do_crack_evolution_analysis
+from helprgui.models.fields import HelprUncertainField
+from helprgui.models.models import State, do_crack_evolution_analysis, do_inspection_mitigation_analysis
 from helprgui.forms.results import CrackEvolutionResultsForm
 
 
@@ -48,7 +49,7 @@ class HelprAppForm(forms.AppForm):
                            "characterization of the sensitivity of predicted outcomes to uncertainties of the pipeline "
                            "structure and operation.")
 
-        self._copyright_str = ("Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS). "
+        self._copyright_str = ("Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS). "
                                "Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.\n\n"
                                "You should have received a copy of the BSD License along with HELPR.")
 
@@ -68,7 +69,7 @@ class HelprAppForm(forms.AppForm):
         db_copy = copy.deepcopy(self.db)
 
         if db_copy.analysis_name.value in ["", None]:
-            db_copy.analysis_name.value = f"Analysis {self.thread.get_curr_id() + 1} - {db_copy.study_type.get_value_display()}"
+            db_copy.analysis_name._value = f"Analysis {self.thread.get_curr_id() + 1} - {db_copy.study_type.get_value_display()}"
 
         analysis_id = self.thread.request_new_analysis(db_copy,
                                                        do_crack_evolution_analysis,
@@ -117,6 +118,7 @@ class HelprAppForm(forms.AppForm):
             state_obj.has_error = False
             state_obj.set_output_dir(results['output_dir'])
 
+            state_obj.crack_analysis = results['crack_analysis']
             state_obj.crack_growth_plot = results.get('crack_growth_plot')
             state_obj.crack_growth_data = results.get('crack_growth_data')
 
@@ -141,17 +143,79 @@ class HelprAppForm(forms.AppForm):
 
             state_obj.sen_plot = results.get('sen_plot')
             state_obj.sen_data = results.get('sen_data')
+            state_obj.sen_plot_fad = results.get('sen_plot_fad')
+            state_obj.sen_data_fad = results.get('sen_data_fad')
+
+            state_obj.loading_profile_plot = results.get('loading_profile_plot')  # path string or ""
 
             # Assign parameter uncertainty plots to individual parameters
             state_obj.input_param_plots = results.get('input_param_plots', {})
             if state_obj.input_param_plots:
                 plots = state_obj.input_param_plots
                 for field in state_obj.fields:
-                    if isinstance(field, UncertainField) and field.slug in plots:
+                    if isinstance(field, HelprUncertainField) and field.slug in plots:
                         field.uncertainty_plot = plots[field.slug]
 
         del results
         result_form.update_from_state_object(state_obj)
+
+    @Slot(int)
+    def request_inspection_mitigation_analysis(self, analysis_id):
+        """
+        Requests post-processing inspection mitigation analysis using active thread.
+        Will communicate with ResultForm to notify frontend when complete.
+        Note that this uses the model data of the completed analysis, not the data from the main form.
+        BUT it gets the IMA inputs from the main form.
+        """
+        result = {'status': 1, 'message': ''}
+        try:
+            # Retrieve state data from completed analysis
+            prev_analysis = self.result_forms[analysis_id]
+            prev_state = prev_analysis.state
+            params = prev_state.get_prepped_param_dict()
+            params['analysis_dir'] = prev_state.get_output_dir()
+            params['analysis_id'] = analysis_id
+            params['crack_analysis'] = prev_state.crack_analysis
+
+            # Load IMA inputs from active form
+            current_prepped_state = self.db.get_prepped_param_dict()
+            params['probability_of_detection'] = current_prepped_state['probability_of_detection']
+            params['detection_resolution'] = current_prepped_state['detection_resolution']
+            params['inspection_interval'] = current_prepped_state['inspection_interval']
+
+            _ = self.thread.request_new_analysis(params,
+                                                 do_inspection_mitigation_analysis,
+                                                 self.on_ima_started,
+                                                 self.on_ima_finished)
+        except Exception as err:
+            log.exception(err)
+            result['status'] = -1
+            result['message'] = str(err)
+
+    def on_ima_started(self, analysis_id):
+        pass
+
+    def on_ima_finished(self, state_obj: type(ModelBase), results: dict):
+        analysis_id = results.get('analysis_id') if state_obj is None else state_obj.analysis_id
+        result_form = self.result_forms[analysis_id]
+        result_form.update_ima_complete(results)
+
+    @Slot(str)
+    def set_random_loading_profile(self, file_url):
+        """Sets the random loading profile filepath from file URL. """
+        # Convert from file:/// URL to regular path
+        # filepath = file_url.replace('file:///', '')
+        filepath = str(QUrl(file_url).toLocalFile())
+        if filepath:
+            success = self.db.set_random_loading_profile(filepath)
+            if success:
+                self.newMessageEvent.emit(f"Random loading profile set: {self.db.random_loading_profile.value}")
+
+    @Slot()
+    def clear_random_loading_profile(self):
+        """Clears the random loading profile filepath. """
+        self.db.clear_random_loading_profile()
+        self.newMessageEvent.emit("Random loading profile cleared")
 
     @Slot()
     def load_det_demo(self):
@@ -176,3 +240,12 @@ class HelprAppForm(forms.AppForm):
         """Loads sen (bnd) analysis data from repo file. """
         self.db.load_demo_file_data('bnd')
         self.newMessageEvent.emit("Sensitivity (bounds) demo loaded")
+
+    @Slot()
+    def load_new_form(self):
+        """Clears form and loads deterministic demo as new data. """
+        self.db.clear_save_file()
+        self.db.load_demo_file_data('prb')
+        self.newMessageEvent.emit("Form reset to default values")
+
+

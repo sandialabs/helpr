@@ -8,9 +8,9 @@ You should have received a copy of the BSD License along with HELPR.
 import unittest
 import importlib
 
-from helprgui.hygu.utils.units_of_measurement import Distance, Temperature, Pressure, SmallDistance
-from helprgui.hygu.utils.distributions import Distributions, Uncertainties
-from helprgui.hygu.models.fields_probabilistic import UncertainField
+from ..utils.units_of_measurement import Distance, Temperature, Pressure, SmallDistance
+from ..utils.distributions import Distributions, Uncertainties
+from ..models.fields_probabilistic import UncertainField
 
 
 DELTA = 1e-4
@@ -27,8 +27,10 @@ class UncertainFieldInitTestCase(unittest.TestCase):
         val_m = 0.609
         par = UncertainField('Outer diameter', value=val_m, unit_type=Distance)
         self.assertAlmostEqual(par._value, val_m, delta=DELTA)
-        self.assertEqual(par._a, 0)
-        self.assertEqual(par._b, 0)
+        self.assertEqual(par._mean, 0)
+        self.assertEqual(par._std, 1)
+        self.assertEqual(par._mu, 0)
+        self.assertEqual(par._sigma, 1)
         self.assertEqual(par.unit, Distance.m)
         self.assertTrue(par.unit_type, Distance)
         self.assertEqual(par.distr, 'det')
@@ -42,9 +44,14 @@ class UncertainFieldInitTestCase(unittest.TestCase):
         val_m = 0.6095
         par = UncertainField('Outer diameter', value=val_inch, unit=Distance.inch)
         self.assertAlmostEqual(par._value, val_m, delta=DELTA)
-        self.assertEqual(par._a, 0)
-        self.assertEqual(par._b, 0)
+        self.assertEqual(par._mean, 0)
+        self.assertAlmostEqual(par._std, 0.0254, delta=DELTA)  # Default std=1 inch converted to meters
+
+        self.assertAlmostEqual(par._mu, -3.673, delta=DELTA)
+        self.assertEqual(par._sigma, 1)  # sigma is dimensionless, no conversion
+
         self.assertAlmostEqual(par.value, val_inch, delta=DELTA)
+
         self.assertEqual(par.unit, Distance.inch)
         self.assertTrue(par.unit_type, Distance)
         self.assertEqual(par.distr, 'det')
@@ -54,8 +61,10 @@ class UncertainFieldInitTestCase(unittest.TestCase):
         val_k = 301
         par = UncertainField('Temperature', value=val_k, unit_type=Temperature)
         self.assertAlmostEqual(par._value, val_k, delta=DELTA)
-        self.assertEqual(par._a, 0)
-        self.assertEqual(par._b, 0)
+        self.assertEqual(par._mean, 0)
+        self.assertEqual(par._std, 1)
+        self.assertEqual(par._mu, 0)
+        self.assertEqual(par._sigma, 1)
         self.assertTrue(par.unit_type, Temperature)
         self.assertEqual(par.unit, Temperature.k)
         self.assertEqual(par.distr, 'det')
@@ -69,8 +78,12 @@ class UncertainFieldInitTestCase(unittest.TestCase):
         val_k = 308.15
         par = UncertainField('Temperature', value=val_c, unit=Temperature.c)
         self.assertAlmostEqual(par._value, val_k, delta=DELTA)
-        self.assertEqual(par._a, 273.15)
-        self.assertEqual(par._b, 273.15)
+        self.assertEqual(par._mean, 273.15)
+        self.assertEqual(par._std, 1)
+
+        self.assertAlmostEqual(par._mu, 5.6137, delta=DELTA)
+        self.assertEqual(par._sigma, 1)
+
         self.assertTrue(par.unit_type, Temperature)
         self.assertEqual(par.unit, Temperature.c)
         self.assertAlmostEqual(par.value, val_c, delta=DELTA)
@@ -146,7 +159,7 @@ class FieldOutputTestCase(unittest.TestCase):
         self.assertIs(type(out), dict)
 
         actual_keys = ['label', 'slug', 'unit_type', 'unit', 'uncertainty',
-                       'value', 'min_value', 'max_value', 'distr', 'a', 'b', 'c', 'd']
+                       'value', 'min_value', 'max_value', 'distr']
         self.assertIs(len(keys), len(actual_keys))
         for key in actual_keys:
             self.assertTrue(key in keys)
@@ -156,7 +169,7 @@ class FieldOutputTestCase(unittest.TestCase):
         out = par.to_dict()
         str_keys = ['label', 'slug', 'unit_type', 'unit', 'uncertainty',
                     'min_value', 'max_value', 'distr', ]
-        float_keys = ['value', 'a', 'b']
+        float_keys = ['value']
 
         for key in str_keys:
             self.assertIs(type(out[key]), str)
@@ -167,8 +180,10 @@ class FieldOutputTestCase(unittest.TestCase):
     def test_to_dict_prob_data_when_deterministic(self):
         par = UncertainField('Outer diameter', value=30, unit=Distance.inch)
         out = par.to_dict()
-        self.assertAlmostEqual(out['a'], 0., delta=DELTA)
-        self.assertAlmostEqual(out['b'], 0., delta=DELTA)
+        self.assertTrue('mean' not in out)
+        self.assertTrue('std' not in out)
+        self.assertTrue('mu' not in out)
+        self.assertTrue('lower' not in out)
         self.assertIs(out['distr'], 'det')
 
     def test_to_dict_saves_in_std_units(self):
@@ -185,84 +200,93 @@ class FieldOutputTestCase(unittest.TestCase):
 class UnitDisplayTestCase(unittest.TestCase):
     def test_distance_display_inch(self):
         """ Tests that non-standard unit is stored in standard units and displayed in selected unit. """
-        par = UncertainField('Outer diameter', unit=Distance.inch, distr=Distributions.uni, value=22, a=21.9, b=22.1)
+        par = UncertainField('Outer diameter', unit=Distance.inch, distr=Distributions.uni, value=22, lower=21.9, upper=22.1)
         self.assertAlmostEqual(par._value, 0.5588, delta=DELTA)
-        self.assertAlmostEqual(par._a, 0.55626, delta=DELTA)
-        self.assertAlmostEqual(par._b, 0.56134, delta=DELTA)
+        self.assertAlmostEqual(par._lower, 0.55626, delta=DELTA)
+        self.assertAlmostEqual(par._upper, 0.56134, delta=DELTA)
         self.assertAlmostEqual(par.value, 22, delta=DELTA)
-        self.assertAlmostEqual(par.a, 21.9, delta=DELTA)
-        self.assertAlmostEqual(par.b, 22.1, delta=DELTA)
+        self.assertAlmostEqual(par.lower, 21.9, delta=DELTA)
+        self.assertAlmostEqual(par.upper, 22.1, delta=DELTA)
 
     def test_distance_display_m(self):
-        par = UncertainField('Outer diameter', unit=Distance.m, distr=Distributions.uni, value=22, a=21.9, b=22.1)
+        par = UncertainField('Outer diameter', unit=Distance.m, distr=Distributions.uni, value=22, lower=21.9, upper=22.1)
         self.assertAlmostEqual(par._value, 22, delta=DELTA)
-        self.assertAlmostEqual(par._a, 21.9, delta=DELTA)
-        self.assertAlmostEqual(par._b, 22.1, delta=DELTA)
+        self.assertAlmostEqual(par._lower, 21.9, delta=DELTA)
+        self.assertAlmostEqual(par._upper, 22.1, delta=DELTA)
         self.assertAlmostEqual(par.value, 22, delta=DELTA)
-        self.assertAlmostEqual(par.a, 21.9, delta=DELTA)
-        self.assertAlmostEqual(par.b, 22.1, delta=DELTA)
+        self.assertAlmostEqual(par.lower, 21.9, delta=DELTA)
+        self.assertAlmostEqual(par.upper, 22.1, delta=DELTA)
 
     def test_pressure_display_psi(self):
         """ Ensure user-input pressure value is displayed accurately. """
-        par = UncertainField('Max pressure', unit=Pressure.psi, distr=Distributions.nor, value=0.85, a=0.85, b=0.02)
+        par = UncertainField('Max pressure', unit=Pressure.psi, distr=Distributions.nor, value=0.85, mean=0.85, std=0.02)
         self.assertAlmostEqual(par._value, 0.00586, delta=DELTA)
-        self.assertAlmostEqual(par._a, 0.005861, delta=DELTA)
-        self.assertAlmostEqual(par._b, 0.000138, delta=DELTA)
+        self.assertAlmostEqual(par._mean, 0.005861, delta=DELTA)
+        self.assertAlmostEqual(par._std, 0.000138, delta=DELTA)
         self.assertAlmostEqual(par.value, 0.85, delta=DELTA)
-        self.assertAlmostEqual(par.a, 0.85, delta=DELTA)
-        self.assertAlmostEqual(par.b, 0.02, delta=DELTA)
+        self.assertAlmostEqual(par.mean, 0.85, delta=DELTA)
+        self.assertAlmostEqual(par.std, 0.02, delta=DELTA)
 
     def test_pressure_display_mpa(self):
         """ Ensure user-input pressure std value is displayed accurately. """
-        par = UncertainField('Max pressure', unit=Pressure.mpa, distr=Distributions.nor, value=0.85, a=0.85, b=0.02)
+        par = UncertainField('Max pressure', unit=Pressure.mpa, distr=Distributions.nor, value=0.85, mean=0.85, std=0.02)
         self.assertAlmostEqual(par._value, 0.85, delta=DELTA)
-        self.assertAlmostEqual(par._a, 0.85, delta=DELTA)
-        self.assertAlmostEqual(par._b, 0.02, delta=DELTA)
+        self.assertAlmostEqual(par._mean, 0.85, delta=DELTA)
+        self.assertAlmostEqual(par._std, 0.02, delta=DELTA)
         self.assertAlmostEqual(par.value, 0.85, delta=DELTA)
-        self.assertAlmostEqual(par.a, 0.85, delta=DELTA)
-        self.assertAlmostEqual(par.b, 0.02, delta=DELTA)
+        self.assertAlmostEqual(par.mean, 0.85, delta=DELTA)
+        self.assertAlmostEqual(par.std, 0.02, delta=DELTA)
 
     def test_temperature_display_c(self):
         """ Ensure user-input temperature value is displayed correctly. """
-        par = UncertainField('Temperature', unit=Temperature.c, distr=Distributions.nor, value=15, a=13.5, b=21)
+        par = UncertainField('Temperature', unit=Temperature.c, distr=Distributions.nor, value=15, mean=13.5, std=21)
         self.assertAlmostEqual(par._value, 288.15, delta=DELTA)
-        self.assertAlmostEqual(par._a, 286.65, delta=DELTA)
-        self.assertAlmostEqual(par._b, 294.15, delta=DELTA)
+
+        self.assertAlmostEqual(par._mean, 286.65, delta=DELTA)
+        self.assertAlmostEqual(par._std, 21, delta=DELTA)
+
         self.assertAlmostEqual(par.value, 15, delta=DELTA)
-        self.assertAlmostEqual(par.a, 13.5, delta=DELTA)
-        self.assertAlmostEqual(par.b, 21, delta=DELTA)
+        self.assertAlmostEqual(par.mean, 13.5, delta=DELTA)
+        self.assertAlmostEqual(par.std, 21, delta=DELTA)
 
     def test_temperature_display_k(self):
         """ Ensure user-input temperature std value is displayed accurately. """
-        par = UncertainField('Temperature', unit=Temperature.k, distr=Distributions.nor, value=15, a=13.5, b=21)
+        par = UncertainField('Temperature', unit=Temperature.k, distr=Distributions.nor, value=15, mean=13.5, std=21)
         self.assertAlmostEqual(par._value, 15, delta=DELTA)
-        self.assertAlmostEqual(par._a, 13.5, delta=DELTA)
-        self.assertAlmostEqual(par._b, 21, delta=DELTA)
+        self.assertAlmostEqual(par._mean, 13.5, delta=DELTA)
+        self.assertAlmostEqual(par._std, 21, delta=DELTA)
         self.assertAlmostEqual(par.value, 15, delta=DELTA)
-        self.assertAlmostEqual(par.a, 13.5, delta=DELTA)
-        self.assertAlmostEqual(par.b, 21, delta=DELTA)
+        self.assertAlmostEqual(par.mean, 13.5, delta=DELTA)
+        self.assertAlmostEqual(par.std, 21, delta=DELTA)
 
 
 class UncertainFieldTestCase(unittest.TestCase):
     def setUp(self):
-        # Initialize with default values
         self.field = UncertainField(
             label='Test Parameter',
             value=10.0,
             unit_type=Distance,
             distr=Distributions.det,
             uncertainty=Uncertainties.ale,
-            a=2.0, b=3.0, c=0.5, d=1.5,
             min_value=0, max_value=100
         )
 
     def test_initial_values(self):
         self.assertEqual(self.field.distr, Distributions.det)
         self.assertEqual(self.field.uncertainty, Uncertainties.ale)
-        self.assertEqual(self.field.a, 2.0)
-        self.assertEqual(self.field.b, 3.0)
-        self.assertEqual(self.field.c, 0.5)
-        self.assertEqual(self.field.d, 1.5)
+        # TODO: for deterministic distribution, the descriptive properties should not be accessible
+        # with self.assertRaises(AttributeError):
+        #     _ = self.field.mean
+        # with self.assertRaises(AttributeError):
+        #     _ = self.field.std
+        # with self.assertRaises(AttributeError):
+        #     _ = self.field.mu
+        # with self.assertRaises(AttributeError):
+        #     _ = self.field.sigma
+        # with self.assertRaises(AttributeError):
+        #     _ = self.field.lower
+        # with self.assertRaises(AttributeError):
+        #     _ = self.field.upper
 
     def test_set_distr_invalid(self):
         with self.assertRaises(ValueError):
@@ -292,16 +316,22 @@ class UncertainFieldTestCase(unittest.TestCase):
         self.assertFalse(self.field.is_scale_unit)
 
     def test_set_values_ignore_lims(self):
-        self.field.set_values_ignore_lims(20.0, 4.0, 6.0, 0.8, 1.8)
+        # Test with normal distribution
+        self.field.distr = Distributions.nor
+        self.field.set_values_ignore_lims(20.0, mean=25.0, std=5.0)
         self.assertEqual(self.field._value, 20.0)
-        self.assertEqual(self.field._a, 4.0)
-        self.assertEqual(self.field._b, 6.0)
-        self.assertEqual(self.field._c, 0.8)
-        self.assertEqual(self.field._d, 1.8)
+        self.assertEqual(self.field._mean, 25.0)
+        self.assertEqual(self.field._std, 5.0)
+        
+        # Test with uniform distribution
+        self.field.distr = Distributions.uni
+        self.field.set_values_ignore_lims(30.0, lower=10.0, upper=50.0)
+        self.assertEqual(self.field._value, 30.0)
+        self.assertEqual(self.field._lower, 10.0)
+        self.assertEqual(self.field._upper, 50.0)
 
     def test_str_display(self):
         self.field.unit = 'm'
-        # self.field.unit_type.convert = Mock(side_effect=lambda value, **kwargs: value)
         self.field.value = 10.0
 
         # Deterministic distribution
@@ -310,32 +340,40 @@ class UncertainFieldTestCase(unittest.TestCase):
 
         # Normal distribution
         self.field.distr = Distributions.nor
+        self.field.mean = 2.0
+        self.field.std = 3.0
         display_str = self.field.str_display
         self.assertIn("Normal", display_str)
-        self.assertIn("\u03BC 2.0", display_str)  # Mean
-        self.assertIn("\u03C3 3.0", display_str)  # Standard deviation
+        self.assertIn("Mean 2.0", display_str)
+        self.assertIn("Std 3.0", display_str)
 
     def test_property_setters(self):
-        self.field.a = 5.0
-        self.assertEqual(self.field.a, 5.0)
+        self.field.distr = Distributions.nor
+        self.field.mean = 5.0
+        self.assertEqual(self.field.mean, 5.0)
 
-        self.field.b = 6.0
-        self.assertEqual(self.field.b, 6.0)
+        self.field.std = 6.0
+        self.assertEqual(self.field.std, 6.0)
+        
+        self.field.distr = Distributions.uni
+        self.field.lower = 7.0
+        self.assertEqual(self.field.lower, 7.0)
 
-        self.field.c = 7.0
-        self.assertEqual(self.field.c, 7.0)
-
-        self.field.d = 8.0
-        self.assertEqual(self.field.d, 8.0)
+        self.field.upper = 8.0
+        self.assertEqual(self.field.upper, 8.0)
 
     def test_setters_with_out_of_bounds(self):
-        old_a = self.field.a
-        self.field.a = -5.0
-        self.assertEqual(self.field.a, old_a)
+        self.field.distr = Distributions.nor
+        old_mean = 50.0
+        self.field.mean = old_mean
+        # Try to set mean out of bounds
+        self.field.mean = -5.0  # Below min_value
+        self.assertEqual(self.field.mean, old_mean)  # Should not change
 
-        old_b = self.field.b
-        self.field.b = 200.0
-        self.assertEqual(self.field.b, old_b)
+        old_std = 10.0
+        self.field.std = old_std
+        self.field.std = 200.0  # Above max_value
+        self.assertEqual(self.field.std, 200)  # SHOULD change because std is relative to input
 
 
 class UnitChoiceTestCase(unittest.TestCase):
@@ -353,7 +391,7 @@ class UnitChoiceTestCase(unittest.TestCase):
     def test_excluded_2nd_unit_still_indexes_correctly(self):
         out_diam = UncertainField('Outer diameter', unit=SmallDistance.inch, distr=Distributions.uni,
                                   unit_choices=['m', 'in'],
-                                  value=22, a=21.9, b=22.1)
+                                  value=22, lower=21.9, upper=22.1)
         self.assertEqual(out_diam.get_unit_index(), 1)
         self.assertEqual(out_diam.value, 22)
         self.assertEqual(out_diam.value_raw, 0.5588)

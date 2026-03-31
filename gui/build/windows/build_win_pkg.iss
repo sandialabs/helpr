@@ -4,11 +4,11 @@
 WizardStyle=modern
 ArchitecturesInstallIn64BitMode=x64compatible
 AppName=HELPR
-AppVersion=2.0.0
-AppCopyright=Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).\nUnder the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.\n\nYou should have received a copy of the BSD License along with HELPR.
+AppVersion=2.1.0
+AppCopyright=Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).\nUnder the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.\n\nYou should have received a copy of the BSD License along with HELPR.
 AppPublisher=Sandia National Laboratories
 AppPublisherURL=https://helpr.sandia.gov/
-SignTool=Sectigo_240321 $f
+SignTool=Yubikey $f
 
 WizardSmallImageFile=icon55.bmp
 WizardImageFile=icon410x797.bmp

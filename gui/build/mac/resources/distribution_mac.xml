@@ -20,7 +20,7 @@
     <choice id="com.SandiaNationalLaboratories.HELPR" visible="false">
         <pkg-ref id="com.SandiaNationalLaboratories.HELPR"/>
     </choice>
-    <pkg-ref id="com.SandiaNationalLaboratories.HELPR" version="v1.1.0" onConclusion="none">build-HELPR.pkg</pkg-ref>
+    <pkg-ref id="com.SandiaNationalLaboratories.HELPR" version="v2.1.0" onConclusion="none">build-HELPR.pkg</pkg-ref>
 
 
 </installer-gui-script>

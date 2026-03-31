@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+ * Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
  * Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
  * You should have received a copy of the BSD License along with HELPR.
  */
@@ -12,6 +12,7 @@
  * Load with:
  * import "../hygu/ui/utils.js" as Utils
  */
+
 
 function testFunc()
 {
@@ -75,6 +76,49 @@ function showParam(elem, param, nDecimals)
   fmtVal = Math.round(val * mult) / mult;
 
   elem.text = "<strong>" + param.label_rtf + "</strong>: " + fmtVal + " " + param.get_unit_disp;
+}
+
+
+function showReleasePressureParam(elem, param, isAbsoluteParam, nDecimals)
+{
+  let val = param.value;
+  let fmtVal = val;
+  if (isNullish(nDecimals))
+  {
+    nDecimals = val > 1 ? 3 : 6;
+  }
+  var mult = 10**nDecimals;
+  fmtVal = Math.round(val * mult) / mult;
+
+  let typeLabel = isAbsoluteParam.value ? " (absolute)" : "(gauge)";
+
+  elem.text = "<strong>" + param.label_rtf + typeLabel + "</strong>: " + fmtVal + " " + param.get_unit_disp;
+}
+
+
+function hround(val, nDecimals)
+{
+    if (isNullish(nDecimals))
+    {
+        if (val > 100)
+        {
+            nDecimals = 0;
+        }
+        else if (val > 1)
+        {
+            nDecimals = 2;
+        }
+        else if (val > 0.01)
+        {
+            nDecimals = 3;
+        }
+        else
+        {
+            nDecimals = 6;
+        }
+    }
+    var mult = 10 ** nDecimals;
+    return Math.round(val * mult) / mult;
 }
 
 

@@ -4,22 +4,31 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "helpr"
-version = "2.0.0"
+version = "2.1.0"
 authors = [
+    {name = "Michael Devin"},
+    {name = "Bailey Lucero"},
+    {name = "Benjamin R. Liu"},
+    {name = "Charlene Palacio"},
     {name = "Benjamin B. Schroeder"},
     {name = "Cianan Sims"},
-    {name = "Benjamin R. Liu"},
-    {name = "Michael Devin"},
-    {name = "Bailey Lucero"}
 ]
+maintainers = [
+    {name = "Michael Devin"},
+    {name = "Charlene Palacio"},
+    {name = "Benjamin B. Schroeder"},
+    {name = "Cianan Sims"}
+]
+
 description = "Hydrogen Extreme Low Probability of Rupture Python Package"
 readme = "README.md"
 requires-python = ">=3.9"
-keywords = ["fatigue", "fracture", "probabilistic", "hydrogen", "pipeline"]
+keywords = ["fatigue", "fracture", "probabilistic", "hydrogen", "pipeline", "pressure", "vessel"]
 license = {text = "BSD-3-Clause"}
 classifiers = [
     "Development Status :: 5 - Production/Stable",
-    "License :: OSI Approved :: BSD License"
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python :: 3 :: Only"
 ]
 dependencies = ["matplotlib", "numpy", "scipy", "pandas", "xarray", "netcdf4"]
 

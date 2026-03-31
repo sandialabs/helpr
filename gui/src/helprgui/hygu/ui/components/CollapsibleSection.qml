@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+ * Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
  * Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
  * You should have received a copy of the BSD License along with HELPR.
  */
@@ -15,21 +15,29 @@ import "buttons"
 
 Rectangle {
     property alias btnRef: toggleBtn;
-    property alias containerRef: container;  // to insert components into the layout
+
+    // to insert components into the layout, parent them to this alias
+    property alias containerRef: container;
+
     property string title;
-    property int w: 400
+    property int w: 400;
     property int closedH: 30;
     property int btmMargin: 10;
     property bool startOpen: false
 
-    property bool asHeader: false
+    // section title styling
     property int titleFontSize: 14;
     property var textColor: headerColor
     property bool isBold: true;
     property bool isItalic: false;
 
+    // enables additional styling (horizontal divider line)
+    property bool asHeader: false
+
+    // adds left icon
+    property string iconSrc: "";
+
     property bool useBorder: false;
-    // property var borderColor: Material.color(Material.Grey, Material.Shade300);
     property var borderColor: "#e3e3e3";
 
     id: rect
@@ -74,12 +82,26 @@ Rectangle {
             Layout.preferredHeight: closedH
             Layout.preferredWidth: w
             color: "transparent"
-            // color: Material.color(Material.BlueGrey, Material.Shade100)
+
+            AppIcon {
+                id: icon
+                enabled: iconSrc !== "";
+                visible: iconSrc !== "";  // don't layout
+                source: iconSrc
+                iconColor: Material.color(Material.Grey)
+                anchors.verticalCenter: parent.verticalCenter
+
+                anchors.left: parent.left
+                anchors.leftMargin: useBorder ? 5 : 0
+            }
 
             Text {
                 text: title
-                anchors.left: parent.left
-                anchors.leftMargin: useBorder ? 5 : 0
+                // need both to not overlap icon
+                anchors.left: icon.visible ? icon.right : parent.left
+                anchors.leftMargin: icon.visible ? 4 : 0
+
+                // anchors.leftMargin: useBorder ? 5 : 0
                 anchors.verticalCenter: parent.verticalCenter
                 horizontalAlignment: Text.AlignLeft
                 font.pointSize: titleFontSize
@@ -109,9 +131,11 @@ Rectangle {
             visible: asHeader
             enabled: asHeader
             width: w
-            height: 1
+            height: 2
+            Layout.preferredHeight: asHeader ? 2 : 0
+            Layout.preferredWidth: w
             color: Material.color(Material.Blue)
-            opacity: 0.3
+            opacity: 0.4
         }
     }
 }

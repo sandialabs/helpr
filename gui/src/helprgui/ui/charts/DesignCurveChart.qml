@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+ * Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
  * Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
  * You should have received a copy of the BSD License along with HELPR.
  */
@@ -14,13 +14,13 @@ Rectangle {
     visible: plotData !== null && plotData !== undefined
     color: "white"
     height: plotH
-    width: plotSmW
+    width: plotW
 
     Chart {
         chartType: 'scatter'
         animationDuration: plotAnimDuration
         height: plotH
-        width: plotSmW
+        width: plotW
 
         chartData: {
             return {
@@ -32,18 +32,21 @@ Rectangle {
                     pointHoverRadius: 0,
                     data: plotData ? plotData['ln1'] : [],
                     pointStyle: "line",
-                    borderColor: 'rgb(231,64,88)'
+                    borderColor: 'rgb(231,64,88)',
+                    borderDash: [5, 3]
                 }, {
                     label: 'Exercised rates',
                     fill: false,
-                    showLine: true,
-                    pointRadius: 4,
-                    radius: 4,
+                    showLine: false,
+                    pointRadius: 3,
+                    radius: 3,
                     pointHoverRadius: 4,
                     data: plotData ? plotData['ln2'] : [],
-                    pointStyle: "line",
+                    pointStyle: "circle",
+                    pointBackgroundColor: 'rgb(0,0,0)',
+                    backgroundColor: 'rgb(0,0,0)',
                     borderColor: 'rgb(0,0,0)',
-                    borderWidth: 7
+                    borderWidth: 0
                 },]
             };
         }

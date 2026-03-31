@@ -1,0 +1,2 @@
+# This directory contains golden snapshot files for regression testing.
+# Run `pytest --regenerate-golden` to generate/update these files.

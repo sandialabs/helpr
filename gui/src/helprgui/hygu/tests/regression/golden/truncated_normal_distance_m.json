@@ -1,0 +1,15 @@
+{
+  "distr": "tnor",
+  "label": "Outer Diameter",
+  "lower": 0.4,
+  "max_value": "1.0",
+  "mean": 0.5,
+  "min_value": "0",
+  "slug": "outer_diameter",
+  "std": 0.05,
+  "uncertainty": "ale",
+  "unit": "m",
+  "unit_type": "dist",
+  "upper": 0.6,
+  "value": 0.5
+}

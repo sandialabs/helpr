@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+ * Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
  * Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
  * You should have received a copy of the BSD License along with HELPR.
  */
@@ -13,12 +13,18 @@ import QtQuick.Controls.Material
 
 Image {
     property string filename
+    property bool useHeight: true;
+    property int w: 0;
 
     id: thisImage
+    // Filepath to image; if not using resource system, can't use relative paths
     source: ""
     fillMode:Image.PreserveAspectFit
-    height: 450
-    sourceSize.height: height
+    height: w === 0 ? 450 : height;
+    sourceSize.height: useHeight ? height : sourceSize.height;
+
+    width: w === 0 ? width : w;
+    sourceSize.width: width;
 
     function handleClick(mouse)
     {
@@ -34,7 +40,7 @@ Image {
 
     function handleCopy()
     {
-        ac.copy_image_to_clipboard(filename);
+        app_form.copy_image_to_clipboard(filename);
     }
 
     MouseArea {

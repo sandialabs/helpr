@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+ * Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
  * Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
  * You should have received a copy of the BSD License along with HELPR.
  */
@@ -46,14 +46,14 @@ Rectangle {
 
         if (hasError)
         {
-            container.Layout.preferredHeight = 60;
+            container.Layout.preferredHeight = paramRowErrorHeight;
             paramLabel.color = color_danger;
             alertMsg.text = errorMsg;
             alertDisplay.visible = true;
         }
         else
         {
-            container.Layout.preferredHeight = 30;
+            container.Layout.preferredHeight = paramRowHeight;
             paramLabel.color = color_primary;
             alertMsg.text = "";
             alertDisplay.visible = false;

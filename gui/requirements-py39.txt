@@ -1,0 +1,15 @@
+cycler==0.11.0
+fonttools==4.61.1
+matplotlib==3.6.3
+numpy==1.24.1
+pandas==1.5.3
+Pillow==10.3.0
+pyinstaller==5.7.0
+pyinstaller-hooks-contrib==2023.8
+PySide6==6.6.0
+PySide6-Addons==6.6.0
+PySide6-Essentials==6.6.0
+python-dateutil==2.8.2
+pytz==2023.3
+scipy==1.10.0
+xarray

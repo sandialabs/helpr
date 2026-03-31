@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "helprgui"
+authors = [
+    {name = "Cianan Sims"},
+]
+description = "Multiplatform GUI for the HELPR scientific library"
+requires-python = ">=3.9"
+license = {text = "BSD-3-Clause"}
+
+version = "2.1.0"
+dependencies = [
+    "numpy",
+    "scipy",
+    "helpr",
+    "PySide6",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]

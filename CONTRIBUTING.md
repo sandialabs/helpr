@@ -45,6 +45,7 @@ $
      │     ├───data
      │     ├───physics
      │     ├───tests
+     │     │     ├───integration_tests
      │     │     ├───unit_tests
      │     │     └───verification_tests 
      │     └───utilities
@@ -69,7 +70,7 @@ This section describes how to set up a cross-platform development environment fo
 It includes instructions for both developing and distributing the GUI application to users of Windows and macOS systems.
 
 The GUI uses the Qt framework and PySide wrapper to implement the UI and to interface with the backend python HELPR library.
-This document assumes familiarity with Python 3.9, the Qt framework, and basic JavaScript, which is used in Qt UI .qml files.
+This document assumes familiarity with Python 3.11, the Qt framework, and basic JavaScript, which is used in Qt UI .qml files.
 
 **NOTE: The Qt framework has a complex licensing situation.
 The HELPR team must always verify that no incompatible modules are included in any release.**
@@ -88,16 +89,16 @@ The following terms and labels are used in this document:
 
 ### Step 1. Clone the Repository
 The GUI and backend code reside within the HELPR repository.
-Clone it via the gitlab instructions. Make sure to initialize the `probabilities` and `hygu` submodule as well.
+Clone it via the gitlab instructions. Make sure to initialize the `probabilistic` and `hygu` submodules as well.
 
 ### Step 2. Set Up a Python Development Environment
-HELPR and the GUI require a standard Python 3.9 virtual environment.
-See Python documentation for installing Python 3.9 and creating a new virtual environment.
+HELPR and the GUI require a Python 3.11 virtual environment.
+See Python documentation for installing Python 3.11 and creating a new virtual environment.
 
-For development, the following requirements file contains all required python modules.
+For development, install the required python modules from the requirements file.
 Activate your virtualenv before installing these:
 
-    python pip install -r repo/gui/requirements-dev.txt
+    pip install -r repo/gui/requirements.txt
 
 **Warning**: the dev modules must NOT be bundled into a HELPR distribution.
 Many of these modules have incompatible licenses for distribution and are used for development only.
@@ -110,7 +111,13 @@ This env contains only those modules necessary for the distribution and excludes
 
     python pip install -r repo/gui/requirements.txt
 
-### Step 4. Install Qt 6.6
+### Step 4. Install HELPR and GUI editable packages
+Navigate to the package directories for HELPR and the GUI (containing `pyproject.toml`) and install them as editable packages. For example:
+
+    cd repo/gui/
+    pip install -e .
+
+### Step 5. Install Qt 6.6
 *(Note: this step requires a free Qt account)*
 
 Download the Qt online installer for Open Source Qt [here](https://www.qt.io/download-open-source).
@@ -132,7 +139,7 @@ Wait for the installer to finish.
 *...an eternity later...*
 
 
-### Step 5. Set Up Project in QtCreator
+### Step 6. Set Up Project in QtCreator
 The QtCreator IDE is recommended for developing the UI .QML files and running the application during development.
 After opening the `gui` directory in QtCreator, modify the project settings as follows:
 1. Select the Projects tab (on the left) > Run
@@ -141,19 +148,21 @@ After opening the `gui` directory in QtCreator, modify the project settings as f
 4. Make sure the specified virtualenv is now selected for the project
 
 **Careful**: QtCreator on macOS will try to follow the symlinked python when it is selected during the above steps.
-If this occurs, the path will be set to `env/bin/python3.9` instead of to your virtualenv.
+If this occurs, the path will be set to `env/bin/python3.11` instead of to your virtualenv.
 Revise this path to make sure the interpreter location points to the symlink file in the virtualenv, and NOT the systemwide parent bin/python.
 
 It should be something like:
 
-    /Users/cianan/projects/helpr/envs/py3.9r/bin/python3.9
+    /Users/cianan/projects/helpr/envs/py311-dev/bin/python3.11
 
 And not:
 
-    /Library/Frameworks/Python.Framework/Versions/3.9/Python
+    /Library/Frameworks/Python.Framework/Versions/3.11/Python
 
 Once the project is set up, click the "Run" button to launch the Qt application.
 Open the .qml files in `gui/ui` to edit the interface, or use your favorite IDE with *.qml functionality.
+
+**Note**: Navigate to Projects > Build & Run > Run and enable the *Run in terminal* setting to ensure that JavaScript console logging is shown in the console.
 
 <a name="gui-distr"></a>
 ## B.2. Building the HELPR Application for Distribution
@@ -173,6 +182,8 @@ the [Qt Docs](https://doc.qt.io/qt-6/qtmodules.html#gpl-licensed-addons).
 
 The following tools are required to build HELPR on Windows:
 * Inno Setup Compiler (https://jrsoftware.org/isdl.php)
+* Windows SDK (provides `signtool.exe` for code signing)
+* A valid code signing certificate (e.g. on a YubiKey with the Smart Card Minidriver installed)
 
 #### Step 0. Update Version and Configuration
 Update the HELPR versioning in the .spec file and within the application code.
@@ -197,6 +208,21 @@ To test the bundle executable:
 This creates the HELPR installer .exe file (named "mysetup.exe") in the `build/windows/installer` directory.
 This file can be renamed and distributed to end-users.
 
+#### Step 3. Code Signing and SmartScreen Reputation
+The installer is signed via the `SignTool` directive in `build_win_pkg.iss`, which references a named sign tool configured in the Inno Setup IDE (Tools > Configure Sign Tools).
+The sign tool entry should invoke `signtool.exe` with the appropriate certificate, e.g.:
+
+    signtool sign /tr http://timestamp.digicert.com /td sha256 /fd sha256 /sha1 <THUMBPRINT> $f
+
+Replace `<THUMBPRINT>` with the SHA1 thumbprint of the code signing certificate.
+The thumbprint can be found via `certutil -store -user My` or `certutil -store My`.
+
+**SmartScreen Reputation**: A newly issued or replaced certificate has no reputation with Microsoft Defender SmartScreen.
+Users will see an "unrecognized app" warning until enough installs have occurred to build trust.
+To accelerate this, submit the signed installer to Microsoft for review at https://www.microsoft.com/en-us/wdsi/filesubmission and select the option for software that should not be detected.
+Reputation typically builds over days to weeks depending on download volume.
+Avoid switching certificates unnecessarily, as each switch resets reputation.
+
 <a name="distr-mac"></a>
 ### HELPR for macOS
 Mac-based distributions of HELPR follow the same basic build process;
@@ -208,7 +234,7 @@ Before attempting to build HELPR, verify that the following prerequisites are pr
 * Xcode (https://developer.apple.com)
 * Xcode command-lines tools (see below)
 * An active Apple Developer account
-* create an app-specific password for code-signing [here](https://www.qt.io/download-open-source)
+* An app-specific password for code-signing (create one at [appleid.apple.com](https://appleid.apple.com/))
 
 It is important to **never accidentally include credentials in a git commit**.
 Use this command to store your credentials on your machine:

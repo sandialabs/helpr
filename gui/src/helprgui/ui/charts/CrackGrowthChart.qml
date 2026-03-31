@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+ * Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
  * Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
  * You should have received a copy of the BSD License along with HELPR.
  */
@@ -12,13 +12,13 @@ Rectangle {
     visible: plotData !== null && plotData !== undefined
     color: "white"
     height: plotH
-    width: plotSmW
+    width: plotW
 
     Chart {
         chartType: 'scatter'
         animationDuration: plotAnimDuration
         height: plotH
-        width: plotSmW
+        width: plotW
 
         chartData: {
             return {
@@ -45,7 +45,8 @@ Rectangle {
                     radius: 8,
                     pointHoverRadius: 8
                 }, {
-                    label: 'Cycles at 25% a(crit)',
+                    // label: 'Cycles at 25% a(crit)',
+                    label: 'Cycles to FAD line',
                     data: plotData ? plotData['25acrit_pt'] : [],
                     pointStyle: "circle",
                     pointBackgroundColor: 'rgb(145,0,0)',
@@ -55,19 +56,21 @@ Rectangle {
                     pointHoverRadius: 8,
                     fill: false,
                     backgroundColor: 'rgba(0, 0, 0, 1)',
-                }, {
-                    label: 'Half of a(crit) cycles',
-                    data: plotData ? plotData['half_pt'] : [],
-                    pointStyle: "rect",
-                    pointBackgroundColor: 'rgb(0,49,217)',
-                    pointHoverBackgroundColor: 'rgb(0,49,217)',
-                    backgroundColor: 'rgb(0,49,217)',
-                    pointRadius: 8,
-                    radius: 8,
-                    pointHoverRadius: 8,
-                    fill: false,
-                    backgroundColor: 'rgba(0, 0, 0, 1)',
-                },]
+                },
+                    // {
+                    //     label: 'Half of a(crit) cycles',
+                    //     data: plotData ? plotData['half_pt'] : [],
+                    //     pointStyle: "rect",
+                    //     pointBackgroundColor: 'rgb(0,49,217)',
+                    //     pointHoverBackgroundColor: 'rgb(0,49,217)',
+                    //     backgroundColor: 'rgb(0,49,217)',
+                    //     pointRadius: 8,
+                    //     radius: 8,
+                    //     pointHoverRadius: 8,
+                    //     fill: false,
+                    //     backgroundColor: 'rgba(0, 0, 0, 1)',
+                    // },
+                ]
             };
         }
         chartOptions: {

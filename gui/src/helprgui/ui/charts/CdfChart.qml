@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
+ * Copyright 2023-2025 National Technology & Engineering Solutions of Sandia, LLC (NTESS).
  * Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software.
  * You should have received a copy of the BSD License along with HELPR.
  */
@@ -16,6 +16,58 @@ Rectangle {
     height: plotH
     width: plotW
 
+    function addQoiDatasets(result, plotData, key, nominalKey, color, label) {
+        // Nominal dashed line
+        if (plotData[nominalKey] && plotData[nominalKey].length > 0) {
+            result['datasets'].push({
+                label: label + " Nominal",
+                fill: false,
+                showLine: true,
+                lineTension: 0,
+                borderDash: [20, 5],
+                data: plotData[nominalKey][0],
+                pointRadius: 0,
+                pointHoverRadius: 0,
+                pointBackgroundColor: color,
+                backgroundColor: color,
+                borderColor: color,
+                pointStyle: "line"
+            });
+        }
+
+        // CDF sample lines
+        let lineData = plotData[key];
+        if (lineData) {
+            // Legend entry for this QoI group
+            if (lineData.length > 0) {
+                result['datasets'].push({
+                    label: label,
+                    showLine: true,
+                    data: lineData[0],
+                    borderColor: color,
+                    backgroundColor: color,
+                    pointRadius: 0,
+                    pointHoverRadius: 0,
+                    pointStyle: "line",
+                    fill: false,
+                });
+            }
+            for (let i = 1; i < lineData.length; i++) {
+                result['datasets'].push({
+                    label: label + " " + (i + 1),
+                    showLine: true,
+                    data: lineData[i],
+                    borderColor: color,
+                    backgroundColor: color,
+                    pointRadius: 0,
+                    pointHoverRadius: 0,
+                    pointStyle: "line",
+                    fill: false,
+                });
+            }
+        }
+    }
+
     Chart {
         chartType: 'scatter'
         animationDuration: plotAnimDuration
@@ -26,41 +78,12 @@ Rectangle {
             var result = {'datasets': []};
             if (plotData)
             {
-                let data = {
-                    label: "nominal",
-                    fill: false,
-                    showLine: true,
-                    lineTension: 0,
-                    borderDash: [20, 5],
-                    data: plotData["nominal"][0],
-                    pointRadius: 0,
-                    pointHoverRadius: 0,
-                    pointBackgroundColor: "red",
-                    backgroundColor: "red",
-                    borderColor: 'red',
-                    pointStyle: "line"
-                };
-                result['datasets'].push(data);
-
-                let lineData = plotData['lines'];
-                for (let i = 0; i < lineData.length; i++)
-                {
-                    let label = (lineData.length === 1) ? "sample line" : "line " + (i+1);
-                    let color = randomColor(0.9);
-                    let data = {
-                        label: label,
-                        showLine: true,
-                        data: lineData[i],
-                        borderColor: color,
-                        backgroundColor: color,
-                        pointRadius: 0,
-                        pointHoverRadius: 0,
-                        pointStyle: "line",
-                        fill: false,
-                    };
-                    result['datasets'].push(data);
-                }
-
+                addQoiDatasets(result, plotData,
+                               'acrit_lines', 'acrit_nominal',
+                               'black', 'Cycles to a(crit)');
+                addQoiDatasets(result, plotData,
+                               'fad_lines', 'fad_nominal',
+                               'green', 'Cycles to FAD line');
             }
             return result;
         }
@@ -78,11 +101,18 @@ Rectangle {
                 },
                 hover: { mode: 'point' },
                 legend: {
-                    position: 'right',
+                    position: 'bottom',
                     labels: {
                         fontSize: 14,
                         fontColor: "#000",
-                        usePointStyle: true
+                        usePointStyle: true,
+                        filter: function(item, chart) {
+                            // Show only the first line and nominal for each QoI
+                            let lbl = item.text;
+                            return lbl === 'Cycles to a(crit)' ||
+                                   lbl === 'Cycles to FAD line' ||
+                                   lbl.includes('Nominal');
+                        }
                     }
                 },
                 scales: {
@@ -96,7 +126,7 @@ Rectangle {
                         },
                         scaleLabel: {
                             display: true,
-                            labelString: 'Cycles to a(crit)',
+                            labelString: 'Cycles to Criteria [#]',
                             fontSize: 18,
                             fontColor: "#000"
                         },

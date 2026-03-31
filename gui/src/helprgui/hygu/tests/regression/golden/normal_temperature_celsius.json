@@ -1,0 +1,13 @@
+{
+  "distr": "nor",
+  "label": "Operating Temperature",
+  "max_value": "373.1",
+  "mean": 298.15,
+  "min_value": "233.1",
+  "slug": "operating_temperature",
+  "std": 5.0,
+  "uncertainty": "ale",
+  "unit": "c",
+  "unit_type": "temp",
+  "value": 298.15
+}
