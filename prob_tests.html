@@ -6,15 +6,15 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tests Documentation &mdash; helpr 2.0.0 documentation</title>
+  <title>Tests Documentation &mdash; helpr 2.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=51b770b3"></script>
+      <script src="_static/documentation_options.js?v=20623aea"></script>
       <script src="_static/doctools.js?v=9a2dae69"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/design-tabs.js?v=f930bc37"></script>
@@ -56,7 +56,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="capabilities.html"><strong>Capabilities Documentation</strong></a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>Tests Documentation</strong></a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-probabilistic.tests.test_plotting">test_plotting docu</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#test-plotting-docu">test_plotting docu</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#probabilistic.tests.test_plotting.PlottingTestCase"><code class="docutils literal notranslate"><span class="pre">PlottingTestCase</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#probabilistic.tests.test_plotting.PlottingTestCase.setUp"><code class="docutils literal notranslate"><span class="pre">PlottingTestCase.setUp()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#probabilistic.tests.test_plotting.PlottingTestCase.tearDown"><code class="docutils literal notranslate"><span class="pre">PlottingTestCase.tearDown()</span></code></a></li>
@@ -67,7 +67,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-probabilistic.tests.test_sampling">test_sampling docu</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#test-sampling-docu">test_sampling docu</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#probabilistic.tests.test_sampling.SamplingTestCase"><code class="docutils literal notranslate"><span class="pre">SamplingTestCase</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#probabilistic.tests.test_sampling.SamplingTestCase.setUp"><code class="docutils literal notranslate"><span class="pre">SamplingTestCase.setUp()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#probabilistic.tests.test_sampling.SamplingTestCase.tearDown"><code class="docutils literal notranslate"><span class="pre">SamplingTestCase.tearDown()</span></code></a></li>
@@ -91,7 +91,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-probabilistic.tests.test_uncertainty_definitions">test_uncertainty_definitions docu</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#test-uncertainty-definitions-docu">test_uncertainty_definitions docu</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase"><code class="docutils literal notranslate"><span class="pre">UncertaintyDefinitionTestCase</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.setUp"><code class="docutils literal notranslate"><span class="pre">UncertaintyDefinitionTestCase.setUp()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.tearDown"><code class="docutils literal notranslate"><span class="pre">UncertaintyDefinitionTestCase.tearDown()</span></code></a></li>
@@ -99,6 +99,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.test_distribution_specification_function"><code class="docutils literal notranslate"><span class="pre">UncertaintyDefinitionTestCase.test_distribution_specification_function()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.test_parameter_information_extraction"><code class="docutils literal notranslate"><span class="pre">UncertaintyDefinitionTestCase.test_parameter_information_extraction()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.test_sample_uncertainty_definition"><code class="docutils literal notranslate"><span class="pre">UncertaintyDefinitionTestCase.test_sample_uncertainty_definition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.test_time_series_characterization"><code class="docutils literal notranslate"><span class="pre">UncertaintyDefinitionTestCase.test_time_series_characterization()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -115,6 +116,12 @@
 <li class="toctree-l1"><a class="reference internal" href="demo_inspection_mitigation.html"><strong>Inspection Mitigation Analysis of Pipeline Population</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_crack_growth_curves.html"><strong>Demonstration of Crack Growth Curves</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_advanced_user_options.html"><strong>Advanced User Options</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_failure_assessment_diagram.html"><strong>Demonstration of FAD Intersection as Additional Tracked QoI</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_random_loading.html"><strong>Random Pressure Loading</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_residual_stress.html">Life Assessment of Pipe with Residual Stress</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_stress_intensity_factor.html">Test Case 1 : Varying a/t. Crack depths from 10% to 80% of the wall thickness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_stress_intensity_factor.html#Test-Case-2-:-Varying-2c/a-between-2-and-24">Test Case 2 : Varying 2c/a between 2 and 24</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_stress_intensity_factor.html#Test-Case-3-:-Varying-t-from-0.02-to-0.05">Test Case 3 : Varying t from 0.02 to 0.05</a></li>
 </ul>
 
         </div>
@@ -143,12 +150,14 @@
              
   <section id="tests-documentation">
 <h1><strong>Tests Documentation</strong><a class="headerlink" href="#tests-documentation" title="Link to this heading"></a></h1>
-<section id="module-probabilistic.tests.test_plotting">
-<span id="test-plotting-docu"></span><h2>test_plotting docu<a class="headerlink" href="#module-probabilistic.tests.test_plotting" title="Link to this heading"></a></h2>
-<dl class="py class">
+<section id="test-plotting-docu">
+<h2>test_plotting docu<a class="headerlink" href="#test-plotting-docu" title="Link to this heading"></a></h2>
+<p>Unit tests for verifying the correctness of plotting functions.</p>
+<dl class="py class" id="module-probabilistic.tests.test_plotting">
 <dt class="sig sig-object py" id="probabilistic.tests.test_plotting.PlottingTestCase">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">probabilistic.tests.test_plotting.</span></span><span class="sig-name descname"><span class="pre">PlottingTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_plotting.PlottingTestCase" title="Link to this definition"></a></dt>
-<dd><p>class for unit tests of plotting module</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TestCase</span></code></p>
+<p>class for unit tests of plotting module</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_plotting.PlottingTestCase.setUp">
 <span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_plotting.PlottingTestCase.setUp" title="Link to this definition"></a></dt>
@@ -184,12 +193,14 @@ with basic inputs</p>
 </dd></dl>
 
 </section>
-<section id="module-probabilistic.tests.test_sampling">
-<span id="test-sampling-docu"></span><h2>test_sampling docu<a class="headerlink" href="#module-probabilistic.tests.test_sampling" title="Link to this heading"></a></h2>
-<dl class="py class">
+<section id="test-sampling-docu">
+<h2>test_sampling docu<a class="headerlink" href="#test-sampling-docu" title="Link to this heading"></a></h2>
+<p>Tests related to probabilistic sampling methods.</p>
+<dl class="py class" id="module-probabilistic.tests.test_sampling">
 <dt class="sig sig-object py" id="probabilistic.tests.test_sampling.SamplingTestCase">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">probabilistic.tests.test_sampling.</span></span><span class="sig-name descname"><span class="pre">SamplingTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase" title="Link to this definition"></a></dt>
-<dd><p>class for unit tests of sampling module</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TestCase</span></code></p>
+<p>class for unit tests of sampling module</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_sampling.SamplingTestCase.setUp">
 <span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_sampling.SamplingTestCase.setUp" title="Link to this definition"></a></dt>
@@ -304,12 +315,14 @@ no epistemic variables</p>
 </dd></dl>
 
 </section>
-<section id="module-probabilistic.tests.test_uncertainty_definitions">
-<span id="test-uncertainty-definitions-docu"></span><h2>test_uncertainty_definitions docu<a class="headerlink" href="#module-probabilistic.tests.test_uncertainty_definitions" title="Link to this heading"></a></h2>
-<dl class="py class">
+<section id="test-uncertainty-definitions-docu">
+<h2>test_uncertainty_definitions docu<a class="headerlink" href="#test-uncertainty-definitions-docu" title="Link to this heading"></a></h2>
+<p>Tests for the correctness and behavior of uncertainty definitions and handling.</p>
+<dl class="py class" id="module-probabilistic.tests.test_uncertainty_definitions">
 <dt class="sig sig-object py" id="probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">probabilistic.tests.test_uncertainty_definitions.</span></span><span class="sig-name descname"><span class="pre">UncertaintyDefinitionTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase" title="Link to this definition"></a></dt>
-<dd><p>class for unit tests of uncertainty definition module</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TestCase</span></code></p>
+<p>class for unit tests of uncertainty definition module</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.setUp">
 <span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.setUp" title="Link to this definition"></a></dt>
@@ -346,6 +359,12 @@ no epistemic variables</p>
 <dd><p>unit test of sampling from uncertainty definitions</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.test_time_series_characterization">
+<span class="sig-name descname"><span class="pre">test_time_series_characterization</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#probabilistic.tests.test_uncertainty_definitions.UncertaintyDefinitionTestCase.test_time_series_characterization" title="Link to this definition"></a></dt>
+<dd><p>unit test for TimeSeriesCharacterization class</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -362,7 +381,7 @@ no epistemic variables</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024 National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retainscertain rights in this software.</p>
+    <p>&#169; Copyright 2023-2025 National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retainscertain rights in this software.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

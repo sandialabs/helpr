@@ -6,15 +6,15 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Utilities Documentation &mdash; helpr 2.0.0 documentation</title>
+  <title>Utilities Documentation &mdash; helpr 2.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=51b770b3"></script>
+      <script src="_static/documentation_options.js?v=20623aea"></script>
       <script src="_static/doctools.js?v=9a2dae69"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/design-tabs.js?v=f930bc37"></script>
@@ -51,21 +51,24 @@
 <li class="toctree-l1"><a class="reference internal" href="physics.html"><strong>Physics Documentation</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="phys_tests.html"><strong>Tests Documentation</strong></a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>Utilities Documentation</strong></a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-helpr.utilities.parameter">parameter docu</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#parameter-docu">parameter docu</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.parameter.Parameter"><code class="docutils literal notranslate"><span class="pre">Parameter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.utilities.parameter.Parameter.name"><code class="docutils literal notranslate"><span class="pre">Parameter.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.utilities.parameter.Parameter.value"><code class="docutils literal notranslate"><span class="pre">Parameter.value</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.utilities.parameter.Parameter.lower_bound"><code class="docutils literal notranslate"><span class="pre">Parameter.lower_bound</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.utilities.parameter.Parameter.upper_bound"><code class="docutils literal notranslate"><span class="pre">Parameter.upper_bound</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helpr.utilities.parameter.Parameter.error_function"><code class="docutils literal notranslate"><span class="pre">Parameter.error_function</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#helpr.utilities.parameter.Parameter.check_size"><code class="docutils literal notranslate"><span class="pre">Parameter.check_size()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#helpr.utilities.parameter.Parameter.ensure_array"><code class="docutils literal notranslate"><span class="pre">Parameter.ensure_array()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#helpr.utilities.parameter.Parameter.parameter_bounds_check"><code class="docutils literal notranslate"><span class="pre">Parameter.parameter_bounds_check()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.parameter.divide_by_dataframe"><code class="docutils literal notranslate"><span class="pre">divide_by_dataframe()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.parameter.subtract_dataframe"><code class="docutils literal notranslate"><span class="pre">subtract_dataframe()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.parameter.get_length"><code class="docutils literal notranslate"><span class="pre">get_length()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-helpr.utilities.plots">plots docu</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#plots-docu">plots docu</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.plots.ecdf"><code class="docutils literal notranslate"><span class="pre">ecdf()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.plots.failure_assessment_diagram_equation"><code class="docutils literal notranslate"><span class="pre">failure_assessment_diagram_equation()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.plots.filter_failure_assessment_data"><code class="docutils literal notranslate"><span class="pre">filter_failure_assessment_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.plots.failure_assessment_diagram_equation_v2"><code class="docutils literal notranslate"><span class="pre">failure_assessment_diagram_equation_v2()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.plots.generate_crack_growth_rate_plot"><code class="docutils literal notranslate"><span class="pre">generate_crack_growth_rate_plot()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.plots.generate_pipe_life_assessment_plot"><code class="docutils literal notranslate"><span class="pre">generate_pipe_life_assessment_plot()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.plots.get_time_str"><code class="docutils literal notranslate"><span class="pre">get_time_str()</span></code></a></li>
@@ -78,23 +81,30 @@
 <li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.plots.plot_log_hist"><code class="docutils literal notranslate"><span class="pre">plot_log_hist()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.plots.plot_mitigation_histograms"><code class="docutils literal notranslate"><span class="pre">plot_mitigation_histograms()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.plots.plot_pipe_life_ensemble"><code class="docutils literal notranslate"><span class="pre">plot_pipe_life_ensemble()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.plots.plot_random_loading_profiles"><code class="docutils literal notranslate"><span class="pre">plot_random_loading_profiles()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.plots.plot_sensitivity_results"><code class="docutils literal notranslate"><span class="pre">plot_sensitivity_results()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.plots.plot_unscaled_mitigation_cdf"><code class="docutils literal notranslate"><span class="pre">plot_unscaled_mitigation_cdf()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-helpr.utilities.postprocessing">postprocessing docu</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.postprocessing.calc_a_over_t_criterion_0"><code class="docutils literal notranslate"><span class="pre">calc_a_over_t_criterion_0()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.postprocessing.calc_a_over_t_criterion_1"><code class="docutils literal notranslate"><span class="pre">calc_a_over_t_criterion_1()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.postprocessing.calc_a_over_t_criterion_2"><code class="docutils literal notranslate"><span class="pre">calc_a_over_t_criterion_2()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#postprocessing-docu">postprocessing docu</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.postprocessing.calc_pipe_life_criteria"><code class="docutils literal notranslate"><span class="pre">calc_pipe_life_criteria()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.postprocessing.calculate_failure_assessment"><code class="docutils literal notranslate"><span class="pre">calculate_failure_assessment()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.postprocessing.parallel_interpolation_list_pts"><code class="docutils literal notranslate"><span class="pre">parallel_interpolation_list_pts()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.postprocessing.parallel_interpolation_single_pt"><code class="docutils literal notranslate"><span class="pre">parallel_interpolation_single_pt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.postprocessing.determine_qoi_values"><code class="docutils literal notranslate"><span class="pre">determine_qoi_values()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.postprocessing.find_intersection"><code class="docutils literal notranslate"><span class="pre">find_intersection()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.postprocessing.report_single_cycle_evolution"><code class="docutils literal notranslate"><span class="pre">report_single_cycle_evolution()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.postprocessing.report_single_pipe_life_criteria_results"><code class="docutils literal notranslate"><span class="pre">report_single_pipe_life_criteria_results()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-helpr.utilities.unit_conversion">unit_conversion docu</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#saving-docu">saving docu</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.saving.capitalize_rules"><code class="docutils literal notranslate"><span class="pre">capitalize_rules()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.saving.check_for_units"><code class="docutils literal notranslate"><span class="pre">check_for_units()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.saving.clean_results_names"><code class="docutils literal notranslate"><span class="pre">clean_results_names()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.saving.save_deterministic_results"><code class="docutils literal notranslate"><span class="pre">save_deterministic_results()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.saving.save_life_criteria_data"><code class="docutils literal notranslate"><span class="pre">save_life_criteria_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.saving.save_parameter_characterizations"><code class="docutils literal notranslate"><span class="pre">save_parameter_characterizations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.saving.save_probabilistic_results"><code class="docutils literal notranslate"><span class="pre">save_probabilistic_results()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#unit-conversion-docu">unit_conversion docu</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.unit_conversion.convert_in_to_m"><code class="docutils literal notranslate"><span class="pre">convert_in_to_m()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.unit_conversion.convert_ksi_to_mpa"><code class="docutils literal notranslate"><span class="pre">convert_ksi_to_mpa()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#helpr.utilities.unit_conversion.convert_psi_to_mpa"><code class="docutils literal notranslate"><span class="pre">convert_psi_to_mpa()</span></code></a></li>
@@ -118,6 +128,12 @@
 <li class="toctree-l1"><a class="reference internal" href="demo_inspection_mitigation.html"><strong>Inspection Mitigation Analysis of Pipeline Population</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_crack_growth_curves.html"><strong>Demonstration of Crack Growth Curves</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_advanced_user_options.html"><strong>Advanced User Options</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_failure_assessment_diagram.html"><strong>Demonstration of FAD Intersection as Additional Tracked QoI</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_random_loading.html"><strong>Random Pressure Loading</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_residual_stress.html">Life Assessment of Pipe with Residual Stress</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_stress_intensity_factor.html">Test Case 1 : Varying a/t. Crack depths from 10% to 80% of the wall thickness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_stress_intensity_factor.html#Test-Case-2-:-Varying-2c/a-between-2-and-24">Test Case 2 : Varying 2c/a between 2 and 24</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_stress_intensity_factor.html#Test-Case-3-:-Varying-t-from-0.02-to-0.05">Test Case 3 : Varying t from 0.02 to 0.05</a></li>
 </ul>
 
         </div>
@@ -146,54 +162,124 @@
              
   <section id="utilities-documentation">
 <h1><strong>Utilities Documentation</strong><a class="headerlink" href="#utilities-documentation" title="Link to this heading"></a></h1>
-<section id="module-helpr.utilities.parameter">
-<span id="parameter-docu"></span><h2>parameter docu<a class="headerlink" href="#module-helpr.utilities.parameter" title="Link to this heading"></a></h2>
-<dl class="py class">
+<p>HELPR utility modules support parameter handling, plotting, postprocessing, and unit conversions.</p>
+<section id="parameter-docu">
+<h2>parameter docu<a class="headerlink" href="#parameter-docu" title="Link to this heading"></a></h2>
+<p>Contains utilities for defining and managing parameter inputs.</p>
+<dl class="py class" id="module-helpr.utilities.parameter">
 <dt class="sig sig-object py" id="helpr.utilities.parameter.Parameter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.utilities.parameter.</span></span><span class="sig-name descname"><span class="pre">Parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upper_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_function</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ValueError</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.parameter.Parameter" title="Link to this definition"></a></dt>
-<dd><p>Class to enable checking and enforcing parameter bounds.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="helpr.utilities.parameter.Parameter.check_size">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">check_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.parameter.Parameter.check_size" title="Link to this definition"></a></dt>
-<dd><p>Ensures object is of desired size.</p>
-</dd></dl>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">helpr.utilities.parameter.</span></span><span class="sig-name descname"><span class="pre">Parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upper_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_function</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ValueError</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.parameter.Parameter" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
+<p>Class to enable checking and enforcing parameter bounds.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.utilities.parameter.Parameter.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#helpr.utilities.parameter.Parameter.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.utilities.parameter.Parameter.value">
+<span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#helpr.utilities.parameter.Parameter.value" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.utilities.parameter.Parameter.lower_bound">
+<span class="sig-name descname"><span class="pre">lower_bound</span></span><a class="headerlink" href="#helpr.utilities.parameter.Parameter.lower_bound" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.utilities.parameter.Parameter.upper_bound">
+<span class="sig-name descname"><span class="pre">upper_bound</span></span><a class="headerlink" href="#helpr.utilities.parameter.Parameter.upper_bound" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="helpr.utilities.parameter.Parameter.error_function">
+<span class="sig-name descname"><span class="pre">error_function</span></span><a class="headerlink" href="#helpr.utilities.parameter.Parameter.error_function" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="helpr.utilities.parameter.Parameter.ensure_array">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ensure_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.parameter.Parameter.ensure_array" title="Link to this definition"></a></dt>
-<dd><p>Checks that object is an array and converts it otherwise.</p>
+<dt class="sig sig-object py" id="helpr.utilities.parameter.Parameter.check_size">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">check_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.parameter.Parameter.check_size" title="Link to this definition"></a></dt>
+<dd><p>Ensures object is a float, or extracts float from single element array or list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> (<em>float</em><em>, </em><em>list</em><em>, or </em><em>np.ndarray</em>) – Input object to check.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – Name of the parameter (for error reporting).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The extracted or cast float value.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the input is a list/array with more than one element.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="helpr.utilities.parameter.Parameter.parameter_bounds_check">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parameter_bounds_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_bound</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upper_bound</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_function</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.parameter.Parameter.parameter_bounds_check" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parameter_bounds_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_bound</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upper_bound</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_function</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.parameter.Parameter.parameter_bounds_check" title="Link to this definition"></a></dt>
 <dd><p>Checks that parameter values are within specified bounds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – Name of the parameter.</p></li>
+<li><p><strong>value</strong> (<em>float</em>) – Value to check.</p></li>
+<li><p><strong>lower_bound</strong> (<em>float</em>) – Minimum acceptable value.</p></li>
+<li><p><strong>upper_bound</strong> (<em>float</em>) – Maximum acceptable value.</p></li>
+<li><p><strong>error_function</strong> (<em>callable</em>) – Function to raise in case of bound violation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>error_function</strong> – If the value is not within the bounds.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="helpr.utilities.parameter.divide_by_dataframe">
-<span class="sig-prename descclassname"><span class="pre">helpr.utilities.parameter.</span></span><span class="sig-name descname"><span class="pre">divide_by_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numerator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">denominator</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.parameter.divide_by_dataframe" title="Link to this definition"></a></dt>
-<dd><p>Calculate division of a numpy array by a pandas DataFrame.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="helpr.utilities.parameter.subtract_dataframe">
-<span class="sig-prename descclassname"><span class="pre">helpr.utilities.parameter.</span></span><span class="sig-name descname"><span class="pre">subtract_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minuend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subtrahend</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.parameter.subtract_dataframe" title="Link to this definition"></a></dt>
-<dd><p>Calculate subtraction of a numpy array by a pandas DataFrame.</p>
+<dt class="sig sig-object py" id="helpr.utilities.parameter.get_length">
+<span class="sig-prename descclassname"><span class="pre">helpr.utilities.parameter.</span></span><span class="sig-name descname"><span class="pre">get_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.parameter.get_length" title="Link to this definition"></a></dt>
+<dd><p>Returns the ‘length’ of the input data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>float</em><em>, </em><em>int</em><em>, </em><em>list</em><em>, or </em><em>np.ndarray</em>) – Input data to evaluate.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Length of the input if it’s a list or array; 1 if it’s a float or int.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the input is of an unsupported type.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
-<section id="module-helpr.utilities.plots">
-<span id="plots-docu"></span><h2>plots docu<a class="headerlink" href="#module-helpr.utilities.plots" title="Link to this heading"></a></h2>
-<dl class="py function">
+<section id="plots-docu">
+<h2>plots docu<a class="headerlink" href="#plots-docu" title="Link to this heading"></a></h2>
+<p>Provides plotting functions for simulation results and data visualization.</p>
+<dl class="py function" id="module-helpr.utilities.plots">
 <dt class="sig sig-object py" id="helpr.utilities.plots.ecdf">
 <span class="sig-prename descclassname"><span class="pre">helpr.utilities.plots.</span></span><span class="sig-name descname"><span class="pre">ecdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.plots.ecdf" title="Link to this definition"></a></dt>
-<dd><p>Calculates empirical distribution function for dataset.</p>
+<dd><p>Calculates empirical cumulative distribution function (ECDF) for dataset.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>sample</strong> – samples to be represented as an empirical cdf</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing:
+- np.ndarray: The cumulative probabilities.
+- np.ndarray: The sorted quantiles of the sample.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
 </dd>
 </dl>
 </dd></dl>
@@ -203,12 +289,35 @@
 <span class="sig-prename descclassname"><span class="pre">helpr.utilities.plots.</span></span><span class="sig-name descname"><span class="pre">failure_assessment_diagram_equation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">load_ratio</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.plots.failure_assessment_diagram_equation" title="Link to this definition"></a></dt>
 <dd><p>Calculates line from FAD equation.
 Eq. 9.22 on page 9-61 of API 579-1/ASME FFS-1, June, 2016 Fitness-For-Service</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>load_ratio</strong> (<em>np.ndarray</em>) – The load ratio values for which to calculate the FAD line.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The calculated toughness ratio values corresponding to the input load ratios.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="helpr.utilities.plots.filter_failure_assessment_data">
-<span class="sig-prename descclassname"><span class="pre">helpr.utilities.plots.</span></span><span class="sig-name descname"><span class="pre">filter_failure_assessment_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.plots.filter_failure_assessment_data" title="Link to this definition"></a></dt>
-<dd><p>Filters out data for failure assessment diagram.</p>
+<dt class="sig sig-object py" id="helpr.utilities.plots.failure_assessment_diagram_equation_v2">
+<span class="sig-prename descclassname"><span class="pre">helpr.utilities.plots.</span></span><span class="sig-name descname"><span class="pre">failure_assessment_diagram_equation_v2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">load_ratio</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.plots.failure_assessment_diagram_equation_v2" title="Link to this definition"></a></dt>
+<dd><p>Calculates line from FAD equation.
+Eq. supposed to be in API 579 2021 Fitness-For-Service</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>load_ratio</strong> (<em>np.ndarray</em>) – The load ratio values for which to calculate the FAD line.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The calculated toughness ratio values corresponding to the input load ratios.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -222,21 +331,35 @@ Eq. 9.22 on page 9-61 of API 579-1/ASME FFS-1, June, 2016 Fitness-For-Service</p
 <li><p><strong>save_fig</strong> (<em>bool</em><em>, </em><em>optional</em>) – Flag to save plot to a png file.</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>If <cite>save_fig</cite> is True, returns the file path of the saved figure; otherwise, returns None.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str or None</p>
+</dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="helpr.utilities.plots.generate_pipe_life_assessment_plot">
-<span class="sig-prename descclassname"><span class="pre">helpr.utilities.plots.</span></span><span class="sig-name descname"><span class="pre">generate_pipe_life_assessment_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">life_assessment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">life_criteria</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipe_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.plots.generate_pipe_life_assessment_plot" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">helpr.utilities.plots.</span></span><span class="sig-name descname"><span class="pre">generate_pipe_life_assessment_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">life_assessment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postprocessed_criteria</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">criteria</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipe_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.plots.generate_pipe_life_assessment_plot" title="Link to this definition"></a></dt>
 <dd><p>Generates deterministic life assessment plot.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>life_assessment</strong> (<em>dict</em><em> or </em><em>DataFrame</em>) – Single pipe life assessment results.</p></li>
-<li><p><strong>life_criteria</strong> (<em>dict</em><em> or </em><em>DataFrame</em>) – Life criteria results.</p></li>
+<li><p><strong>postprocessed_criteria</strong> (<em>dict</em><em> or </em><em>DataFrame</em>) – Life criteria results.</p></li>
+<li><p><strong>criteria</strong> (<em>list</em><em>, </em><em>optional</em>) – QoI to plot (postprocessed_criteria keys)</p></li>
 <li><p><strong>pipe_name</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of pipe to specify as title, defaults to no title.</p></li>
 <li><p><strong>save_fig</strong> (<em>bool</em><em>, </em><em>optional</em>) – Flag to save plot to a png file.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>If <cite>save_fig</cite> is True, returns a tuple containing the file path of the saved figure
+and the plot data; otherwise, returns None.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple or None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -244,18 +367,29 @@ Eq. 9.22 on page 9-61 of API 579-1/ASME FFS-1, June, 2016 Fitness-For-Service</p
 <dl class="py function">
 <dt class="sig sig-object py" id="helpr.utilities.plots.get_time_str">
 <span class="sig-prename descclassname"><span class="pre">helpr.utilities.plots.</span></span><span class="sig-name descname"><span class="pre">get_time_str</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.plots.get_time_str" title="Link to this definition"></a></dt>
-<dd><p>function to get date time in y m d - H M S format</p>
+<dd><p>Get date and time in ‘y m d - H M S’ format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The current date and time formatted as ‘y m d - H M S’.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="helpr.utilities.plots.plot_cycle_life_cdf_ci">
-<span class="sig-prename descclassname"><span class="pre">helpr.utilities.plots.</span></span><span class="sig-name descname"><span class="pre">plot_cycle_life_cdf_ci</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">criteria</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Cycles</span> <span class="pre">to</span> <span class="pre">a(crit)'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.plots.plot_cycle_life_cdf_ci" title="Link to this definition"></a></dt>
-<dd><p>Creates a plot of confidence intervals around cdfs of analysis results.</p>
+<span class="sig-prename descclassname"><span class="pre">helpr.utilities.plots.</span></span><span class="sig-name descname"><span class="pre">plot_cycle_life_cdf_ci</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">criteria</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.plots.plot_cycle_life_cdf_ci" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Creates a plot of confidence intervals around cdfs of analysis results.</dt><dd><p>criteria=None):</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>analysis_results</strong> (<a class="reference internal" href="physics.html#helpr.physics.api.CrackEvolutionAnalysis" title="helpr.physics.api.CrackEvolutionAnalysis"><em>CrackEvolutionAnalysis</em></a>) – Ensemble life assessment results.</p></li>
-<li><p><strong>criteria</strong> (<em>str</em>) – Life criteria to plot, defaults to ‘Cycles to a (crit)’.</p></li>
+<li><p><strong>analysis_results</strong> (<a class="reference internal" href="physics.html#helpr.api.CrackEvolutionAnalysis" title="helpr.api.CrackEvolutionAnalysis"><em>CrackEvolutionAnalysis</em></a>) – Ensemble life assessment results.</p></li>
+<li><p><strong>criteria</strong> (<em>list</em>) – QoI to plot (postprocessed_criteria keys)</p></li>
 </ul>
 </dd>
 </dl>
@@ -263,48 +397,74 @@ Eq. 9.22 on page 9-61 of API 579-1/ASME FFS-1, June, 2016 Fitness-For-Service</p
 
 <dl class="py function">
 <dt class="sig sig-object py" id="helpr.utilities.plots.plot_cycle_life_cdfs">
-<span class="sig-prename descclassname"><span class="pre">helpr.utilities.plots.</span></span><span class="sig-name descname"><span class="pre">plot_cycle_life_cdfs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">criteria</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Cycles</span> <span class="pre">to</span> <span class="pre">a(crit)'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.plots.plot_cycle_life_cdfs" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">helpr.utilities.plots.</span></span><span class="sig-name descname"><span class="pre">plot_cycle_life_cdfs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">criteria</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.plots.plot_cycle_life_cdfs" title="Link to this definition"></a></dt>
 <dd><p>Creates a plot with cdfs of analysis results.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>analysis_results</strong> (<a class="reference internal" href="physics.html#helpr.physics.api.CrackEvolutionAnalysis" title="helpr.physics.api.CrackEvolutionAnalysis"><em>CrackEvolutionAnalysis</em></a>) – Ensemble life assessment results.</p></li>
-<li><p><strong>criteria</strong> (<em>str</em>) – Life criteria to plot, defaults to ‘Cycles to a (crit)’.</p></li>
+<li><p><strong>analysis_results</strong> (<a class="reference internal" href="physics.html#helpr.api.CrackEvolutionAnalysis" title="helpr.api.CrackEvolutionAnalysis"><em>CrackEvolutionAnalysis</em></a>) – Ensemble life assessment results.</p></li>
+<li><p><strong>criteria</strong> (<em>list</em>) – QoI to plot (postprocessed_criteria keys)</p></li>
 <li><p><strong>save_fig</strong> (<em>bool</em><em>, </em><em>optional</em>) – Flag to save plot to a png file.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>If <cite>save_fig</cite> is True, returns a tuple containing the file path of the saved figure
+and the plot data; otherwise, returns None.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple or None</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="helpr.utilities.plots.plot_cycle_life_criteria_scatter">
-<span class="sig-prename descclassname"><span class="pre">helpr.utilities.plots.</span></span><span class="sig-name descname"><span class="pre">plot_cycle_life_criteria_scatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">criteria</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Cycles</span> <span class="pre">to</span> <span class="pre">a(crit)'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_by_variable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.plots.plot_cycle_life_criteria_scatter" title="Link to this definition"></a></dt>
-<dd><p>Creates scatter plots of cycle life QOI results.
-If save_fig is True, will return filepath str (if not color_by_variable)
-or list of filepaths if colored by variable.</p>
+<span class="sig-prename descclassname"><span class="pre">helpr.utilities.plots.</span></span><span class="sig-name descname"><span class="pre">plot_cycle_life_criteria_scatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">criteria</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_by_variable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.plots.plot_cycle_life_criteria_scatter" title="Link to this definition"></a></dt>
+<dd><p>Creates scatter plots of cycle life QOI results.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">save_fig</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the function returns the file-path string
+(when <code class="docutils literal notranslate"><span class="pre">color_by_variable</span></code> is <code class="docutils literal notranslate"><span class="pre">False</span></code>) or a list of file-paths
+(when <code class="docutils literal notranslate"><span class="pre">color_by_variable</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>analysis_results</strong> (<a class="reference internal" href="physics.html#helpr.physics.api.CrackEvolutionAnalysis" title="helpr.physics.api.CrackEvolutionAnalysis"><em>CrackEvolutionAnalysis</em></a>) – Ensemble life assessment results.</p></li>
-<li><p><strong>criteria</strong> (<em>str</em><em>, </em><em>optional</em>) – Life criteria to plot, defaults to ‘Cycles to a (crit)’.</p></li>
-<li><p><strong>color_by_variable</strong> (<em>bool</em><em>, </em><em>optional</em>) – Flag to change colors by variable.</p></li>
-<li><p><strong>save_fig</strong> (<em>bool</em><em>, </em><em>optional</em>) – Flag to save plot to a png file.</p></li>
+<li><p><strong>analysis_results</strong> (<a class="reference internal" href="physics.html#helpr.api.CrackEvolutionAnalysis" title="helpr.api.CrackEvolutionAnalysis"><em>CrackEvolutionAnalysis</em></a>) – Ensemble life assessment results.</p></li>
+<li><p><strong>criteria</strong> (<em>list</em>) – QoI to plot (<code class="docutils literal notranslate"><span class="pre">postprocessed_criteria</span></code>).</p></li>
+<li><p><strong>color_by_variable</strong> (<em>bool</em><em>, </em><em>optional</em>) – When <code class="docutils literal notranslate"><span class="pre">True</span></code> each variable gets its own colour.</p></li>
+<li><p><strong>save_fig</strong> (<em>bool</em><em>, </em><em>optional</em>) – When <code class="docutils literal notranslate"><span class="pre">True</span></code> the plot is saved to a PNG file.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>If <code class="docutils literal notranslate"><span class="pre">save_fig</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code> and <code class="docutils literal notranslate"><span class="pre">color_by_variable</span></code> is <code class="docutils literal notranslate"><span class="pre">False</span></code>,
+the file path of the saved figure.</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">color_by_variable</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, a list of file paths - one for
+each variable.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str or list of str</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="helpr.utilities.plots.plot_cycle_life_pdfs">
-<span class="sig-prename descclassname"><span class="pre">helpr.utilities.plots.</span></span><span class="sig-name descname"><span class="pre">plot_cycle_life_pdfs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">criteria</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Cycles</span> <span class="pre">to</span> <span class="pre">a(crit)'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.plots.plot_cycle_life_pdfs" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">helpr.utilities.plots.</span></span><span class="sig-name descname"><span class="pre">plot_cycle_life_pdfs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">criteria</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.plots.plot_cycle_life_pdfs" title="Link to this definition"></a></dt>
 <dd><p>Creates pdfs of life cycle analysis results.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>analysis_results</strong> (<a class="reference internal" href="physics.html#helpr.physics.api.CrackEvolutionAnalysis" title="helpr.physics.api.CrackEvolutionAnalysis"><em>CrackEvolutionAnalysis</em></a>) – Ensemble life assessment results.</p></li>
+<li><p><strong>analysis_results</strong> (<a class="reference internal" href="physics.html#helpr.api.CrackEvolutionAnalysis" title="helpr.api.CrackEvolutionAnalysis"><em>CrackEvolutionAnalysis</em></a>) – Ensemble life assessment results.</p></li>
 <li><p><strong>criteria</strong> (<em>str</em>) – Life criteria to plot, defaults to ‘Cycles to a (crit)’.</p></li>
 <li><p><strong>save_fig</strong> (<em>bool</em><em>, </em><em>optional</em>) – Flag to save plot to a png file.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>If <cite>save_fig</cite> is True, returns the file path of the saved figure; otherwise, returns None.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str or None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -321,20 +481,35 @@ or list of filepaths if colored by variable.</p>
 <li><p><strong>save_fig</strong> (<em>bool</em><em>, </em><em>optional</em>) – Flag to save plot to a png file.</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>If <cite>save_fig</cite> is True, returns the file path of the saved figure; otherwise, returns None, None.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str or None</p>
+</dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="helpr.utilities.plots.plot_failure_assessment_diagram">
-<span class="sig-prename descclassname"><span class="pre">helpr.utilities.plots.</span></span><span class="sig-name descname"><span class="pre">plot_failure_assessment_diagram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">life_assessment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nominal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.plots.plot_failure_assessment_diagram" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">helpr.utilities.plots.</span></span><span class="sig-name descname"><span class="pre">plot_failure_assessment_diagram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">life_assessment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">life_criteria</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fad_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nominal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nominal_life_criteria</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.plots.plot_failure_assessment_diagram" title="Link to this definition"></a></dt>
 <dd><p>Creates a failure assessment diagram (FAD).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>life_assessment</strong> (<em>dict</em>) – Single or Ensemble life assessment results.</p></li>
-<li><p><strong>nominal</strong> (<em>bool</em><em>, </em><em>optional</em>) – Flag for nominal or probabilistic results.</p></li>
+<li><p><strong>life_criteria</strong> (<em>dict</em>) – Single or Ensemble of postprocessed life criteria results.</p></li>
+<li><p><strong>fad_type</strong> (<em>str</em>) – Type of FAD calculations presented.</p></li>
+<li><p><strong>nominal</strong> (<em>dict</em><em> or </em><em>bool</em><em>, </em><em>optional</em>) – Nominal results and flag for nominal or probabilistic results.</p></li>
+<li><p><strong>nominal_life_criteria</strong> (<em>dict</em><em> or </em><em>bool</em><em>, </em><em>optional</em>) – Nominal postprocessed life criteria results.</p></li>
 <li><p><strong>save_fig</strong> (<em>bool</em><em>, </em><em>optional</em>) – Flag to save plot to a png file.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>If <cite>save_fig</cite> is True, returns the file path of the saved figure; otherwise, returns None.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str or None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -346,9 +521,10 @@ or list of filepaths if colored by variable.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>np.ndarray</em>) – Data to bin and plot.</p></li>
+<li><p><strong>data</strong> (<em>list</em>) – Data to bin and plot.</p></li>
 <li><p><strong>label</strong> (<em>str</em>) – Legend label for data.</p></li>
-<li><p><strong>logbins</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Option to pass in log spaced bins if already computed.</p></li>
+<li><p><strong>logbins</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Option to pass in log spaced bins if already computed.
+Default is None.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -362,169 +538,209 @@ or list of filepaths if colored by variable.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="helpr.utilities.plots.plot_mitigation_histograms">
-<span class="sig-prename descclassname"><span class="pre">helpr.utilities.plots.</span></span><span class="sig-name descname"><span class="pre">plot_mitigation_histograms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mitigated</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inspection_interval</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.plots.plot_mitigation_histograms" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">helpr.utilities.plots.</span></span><span class="sig-name descname"><span class="pre">plot_mitigation_histograms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cycles_to_critical_crack</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cycles_till_mitigation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.plots.plot_mitigation_histograms" title="Link to this definition"></a></dt>
 <dd><p>Create histogram plots showing cracks failing over time and the impact of inspection.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>analysis_results</strong> (<em>dict</em>) – Life criteria data from fatigue analysis.</p></li>
-<li><p><strong>mitigated</strong> (<em>list</em>) – Indication of which cracks were mitigated through inspection.</p></li>
-<li><p><strong>inspection_interval</strong> (<em>float</em>) – Frequency of inspections.</p></li>
+<li><p><strong>cycles_to_critical_crack</strong> (<em>list</em>) – Cycle count at which crack reaches critical size.</p></li>
+<li><p><strong>cycles_till_mitigation</strong> (<em>list</em>) – Cycle count at which a crack was identified through inspection and mitigated</p></li>
+<li><p><strong>save_fig</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the figure is saved as a PNG and file path is returned. Default is False.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>If <cite>save_fig</cite> is True, returns a tuple:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>str: file path to the saved image</p></li>
+<li><p>list of np.ndarray: histogram line data for plotting</p></li>
+</ul>
+</div></blockquote>
+<p>If <cite>save_fig</cite> is False, returns (None, None).</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple or None</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="helpr.utilities.plots.plot_pipe_life_ensemble">
-<span class="sig-prename descclassname"><span class="pre">helpr.utilities.plots.</span></span><span class="sig-name descname"><span class="pre">plot_pipe_life_ensemble</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">life_assessment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">criteria</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Cycles</span> <span class="pre">to</span> <span class="pre">a(crit)'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.plots.plot_pipe_life_ensemble" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">helpr.utilities.plots.</span></span><span class="sig-name descname"><span class="pre">plot_pipe_life_ensemble</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">life_assessment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">criteria</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.plots.plot_pipe_life_ensemble" title="Link to this definition"></a></dt>
 <dd><p>Creates plot of ensemble pipe life assessment results.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>life_assessment</strong> (<a class="reference internal" href="physics.html#helpr.physics.api.CrackEvolutionAnalysis" title="helpr.physics.api.CrackEvolutionAnalysis"><em>CrackEvolutionAnalysis</em></a>) – Ensemble life assessment results.</p></li>
-<li><p><strong>life_criteria</strong> (<em>dict</em>) – Life criteria results.</p></li>
+<li><p><strong>life_assessment</strong> (<a class="reference internal" href="physics.html#helpr.api.CrackEvolutionAnalysis" title="helpr.api.CrackEvolutionAnalysis"><em>CrackEvolutionAnalysis</em></a>) – Ensemble life assessment results</p></li>
+<li><p><strong>criteria</strong> (<em>list</em>) – QoI to plot (postprocessed_criteria keys)</p></li>
 <li><p><strong>save_fig</strong> (<em>bool</em><em>, </em><em>optional</em>) – Flag to save plot to a png file.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>If <cite>save_fig</cite> is True, returns a tuple containing the file path of the saved figure
+and the plot data; otherwise, returns None.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="helpr.utilities.plots.plot_random_loading_profiles">
+<span class="sig-prename descclassname"><span class="pre">helpr.utilities.plots.</span></span><span class="sig-name descname"><span class="pre">plot_random_loading_profiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minimum_pressure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximum_pressure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pressure_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MPa'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cycle_description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Cycle</span> <span class="pre">[#]'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.plots.plot_random_loading_profiles" title="Link to this definition"></a></dt>
+<dd><p>Create plots showing random pressure loading and load ratio (R) in terms of cycles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>minimum_pressure</strong> (<em>list</em>) – Minimum pressure values for each cycle in pressure loading profile</p></li>
+<li><p><strong>maximum_pressure</strong> (<em>list</em>) – Maxium pressure values for each cycle in pressure loading profile</p></li>
+<li><p><strong>pressure_units</strong> (<em>str</em>) – Units of pressure values being plotted</p></li>
+<li><p><strong>cycle_description</strong> (<em>str</em>) – Label for x-axis describing units of pressure loading profile indices</p></li>
+<li><p><strong>save_fig</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the figure is saved as a PNG and file path is returned.
+Default is False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>If <cite>save_fig</cite> is True, returns a tuple:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>str: file path to the saved image</p></li>
+<li><p>list of np.ndarray: line data for plotting</p></li>
+</ul>
+</div></blockquote>
+<p>If <cite>save_fig</cite> is False, returns (None, None).</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple or None</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="helpr.utilities.plots.plot_sensitivity_results">
-<span class="sig-prename descclassname"><span class="pre">helpr.utilities.plots.</span></span><span class="sig-name descname"><span class="pre">plot_sensitivity_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">criteria</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Cycles</span> <span class="pre">to</span> <span class="pre">a(crit)'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.plots.plot_sensitivity_results" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">helpr.utilities.plots.</span></span><span class="sig-name descname"><span class="pre">plot_sensitivity_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">criteria</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sensitivity'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.plots.plot_sensitivity_results" title="Link to this definition"></a></dt>
 <dd><p>Creates a plot of sensitivity results.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>analysis_results</strong> (<a class="reference internal" href="physics.html#helpr.physics.api.CrackEvolutionAnalysis" title="helpr.physics.api.CrackEvolutionAnalysis"><em>CrackEvolutionAnalysis</em></a>) – Ensemble life assessment results.</p></li>
+<li><p><strong>analysis_results</strong> (<a class="reference internal" href="physics.html#helpr.api.CrackEvolutionAnalysis" title="helpr.api.CrackEvolutionAnalysis"><em>CrackEvolutionAnalysis</em></a>) – Ensemble life assessment results.</p></li>
 <li><p><strong>criteria</strong> (<em>str</em><em>, </em><em>optional</em>) – Life criteria to plot, defaults to ‘Cycles to a (crit)’.</p></li>
 <li><p><strong>save_fig</strong> (<em>bool</em><em>, </em><em>optional</em>) – Flag to save plot to a png file.</p></li>
+<li><p><strong>filename</strong> (<em>str</em><em>, </em><em>optional</em>) – Base filename for saved plot. Defaults to ‘sensitivity’.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>If <cite>save_fig</cite> is True, returns the file path of the saved figure; otherwise, returns None.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str or None</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="helpr.utilities.plots.plot_unscaled_mitigation_cdf">
-<span class="sig-prename descclassname"><span class="pre">helpr.utilities.plots.</span></span><span class="sig-name descname"><span class="pre">plot_unscaled_mitigation_cdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mitigated</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inspection_interval</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.plots.plot_unscaled_mitigation_cdf" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">helpr.utilities.plots.</span></span><span class="sig-name descname"><span class="pre">plot_unscaled_mitigation_cdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cycles_to_critical_crack</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cycles_till_mitigation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.plots.plot_unscaled_mitigation_cdf" title="Link to this definition"></a></dt>
 <dd><p>Creates a plot of unscaled cdfs showing impact of inspection/mitigation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>analysis_results</strong> (<em>dict</em>) – Life criteria data from fatigue analysis.</p></li>
-<li><p><strong>mitigated</strong> (<em>list</em>) – Indication of which cracks were mitigated through inspection.</p></li>
-<li><p><strong>inspection_interval</strong> (<em>float</em>) – Frequency of inspections.</p></li>
+<li><p><strong>cycles_to_critical_crack</strong> (<em>list</em>) – Cycle count at which crack reaches critical size</p></li>
+<li><p><strong>cycles_till_mitigation</strong> (<em>list</em>) – Cycle count at which a crack was identified through inspection and mitigated</p></li>
+<li><p><strong>save_fig</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, saves the plot as a PNG file and returns the file path and plot data
+Default is False.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>If <cite>save_fig</cite> is True, returns a tuple:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>str: file path to saved image</p></li>
+<li><p>list of np.ndarray: line data from the plotted CDFs</p></li>
+</ul>
+</div></blockquote>
+<p>If <cite>save_fig</cite> is False, returns (None, None)</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple or None</p>
 </dd>
 </dl>
 </dd></dl>
 
 </section>
-<section id="module-helpr.utilities.postprocessing">
-<span id="postprocessing-docu"></span><h2>postprocessing docu<a class="headerlink" href="#module-helpr.utilities.postprocessing" title="Link to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="helpr.utilities.postprocessing.calc_a_over_t_criterion_0">
-<span class="sig-prename descclassname"><span class="pre">helpr.utilities.postprocessing.</span></span><span class="sig-name descname"><span class="pre">calc_a_over_t_criterion_0</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipe_specification</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_crit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.postprocessing.calc_a_over_t_criterion_0" title="Link to this definition"></a></dt>
-<dd><p>Calculates ‘a critical’ life criteria.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="helpr.utilities.postprocessing.calc_a_over_t_criterion_1">
-<span class="sig-prename descclassname"><span class="pre">helpr.utilities.postprocessing.</span></span><span class="sig-name descname"><span class="pre">calc_a_over_t_criterion_1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipe_specification</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_crit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.postprocessing.calc_a_over_t_criterion_1" title="Link to this definition"></a></dt>
-<dd><p>Calculates ‘25% a critical’ life criteria.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="helpr.utilities.postprocessing.calc_a_over_t_criterion_2">
-<span class="sig-prename descclassname"><span class="pre">helpr.utilities.postprocessing.</span></span><span class="sig-name descname"><span class="pre">calc_a_over_t_criterion_2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cycle_sheet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cycles_to_half_a_crit_cycles</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.postprocessing.calc_a_over_t_criterion_2" title="Link to this definition"></a></dt>
-<dd><p>Calculates ‘half a critical cycles’ life criteria.</p>
-</dd></dl>
-
-<dl class="py function">
+<section id="postprocessing-docu">
+<h2>postprocessing docu<a class="headerlink" href="#postprocessing-docu" title="Link to this heading"></a></h2>
+<p>Utilities for cleaning, summarizing, and transforming simulation outputs.</p>
+<dl class="py function" id="module-helpr.utilities.postprocessing">
 <dt class="sig sig-object py" id="helpr.utilities.postprocessing.calc_pipe_life_criteria">
 <span class="sig-prename descclassname"><span class="pre">helpr.utilities.postprocessing.</span></span><span class="sig-name descname"><span class="pre">calc_pipe_life_criteria</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cycle_results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">material</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.postprocessing.calc_pipe_life_criteria" title="Link to this definition"></a></dt>
 <dd><p>Calculates overall pipe life criteria.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cycle_results</strong> (<em>dict</em>) – Complete load cycling results.</p></li>
-<li><p><strong>pipe_index</strong> (<em>int</em>) – Index of single pipe instance.</p></li>
-<li><p><strong>stress_state</strong> (<a class="reference internal" href="physics.html#helpr.physics.stress_state.GenericStressState" title="helpr.physics.stress_state.GenericStressState"><em>GenericStressState</em></a>) – Stress state specification.</p></li>
+<li><p><strong>cycle_results</strong> (<em>list</em><em> of </em><em>dicts</em>) – Complete load cycling results.</p></li>
+<li><p><strong>pipe</strong> (<a class="reference internal" href="physics.html#helpr.physics.pipe.Pipe" title="helpr.physics.pipe.Pipe"><em>Pipe</em></a>) – Pipe specification</p></li>
+<li><p><strong>material</strong> (<em>object</em><em> or </em><em>list</em><em> of </em><em>objects</em>) – Object or list of objects with attribute <cite>fracture_resistance</cite>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>life_criteria</strong> – Collected life criteria results.</p>
+<dd class="field-even"><p>Aggregated life criteria results:
+- ‘a(crit)’ : list of critical crack depths
+- ‘Cycles to a(crit)’ : [list of cycles, list of a/t values]
+- ‘Cycles to 25% a(crit)’ : [list of cycles, list of a/t values]
+- ‘Cycles to 1/2 Nc’ : [list of cycles, list of a/t values]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
 </dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="helpr.utilities.postprocessing.calculate_failure_assessment">
-<span class="sig-prename descclassname"><span class="pre">helpr.utilities.postprocessing.</span></span><span class="sig-name descname"><span class="pre">calculate_failure_assessment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fatigue_results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stress_state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stress_method</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.postprocessing.calculate_failure_assessment" title="Link to this definition"></a></dt>
-<dd><p>Calculates failure assessment values for load cycling results.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>parameters</strong> (<em>dict</em>) – Analysis input parameters.</p></li>
-<li><p><strong>fatigue_results</strong> (<em>dict</em>) – Analysis load cycling results.</p></li>
-<li><p><strong>stress_state</strong> (<a class="reference internal" href="physics.html#helpr.physics.stress_state.GenericStressState" title="helpr.physics.stress_state.GenericStressState"><em>GenericStressState</em></a>) – Stress state specification.</p></li>
-</ul>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>UserWarning</strong> – If critical conditions are not met and default values are used.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="helpr.utilities.postprocessing.parallel_interpolation_list_pts">
-<span class="sig-prename descclassname"><span class="pre">helpr.utilities.postprocessing.</span></span><span class="sig-name descname"><span class="pre">parallel_interpolation_list_pts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interpolation_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_vals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_vals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">left</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.postprocessing.parallel_interpolation_list_pts" title="Link to this definition"></a></dt>
-<dd><p>Interpolates a list of points in parallel.</p>
+<dt class="sig sig-object py" id="helpr.utilities.postprocessing.determine_qoi_values">
+<span class="sig-prename descclassname"><span class="pre">helpr.utilities.postprocessing.</span></span><span class="sig-name descname"><span class="pre">determine_qoi_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crack_instance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fracture_resistance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wall_thickness</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.postprocessing.determine_qoi_values" title="Link to this definition"></a></dt>
+<dd><p>Helper function to determine quality of interest values.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>interpolation_points</strong> (<em>list</em>) – List of a critical values.</p></li>
-<li><p><strong>x_vals</strong> (<em>pandas.Series</em>) – Series of x values for interpolated data.</p></li>
-<li><p><strong>y_vals</strong> (<em>pandas.Series</em>) – Series of y values for interpolated data.</p></li>
-<li><p><strong>left</strong> (<em>float</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Value to return for when <cite>interpolation_points &lt; x_vals[0]</cite>.
-If <cite>None</cite>, defaults to <cite>y_vals[0]</cite>. Default is <cite>None</cite>.</p></li>
-<li><p><strong>right</strong> (<em>float</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Value to return for when <cite>interpolation_points &gt; x_vals[-1]</cite>.
-If <cite>None</cite>, defaults to <cite>y_vals[-1]</cite>. Default is <cite>None</cite>.</p></li>
+<li><p><strong>crack_instance</strong> (<em>dict</em>) – Dictionary with crack growth data containing keys like ‘Kmax’, ‘Kres’, ‘a (m)’, and ‘Total cycles’.</p></li>
+<li><p><strong>fracture_resistance</strong> (<em>float</em>) – Critical fracture resistance (MPa√m).</p></li>
+<li><p><strong>wall_thickness</strong> (<em>float</em>) – Wall thickness of the pipe (m).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>interpolation_results</strong></p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>numpy.ndarray</p>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>life_criteria</strong> (<em>dict</em>) – Dictionary containing:
+- a(crit): critical crack depth
+- Cycles to a(crit): total cycles and a/t value
+- Cycles to 25% a(crit): total cycles and a/t value
+- Cycles to 1/2 Nc: total cycles and a/t value</p></li>
+<li><p><strong>warning_1</strong> (<em>bool</em>) – True if a_crit was not reached and max a/t &lt; 0.8.</p></li>
+<li><p><strong>warning_2</strong> (<em>bool</em>) – True if Kmax + Kres &lt; fracture resistance but max a/t &gt;= 0.8.</p></li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="helpr.utilities.postprocessing.parallel_interpolation_single_pt">
-<span class="sig-prename descclassname"><span class="pre">helpr.utilities.postprocessing.</span></span><span class="sig-name descname"><span class="pre">parallel_interpolation_single_pt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interpolation_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_vals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_vals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">left</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.postprocessing.parallel_interpolation_single_pt" title="Link to this definition"></a></dt>
-<dd><p>Interpolates single points in parallel.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>interpolation_points</strong> (<em>list</em>) – List of a critical values.</p></li>
-<li><p><strong>x_vals</strong> (<em>pandas.Series</em>) – Series of x values for interpolated data.</p></li>
-<li><p><strong>y_vals</strong> (<em>pandas.Series</em>) – Series of y values for interpolated data.</p></li>
-<li><p><strong>left</strong> (<em>float</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Value to return for when <cite>interpolation_points &lt; x_vals[0]</cite>.
-If <cite>None</cite>, defaults to <cite>y_vals[0]</cite>. Default is <cite>None</cite>.</p></li>
-<li><p><strong>right</strong> (<em>float</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Value to return for when <cite>interpolation_points &gt; x_vals[-1]</cite>.
-If <cite>None</cite>, defaults to <cite>y_vals[-1]</cite>. Default is <cite>None</cite>.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>interpolation_results</strong></p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>numpy.ndarray</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="helpr.utilities.postprocessing.find_intersection">
+<span class="sig-prename descclassname"><span class="pre">helpr.utilities.postprocessing.</span></span><span class="sig-name descname"><span class="pre">find_intersection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">load_ratio_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">toughness_ratio_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cycles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_over_t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.postprocessing.find_intersection" title="Link to this definition"></a></dt>
+<dd><p>Finds the intersection point where the toughness ratio exceeds the FAD values.</p>
+<p>Parameters:
+- load_ratio_data: Array of load ratios.
+- toughness_ratio_data: Array of toughness ratios.
+- cycles: Array of total cycles corresponding to load ratios.
+- a_over_t: Array of a/t values corresponding to load ratios.</p>
+<p>Returns:
+- A dictionary containing the intersection details or a message if no intersection is found.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -534,7 +750,7 @@ If <cite>None</cite>, defaults to <cite>y_vals[-1]</cite>. Default is <cite>None
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>all_results</strong> (<em>dict</em>) – All load cycling results.</p></li>
+<li><p><strong>all_results</strong> (<em>list</em><em> of </em><em>dicts</em>) – All load cycling results.</p></li>
 <li><p><strong>pipe_index</strong> (<em>int</em>) – Index of single pipe instance.</p></li>
 </ul>
 </dd>
@@ -568,31 +784,197 @@ If <cite>None</cite>, defaults to <cite>y_vals[-1]</cite>. Default is <cite>None
 </dd></dl>
 
 </section>
-<section id="module-helpr.utilities.unit_conversion">
-<span id="unit-conversion-docu"></span><h2>unit_conversion docu<a class="headerlink" href="#module-helpr.utilities.unit_conversion" title="Link to this heading"></a></h2>
-<p>Common unit conversion functions.</p>
+<section id="saving-docu">
+<h2>saving docu<a class="headerlink" href="#saving-docu" title="Link to this heading"></a></h2>
+<p>Functions for saving analysis results.</p>
+<dl class="py function" id="module-helpr.utilities.saving">
+<dt class="sig sig-object py" id="helpr.utilities.saving.capitalize_rules">
+<span class="sig-prename descclassname"><span class="pre">helpr.utilities.saving.</span></span><span class="sig-name descname"><span class="pre">capitalize_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.saving.capitalize_rules" title="Link to this definition"></a></dt>
+<dd><p>Enforces capitalization rules for multi-word strings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>str</em>) – Individual word from a variable name.</p></li>
+<li><p><strong>name</strong> (<em>list</em>) – The full name split into words.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Capitalized or original string based on context.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="helpr.utilities.saving.check_for_units">
+<span class="sig-prename descclassname"><span class="pre">helpr.utilities.saving.</span></span><span class="sig-name descname"><span class="pre">check_for_units</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.saving.check_for_units" title="Link to this definition"></a></dt>
+<dd><p>Checks for brackets in strings to indicate unit values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>str</em>) – The string to check.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the string contains brackets indicating units, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="helpr.utilities.saving.clean_results_names">
+<span class="sig-prename descclassname"><span class="pre">helpr.utilities.saving.</span></span><span class="sig-name descname"><span class="pre">clean_results_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.saving.clean_results_names" title="Link to this definition"></a></dt>
+<dd><p>Cleans up variable names for saving to csv.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>results</strong> (<a class="reference internal" href="physics.html#helpr.api.CrackEvolutionAnalysis" title="helpr.api.CrackEvolutionAnalysis"><em>CrackEvolutionAnalysis</em></a>) – Results of crack evolution analysis stored in associated object</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary mapping original result keys to cleaned names.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="helpr.utilities.saving.save_deterministic_results">
+<span class="sig-prename descclassname"><span class="pre">helpr.utilities.saving.</span></span><span class="sig-name descname"><span class="pre">save_deterministic_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.saving.save_deterministic_results" title="Link to this definition"></a></dt>
+<dd><p>Saves deterministic results to a csv file.
+CSV file has nominal input parameters specified first,
+then subset of cycle evolution results</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>results</strong> (<a class="reference internal" href="physics.html#helpr.api.CrackEvolutionAnalysis" title="helpr.api.CrackEvolutionAnalysis"><em>CrackEvolutionAnalysis</em></a>) – Results of crack evolution analysis stored in associated object</p></li>
+<li><p><strong>folder_name</strong> (<em>str</em>) – Folder to store csv into</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="helpr.utilities.saving.save_life_criteria_data">
+<span class="sig-prename descclassname"><span class="pre">helpr.utilities.saving.</span></span><span class="sig-name descname"><span class="pre">save_life_criteria_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">life_criteria</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">study_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nominal'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.saving.save_life_criteria_data" title="Link to this definition"></a></dt>
+<dd><p>Save pipe life criteria results to a CSV file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>life_criteria</strong> (<em>dict</em>) – Dictionary of life criteria outputs from crack evolution analysis.</p></li>
+<li><p><strong>folder_name</strong> (<em>str</em>) – Directory path where the CSV file will be saved.</p></li>
+<li><p><strong>study_type</strong> (<em>str</em><em>, </em><em>optional</em>) – Type of analysis (‘nominal’ or ‘probabilistic’), by default ‘nominal’.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="helpr.utilities.saving.save_parameter_characterizations">
+<span class="sig-prename descclassname"><span class="pre">helpr.utilities.saving.</span></span><span class="sig-name descname"><span class="pre">save_parameter_characterizations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.saving.save_parameter_characterizations" title="Link to this definition"></a></dt>
+<dd><p>Saves deterministic or probabilistic parameter characterizations
+used in analysis to a csv file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>results</strong> (<a class="reference internal" href="physics.html#helpr.api.CrackEvolutionAnalysis" title="helpr.api.CrackEvolutionAnalysis"><em>CrackEvolutionAnalysis</em></a>) – Results of crack evolution analysis stored in associated object</p></li>
+<li><p><strong>folder_name</strong> (<em>str</em>) – Folder to store csv into.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="helpr.utilities.saving.save_probabilistic_results">
+<span class="sig-prename descclassname"><span class="pre">helpr.utilities.saving.</span></span><span class="sig-name descname"><span class="pre">save_probabilistic_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#helpr.utilities.saving.save_probabilistic_results" title="Link to this definition"></a></dt>
+<dd><p>Saves probabilistic results to a csv file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>results</strong> (<a class="reference internal" href="physics.html#helpr.api.CrackEvolutionAnalysis" title="helpr.api.CrackEvolutionAnalysis"><em>CrackEvolutionAnalysis</em></a>) – Results of crack evolution analysis stored in associated object</p></li>
+<li><p><strong>folder_name</strong> (<em>str</em>) – Folder to store csv into.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="unit-conversion-docu">
+<h2>unit_conversion docu<a class="headerlink" href="#unit-conversion-docu" title="Link to this heading"></a></h2>
+<p>Functions for converting between different physical units.</p>
+<p id="module-helpr.utilities.unit_conversion">Common unit conversion functions.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="helpr.utilities.unit_conversion.convert_in_to_m">
 <span class="sig-prename descclassname"><span class="pre">helpr.utilities.unit_conversion.</span></span><span class="sig-name descname"><span class="pre">convert_in_to_m</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inch_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#helpr.utilities.unit_conversion.convert_in_to_m" title="Link to this definition"></a></dt>
 <dd><p>Converts inches to meters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>inch_value</strong> (<em>float</em>) – The value in inches to be converted.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The converted value in meters.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="helpr.utilities.unit_conversion.convert_ksi_to_mpa">
 <span class="sig-prename descclassname"><span class="pre">helpr.utilities.unit_conversion.</span></span><span class="sig-name descname"><span class="pre">convert_ksi_to_mpa</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ksi_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#helpr.utilities.unit_conversion.convert_ksi_to_mpa" title="Link to this definition"></a></dt>
 <dd><p>Converts KSI to MPa.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ksi_value</strong> (<em>float</em>) – The value in KSI to be converted.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The converted value in MPa.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="helpr.utilities.unit_conversion.convert_psi_to_mpa">
 <span class="sig-prename descclassname"><span class="pre">helpr.utilities.unit_conversion.</span></span><span class="sig-name descname"><span class="pre">convert_psi_to_mpa</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">psi_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#helpr.utilities.unit_conversion.convert_psi_to_mpa" title="Link to this definition"></a></dt>
 <dd><p>Converts PSI to MPa.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>psi_value</strong> (<em>float</em>) – The value in PSI to be converted.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The converted value in MPa.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="helpr.utilities.unit_conversion.get_variable_units">
 <span class="sig-prename descclassname"><span class="pre">helpr.utilities.unit_conversion.</span></span><span class="sig-name descname"><span class="pre">get_variable_units</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">for_plotting</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#helpr.utilities.unit_conversion.get_variable_units" title="Link to this definition"></a></dt>
 <dd><p>Specifies units used for analysis variables</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variable_name</strong> (<em>str</em>) – The name of the variable for which to retrieve the units.</p></li>
+<li><p><strong>for_plotting</strong> (<em>bool</em><em>, </em><em>optional</em>) – A flag indicating whether the units are for plotting (default is True).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A string representing the units of the specified variable.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -609,7 +991,7 @@ If <cite>None</cite>, defaults to <cite>y_vals[-1]</cite>. Default is <cite>None
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024 National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retainscertain rights in this software.</p>
+    <p>&#169; Copyright 2023-2025 National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retainscertain rights in this software.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

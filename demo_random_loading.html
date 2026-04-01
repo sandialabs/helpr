@@ -1,0 +1,1612 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Random Pressure Loading &mdash; helpr 2.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=20623aea"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/design-tabs.js?v=f930bc37"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Life Assessment of Pipe with Residual Stress" href="demo_residual_stress.html" />
+    <link rel="prev" title="Demonstration of FAD Intersection as Additional Tracked QoI" href="demo_failure_assessment_diagram.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/HELPR_app_icon.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">HELPR Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="physics.html"><strong>Physics Documentation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="phys_tests.html"><strong>Tests Documentation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html"><strong>Utilities Documentation</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Probabilistic Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="capabilities.html"><strong>Capabilities Documentation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob_tests.html"><strong>Tests Documentation</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">HELPR Demo</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="demo_deterministic.html"><strong>Single Deterministic Pipeline Lifetime Evaluation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_probabilistic.html"><strong>Probabilistic Evaluation for Single Pipe Lifetime</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_uncertainty_types.html"><strong>Probabilistic Evaluation for Pipe Population’s Lifetimes with Multiple Types of Uncertainty</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_sensitivity.html"><strong>Sensitivity Analysis of Pipeline Lifetime Evaluation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_inspection_mitigation.html"><strong>Inspection Mitigation Analysis of Pipeline Population</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_crack_growth_curves.html"><strong>Demonstration of Crack Growth Curves</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_advanced_user_options.html"><strong>Advanced User Options</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_failure_assessment_diagram.html"><strong>Demonstration of FAD Intersection as Additional Tracked QoI</strong></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>Random Pressure Loading</strong></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Load-user-specification-input-file-for-random-pressure-loading">Load user specification input file for random pressure loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Create-environments-based-on-different-static-pressure-loading-conditions-as-well-as-the-random-loading-conditions">Create environments based on different static pressure loading conditions as well as the random loading conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Specify-Common-Analysis-Specification">Specify Common Analysis Specification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Function-to-Emulate-Crack-Evolution-Analysis">Function to Emulate Crack Evolution Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Crack-Evolution-Analyses-for-Environments-Specified">Crack Evolution Analyses for Environments Specified</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Plots-Comparing-Impact-of-Different-Pressure-Loading-Assumptions">Plots Comparing Impact of Different Pressure Loading Assumptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Ensuring-That-Loaded-Random-Pressure-Data-Was-Utilized">Ensuring That Loaded Random Pressure Data Was Utilized</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Passing-Random-Pressure-Loading-Profile-Through-API-Interface-for-Deterministic-Analysis">Passing Random Pressure Loading Profile Through API Interface for Deterministic Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Checking-that-Random-Loading-and-Residual-Stress-Capabilities-Can-Work-At-the-Same-Time">Checking that Random Loading and Residual Stress Capabilities Can Work At the Same Time</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Testing-Capability-with-Depressurization-Spike">Testing Capability with Depressurization Spike</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="demo_residual_stress.html">Life Assessment of Pipe with Residual Stress</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_stress_intensity_factor.html">Test Case 1 : Varying a/t. Crack depths from 10% to 80% of the wall thickness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_stress_intensity_factor.html#Test-Case-2-:-Varying-2c/a-between-2-and-24">Test Case 2 : Varying 2c/a between 2 and 24</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_stress_intensity_factor.html#Test-Case-3-:-Varying-t-from-0.02-to-0.05">Test Case 3 : Varying t from 0.02 to 0.05</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">helpr</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><strong>Random Pressure Loading</strong></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/demo_random_loading.nblink.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">helpr.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">CrackEvolutionAnalysis</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">helpr.physics.pipe</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipe</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">helpr.physics.crack_initiation</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefectSpecification</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">helpr.physics.environment</span><span class="w"> </span><span class="kn">import</span> <span class="n">EnvironmentSpecification</span><span class="p">,</span> <span class="n">EnvironmentSpecificationRandomLoad</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">helpr.physics.material</span><span class="w"> </span><span class="kn">import</span> <span class="n">MaterialSpecification</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">helpr.physics.stress_state</span><span class="w"> </span><span class="kn">import</span> <span class="n">InternalAxialHoopStress</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">helpr.physics.crack_growth</span><span class="w"> </span><span class="kn">import</span> <span class="n">CrackGrowth</span><span class="p">,</span> <span class="n">get_design_curve</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">helpr.physics.life_assessment</span><span class="w"> </span><span class="kn">import</span> <span class="n">LifeAssessment</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">helpr.physics.fracture</span><span class="w"> </span><span class="kn">import</span> <span class="n">calculate_failure_assessment</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">helpr.utilities.plots</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_pipe_life_assessment_plot</span><span class="p">,</span> <span class="n">plot_random_loading_profiles</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">helpr.utilities.postprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">calc_pipe_life_criteria</span><span class="p">,</span> <span class="n">report_single_pipe_life_criteria_results</span><span class="p">,</span> <span class="n">report_single_cycle_evolution</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">helpr.utilities.unit_conversion</span><span class="w"> </span><span class="kn">import</span> <span class="n">convert_psi_to_mpa</span><span class="p">,</span> <span class="n">convert_in_to_m</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">probabilistic.capabilities.uncertainty_definitions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">UniformDistribution</span><span class="p">,</span> <span class="n">TruncatedNormalDistribution</span><span class="p">,</span> <span class="n">NormalDistribution</span><span class="p">,</span>
+                                                                <span class="n">TruncatedLognormalDistribution</span><span class="p">,</span> <span class="n">DeterministicCharacterization</span><span class="p">,</span>
+                                                                <span class="n">TimeSeriesCharacterization</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<section id="Random-Pressure-Loading">
+<h1><strong>Random Pressure Loading</strong><a class="headerlink" href="#Random-Pressure-Loading" title="Link to this heading"></a></h1>
+<section id="Load-user-specification-input-file-for-random-pressure-loading">
+<h2>Load user specification input file for random pressure loading<a class="headerlink" href="#Load-user-specification-input-file-for-random-pressure-loading" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pressure_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./Data/random_loading_demo.csv&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;r_ratio&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;Min&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;Max&#39;</span><span class="p">]</span>
+<span class="c1"># Calculate the 10th, 25th, 50th, 75th percentiles for the r_ratio column</span>
+<span class="n">percentile_10</span> <span class="o">=</span> <span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;r_ratio&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.10</span><span class="p">)</span>
+<span class="n">percentile_25</span> <span class="o">=</span> <span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;r_ratio&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">percentile_50</span> <span class="o">=</span> <span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;r_ratio&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.50</span><span class="p">)</span>
+<span class="n">percentile_75</span> <span class="o">=</span> <span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;r_ratio&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span>
+
+<span class="c1"># Grab samples that are close to the 10th, 25th, 50th, and 75th percentiles</span>
+<span class="n">sample_10th_percentile</span> <span class="o">=</span> <span class="n">pressure_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;r_ratio&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">percentile_10</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">idxmin</span><span class="p">()]</span>
+<span class="n">sample_25th_percentile</span> <span class="o">=</span> <span class="n">pressure_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;r_ratio&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">percentile_25</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">idxmin</span><span class="p">()]</span>
+<span class="n">sample_50th_percentile</span> <span class="o">=</span> <span class="n">pressure_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;r_ratio&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">percentile_50</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">idxmin</span><span class="p">()]</span>
+<span class="n">sample_75th_percentile</span> <span class="o">=</span> <span class="n">pressure_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;r_ratio&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">percentile_75</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">idxmin</span><span class="p">()]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;10th Percentile Value of r_ratio:&quot;</span><span class="p">,</span> <span class="n">percentile_10</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sample Close to 10th Percentile:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sample_10th_percentile</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;25th Percentile Value of r_ratio:&quot;</span><span class="p">,</span> <span class="n">percentile_25</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sample Close to 25th Percentile:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sample_25th_percentile</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;50th Percentile Value of r_ratio:&quot;</span><span class="p">,</span> <span class="n">percentile_50</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sample Close to 50th Percentile:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sample_50th_percentile</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">75th Percentile Value of r_ratio:&quot;</span><span class="p">,</span> <span class="n">percentile_75</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sample Close to 75th Percentile:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sample_75th_percentile</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+10th Percentile Value of r_ratio: 0.8256739409499357
+Sample Close to 10th Percentile:
+Min        643.000000
+Max        779.000000
+r_ratio      0.825417
+Name: 48, dtype: float64
+25th Percentile Value of r_ratio: 0.8562556204503933
+Sample Close to 25th Percentile:
+Min        607.000000
+Max        709.000000
+r_ratio      0.856135
+Name: 4, dtype: float64
+50th Percentile Value of r_ratio: 0.8934531450577664
+Sample Close to 50th Percentile:
+Min        696.000000
+Max        779.000000
+r_ratio      0.893453
+Name: 56, dtype: float64
+
+75th Percentile Value of r_ratio: 0.9312762973352033
+Sample Close to 75th Percentile:
+Min        606.000000
+Max        651.000000
+r_ratio      0.930876
+Name: 150, dtype: float64
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">plot_random_loading_profiles</span><span class="p">(</span><span class="n">minimum_pressure</span><span class="o">=</span><span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;Min&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">(),</span>
+                                    <span class="n">maximum_pressure</span><span class="o">=</span><span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;Max&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">(),</span>
+                                    <span class="n">pressure_units</span><span class="o">=</span><span class="s1">&#39;psi&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_5_0.png" src="_images/demo_random_loading_5_0.png" />
+</div>
+</div>
+</section>
+<section id="Create-environments-based-on-different-static-pressure-loading-conditions-as-well-as-the-random-loading-conditions">
+<h2>Create environments based on different static pressure loading conditions as well as the random loading conditions<a class="headerlink" href="#Create-environments-based-on-different-static-pressure-loading-conditions-as-well-as-the-random-loading-conditions" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">temperature</span> <span class="o">=</span> <span class="mi">293</span> <span class="c1"># K -&gt; temperature of gas</span>
+<span class="n">volume_fraction_h2</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># % mole fraction H2 in natural gas blend</span>
+
+<span class="n">environment_module1</span> <span class="o">=</span> \
+    <span class="n">EnvironmentSpecificationRandomLoad</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;Max&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
+                                       <span class="n">min_pressure</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;Min&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
+                                       <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                                       <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">)</span>
+
+<span class="n">environment_module2</span> <span class="o">=</span> \
+    <span class="n">EnvironmentSpecification</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;Max&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)),</span>
+                             <span class="n">min_pressure</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;Min&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)),</span>
+                             <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                             <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">)</span>
+
+<span class="n">environment_module3</span> <span class="o">=</span> \
+    <span class="n">EnvironmentSpecification</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="n">sample_10th_percentile</span><span class="p">[</span><span class="s1">&#39;Max&#39;</span><span class="p">]),</span>
+                             <span class="n">min_pressure</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="n">sample_10th_percentile</span><span class="p">[</span><span class="s1">&#39;Min&#39;</span><span class="p">]),</span>
+                             <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                             <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">)</span>
+
+<span class="n">environment_module4</span> <span class="o">=</span> \
+    <span class="n">EnvironmentSpecification</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="n">sample_25th_percentile</span><span class="p">[</span><span class="s1">&#39;Max&#39;</span><span class="p">]),</span>
+                             <span class="n">min_pressure</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="n">sample_25th_percentile</span><span class="p">[</span><span class="s1">&#39;Min&#39;</span><span class="p">]),</span>
+                             <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                             <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">)</span>
+
+<span class="n">environment_module5</span> <span class="o">=</span> \
+    <span class="n">EnvironmentSpecification</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="n">sample_50th_percentile</span><span class="p">[</span><span class="s1">&#39;Max&#39;</span><span class="p">]),</span>
+                             <span class="n">min_pressure</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="n">sample_50th_percentile</span><span class="p">[</span><span class="s1">&#39;Min&#39;</span><span class="p">]),</span>
+                             <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                             <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">)</span>
+
+<span class="n">environment_module6</span> <span class="o">=</span> \
+    <span class="n">EnvironmentSpecification</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="n">sample_75th_percentile</span><span class="p">[</span><span class="s1">&#39;Max&#39;</span><span class="p">]),</span>
+                             <span class="n">min_pressure</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="n">sample_75th_percentile</span><span class="p">[</span><span class="s1">&#39;Min&#39;</span><span class="p">]),</span>
+                             <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                             <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">)</span>
+
+<span class="n">environment_module7</span> <span class="o">=</span> \
+    <span class="n">EnvironmentSpecification</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;Max&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)),</span>
+                             <span class="n">min_pressure</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;Min&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)),</span>
+                             <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                             <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Specify-Common-Analysis-Specification">
+<h2>Specify Common Analysis Specification<a class="headerlink" href="#Specify-Common-Analysis-Specification" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipe_outer_diameter</span> <span class="o">=</span> <span class="n">convert_in_to_m</span><span class="p">(</span><span class="mi">36</span><span class="p">)</span>  <span class="c1"># 36 inch outer diameter</span>
+<span class="n">wall_thickness</span> <span class="o">=</span> <span class="n">convert_in_to_m</span><span class="p">(</span><span class="mf">0.406</span><span class="p">)</span>    <span class="c1"># 0.406 inch wall thickness</span>
+
+<span class="n">yield_strength</span> <span class="o">=</span> <span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">52_000</span><span class="p">)</span>  <span class="c1"># material yield strength of 52_000 psi</span>
+<span class="n">fracture_resistance</span> <span class="o">=</span> <span class="mi">55</span>                     <span class="c1"># fracture resistance (toughness) MPa m1/2</span>
+
+<span class="n">flaw_depth</span> <span class="o">=</span> <span class="mi">25</span>                       <span class="c1"># flaw 25% through pipe thickness</span>
+<span class="n">flaw_length</span> <span class="o">=</span> <span class="n">convert_in_to_m</span><span class="p">(</span><span class="mf">1.575</span><span class="p">)</span>  <span class="c1"># width of initial crack/flaw, m</span>
+
+<span class="n">surface</span> <span class="o">=</span> <span class="s1">&#39;inside&#39;</span>
+<span class="n">k_method</span> <span class="o">=</span> <span class="s1">&#39;anderson&#39;</span>  <span class="c1"># Stress intensity factor method used</span>
+<span class="n">delta_c_rule</span> <span class="o">=</span> <span class="s1">&#39;proportional&#39;</span>
+<span class="n">crack_growth_model</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;model_name&#39;</span><span class="p">:</span> <span class="s1">&#39;code_case_2938&#39;</span><span class="p">}</span>
+
+<span class="n">cycle_step</span> <span class="o">=</span> <span class="mi">1</span>         <span class="c1"># how many cycles in every numerical step</span>
+<span class="n">max_cycles</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span>  <span class="c1"># maximum number of steps</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Function-to-Emulate-Crack-Evolution-Analysis">
+<h2>Function to Emulate Crack Evolution Analysis<a class="headerlink" href="#Function-to-Emulate-Crack-Evolution-Analysis" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">create_pipe_evaluation</span><span class="p">(</span><span class="n">env_mod</span><span class="p">,</span> <span class="n">cycle_step</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+
+    <span class="n">pipe_mod</span> <span class="o">=</span> <span class="n">Pipe</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">pipe_outer_diameter</span><span class="p">,</span>
+                   <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">)</span>
+
+    <span class="n">material_mod</span> <span class="o">=</span> <span class="n">MaterialSpecification</span><span class="p">(</span><span class="n">yield_strength</span><span class="o">=</span><span class="n">yield_strength</span><span class="p">,</span>
+                                         <span class="n">fracture_resistance</span><span class="o">=</span><span class="n">fracture_resistance</span><span class="p">)</span>
+
+    <span class="n">defect_mod</span> <span class="o">=</span> <span class="n">DefectSpecification</span><span class="p">(</span><span class="n">flaw_depth</span><span class="o">=</span><span class="n">flaw_depth</span><span class="p">,</span>
+                                     <span class="n">flaw_length</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">,</span>
+                                     <span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">)</span>
+
+    <span class="n">stress_mod</span> <span class="o">=</span> <span class="n">InternalAxialHoopStress</span><span class="p">(</span><span class="n">pipe</span><span class="o">=</span><span class="n">pipe_mod</span><span class="p">,</span>
+                                         <span class="n">environment</span><span class="o">=</span><span class="n">env_mod</span><span class="p">,</span>
+                                         <span class="n">material</span><span class="o">=</span><span class="n">material_mod</span><span class="p">,</span>
+                                         <span class="n">defect</span><span class="o">=</span><span class="n">defect_mod</span><span class="p">,</span>
+                                         <span class="n">stress_intensity_method</span><span class="o">=</span><span class="n">k_method</span><span class="p">)</span>
+
+    <span class="n">crack_grow_mod</span> <span class="o">=</span> <span class="n">CrackGrowth</span><span class="p">(</span><span class="n">environment</span><span class="o">=</span><span class="n">env_mod</span><span class="p">,</span>
+                                 <span class="n">growth_model_specification</span><span class="o">=</span><span class="n">crack_growth_model</span><span class="p">)</span>
+
+    <span class="n">pipe_eval</span> <span class="o">=</span> <span class="n">LifeAssessment</span><span class="p">(</span><span class="n">pipe_specification</span><span class="o">=</span><span class="n">pipe_mod</span><span class="p">,</span>
+                               <span class="n">stress_state</span><span class="o">=</span><span class="n">stress_mod</span><span class="p">,</span>
+                               <span class="n">crack_growth</span><span class="o">=</span><span class="n">crack_grow_mod</span><span class="p">,</span>
+                               <span class="n">delta_c_rule</span><span class="o">=</span><span class="n">delta_c_rule</span><span class="p">)</span>
+
+    <span class="n">load_cycling</span> <span class="o">=</span> <span class="n">pipe_eval</span><span class="o">.</span><span class="n">calc_life_assessment</span><span class="p">(</span><span class="n">max_cycles</span><span class="o">=</span><span class="n">max_cycles</span><span class="p">,</span>
+                                                  <span class="n">cycle_step</span><span class="o">=</span><span class="n">cycle_step</span><span class="p">)</span>
+
+    <span class="n">calculate_failure_assessment</span><span class="p">({</span><span class="s1">&#39;fracture_resistance&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">fracture_resistance</span><span class="p">],</span>
+                                  <span class="s1">&#39;yield_strength&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">yield_strength</span><span class="p">]},</span>
+                                 <span class="p">[</span><span class="n">load_cycling</span><span class="p">],</span>
+                                 <span class="p">[</span><span class="n">stress_mod</span><span class="p">],</span>
+                                 <span class="s1">&#39;simple&#39;</span><span class="p">)</span>
+
+    <span class="n">life_criteria</span> <span class="o">=</span> <span class="n">calc_pipe_life_criteria</span><span class="p">(</span><span class="n">cycle_results</span><span class="o">=</span><span class="n">load_cycling</span><span class="p">,</span>
+                                            <span class="n">pipe</span><span class="o">=</span><span class="n">pipe_mod</span><span class="p">,</span>
+                                            <span class="n">material</span><span class="o">=</span><span class="n">material_mod</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">load_cycling</span><span class="p">,</span> <span class="n">life_criteria</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Crack-Evolution-Analyses-for-Environments-Specified">
+<h2>Crack Evolution Analyses for Environments Specified<a class="headerlink" href="#Crack-Evolution-Analyses-for-Environments-Specified" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">load_cycling1</span><span class="p">,</span> <span class="n">life_criteria1</span> <span class="o">=</span> <span class="n">create_pipe_evaluation</span><span class="p">(</span><span class="n">environment_module1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:521: UserWarning: Inner Radius / wall thickness exceeds bounds 5 &lt;= R_i/t &lt;= 20, R_i/t = 43.33497536945812, violating Anderson solution limits.
+  wr.warn(&#39;Inner Radius / wall thickness exceeds bounds &#39; +
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">load_cycling2</span><span class="p">,</span> <span class="n">life_criteria2</span> <span class="o">=</span> <span class="n">create_pipe_evaluation</span><span class="p">(</span><span class="n">environment_module2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">load_cycling3</span><span class="p">,</span> <span class="n">life_criteria3</span> <span class="o">=</span> <span class="n">create_pipe_evaluation</span><span class="p">(</span><span class="n">environment_module3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">load_cycling4</span><span class="p">,</span> <span class="n">life_criteria4</span> <span class="o">=</span> <span class="n">create_pipe_evaluation</span><span class="p">(</span><span class="n">environment_module4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">load_cycling5</span><span class="p">,</span> <span class="n">life_criteria5</span> <span class="o">=</span> <span class="n">create_pipe_evaluation</span><span class="p">(</span><span class="n">environment_module5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># evolve in terms of a/t to speed up evaluation due to high cycle count</span>
+<span class="n">load_cycling6</span><span class="p">,</span> <span class="n">life_criteria6</span> <span class="o">=</span> <span class="n">create_pipe_evaluation</span><span class="p">(</span><span class="n">environment_module6</span><span class="p">,</span> <span class="n">cycle_step</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">load_cycling7</span><span class="p">,</span> <span class="n">life_criteria7</span> <span class="o">=</span> <span class="n">create_pipe_evaluation</span><span class="p">(</span><span class="n">environment_module7</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">specific_life_criteria_result1</span> <span class="o">=</span> <span class="n">report_single_pipe_life_criteria_results</span><span class="p">(</span><span class="n">life_criteria1</span><span class="p">,</span> <span class="n">pipe_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">specific_load_cycling1</span> <span class="o">=</span> <span class="n">report_single_cycle_evolution</span><span class="p">(</span><span class="n">load_cycling1</span><span class="p">,</span> <span class="n">pipe_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">specific_life_criteria_result2</span> <span class="o">=</span> <span class="n">report_single_pipe_life_criteria_results</span><span class="p">(</span><span class="n">life_criteria2</span><span class="p">,</span> <span class="n">pipe_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">specific_load_cycling2</span> <span class="o">=</span> <span class="n">report_single_cycle_evolution</span><span class="p">(</span><span class="n">load_cycling2</span><span class="p">,</span> <span class="n">pipe_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">specific_life_criteria_result3</span> <span class="o">=</span> <span class="n">report_single_pipe_life_criteria_results</span><span class="p">(</span><span class="n">life_criteria3</span><span class="p">,</span> <span class="n">pipe_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">specific_load_cycling3</span> <span class="o">=</span> <span class="n">report_single_cycle_evolution</span><span class="p">(</span><span class="n">load_cycling3</span><span class="p">,</span> <span class="n">pipe_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">specific_life_criteria_result4</span> <span class="o">=</span> <span class="n">report_single_pipe_life_criteria_results</span><span class="p">(</span><span class="n">life_criteria4</span><span class="p">,</span> <span class="n">pipe_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">specific_load_cycling4</span> <span class="o">=</span> <span class="n">report_single_cycle_evolution</span><span class="p">(</span><span class="n">load_cycling4</span><span class="p">,</span> <span class="n">pipe_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">specific_life_criteria_result5</span> <span class="o">=</span> <span class="n">report_single_pipe_life_criteria_results</span><span class="p">(</span><span class="n">life_criteria5</span><span class="p">,</span> <span class="n">pipe_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">specific_load_cycling5</span> <span class="o">=</span> <span class="n">report_single_cycle_evolution</span><span class="p">(</span><span class="n">load_cycling5</span><span class="p">,</span> <span class="n">pipe_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">specific_life_criteria_result6</span> <span class="o">=</span> <span class="n">report_single_pipe_life_criteria_results</span><span class="p">(</span><span class="n">life_criteria6</span><span class="p">,</span> <span class="n">pipe_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">specific_load_cycling6</span> <span class="o">=</span> <span class="n">report_single_cycle_evolution</span><span class="p">(</span><span class="n">load_cycling6</span><span class="p">,</span> <span class="n">pipe_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+              Cycles to a(crit)  Cycles to 25% a(crit)  Cycles to 1/2 Nc  \
+Total cycles      202408.474162               1.000000     101204.237081
+a/t                    0.390636               0.097659          0.273613
+
+              Cycles to FAD line
+Total cycles        181905.00000
+a/t                      0.32682
+              Cycles to a(crit)  Cycles to 25% a(crit)  Cycles to 1/2 Nc  \
+Total cycles        2341.533508               1.000000       1170.766754
+a/t                    0.347769               0.086942          0.271827
+
+              Cycles to FAD line
+Total cycles         2184.737678
+a/t                     0.322840
+              Cycles to a(crit)  Cycles to 25% a(crit)  Cycles to 1/2 Nc  \
+Total cycles       57321.937063               1.000000      28660.968532
+a/t                    0.351048               0.087762          0.271996
+
+              Cycles to FAD line
+Total cycles        54065.251420
+a/t                     0.327264
+              Cycles to a(crit)  Cycles to 25% a(crit)  Cycles to 1/2 Nc  \
+Total cycles      331647.232139               1.000000     165823.616069
+a/t                    0.383852               0.095963          0.273287
+
+              Cycles to FAD line
+Total cycles       321622.597499
+a/t                     0.357025
+              Cycles to a(crit)  Cycles to 25% a(crit)  Cycles to 1/2 Nc  \
+Total cycles      848378.598911               1.000000     424189.299455
+a/t                    0.351048               0.087762          0.271996
+
+              Cycles to FAD line
+Total cycles       800182.313762
+a/t                     0.327264
+              Cycles to a(crit)  Cycles to 25% a(crit)  Cycles to 1/2 Nc  \
+Total cycles       1.179245e+07               1.000000      5.896224e+06
+a/t                4.154551e-01               0.103864      2.939018e-01
+
+              Cycles to FAD line
+Total cycles        1.136406e+07
+a/t                 3.941120e-01
+</pre></div></div>
+</div>
+</section>
+<section id="Plots-Comparing-Impact-of-Different-Pressure-Loading-Assumptions">
+<h2>Plots Comparing Impact of Different Pressure Loading Assumptions<a class="headerlink" href="#Plots-Comparing-Impact-of-Different-Pressure-Loading-Assumptions" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling1</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span> <span class="n">specific_load_cycling1</span><span class="p">[</span><span class="s1">&#39;a/t&#39;</span><span class="p">],</span>  <span class="s1">&#39;b-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;variable pressure&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_life_criteria_result1</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+         <span class="n">specific_life_criteria_result1</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k*&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling2</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span> <span class="n">specific_load_cycling2</span><span class="p">[</span><span class="s1">&#39;a/t&#39;</span><span class="p">],</span>  <span class="s1">&#39;r--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;max Pmax/min Pmin&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_life_criteria_result2</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+         <span class="n">specific_life_criteria_result2</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k*&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling3</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span> <span class="n">specific_load_cycling3</span><span class="p">[</span><span class="s1">&#39;a/t&#39;</span><span class="p">],</span>  <span class="s1">&#39;g:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;10th percentile R&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_life_criteria_result3</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+         <span class="n">specific_life_criteria_result3</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k*&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling4</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span> <span class="n">specific_load_cycling4</span><span class="p">[</span><span class="s1">&#39;a/t&#39;</span><span class="p">],</span>  <span class="s1">&#39;c-.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;25th percentile R&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_life_criteria_result4</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+         <span class="n">specific_life_criteria_result4</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k*&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling5</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span> <span class="n">specific_load_cycling5</span><span class="p">[</span><span class="s1">&#39;a/t&#39;</span><span class="p">],</span>  <span class="n">color</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">,</span>
+         <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">dashes</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;50th percentile R&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_life_criteria_result5</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+         <span class="n">specific_life_criteria_result5</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k*&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling6</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span> <span class="n">specific_load_cycling6</span><span class="p">[</span><span class="s1">&#39;a/t&#39;</span><span class="p">],</span>  <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span>
+         <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">dashes</span><span class="o">=</span><span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;75th percentile R&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_life_criteria_result6</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+         <span class="n">specific_life_criteria_result6</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k*&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Total Cycles [#]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;a/t [-]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">locator_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mf">1E1</span><span class="p">,</span> <span class="mf">3E7</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling1</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">specific_load_cycling1</span><span class="p">[</span><span class="s1">&#39;R ratio&#39;</span><span class="p">],</span>  <span class="s1">&#39;b-&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling2</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">specific_load_cycling2</span><span class="p">[</span><span class="s1">&#39;R ratio&#39;</span><span class="p">],</span>  <span class="s1">&#39;r--&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling3</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">specific_load_cycling3</span><span class="p">[</span><span class="s1">&#39;R ratio&#39;</span><span class="p">],</span>  <span class="s1">&#39;g:&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling4</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">specific_load_cycling4</span><span class="p">[</span><span class="s1">&#39;R ratio&#39;</span><span class="p">],</span>  <span class="s1">&#39;c-.&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling5</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">specific_load_cycling5</span><span class="p">[</span><span class="s1">&#39;R ratio&#39;</span><span class="p">],</span>
+         <span class="n">color</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">dashes</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling6</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">specific_load_cycling6</span><span class="p">[</span><span class="s1">&#39;R ratio&#39;</span><span class="p">],</span>
+         <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">dashes</span><span class="o">=</span><span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Total Cycles [#]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Load Ratio (R)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling1</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">specific_load_cycling1</span><span class="p">[</span><span class="s1">&#39;Kmax (MPa m^1/2)&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">specific_load_cycling1</span><span class="p">[</span><span class="s1">&#39;Kmin (MPa m^1/2)&#39;</span><span class="p">],</span>  <span class="s1">&#39;b-&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling2</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">specific_load_cycling2</span><span class="p">[</span><span class="s1">&#39;Kmax (MPa m^1/2)&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">specific_load_cycling2</span><span class="p">[</span><span class="s1">&#39;Kmin (MPa m^1/2)&#39;</span><span class="p">],</span>  <span class="s1">&#39;r--&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling3</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">specific_load_cycling3</span><span class="p">[</span><span class="s1">&#39;Kmax (MPa m^1/2)&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">specific_load_cycling3</span><span class="p">[</span><span class="s1">&#39;Kmin (MPa m^1/2)&#39;</span><span class="p">],</span>  <span class="s1">&#39;g:&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling4</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">specific_load_cycling4</span><span class="p">[</span><span class="s1">&#39;Kmax (MPa m^1/2)&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">specific_load_cycling4</span><span class="p">[</span><span class="s1">&#39;Kmin (MPa m^1/2)&#39;</span><span class="p">],</span>  <span class="s1">&#39;c-.&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling5</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">specific_load_cycling5</span><span class="p">[</span><span class="s1">&#39;Kmax (MPa m^1/2)&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">specific_load_cycling5</span><span class="p">[</span><span class="s1">&#39;Kmin (MPa m^1/2)&#39;</span><span class="p">],</span>
+         <span class="n">color</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">dashes</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling6</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">specific_load_cycling6</span><span class="p">[</span><span class="s1">&#39;Kmax (MPa m^1/2)&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">specific_load_cycling6</span><span class="p">[</span><span class="s1">&#39;Kmin (MPa m^1/2)&#39;</span><span class="p">],</span>
+         <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">dashes</span><span class="o">=</span><span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Total Cycles [#]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$\Delta$ K [MPa m$^{1/2}$]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/var/folders/m7/xj3t74md7k32bgn0f0bvz3mr002lyh/T/ipykernel_24616/2688859834.py:4: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  plt.plot(specific_life_criteria_result1[&#39;Cycles to a(crit)&#39;][0],
+/var/folders/m7/xj3t74md7k32bgn0f0bvz3mr002lyh/T/ipykernel_24616/2688859834.py:5: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  specific_life_criteria_result1[&#39;Cycles to a(crit)&#39;][1], &#39;k*&#39;)
+/var/folders/m7/xj3t74md7k32bgn0f0bvz3mr002lyh/T/ipykernel_24616/2688859834.py:8: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  plt.plot(specific_life_criteria_result2[&#39;Cycles to a(crit)&#39;][0],
+/var/folders/m7/xj3t74md7k32bgn0f0bvz3mr002lyh/T/ipykernel_24616/2688859834.py:9: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  specific_life_criteria_result2[&#39;Cycles to a(crit)&#39;][1], &#39;k*&#39;)
+/var/folders/m7/xj3t74md7k32bgn0f0bvz3mr002lyh/T/ipykernel_24616/2688859834.py:12: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  plt.plot(specific_life_criteria_result3[&#39;Cycles to a(crit)&#39;][0],
+/var/folders/m7/xj3t74md7k32bgn0f0bvz3mr002lyh/T/ipykernel_24616/2688859834.py:13: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  specific_life_criteria_result3[&#39;Cycles to a(crit)&#39;][1], &#39;k*&#39;)
+/var/folders/m7/xj3t74md7k32bgn0f0bvz3mr002lyh/T/ipykernel_24616/2688859834.py:16: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  plt.plot(specific_life_criteria_result4[&#39;Cycles to a(crit)&#39;][0],
+/var/folders/m7/xj3t74md7k32bgn0f0bvz3mr002lyh/T/ipykernel_24616/2688859834.py:17: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  specific_life_criteria_result4[&#39;Cycles to a(crit)&#39;][1], &#39;k*&#39;)
+/var/folders/m7/xj3t74md7k32bgn0f0bvz3mr002lyh/T/ipykernel_24616/2688859834.py:21: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  plt.plot(specific_life_criteria_result5[&#39;Cycles to a(crit)&#39;][0],
+/var/folders/m7/xj3t74md7k32bgn0f0bvz3mr002lyh/T/ipykernel_24616/2688859834.py:22: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  specific_life_criteria_result5[&#39;Cycles to a(crit)&#39;][1], &#39;k*&#39;)
+/var/folders/m7/xj3t74md7k32bgn0f0bvz3mr002lyh/T/ipykernel_24616/2688859834.py:26: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  plt.plot(specific_life_criteria_result6[&#39;Cycles to a(crit)&#39;][0],
+/var/folders/m7/xj3t74md7k32bgn0f0bvz3mr002lyh/T/ipykernel_24616/2688859834.py:27: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  specific_life_criteria_result6[&#39;Cycles to a(crit)&#39;][1], &#39;k*&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_22_1.png" src="_images/demo_random_loading_22_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_22_2.png" src="_images/demo_random_loading_22_2.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_22_3.png" src="_images/demo_random_loading_22_3.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling1</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span> <span class="n">specific_load_cycling1</span><span class="p">[</span><span class="s1">&#39;a/t&#39;</span><span class="p">],</span>  <span class="s1">&#39;b-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;random pressure&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_life_criteria_result1</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+         <span class="n">specific_life_criteria_result1</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k*&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling2</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span> <span class="n">specific_load_cycling2</span><span class="p">[</span><span class="s1">&#39;a/t&#39;</span><span class="p">],</span>  <span class="s1">&#39;r--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;max P$_</span><span class="si">{max}</span><span class="s1">$/min P$_</span><span class="si">{min}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_life_criteria_result2</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+         <span class="n">specific_life_criteria_result2</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k*&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling6</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span> <span class="n">specific_load_cycling6</span><span class="p">[</span><span class="s1">&#39;a/t&#39;</span><span class="p">],</span>  <span class="n">color</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">,</span>
+         <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">dashes</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;mean P$_</span><span class="si">{max}</span><span class="s1">$/mean P$_</span><span class="si">{min}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_life_criteria_result6</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+         <span class="n">specific_life_criteria_result6</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k*&#39;</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Total Cycles [#]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;a/t [-]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">locator_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mf">1E1</span><span class="p">,</span> <span class="mf">3E7</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/var/folders/m7/xj3t74md7k32bgn0f0bvz3mr002lyh/T/ipykernel_24616/2885443421.py:4: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  plt.plot(specific_life_criteria_result1[&#39;Cycles to a(crit)&#39;][0],
+/var/folders/m7/xj3t74md7k32bgn0f0bvz3mr002lyh/T/ipykernel_24616/2885443421.py:5: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  specific_life_criteria_result1[&#39;Cycles to a(crit)&#39;][1], &#39;k*&#39;)
+/var/folders/m7/xj3t74md7k32bgn0f0bvz3mr002lyh/T/ipykernel_24616/2885443421.py:8: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  plt.plot(specific_life_criteria_result2[&#39;Cycles to a(crit)&#39;][0],
+/var/folders/m7/xj3t74md7k32bgn0f0bvz3mr002lyh/T/ipykernel_24616/2885443421.py:9: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  specific_life_criteria_result2[&#39;Cycles to a(crit)&#39;][1], &#39;k*&#39;)
+/var/folders/m7/xj3t74md7k32bgn0f0bvz3mr002lyh/T/ipykernel_24616/2885443421.py:13: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  plt.plot(specific_life_criteria_result6[&#39;Cycles to a(crit)&#39;][0],
+/var/folders/m7/xj3t74md7k32bgn0f0bvz3mr002lyh/T/ipykernel_24616/2885443421.py:14: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  specific_life_criteria_result6[&#39;Cycles to a(crit)&#39;][1], &#39;k*&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_23_1.png" src="_images/demo_random_loading_23_1.png" />
+</div>
+</div>
+</section>
+<section id="Ensuring-That-Loaded-Random-Pressure-Data-Was-Utilized">
+<h2>Ensuring That Loaded Random Pressure Data Was Utilized<a class="headerlink" href="#Ensuring-That-Loaded-Random-Pressure-Data-Was-Utilized" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;r_ratio&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Input&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling1</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+         <span class="n">specific_load_cycling1</span><span class="p">[</span><span class="s1">&#39;R ratio&#39;</span><span class="p">],</span>
+         <span class="s1">&#39;r--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Output&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Day&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Load Ratio (R)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">363</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling1</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+         <span class="n">specific_load_cycling1</span><span class="p">[</span><span class="s1">&#39;R ratio&#39;</span><span class="p">],</span>
+         <span class="s1">&#39;r--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Output&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Day&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Load Ratio (R)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">363</span><span class="p">,</span> <span class="mi">363</span><span class="o">*</span><span class="mi">2</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_25_0.png" src="_images/demo_random_loading_25_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_25_1.png" src="_images/demo_random_loading_25_1.png" />
+</div>
+</div>
+</section>
+<section id="Passing-Random-Pressure-Loading-Profile-Through-API-Interface-for-Deterministic-Analysis">
+<h2>Passing Random Pressure Loading Profile Through API Interface for Deterministic Analysis<a class="headerlink" href="#Passing-Random-Pressure-Loading-Profile-Through-API-Interface-for-Deterministic-Analysis" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis_det</span> <span class="o">=</span> <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;outer_diameter&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">pipe_outer_diameter</span><span class="p">),</span>
+                                      <span class="n">wall_thickness</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;wall_thickness&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">),</span>
+                                      <span class="n">flaw_depth</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flaw_depth&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">flaw_depth</span><span class="p">),</span>
+                                      <span class="n">max_pressure</span><span class="o">=</span><span class="n">TimeSeriesCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;max_pressure&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;Max&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)),</span>
+                                      <span class="n">min_pressure</span><span class="o">=</span><span class="n">TimeSeriesCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;min_pressure&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;Min&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)),</span>
+                                      <span class="n">temperature</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;temperature&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">temperature</span><span class="p">),</span>
+                                      <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">),</span>
+                                      <span class="n">yield_strength</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;yield_strength&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">yield_strength</span><span class="p">),</span>
+                                      <span class="n">fracture_resistance</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;fracture_resistance&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">fracture_resistance</span><span class="p">),</span>
+                                      <span class="n">flaw_length</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flaw_length&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">),</span>
+                                      <span class="n">stress_intensity_method</span><span class="o">=</span><span class="n">k_method</span><span class="p">,</span>
+                                      <span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">,</span>
+                                      <span class="n">cycle_step</span><span class="o">=</span><span class="n">cycle_step</span><span class="p">,</span>
+                                      <span class="n">max_cycles</span><span class="o">=</span><span class="n">max_cycles</span><span class="p">)</span>
+
+<span class="n">analysis_det</span><span class="o">.</span><span class="n">perform_study</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:521: UserWarning: Inner Radius / wall thickness exceeds bounds 5 &lt;= R_i/t &lt;= 20, R_i/t = 43.33497536945812, violating Anderson solution limits.
+  wr.warn(&#39;Inner Radius / wall thickness exceeds bounds &#39; +
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Only print intermediate variables for first values in random pressure loading</span>
+<span class="n">analysis_det</span><span class="o">.</span><span class="n">nominal_intermediate_variables</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;r_ratio&#39;: np.float64(0.7753530166880616),
+ &#39;fugacity_ratio&#39;: np.float64(0.16223362994308482),
+ &#39;%SMYS&#39;: np.float64(66.417203486169),
+ &#39;a (m)&#39;: 0.0025781000000000003,
+ &#39;a/2c&#39;: 0.06444444444444446,
+ &#39;t/R&#39;: 0.023076048652949873}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis_det</span><span class="o">.</span><span class="n">postprocess_single_crack_results</span><span class="p">()</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">analysis_det</span><span class="o">.</span><span class="n">get_design_curve_plot</span><span class="p">()</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">analysis_det</span><span class="o">.</span><span class="n">assemble_failure_assessment_diagram</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+              Cycles to a(crit)  Cycles to 25% a(crit)  Cycles to 1/2 Nc  \
+Total cycles      202408.474162               1.000000     101204.237081
+a/t                    0.390636               0.097659          0.273613
+
+              Cycles to FAD line
+Total cycles        181905.00000
+a/t                      0.32682
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/bbschro/Development/helpr_external/src/helpr/api.py:960: UserWarning: Extraction of FAD intersection QoI when using user specified random loading profile may be incorrect due to its stochastic nature.
+  warnings.warn(
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_29_2.png" src="_images/demo_random_loading_29_2.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_29_3.png" src="_images/demo_random_loading_29_3.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_29_4.png" src="_images/demo_random_loading_29_4.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipe_outer_diameter</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;outer_diameter&#39;</span><span class="p">,</span>
+                                                    <span class="n">value</span><span class="o">=</span><span class="n">convert_in_to_m</span><span class="p">(</span><span class="mi">36</span><span class="p">))</span>  <span class="c1"># pipe outer diameter, m</span>
+<span class="n">wall_thickness</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;wall_thickness&#39;</span><span class="p">,</span>
+                                               <span class="n">value</span><span class="o">=</span><span class="n">convert_in_to_m</span><span class="p">(</span><span class="mf">0.406</span><span class="p">))</span>  <span class="c1"># pipe wall thickness, m</span>
+
+<span class="n">yield_strength</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;yield_strength&#39;</span><span class="p">,</span>
+                                               <span class="n">value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">52_000</span><span class="p">))</span>  <span class="c1"># material yield strength, psi</span>
+<span class="n">fracture_resistance</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;fracture_resistance&#39;</span><span class="p">,</span>
+                                                    <span class="n">value</span><span class="o">=</span><span class="mi">55</span><span class="p">)</span>  <span class="c1"># fracture resistance (toughness), MPa m1/2</span>
+
+<span class="n">max_pressure</span> <span class="o">=</span> <span class="n">TimeSeriesCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;max_pressure&#39;</span><span class="p">,</span>
+                                          <span class="n">value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;Max&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
+<span class="n">min_pressure</span> <span class="o">=</span> <span class="n">TimeSeriesCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;min_pressure&#39;</span><span class="p">,</span>
+                                          <span class="n">value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;Min&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
+
+<span class="n">temperature</span> <span class="o">=</span> <span class="n">UniformDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;temperature&#39;</span><span class="p">,</span>
+                                  <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">&#39;aleatory&#39;</span><span class="p">,</span>
+                                  <span class="n">nominal_value</span><span class="o">=</span><span class="mi">293</span><span class="p">,</span>
+                                  <span class="n">upper_bound</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+                                  <span class="n">lower_bound</span><span class="o">=</span><span class="mi">285</span><span class="p">)</span>  <span class="c1"># gas blend temperature variation, K</span>
+<span class="n">volume_fraction_h2</span> <span class="o">=</span> <span class="n">UniformDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">,</span>
+                                         <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">&#39;aleatory&#39;</span><span class="p">,</span>
+                                         <span class="n">nominal_value</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                                         <span class="n">upper_bound</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+                                         <span class="n">lower_bound</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># % volume fraction H2 in natural gas blend, fraction</span>
+
+<span class="n">flaw_depth</span> <span class="o">=</span> <span class="n">TruncatedLognormalDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flaw_depth&#39;</span><span class="p">,</span>
+                                            <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">&#39;aleatory&#39;</span><span class="p">,</span>
+                                            <span class="n">nominal_value</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>
+                                            <span class="n">mu</span><span class="o">=</span><span class="mf">3.2</span><span class="p">,</span>
+                                            <span class="n">sigma</span><span class="o">=</span><span class="mf">.17</span><span class="p">,</span>
+                                            <span class="n">upper_bound</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span>
+                                            <span class="n">lower_bound</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span> <span class="c1"># initial flaw depth, % wall thickness</span>
+<span class="n">flaw_length</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flaw_length&#39;</span><span class="p">,</span>
+                                            <span class="n">value</span><span class="o">=</span><span class="n">convert_in_to_m</span><span class="p">(</span><span class="mf">1.575</span><span class="p">))</span>  <span class="c1"># length of initial crack/flaw, m</span>
+
+<span class="n">sample_size</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">sample_type</span> <span class="o">=</span> <span class="s1">&#39;lhs&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis_prob</span> <span class="o">=</span> <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">pipe_outer_diameter</span><span class="p">,</span>
+                                  <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">,</span>
+                                  <span class="n">flaw_depth</span><span class="o">=</span><span class="n">flaw_depth</span><span class="p">,</span>
+                                  <span class="n">max_pressure</span><span class="o">=</span><span class="n">max_pressure</span><span class="p">,</span>
+                                  <span class="n">min_pressure</span><span class="o">=</span><span class="n">min_pressure</span><span class="p">,</span>
+                                  <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                                  <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">,</span>
+                                  <span class="n">yield_strength</span><span class="o">=</span><span class="n">yield_strength</span><span class="p">,</span>
+                                  <span class="n">fracture_resistance</span><span class="o">=</span><span class="n">fracture_resistance</span><span class="p">,</span>
+                                  <span class="n">flaw_length</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">,</span>
+                                  <span class="n">aleatory_samples</span><span class="o">=</span><span class="n">sample_size</span><span class="p">,</span>
+                                  <span class="n">sample_type</span><span class="o">=</span><span class="n">sample_type</span><span class="p">,</span>
+                                  <span class="n">stress_intensity_method</span><span class="o">=</span><span class="n">k_method</span><span class="p">,</span>
+                                  <span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">,</span>
+                                  <span class="n">cycle_step</span><span class="o">=</span><span class="n">cycle_step</span><span class="p">,</span>
+                                  <span class="n">max_cycles</span><span class="o">=</span><span class="n">max_cycles</span><span class="p">)</span>
+<span class="n">analysis_prob</span><span class="o">.</span><span class="n">perform_study</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:521: UserWarning: Inner Radius / wall thickness exceeds bounds 5 &lt;= R_i/t &lt;= 20, R_i/t = 43.33497536945812, violating Anderson solution limits.
+  wr.warn(&#39;Inner Radius / wall thickness exceeds bounds &#39; +
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis_prob</span><span class="o">.</span><span class="n">generate_probabilistic_results_plots</span><span class="p">(</span><span class="n">plotted_variable</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_32_0.png" src="_images/demo_random_loading_32_0.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_32_1.png" src="_images/demo_random_loading_32_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_32_2.png" src="_images/demo_random_loading_32_2.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_32_3.png" src="_images/demo_random_loading_32_3.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_32_4.png" src="_images/demo_random_loading_32_4.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_32_5.png" src="_images/demo_random_loading_32_5.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_32_6.png" src="_images/demo_random_loading_32_6.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">analysis_prob</span><span class="o">.</span><span class="n">assemble_failure_assessment_diagram</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/bbschro/Development/helpr_external/src/helpr/api.py:960: UserWarning: Extraction of FAD intersection QoI when using user specified random loading profile may be incorrect due to its stochastic nature.
+  warnings.warn(
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_33_1.png" src="_images/demo_random_loading_33_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">analysis_prob</span><span class="o">.</span><span class="n">generate_input_parameter_plots</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_34_0.png" src="_images/demo_random_loading_34_0.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_34_1.png" src="_images/demo_random_loading_34_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_34_2.png" src="_images/demo_random_loading_34_2.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_34_3.png" src="_images/demo_random_loading_34_3.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_34_4.png" src="_images/demo_random_loading_34_4.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_34_5.png" src="_images/demo_random_loading_34_5.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_34_6.png" src="_images/demo_random_loading_34_6.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_34_7.png" src="_images/demo_random_loading_34_7.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_34_8.png" src="_images/demo_random_loading_34_8.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_34_9.png" src="_images/demo_random_loading_34_9.png" />
+</div>
+</div>
+<section id="Checking-that-Random-Loading-and-Residual-Stress-Capabilities-Can-Work-At-the-Same-Time">
+<h3>Checking that Random Loading and Residual Stress Capabilities Can Work At the Same Time<a class="headerlink" href="#Checking-that-Random-Loading-and-Residual-Stress-Capabilities-Can-Work-At-the-Same-Time" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipe_outer_diameter</span> <span class="o">=</span> <span class="n">convert_in_to_m</span><span class="p">(</span><span class="mi">36</span><span class="p">)</span>  <span class="c1"># 36 inch outer diameter</span>
+<span class="n">wall_thickness</span> <span class="o">=</span> <span class="n">convert_in_to_m</span><span class="p">(</span><span class="mf">0.406</span><span class="p">)</span>    <span class="c1"># 0.406 inch wall thickness</span>
+
+<span class="n">yield_strength</span> <span class="o">=</span> <span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">52_000</span><span class="p">)</span>  <span class="c1"># material yield strength of 52_000 psi</span>
+<span class="n">fracture_resistance</span> <span class="o">=</span> <span class="mi">55</span>                     <span class="c1"># fracture resistance (toughness) MPa m1/2</span>
+
+<span class="n">flaw_depth</span> <span class="o">=</span> <span class="mi">25</span>                       <span class="c1"># flaw 25% through pipe thickness</span>
+<span class="n">flaw_length</span> <span class="o">=</span> <span class="n">convert_in_to_m</span><span class="p">(</span><span class="mf">1.575</span><span class="p">)</span>  <span class="c1"># width of initial crack/flaw, m</span>
+
+<span class="n">temperature</span> <span class="o">=</span> <span class="mi">293</span> <span class="c1"># K -&gt; temperature of gas</span>
+<span class="n">volume_fraction_h2</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># % mole fraction H2 in natural gas blend</span>
+
+<span class="n">surface</span> <span class="o">=</span> <span class="s1">&#39;inside&#39;</span>
+<span class="n">k_method</span> <span class="o">=</span> <span class="s1">&#39;anderson&#39;</span>  <span class="c1"># Stress intensity factor method used</span>
+<span class="n">delta_c_rule</span> <span class="o">=</span> <span class="s1">&#39;proportional&#39;</span>
+<span class="n">crack_growth_model</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;model_name&#39;</span><span class="p">:</span> <span class="s1">&#39;code_case_2938&#39;</span><span class="p">}</span>
+
+<span class="n">cycle_step</span> <span class="o">=</span> <span class="mi">1</span>         <span class="c1"># how many cycles in every numerical step</span>
+<span class="n">max_cycles</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span>  <span class="c1"># maximum number of steps</span>
+
+<span class="n">k_res_explicit_det</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;residual_stress_intensity_factor&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">12.</span><span class="p">)</span>
+
+<span class="n">analysis_det_w_resid</span> <span class="o">=</span> <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;outer_diameter&#39;</span><span class="p">,</span>
+                                                                                           <span class="n">value</span><span class="o">=</span><span class="n">pipe_outer_diameter</span><span class="p">),</span>
+                                      <span class="n">wall_thickness</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;wall_thickness&#39;</span><span class="p">,</span>
+                                                                                   <span class="n">value</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">),</span>
+                                      <span class="n">flaw_depth</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flaw_depth&#39;</span><span class="p">,</span>
+                                                                               <span class="n">value</span><span class="o">=</span><span class="n">flaw_depth</span><span class="p">),</span>
+                                      <span class="n">max_pressure</span><span class="o">=</span><span class="n">TimeSeriesCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;max_pressure&#39;</span><span class="p">,</span>
+                                                                              <span class="n">value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;Max&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)),</span>
+                                      <span class="n">min_pressure</span><span class="o">=</span><span class="n">TimeSeriesCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;min_pressure&#39;</span><span class="p">,</span>
+                                                                              <span class="n">value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;Min&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)),</span>
+                                      <span class="n">temperature</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;temperature&#39;</span><span class="p">,</span>
+                                                                                <span class="n">value</span><span class="o">=</span><span class="n">temperature</span><span class="p">),</span>
+                                      <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">,</span>
+                                                                                       <span class="n">value</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">),</span>
+                                      <span class="n">yield_strength</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;yield_strength&#39;</span><span class="p">,</span>
+                                                                                   <span class="n">value</span><span class="o">=</span><span class="n">yield_strength</span><span class="p">),</span>
+                                      <span class="n">fracture_resistance</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;fracture_resistance&#39;</span><span class="p">,</span>
+                                                                                        <span class="n">value</span><span class="o">=</span><span class="n">fracture_resistance</span><span class="p">),</span>
+                                      <span class="n">flaw_length</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flaw_length&#39;</span><span class="p">,</span>
+                                                                                <span class="n">value</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">),</span>
+                                      <span class="n">stress_intensity_method</span><span class="o">=</span><span class="n">k_method</span><span class="p">,</span>
+                                      <span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">,</span>
+                                      <span class="n">cycle_step</span><span class="o">=</span><span class="n">cycle_step</span><span class="p">,</span>
+                                      <span class="n">max_cycles</span><span class="o">=</span><span class="n">max_cycles</span><span class="p">,</span>
+                                      <span class="n">residual_stress_intensity_factor</span><span class="o">=</span><span class="n">k_res_explicit_det</span><span class="p">)</span>
+
+<span class="n">analysis_det_w_resid</span><span class="o">.</span><span class="n">perform_study</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:521: UserWarning: Inner Radius / wall thickness exceeds bounds 5 &lt;= R_i/t &lt;= 20, R_i/t = 43.33497536945812, violating Anderson solution limits.
+  wr.warn(&#39;Inner Radius / wall thickness exceeds bounds &#39; +
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis_det_w_resid</span><span class="o">.</span><span class="n">postprocess_single_crack_results</span><span class="p">()</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">analysis_det_w_resid</span><span class="o">.</span><span class="n">get_design_curve_plot</span><span class="p">()</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">analysis_det_w_resid</span><span class="o">.</span><span class="n">assemble_failure_assessment_diagram</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+              Cycles to a(crit)  Cycles to 25% a(crit)  Cycles to 1/2 Nc  \
+Total cycles      126753.937315               1.000000      63376.968658
+a/t                    0.310651               0.077663          0.268675
+
+              Cycles to FAD line
+Total cycles        50863.895232
+a/t                     0.264147
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/bbschro/Development/helpr_external/src/helpr/api.py:960: UserWarning: Extraction of FAD intersection QoI when using user specified random loading profile may be incorrect due to its stochastic nature.
+  warnings.warn(
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_37_2.png" src="_images/demo_random_loading_37_2.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_37_3.png" src="_images/demo_random_loading_37_3.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_37_4.png" src="_images/demo_random_loading_37_4.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipe_outer_diameter</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;outer_diameter&#39;</span><span class="p">,</span>
+                                                    <span class="n">value</span><span class="o">=</span><span class="n">convert_in_to_m</span><span class="p">(</span><span class="mi">36</span><span class="p">))</span>  <span class="c1"># pipe outer diameter, m</span>
+<span class="n">wall_thickness</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;wall_thickness&#39;</span><span class="p">,</span>
+                                               <span class="n">value</span><span class="o">=</span><span class="n">convert_in_to_m</span><span class="p">(</span><span class="mf">0.406</span><span class="p">))</span>  <span class="c1"># pipe wall thickness, m</span>
+
+<span class="n">yield_strength</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;yield_strength&#39;</span><span class="p">,</span>
+                                               <span class="n">value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">52_000</span><span class="p">))</span>  <span class="c1"># material yield strength, psi</span>
+<span class="n">fracture_resistance</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;fracture_resistance&#39;</span><span class="p">,</span>
+                                                    <span class="n">value</span><span class="o">=</span><span class="mi">55</span><span class="p">)</span>  <span class="c1"># fracture resistance (toughness), MPa m1/2</span>
+
+<span class="n">max_pressure</span> <span class="o">=</span> <span class="n">TimeSeriesCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;max_pressure&#39;</span><span class="p">,</span>
+                                          <span class="n">value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;Max&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
+<span class="n">min_pressure</span> <span class="o">=</span> <span class="n">TimeSeriesCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;min_pressure&#39;</span><span class="p">,</span>
+                                          <span class="n">value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="n">pressure_data</span><span class="p">[</span><span class="s1">&#39;Min&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
+
+<span class="n">temperature</span> <span class="o">=</span> <span class="n">UniformDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;temperature&#39;</span><span class="p">,</span>
+                                  <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">&#39;aleatory&#39;</span><span class="p">,</span>
+                                  <span class="n">nominal_value</span><span class="o">=</span><span class="mi">293</span><span class="p">,</span>
+                                  <span class="n">upper_bound</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+                                  <span class="n">lower_bound</span><span class="o">=</span><span class="mi">285</span><span class="p">)</span>  <span class="c1"># gas blend temperature variation, K</span>
+<span class="n">volume_fraction_h2</span> <span class="o">=</span> <span class="n">UniformDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">,</span>
+                                         <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">&#39;aleatory&#39;</span><span class="p">,</span>
+                                         <span class="n">nominal_value</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                                         <span class="n">upper_bound</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+                                         <span class="n">lower_bound</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># % volume fraction H2 in natural gas blend, fraction</span>
+
+<span class="n">flaw_depth</span> <span class="o">=</span> <span class="n">TruncatedLognormalDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flaw_depth&#39;</span><span class="p">,</span>
+                                            <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">&#39;aleatory&#39;</span><span class="p">,</span>
+                                            <span class="n">nominal_value</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>
+                                            <span class="n">mu</span><span class="o">=</span><span class="mf">3.2</span><span class="p">,</span>
+                                            <span class="n">sigma</span><span class="o">=</span><span class="mf">.17</span><span class="p">,</span>
+                                            <span class="n">upper_bound</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span>
+                                            <span class="n">lower_bound</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span> <span class="c1"># initial flaw depth, % wall thickness</span>
+<span class="n">flaw_length</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flaw_length&#39;</span><span class="p">,</span>
+                                            <span class="n">value</span><span class="o">=</span><span class="n">convert_in_to_m</span><span class="p">(</span><span class="mf">1.575</span><span class="p">))</span>  <span class="c1"># length of initial crack/flaw, m</span>
+
+<span class="n">k_res_explicit_prob</span> <span class="o">=</span> <span class="n">NormalDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;residual_stress_intensity_factor&#39;</span><span class="p">,</span>
+                                         <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">&#39;aleatory&#39;</span><span class="p">,</span>
+                                         <span class="n">nominal_value</span><span class="o">=</span><span class="mf">12.</span><span class="p">,</span>
+                                         <span class="n">mean</span><span class="o">=</span><span class="mf">12.</span><span class="p">,</span>
+                                         <span class="n">std_deviation</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">sample_size</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">sample_type</span> <span class="o">=</span> <span class="s1">&#39;lhs&#39;</span>
+
+<span class="n">analysis_prob_w_resid</span> <span class="o">=</span> <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">pipe_outer_diameter</span><span class="p">,</span>
+                                  <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">,</span>
+                                  <span class="n">flaw_depth</span><span class="o">=</span><span class="n">flaw_depth</span><span class="p">,</span>
+                                  <span class="n">max_pressure</span><span class="o">=</span><span class="n">max_pressure</span><span class="p">,</span>
+                                  <span class="n">min_pressure</span><span class="o">=</span><span class="n">min_pressure</span><span class="p">,</span>
+                                  <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                                  <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">,</span>
+                                  <span class="n">yield_strength</span><span class="o">=</span><span class="n">yield_strength</span><span class="p">,</span>
+                                  <span class="n">fracture_resistance</span><span class="o">=</span><span class="n">fracture_resistance</span><span class="p">,</span>
+                                  <span class="n">flaw_length</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">,</span>
+                                  <span class="n">aleatory_samples</span><span class="o">=</span><span class="n">sample_size</span><span class="p">,</span>
+                                  <span class="n">sample_type</span><span class="o">=</span><span class="n">sample_type</span><span class="p">,</span>
+                                  <span class="n">stress_intensity_method</span><span class="o">=</span><span class="n">k_method</span><span class="p">,</span>
+                                  <span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">,</span>
+                                  <span class="n">residual_stress_intensity_factor</span><span class="o">=</span><span class="n">k_res_explicit_prob</span><span class="p">,</span>
+                                  <span class="n">cycle_step</span><span class="o">=</span><span class="n">cycle_step</span><span class="p">,</span>
+                                  <span class="n">max_cycles</span><span class="o">=</span><span class="n">max_cycles</span><span class="p">)</span>
+<span class="n">analysis_prob_w_resid</span><span class="o">.</span><span class="n">perform_study</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:521: UserWarning: Inner Radius / wall thickness exceeds bounds 5 &lt;= R_i/t &lt;= 20, R_i/t = 43.33497536945812, violating Anderson solution limits.
+  wr.warn(&#39;Inner Radius / wall thickness exceeds bounds &#39; +
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis_prob_w_resid</span><span class="o">.</span><span class="n">generate_probabilistic_results_plots</span><span class="p">(</span><span class="n">plotted_variable</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_39_0.png" src="_images/demo_random_loading_39_0.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_39_1.png" src="_images/demo_random_loading_39_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_39_2.png" src="_images/demo_random_loading_39_2.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_39_3.png" src="_images/demo_random_loading_39_3.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_39_4.png" src="_images/demo_random_loading_39_4.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_39_5.png" src="_images/demo_random_loading_39_5.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_39_6.png" src="_images/demo_random_loading_39_6.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_39_7.png" src="_images/demo_random_loading_39_7.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">analysis_prob_w_resid</span><span class="o">.</span><span class="n">assemble_failure_assessment_diagram</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/bbschro/Development/helpr_external/src/helpr/api.py:960: UserWarning: Extraction of FAD intersection QoI when using user specified random loading profile may be incorrect due to its stochastic nature.
+  warnings.warn(
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_40_1.png" src="_images/demo_random_loading_40_1.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="Testing-Capability-with-Depressurization-Spike">
+<h2>Testing Capability with Depressurization Spike<a class="headerlink" href="#Testing-Capability-with-Depressurization-Spike" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">temperature</span> <span class="o">=</span> <span class="mi">293</span> <span class="c1"># K -&gt; temperature of gas</span>
+<span class="n">volume_fraction_h2</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># % mole fraction H2 in natural gas blend</span>
+
+<span class="n">pipe_outer_diameter</span> <span class="o">=</span> <span class="n">convert_in_to_m</span><span class="p">(</span><span class="mi">36</span><span class="p">)</span>  <span class="c1"># 36 inch outer diameter</span>
+<span class="n">wall_thickness</span> <span class="o">=</span> <span class="n">convert_in_to_m</span><span class="p">(</span><span class="mf">0.406</span><span class="p">)</span>    <span class="c1"># 0.406 inch wall thickness</span>
+
+<span class="n">yield_strength</span> <span class="o">=</span> <span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">52_000</span><span class="p">)</span>  <span class="c1"># material yield strength of 52_000 psi</span>
+<span class="n">fracture_resistance</span> <span class="o">=</span> <span class="mi">55</span>                     <span class="c1"># fracture resistance (toughness) MPa m1/2</span>
+
+<span class="n">flaw_depth</span> <span class="o">=</span> <span class="mi">25</span>                       <span class="c1"># flaw 25% through pipe thickness</span>
+<span class="n">flaw_length</span> <span class="o">=</span> <span class="n">convert_in_to_m</span><span class="p">(</span><span class="mf">1.575</span><span class="p">)</span>  <span class="c1"># width of initial crack/flaw, m</span>
+
+<span class="n">surface</span> <span class="o">=</span> <span class="s1">&#39;inside&#39;</span>
+<span class="n">k_method</span> <span class="o">=</span> <span class="s1">&#39;anderson&#39;</span>  <span class="c1"># Stress intensity factor method used</span>
+<span class="n">delta_c_rule</span> <span class="o">=</span> <span class="s1">&#39;proportional&#39;</span>
+<span class="n">crack_growth_model</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;model_name&#39;</span><span class="p">:</span> <span class="s1">&#39;code_case_2938&#39;</span><span class="p">}</span>
+
+<span class="n">cycle_step</span> <span class="o">=</span> <span class="mi">1</span>         <span class="c1"># how many cycles in every numerical step</span>
+<span class="n">max_cycles</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span>  <span class="c1"># maximum number of steps</span>
+
+
+<span class="n">pressure_data_spike</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./Data/random_loading_demo_spike.csv&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">environment_module_spike</span> <span class="o">=</span> \
+    <span class="n">EnvironmentSpecificationRandomLoad</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="n">pressure_data_spike</span><span class="p">[</span><span class="s1">&#39;Max&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
+                                       <span class="n">min_pressure</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="n">pressure_data_spike</span><span class="p">[</span><span class="s1">&#39;Min&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
+                                       <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                                       <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">)</span>
+
+<span class="n">load_cycling_spike</span><span class="p">,</span> <span class="n">life_criteria_spike</span> <span class="o">=</span> <span class="n">create_pipe_evaluation</span><span class="p">(</span><span class="n">environment_module_spike</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:521: UserWarning: Inner Radius / wall thickness exceeds bounds 5 &lt;= R_i/t &lt;= 20, R_i/t = 43.33497536945812, violating Anderson solution limits.
+  wr.warn(&#39;Inner Radius / wall thickness exceeds bounds &#39; +
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">plot_random_loading_profiles</span><span class="p">(</span><span class="n">minimum_pressure</span><span class="o">=</span><span class="n">pressure_data_spike</span><span class="p">[</span><span class="s1">&#39;Min&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">(),</span>
+                                    <span class="n">maximum_pressure</span><span class="o">=</span><span class="n">pressure_data_spike</span><span class="p">[</span><span class="s1">&#39;Max&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">(),</span>
+                                    <span class="n">pressure_units</span><span class="o">=</span><span class="s1">&#39;psi&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_43_0.png" src="_images/demo_random_loading_43_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">specific_life_criteria_result_spike</span> <span class="o">=</span> <span class="n">report_single_pipe_life_criteria_results</span><span class="p">(</span><span class="n">life_criteria_spike</span><span class="p">,</span> <span class="n">pipe_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">specific_load_cycling_spike</span> <span class="o">=</span> <span class="n">report_single_cycle_evolution</span><span class="p">(</span><span class="n">load_cycling_spike</span><span class="p">,</span> <span class="n">pipe_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+              Cycles to a(crit)  Cycles to 25% a(crit)  Cycles to 1/2 Nc  \
+Total cycles       34404.354916               1.000000      17202.177458
+a/t                    0.402765               0.100691          0.284931
+
+              Cycles to FAD line
+Total cycles        27342.000000
+a/t                     0.326664
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling1</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span> <span class="n">specific_load_cycling1</span><span class="p">[</span><span class="s1">&#39;a/t&#39;</span><span class="p">],</span>  <span class="s1">&#39;b--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;w/o annual spike&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_life_criteria_result1</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+         <span class="n">specific_life_criteria_result1</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k*&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling_spike</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span> <span class="n">specific_load_cycling_spike</span><span class="p">[</span><span class="s1">&#39;a/t&#39;</span><span class="p">],</span>  <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;w/ annual spike&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_life_criteria_result_spike</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+         <span class="n">specific_life_criteria_result_spike</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k*&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Variable Pressure Loading&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Total Cycles [#]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;a/t [-]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">locator_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mf">1E1</span><span class="p">,</span> <span class="mf">3E7</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling1</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">specific_load_cycling1</span><span class="p">[</span><span class="s1">&#39;R ratio&#39;</span><span class="p">],</span>  <span class="s1">&#39;b--&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling_spike</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">specific_load_cycling_spike</span><span class="p">[</span><span class="s1">&#39;R ratio&#39;</span><span class="p">],</span>  <span class="s1">&#39;r-&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Total Cycles [#]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Load Ratio (R)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling1</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">specific_load_cycling1</span><span class="p">[</span><span class="s1">&#39;Kmax (MPa m^1/2)&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">specific_load_cycling1</span><span class="p">[</span><span class="s1">&#39;Kmin (MPa m^1/2)&#39;</span><span class="p">],</span>  <span class="s1">&#39;b--&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">specific_load_cycling_spike</span><span class="p">[</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">specific_load_cycling_spike</span><span class="p">[</span><span class="s1">&#39;Kmax (MPa m^1/2)&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">specific_load_cycling_spike</span><span class="p">[</span><span class="s1">&#39;Kmin (MPa m^1/2)&#39;</span><span class="p">],</span>  <span class="s1">&#39;r-&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Total Cycles [#]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$\Delta$ K [MPa m$^{1/2}$]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/var/folders/m7/xj3t74md7k32bgn0f0bvz3mr002lyh/T/ipykernel_24616/3863691916.py:4: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  plt.plot(specific_life_criteria_result1[&#39;Cycles to a(crit)&#39;][0],
+/var/folders/m7/xj3t74md7k32bgn0f0bvz3mr002lyh/T/ipykernel_24616/3863691916.py:5: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  specific_life_criteria_result1[&#39;Cycles to a(crit)&#39;][1], &#39;k*&#39;, zorder=5)
+/var/folders/m7/xj3t74md7k32bgn0f0bvz3mr002lyh/T/ipykernel_24616/3863691916.py:8: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  plt.plot(specific_life_criteria_result_spike[&#39;Cycles to a(crit)&#39;][0],
+/var/folders/m7/xj3t74md7k32bgn0f0bvz3mr002lyh/T/ipykernel_24616/3863691916.py:9: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  specific_life_criteria_result_spike[&#39;Cycles to a(crit)&#39;][1], &#39;k*&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_45_1.png" src="_images/demo_random_loading_45_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_45_2.png" src="_images/demo_random_loading_45_2.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_random_loading_45_3.png" src="_images/demo_random_loading_45_3.png" />
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="demo_failure_assessment_diagram.html" class="btn btn-neutral float-left" title="Demonstration of FAD Intersection as Additional Tracked QoI" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="demo_residual_stress.html" class="btn btn-neutral float-right" title="Life Assessment of Pipe with Residual Stress" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-2025 National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retainscertain rights in this software.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

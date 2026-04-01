@@ -6,16 +6,16 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sensitivity Analysis of Pipeline Lifetime Evaluation &mdash; helpr 2.0.0 documentation</title>
+  <title>Sensitivity Analysis of Pipeline Lifetime Evaluation &mdash; helpr 2.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
       <link rel="stylesheet" type="text/css" href="_static/nbsphinx-code-cells.css?v=2aa19091" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=51b770b3"></script>
+      <script src="_static/documentation_options.js?v=20623aea"></script>
       <script src="_static/doctools.js?v=9a2dae69"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/design-tabs.js?v=f930bc37"></script>
@@ -73,6 +73,12 @@
 <li class="toctree-l1"><a class="reference internal" href="demo_inspection_mitigation.html"><strong>Inspection Mitigation Analysis of Pipeline Population</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_crack_growth_curves.html"><strong>Demonstration of Crack Growth Curves</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_advanced_user_options.html"><strong>Advanced User Options</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_failure_assessment_diagram.html"><strong>Demonstration of FAD Intersection as Additional Tracked QoI</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_random_loading.html"><strong>Random Pressure Loading</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_residual_stress.html">Life Assessment of Pipe with Residual Stress</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_stress_intensity_factor.html">Test Case 1 : Varying a/t. Crack depths from 10% to 80% of the wall thickness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_stress_intensity_factor.html#Test-Case-2-:-Varying-2c/a-between-2-and-24">Test Case 2 : Varying 2c/a between 2 and 24</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_stress_intensity_factor.html#Test-Case-3-:-Varying-t-from-0.02-to-0.05">Test Case 3 : Varying t from 0.02 to 0.05</a></li>
 </ul>
 
         </div>
@@ -116,7 +122,7 @@
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">helpr.physics.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">CrackEvolutionAnalysis</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">helpr.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">CrackEvolutionAnalysis</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">helpr.utilities.unit_conversion</span><span class="w"> </span><span class="kn">import</span> <span class="n">convert_psi_to_mpa</span><span class="p">,</span> <span class="n">convert_in_to_m</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">helpr.utilities.plots</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_sensitivity_results</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">probabilistic.capabilities.uncertainty_definitions</span><span class="w"> </span><span class="kn">import</span> <span class="n">UniformDistribution</span><span class="p">,</span> <span class="n">NormalDistribution</span><span class="p">,</span> <span class="n">DeterministicCharacterization</span>
@@ -191,7 +197,7 @@
                                         <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">&#39;aleatory&#39;</span><span class="p">,</span>
                                         <span class="n">nominal_value</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
                                         <span class="n">upper_bound</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
-                                        <span class="n">lower_bound</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># % volume fraction H2 in natural gas blend, fraction</span>
+                                        <span class="n">lower_bound</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>  <span class="c1"># % volume fraction H2 in natural gas blend, fraction</span>
 </pre></div>
 </div>
 </div>
@@ -219,7 +225,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plotted_variable</span> <span class="o">=</span> <span class="s1">&#39;Cycles to a(crit)&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plotted_variable</span> <span class="o">=</span> <span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">,</span> <span class="s1">&#39;Cycles to FAD line&#39;</span>
 </pre></div>
 </div>
 </div>
@@ -239,23 +245,26 @@
 <h2><strong>Analysis</strong><a class="headerlink" href="#Analysis" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p><strong>Performing basic bounding sensitivity study on uncertain variables</strong></p></li>
+<li><p><strong>Use 1st 99th percentiles of uncertain variables while holding others at nominal</strong></p></li>
 </ul>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span> <span class="o">=</span> <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">pipe_outer_diameter</span><span class="p">,</span>
-                                  <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">,</span>
-                                  <span class="n">flaw_depth</span><span class="o">=</span><span class="n">flaw_depth</span><span class="p">,</span>
-                                  <span class="n">max_pressure</span><span class="o">=</span><span class="n">max_pressure</span><span class="p">,</span>
-                                  <span class="n">min_pressure</span><span class="o">=</span><span class="n">min_pressure</span><span class="p">,</span>
-                                  <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
-                                  <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">,</span>
-                                  <span class="n">yield_strength</span><span class="o">=</span><span class="n">yield_strength</span><span class="p">,</span>
-                                  <span class="n">fracture_resistance</span><span class="o">=</span><span class="n">fracture_resistance</span><span class="p">,</span>
-                                  <span class="n">flaw_length</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">,</span>
-                                  <span class="n">sample_type</span><span class="o">=</span><span class="n">sample_type</span><span class="p">)</span>
-<span class="n">analysis</span><span class="o">.</span><span class="n">perform_study</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bounding_analysis</span> <span class="o">=</span> \
+    <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">pipe_outer_diameter</span><span class="p">,</span>
+                           <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">,</span>
+                           <span class="n">flaw_depth</span><span class="o">=</span><span class="n">flaw_depth</span><span class="p">,</span>
+                           <span class="n">max_pressure</span><span class="o">=</span><span class="n">max_pressure</span><span class="p">,</span>
+                           <span class="n">min_pressure</span><span class="o">=</span><span class="n">min_pressure</span><span class="p">,</span>
+                           <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                           <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">,</span>
+                           <span class="n">yield_strength</span><span class="o">=</span><span class="n">yield_strength</span><span class="p">,</span>
+                           <span class="n">fracture_resistance</span><span class="o">=</span><span class="n">fracture_resistance</span><span class="p">,</span>
+                           <span class="n">flaw_length</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">,</span>
+                           <span class="n">sample_type</span><span class="o">=</span><span class="n">sample_type</span><span class="p">,</span>
+                           <span class="n">stress_intensity_method</span><span class="o">=</span><span class="s1">&#39;api&#39;</span><span class="p">)</span>
+<span class="n">bounding_analysis</span><span class="o">.</span><span class="n">perform_study</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -264,28 +273,35 @@
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:348: UserWarning: Inner Radius / wall thickness exceeds bounds 5 &lt;= R_i/t &lt;= 20, max R_i/t = 43.33497536945812, violating Anderson solution limits.
-  wr.warn(&#39;Inner Radius / wall thickness exceeds bounds &#39; +
-/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:129: UserWarning: Stress state exceeding 72% SMYS
-  wr.warn(&#39;Stress state exceeding 72% SMYS&#39;, UserWarning)
-/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:348: UserWarning: Inner Radius / wall thickness exceeds bounds 5 &lt;= R_i/t &lt;= 20, max R_i/t = 43.33497536945812, violating Anderson solution limits.
-  wr.warn(&#39;Inner Radius / wall thickness exceeds bounds &#39; +
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.44 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_sensitivity_results</span><span class="p">(</span><span class="n">analysis</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./Figures/sensitivity_bounding.png&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_sensitivity_results</span><span class="p">(</span><span class="n">bounding_analysis</span><span class="p">,</span> <span class="n">criteria</span><span class="o">=</span><span class="n">plotted_variable</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./Figures/sensitivity_bounding_cycles.png&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+
+
+<span class="n">plot_sensitivity_results</span><span class="p">(</span><span class="n">bounding_analysis</span><span class="p">,</span> <span class="n">criteria</span><span class="o">=</span><span class="n">plotted_variable</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./Figures/sensitivity_bounding_fad.png&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_sensitivity_19_0.png" src="_images/demo_sensitivity_19_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/demo_sensitivity_19_0.png" src="_images/demo_sensitivity_19_0.png" />
+<img alt="_images/demo_sensitivity_19_1.png" src="_images/demo_sensitivity_19_1.png" />
 </div>
 </div>
 <ul class="simple">
@@ -302,12 +318,13 @@
 </div>
 <ul class="simple">
 <li><p><strong>Performing sensitivity study on uncertain variables</strong></p></li>
+<li><p><strong>Use LHS samples of uncertain variables while other variables held at nominal values</strong></p></li>
 </ul>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span> <span class="o">=</span> <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">pipe_outer_diameter</span><span class="p">,</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sampling_analysis</span> <span class="o">=</span> <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">pipe_outer_diameter</span><span class="p">,</span>
                                   <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">,</span>
                                   <span class="n">flaw_depth</span><span class="o">=</span><span class="n">flaw_depth</span><span class="p">,</span>
                                   <span class="n">max_pressure</span><span class="o">=</span><span class="n">max_pressure</span><span class="p">,</span>
@@ -318,8 +335,9 @@
                                   <span class="n">fracture_resistance</span><span class="o">=</span><span class="n">fracture_resistance</span><span class="p">,</span>
                                   <span class="n">flaw_length</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">,</span>
                                   <span class="n">aleatory_samples</span><span class="o">=</span><span class="n">sample_size</span><span class="p">,</span>
-                                  <span class="n">sample_type</span><span class="o">=</span><span class="n">sample_type</span><span class="p">)</span>
-<span class="n">analysis</span><span class="o">.</span><span class="n">perform_study</span><span class="p">()</span>
+                                  <span class="n">sample_type</span><span class="o">=</span><span class="n">sample_type</span><span class="p">,</span>
+                                  <span class="n">stress_intensity_method</span><span class="o">=</span><span class="s1">&#39;anderson&#39;</span><span class="p">)</span>
+<span class="n">sampling_analysis</span><span class="o">.</span><span class="n">perform_study</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -328,35 +346,163 @@
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:348: UserWarning: Inner Radius / wall thickness exceeds bounds 5 &lt;= R_i/t &lt;= 20, max R_i/t = 43.33497536945812, violating Anderson solution limits.
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:521: UserWarning: Inner Radius / wall thickness exceeds bounds 5 &lt;= R_i/t &lt;= 20, R_i/t = 43.33497536945812, violating Anderson solution limits.
   wr.warn(&#39;Inner Radius / wall thickness exceeds bounds &#39; +
-/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:129: UserWarning: Stress state exceeding 72% SMYS
-  wr.warn(&#39;Stress state exceeding 72% SMYS&#39;, UserWarning)
-/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:348: UserWarning: Inner Radius / wall thickness exceeds bounds 5 &lt;= R_i/t &lt;= 20, max R_i/t = 43.33497536945812, violating Anderson solution limits.
-  wr.warn(&#39;Inner Radius / wall thickness exceeds bounds &#39; +
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.02 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.07 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.11 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.17 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.19 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.22 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.30 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.31 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.37 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.39 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.45 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.51 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.56 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.57 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.62 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.67 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.69 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.74 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.81 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.85 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.87 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.92 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.96 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.00 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.08 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.10 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.13 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.20 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.25 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.29 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.34 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.40 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.45 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.47 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.53 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.60 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.67 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.68 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.78 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.83 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.89 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.97 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.98 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.07 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.11 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.22 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.31 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.37 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.44 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.56 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.64 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.73 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.83 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.93 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.03 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.13 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.37 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.48 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.87 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.08 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr_external/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.08 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_sensitivity_results</span><span class="p">(</span><span class="n">analysis</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./Figures/sensitivity_study.png&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_sensitivity_results</span><span class="p">(</span><span class="n">sampling_analysis</span><span class="p">,</span> <span class="n">criteria</span><span class="o">=</span><span class="n">plotted_variable</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./Figures/sensitivity_study_cycles.png&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+
+<span class="n">plot_sensitivity_results</span><span class="p">(</span><span class="n">sampling_analysis</span><span class="p">,</span> <span class="n">criteria</span><span class="o">=</span><span class="n">plotted_variable</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./Figures/sensitivity_study_fad.png&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
+<div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <img alt="_images/demo_sensitivity_24_0.png" src="_images/demo_sensitivity_24_0.png" />
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_sensitivity_24_1.png" src="_images/demo_sensitivity_24_1.png" />
+</div>
+</div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span><span class="o">.</span><span class="n">save_results</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sampling_analysis</span><span class="o">.</span><span class="n">save_results</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -366,7 +512,7 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;Results/date_04_12_2024_time_20_10/&#39;
+&#39;Results/date_30_03_2026_time_21_39/&#39;
 </pre></div></div>
 </div>
 </section>
@@ -383,7 +529,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024 National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retainscertain rights in this software.</p>
+    <p>&#169; Copyright 2023-2025 National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retainscertain rights in this software.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

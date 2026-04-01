@@ -6,16 +6,16 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Inspection Mitigation Analysis of Pipeline Population &mdash; helpr 2.0.0 documentation</title>
+  <title>Inspection Mitigation Analysis of Pipeline Population &mdash; helpr 2.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
       <link rel="stylesheet" type="text/css" href="_static/nbsphinx-code-cells.css?v=2aa19091" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=51b770b3"></script>
+      <script src="_static/documentation_options.js?v=20623aea"></script>
       <script src="_static/doctools.js?v=9a2dae69"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/design-tabs.js?v=f930bc37"></script>
@@ -69,11 +69,17 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>Inspection Mitigation Analysis of Pipeline Population</strong></a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#Problem-Specification"><strong>Problem Specification</strong></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Analysis"><strong>Analysis</strong></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Inspection-Mitigation"><strong>Inspection Mitigation</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Inspection-Mitigation-Post-Processing"><strong>Inspection Mitigation Post Processing</strong></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="demo_crack_growth_curves.html"><strong>Demonstration of Crack Growth Curves</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_advanced_user_options.html"><strong>Advanced User Options</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_failure_assessment_diagram.html"><strong>Demonstration of FAD Intersection as Additional Tracked QoI</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_random_loading.html"><strong>Random Pressure Loading</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_residual_stress.html">Life Assessment of Pipe with Residual Stress</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_stress_intensity_factor.html">Test Case 1 : Varying a/t. Crack depths from 10% to 80% of the wall thickness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_stress_intensity_factor.html#Test-Case-2-:-Varying-2c/a-between-2-and-24">Test Case 2 : Varying 2c/a between 2 and 24</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_stress_intensity_factor.html#Test-Case-3-:-Varying-t-from-0.02-to-0.05">Test Case 3 : Varying t from 0.02 to 0.05</a></li>
 </ul>
 
         </div>
@@ -117,8 +123,10 @@
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">helpr.physics.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">CrackEvolutionAnalysis</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">helpr.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">CrackEvolutionAnalysis</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">helpr.physics.inspection_mitigation</span><span class="w"> </span><span class="kn">import</span> <span class="n">InspectionMitigation</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">helpr.utilities.unit_conversion</span><span class="w"> </span><span class="kn">import</span> <span class="n">convert_psi_to_mpa</span><span class="p">,</span> <span class="n">convert_in_to_m</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">helpr.utilities.plots</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_log_hist</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">probabilistic.capabilities.uncertainty_definitions</span><span class="w"> </span><span class="kn">import</span> <span class="n">UniformDistribution</span><span class="p">,</span> <span class="n">NormalDistribution</span><span class="p">,</span> <span class="n">DeterministicCharacterization</span>
 </pre></div>
 </div>
@@ -168,7 +176,6 @@
 <ul class="simple">
 <li><p><strong>Operating Conditions</strong></p></li>
 </ul>
-<p>! 85 ksi pressure cause hoop stresses to exceed allowable stresses</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
@@ -220,7 +227,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plotted_variable</span> <span class="o">=</span> <span class="s1">&#39;Cycles to a(crit)&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">criteria</span> <span class="o">=</span> <span class="s1">&#39;Cycles to a(crit)&#39;</span>
 </pre></div>
 </div>
 </div>
@@ -267,28 +274,1103 @@
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:348: UserWarning: Inner Radius / wall thickness exceeds bounds 5 &lt;= R_i/t &lt;= 20, max R_i/t = 43.33497536945812, violating Anderson solution limits.
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:521: UserWarning: Inner Radius / wall thickness exceeds bounds 5 &lt;= R_i/t &lt;= 20, R_i/t = 43.33497536945812, violating Anderson solution limits.
   wr.warn(&#39;Inner Radius / wall thickness exceeds bounds &#39; +
-/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:129: UserWarning: Stress state exceeding 72% SMYS
-  wr.warn(&#39;Stress state exceeding 72% SMYS&#39;, UserWarning)
-/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:348: UserWarning: Inner Radius / wall thickness exceeds bounds 5 &lt;= R_i/t &lt;= 20, max R_i/t = 43.33497536945812, violating Anderson solution limits.
-  wr.warn(&#39;Inner Radius / wall thickness exceeds bounds &#39; +
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.26 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.01 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.70 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.99 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.46 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.67 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.49 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.80 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.73 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.23 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.93 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.69 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.57 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.82 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.40 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.55 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.38 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.94 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.03 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.26 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.46 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.09 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.18 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.51 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.33 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.75 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.41 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.92 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.47 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.41 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 78.00 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.87 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.84 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.71 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.01 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.17 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.28 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.17 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.28 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.21 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.53 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.13 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.73 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.91 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.94 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.11 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.72 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.92 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.21 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.20 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.95 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.02 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.85 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.03 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.10 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.12 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.38 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.01 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.21 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.48 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.16 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.99 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.45 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.03 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.87 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.07 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.37 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.02 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.49 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.57 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.25 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.83 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.52 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.58 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.09 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.56 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.29 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.48 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.36 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.08 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.08 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.22 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.21 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.89 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.68 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.66 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.77 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.18 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.29 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.41 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.67 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.20 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.29 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.93 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.30 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.50 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.36 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.72 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.24 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.05 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.72 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.22 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.22 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.06 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.45 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.43 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.87 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.54 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.57 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.37 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.68 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.63 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.24 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.65 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.04 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.95 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.64 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.19 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.55 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.01 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.76 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.53 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.94 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.84 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.52 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.52 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.43 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.35 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.67 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.19 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.97 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.17 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.96 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.05 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.55 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.40 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.83 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.57 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.42 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.11 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.62 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.48 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.08 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.04 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.56 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.47 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.98 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.49 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.87 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.32 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.38 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.65 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.62 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.03 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.24 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.86 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.70 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.59 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.66 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.27 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.75 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.20 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.82 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 78.61 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.05 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.78 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.11 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.24 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.29 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.11 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.85 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.59 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.30 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.46 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.61 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.92 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.35 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.31 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.49 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.33 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.23 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.62 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.77 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.60 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.43 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.58 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.11 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.90 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.39 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.44 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.68 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.10 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.09 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.41 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 78.15 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.51 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.07 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.12 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.76 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.13 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.44 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.42 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.06 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.70 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.53 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.95 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.30 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.25 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.86 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.00 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.75 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.96 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.65 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.34 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.65 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.17 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.78 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.91 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.63 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.39 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.25 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.60 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.19 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.16 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.98 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.03 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.43 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.42 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.44 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.34 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.26 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.12 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.05 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.34 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.97 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.10 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.08 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.00 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.15 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.31 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.63 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.52 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.32 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.83 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.25 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.42 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.07 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.90 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.13 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.66 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.83 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.48 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.30 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.56 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.93 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.29 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.04 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.88 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.81 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.28 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.72 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.26 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.15 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.74 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.64 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.85 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.36 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.50 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.55 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.22 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.69 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.80 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.79 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.87 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.98 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.27 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.84 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.02 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.16 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.93 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.47 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.05 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.89 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.31 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.71 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.73 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.74 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.14 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.27 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.37 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.45 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.61 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.13 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.81 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.06 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.02 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.50 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.54 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.49 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.69 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.87 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.16 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.12 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.28 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.85 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.15 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.59 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.84 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.80 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.39 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.03 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.76 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.60 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.23 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.58 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.19 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.64 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.79 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.23 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.36 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.07 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.90 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.23 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.61 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.33 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.69 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.55 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.47 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.74 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.91 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.40 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.82 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.34 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.32 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.37 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.99 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.54 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.73 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.79 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.14 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.54 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.66 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.15 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.81 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.17 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.14 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.59 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.88 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.89 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.18 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.05 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.86 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.04 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.60 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.54 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.31 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.33 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.80 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.60 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.14 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.13 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.94 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.53 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.51 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.62 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.39 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.51 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.16 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.09 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.77 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.63 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.16 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.15 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.75 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.07 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.96 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.00 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.79 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.27 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.14 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.51 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.67 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 72.00 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.80 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.71 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.96 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.18 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.38 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.53 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 73.35 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.57 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.98 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.81 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.33 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.48 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.19 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.69 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.89 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.20 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.97 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.73 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.38 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.40 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.28 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.76 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.80 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.45 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.39 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.91 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.81 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.70 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.27 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.35 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.83 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.79 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.45 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.19 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.34 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.96 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.04 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.44 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.08 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.65 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.86 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.10 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.90 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.99 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.46 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.32 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.91 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.41 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.09 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.12 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.86 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.72 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.01 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.78 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.89 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.52 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.88 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.78 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.15 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.56 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.71 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.71 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.95 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.77 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.88 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.50 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.61 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.11 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.68 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.58 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.47 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.67 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.35 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.88 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.64 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.06 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.18 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 74.64 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.76 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.20 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.24 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.37 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.92 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.62 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 78.26 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.58 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.14 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.06 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.21 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.25 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.68 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.95 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.00 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.63 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.43 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.84 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.68 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.29 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.93 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.24 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.48 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.78 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.92 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.30 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.42 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.31 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.20 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.01 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.70 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.74 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.97 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.63 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.75 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.82 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.07 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.22 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.02 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.57 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.26 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 75.74 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.56 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.36 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.10 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.23 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.77 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.31 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.26 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.00 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.97 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.51 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.50 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.46 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.44 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.73 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.61 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.59 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.44 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 78.45 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.36 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.42 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.40 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 79.11 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.09 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.38 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.99 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.54 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.32 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.35 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
 </pre></div></div>
 </div>
 </section>
-<section id="Inspection-Mitigation">
-<h2><strong>Inspection Mitigation</strong><a class="headerlink" href="#Inspection-Mitigation" title="Link to this heading"></a></h2>
-<div class="nbinput docutils container">
+<section id="Inspection-Mitigation-Post-Processing">
+<h2><strong>Inspection Mitigation Post Processing</strong><a class="headerlink" href="#Inspection-Mitigation-Post-Processing" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Specify Inspection Mitigaiton Parameters</strong></p>
+<ul>
+<li><p><strong>probability of detection</strong> is if large enough to be detected, probability it will be detected</p></li>
+<li><p><strong>detection resolution</strong> is minimum size at which a crack can be detected by inspection equipment</p></li>
+<li><p><strong>inspection_frequency</strong> is the number cycles between inspections</p></li>
+</ul>
+</li>
+</ul>
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">probability_of_detection</span> <span class="o">=</span> <span class="mf">0.8</span>  <span class="c1"># 80%</span>
-<span class="n">detection_resolution</span> <span class="o">=</span> <span class="mf">0.3</span>  <span class="c1"># able to detect cracks greater than 30% through</span>
+<span class="n">detection_resolution</span> <span class="o">=</span> <span class="mf">0.25</span>  <span class="c1"># able to detect cracks greater than 25% through</span>
 <span class="n">inspection_interval</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1"># how many years between inspections</span>
 <span class="n">inspection_frequency</span> <span class="o">=</span> <span class="mi">365</span><span class="o">*</span><span class="n">inspection_interval</span>  <span class="c1"># inspections in terms of cycles</span>
-<span class="n">criteria</span><span class="o">=</span><span class="s1">&#39;Cycles to a(crit)&#39;</span>
-
-<span class="n">mitigated</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">apply_inspection_mitigation</span><span class="p">(</span><span class="n">probability_of_detection</span><span class="p">,</span>
+</pre></div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Execute Inspection Mitigation Analysis through API</strong></p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mitigated</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">apply_inspection_mitigation</span><span class="p">(</span><span class="n">probability_of_detection</span><span class="p">,</span>
                                                  <span class="n">detection_resolution</span><span class="p">,</span>
                                                  <span class="n">inspection_frequency</span><span class="p">,</span>
                                                  <span class="n">criteria</span><span class="p">)</span>
@@ -299,21 +1381,51 @@
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/demo_inspection_mitigation_21_0.png" src="_images/demo_inspection_mitigation_21_0.png" />
+<img alt="_images/demo_inspection_mitigation_23_0.png" src="_images/demo_inspection_mitigation_23_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/demo_inspection_mitigation_21_1.png" src="_images/demo_inspection_mitigation_21_1.png" />
+<img alt="_images/demo_inspection_mitigation_23_1.png" src="_images/demo_inspection_mitigation_23_1.png" />
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Directly Access Inspection Mitigation Module</strong></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">directly_apply_inspection_mitigation</span><span class="p">(</span><span class="n">probability_of_detection</span><span class="p">,</span>
+                                         <span class="n">detection_resolution</span><span class="p">,</span>
+                                         <span class="n">inspection_frequency</span><span class="p">,</span>
+                                         <span class="n">analysis_results</span><span class="p">):</span>
+    <span class="n">monitoring_activity</span> <span class="o">=</span> <span class="n">InspectionMitigation</span><span class="p">(</span><span class="n">probability_of_detection</span><span class="p">,</span>
+                                               <span class="n">detection_resolution</span><span class="p">,</span>
+                                               <span class="n">inspection_frequency</span><span class="p">)</span>
+    <span class="n">cycles_till_mitigation</span> <span class="o">=</span> \
+        <span class="n">monitoring_activity</span><span class="o">.</span><span class="n">inspect_then_mitigate</span><span class="p">(</span><span class="n">analysis_results</span><span class="o">.</span><span class="n">load_cycling</span><span class="p">,</span>
+                                                  <span class="n">analysis_results</span><span class="o">.</span><span class="n">life_criteria</span><span class="p">[</span><span class="n">criteria</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                                                  <span class="n">analysis_results</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+
+    <span class="n">percent_mitigated</span> <span class="o">=</span> <span class="p">(</span><span class="n">sample_size</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cycles_till_mitigation</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="o">/</span><span class="n">sample_size</span><span class="o">*</span><span class="mi">100</span>
+
+    <span class="k">return</span> <span class="n">cycles_till_mitigation</span><span class="p">,</span> <span class="n">percent_mitigated</span>
+</pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">percent_mitigated</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">mitigated</span><span class="p">)</span><span class="o">/</span><span class="n">sample_size</span><span class="o">*</span><span class="mi">100</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cycles_till_mitigation</span><span class="p">,</span> <span class="n">percent_mitigated</span> <span class="o">=</span>  \
+    <span class="n">directly_apply_inspection_mitigation</span><span class="p">(</span><span class="n">probability_of_detection</span><span class="p">,</span>
+                                         <span class="n">detection_resolution</span><span class="p">,</span>
+                                         <span class="n">inspection_frequency</span><span class="p">,</span>
+                                         <span class="n">analysis</span><span class="p">)</span>
+
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Percent mitigated through inspection = </span><span class="si">{</span><span class="n">percent_mitigated</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -323,90 +1435,32 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Percent mitigated through inspection = 81.5%
+Percent mitigated through inspection = 95.9%
 </pre></div></div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">plot_log_hist</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">logbins</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">logbins</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">num_bins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
-        <span class="n">hist</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">num_bins</span><span class="p">)</span>
-        <span class="n">logbins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">bins</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">bins</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">))</span>
-
-    <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
-            <span class="n">bins</span><span class="o">=</span><span class="n">logbins</span><span class="p">,</span>
-            <span class="n">histtype</span><span class="o">=</span><span class="s1">&#39;step&#39;</span><span class="p">,</span>
-            <span class="n">density</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">logbins</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cycle_life_data</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">life_criteria</span><span class="p">[</span><span class="n">criteria</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">365</span>
-<span class="n">nominal_life_result</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">nominal_life_criteria</span><span class="p">[</span><span class="n">criteria</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">365</span>
-
-<span class="n">mitigated_life_data</span> <span class="o">=</span> <span class="n">cycle_life_data</span><span class="p">[</span><span class="n">mitigated</span><span class="p">]</span>
-<span class="n">not_mitigated_life_data</span> <span class="o">=</span> <span class="n">cycle_life_data</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">mitigated</span><span class="p">)]</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-
-<span class="n">logbins</span> <span class="o">=</span> <span class="n">plot_log_hist</span><span class="p">(</span><span class="n">cycle_life_data</span><span class="p">,</span> <span class="s1">&#39;raw data&#39;</span><span class="p">)</span>
-<span class="n">plot_log_hist</span><span class="p">(</span><span class="n">mitigated_life_data</span><span class="p">,</span> <span class="s1">&#39;mitigated&#39;</span><span class="p">,</span> <span class="n">logbins</span><span class="p">)</span>
-
-<span class="n">ylims</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">nominal_life_result</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span>
-         <span class="n">ylims</span><span class="p">,</span>
-         <span class="s1">&#39;r--&#39;</span><span class="p">,</span>
-         <span class="n">label</span><span class="o">=</span><span class="s1">&#39;nominal&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">inspection_interval</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span>
-         <span class="n">ylims</span><span class="p">,</span>
-         <span class="s1">&#39;g:&#39;</span><span class="p">,</span>
-         <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">inspection_interval</span><span class="si">}</span><span class="s1"> year inspection freq.&#39;</span><span class="p">)</span>
-
-<span class="n">legend</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Years&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;PDF&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="_images/demo_inspection_mitigation_24_0.png" src="_images/demo_inspection_mitigation_24_0.png" />
-</div>
-</div>
+<ul class="simple">
+<li><p><strong>Zoomed in PDF of Inspection Mitigation Results</strong></p></li>
+</ul>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">cycle_life_data</span><span class="p">),</span>
-         <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cycle_life_data</span><span class="p">))</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">cycle_life_data</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;raw data&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">mitigated_life_data</span><span class="p">),</span>
-         <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mitigated_life_data</span><span class="p">))</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">mitigated_life_data</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;mitigated&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">not_mitigated_life_data</span><span class="p">),</span>
-         <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">not_mitigated_life_data</span><span class="p">))</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">not_mitigated_life_data</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;non mitigated&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cycle_life_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">/</span> <span class="mi">365</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">analysis</span><span class="o">.</span><span class="n">life_criteria</span><span class="p">[</span><span class="n">criteria</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span>
+<span class="n">mitigation_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">/</span> <span class="mi">365</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cycles_till_mitigation</span><span class="p">]</span>
+<span class="n">non_mitigated_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">cycle_life_data</span><span class="p">,</span> <span class="n">mitigation_data</span><span class="p">)]</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">inspection_interval</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span>
-         <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-         <span class="s1">&#39;g:&#39;</span><span class="p">,</span>
-         <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">inspection_interval</span><span class="si">}</span><span class="s1"> year inspection freq.&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">()</span>
 
-<span class="n">legend</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
+<span class="n">logbins</span> <span class="o">=</span> <span class="n">plot_log_hist</span><span class="p">(</span><span class="n">cycle_life_data</span><span class="p">,</span> <span class="s1">&#39;Critical </span><span class="se">\n</span><span class="s1"> w/o Inspection&#39;</span><span class="p">)</span>
+<span class="n">plot_log_hist</span><span class="p">(</span><span class="n">mitigation_data</span><span class="p">,</span> <span class="s1">&#39;Mitigated </span><span class="se">\n</span><span class="s1"> w/ Inspection&#39;</span><span class="p">,</span> <span class="n">logbins</span><span class="p">)</span>
+<span class="n">plot_log_hist</span><span class="p">(</span><span class="n">non_mitigated_data</span><span class="p">,</span> <span class="s1">&#39;Critical Not Detected </span><span class="se">\n</span><span class="s1"> w/ Inspection&#39;</span><span class="p">,</span> <span class="n">logbins</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.7</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Years&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;CDF&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;PDF - Cracks&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -415,26 +1469,28 @@ Percent mitigated through inspection = 81.5%
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/demo_inspection_mitigation_25_0.png" src="_images/demo_inspection_mitigation_25_0.png" />
+<img alt="_images/demo_inspection_mitigation_28_0.png" src="_images/demo_inspection_mitigation_28_0.png" />
 </div>
 </div>
+<ul class="simple">
+<li><p><strong>Change Probability of Detection to 60% (baseline 80%)</strong></p></li>
+</ul>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">cycle_life_data</span><span class="p">),</span>
-         <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cycle_life_data</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;raw data&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">mitigated_life_data</span><span class="p">),</span>
-         <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mitigated_life_data</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;mitigated&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">not_mitigated_life_data</span><span class="p">),</span>
-         <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">not_mitigated_life_data</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;non mitigated&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">probability_of_detection</span> <span class="o">=</span> <span class="mf">0.60</span>  <span class="c1"># 60%</span>
+<span class="n">detection_resolution</span> <span class="o">=</span> <span class="mf">0.25</span>  <span class="c1"># able to detect cracks greater than 25% through</span>
+<span class="n">inspection_interval</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1"># how many years between inspections</span>
+<span class="n">inspection_frequency</span> <span class="o">=</span> <span class="mi">365</span><span class="o">*</span><span class="n">inspection_interval</span>  <span class="c1"># inspections in terms of cycles</span>
 
-<span class="n">legend</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Years&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Cumulative Failed Cracks&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">cycles_till_mitigation_1</span><span class="p">,</span> <span class="n">percent_mitigated</span> <span class="o">=</span>  \
+    <span class="n">directly_apply_inspection_mitigation</span><span class="p">(</span><span class="n">probability_of_detection</span><span class="p">,</span>
+                                         <span class="n">detection_resolution</span><span class="p">,</span>
+                                         <span class="n">inspection_frequency</span><span class="p">,</span>
+                                         <span class="n">analysis</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Percent mitigated through inspection (</span><span class="si">{</span><span class="n">probability_of_detection</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s1">% Det. Prob.) = </span><span class="si">{</span><span class="n">percent_mitigated</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -442,7 +1498,298 @@ Percent mitigated through inspection = 81.5%
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/demo_inspection_mitigation_26_0.png" src="_images/demo_inspection_mitigation_26_0.png" />
+<div class="highlight"><pre>
+Percent mitigated through inspection (60.0% Det. Prob.) = 93.0%
+</pre></div></div>
+</div>
+<ul class="simple">
+<li><p><strong>Change Detection Resolution to 30% of Wall Thickness (baseline 25%)</strong></p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">probability_of_detection</span> <span class="o">=</span> <span class="mf">0.8</span>  <span class="c1"># 80%</span>
+<span class="n">detection_resolution</span> <span class="o">=</span> <span class="mf">0.30</span>  <span class="c1"># able to detect cracks greater than 30% through</span>
+<span class="n">inspection_interval</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1"># how many years between inspections</span>
+<span class="n">inspection_frequency</span> <span class="o">=</span> <span class="mi">365</span><span class="o">*</span><span class="n">inspection_interval</span>  <span class="c1"># inspections in terms of cycles</span>
+
+<span class="n">cycles_till_mitigation_2</span><span class="p">,</span> <span class="n">percent_mitigated</span> <span class="o">=</span>  \
+    <span class="n">directly_apply_inspection_mitigation</span><span class="p">(</span><span class="n">probability_of_detection</span><span class="p">,</span>
+                                         <span class="n">detection_resolution</span><span class="p">,</span>
+                                         <span class="n">inspection_frequency</span><span class="p">,</span>
+                                         <span class="n">analysis</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Percent mitigated through inspection (</span><span class="si">{</span><span class="n">detection_resolution</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s1">% Res.) = </span><span class="si">{</span><span class="n">percent_mitigated</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Percent mitigated through inspection (30.0% Res.) = 81.0%
+</pre></div></div>
+</div>
+<ul class="simple">
+<li><p><strong>Change Inspection Interval to 10 years (baseline 4 years)</strong></p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">probability_of_detection</span> <span class="o">=</span> <span class="mf">0.8</span>  <span class="c1"># 80%</span>
+<span class="n">detection_resolution</span> <span class="o">=</span> <span class="mf">0.25</span>  <span class="c1"># able to detect cracks greater than 25% through</span>
+<span class="n">inspection_interval</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># how many years between inspections</span>
+<span class="n">inspection_frequency</span> <span class="o">=</span> <span class="mi">365</span><span class="o">*</span><span class="n">inspection_interval</span>  <span class="c1"># inspections in terms of cycles</span>
+
+<span class="n">cycles_till_mitigation_3</span><span class="p">,</span> <span class="n">percent_mitigated</span> <span class="o">=</span>  \
+    <span class="n">directly_apply_inspection_mitigation</span><span class="p">(</span><span class="n">probability_of_detection</span><span class="p">,</span>
+                                         <span class="n">detection_resolution</span><span class="p">,</span>
+                                         <span class="n">inspection_frequency</span><span class="p">,</span>
+                                         <span class="n">analysis</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Percent mitigated through inspection (</span><span class="si">{</span><span class="n">inspection_interval</span><span class="si">}</span><span class="s1"> Yr Insp. Freq.) = </span><span class="si">{</span><span class="n">percent_mitigated</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Percent mitigated through inspection (10 Yr Insp. Freq.) = 83.3%
+</pre></div></div>
+</div>
+<ul class="simple">
+<li><p><strong>Compare Impact of Varying Inspection Mitigation Parameters on CDF Results</strong></p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">mitigation_data_0</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">/</span> <span class="mi">365</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cycles_till_mitigation</span><span class="p">]</span>
+<span class="n">mitigation_data_1</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">/</span> <span class="mi">365</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cycles_till_mitigation_1</span><span class="p">]</span>
+<span class="n">mitigation_data_2</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">/</span> <span class="mi">365</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cycles_till_mitigation_2</span><span class="p">]</span>
+<span class="n">mitigation_data_3</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">/</span> <span class="mi">365</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cycles_till_mitigation_3</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">mitigation_data_0</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_0</span><span class="p">))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_0</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Baseline&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">mitigation_data_1</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_1</span><span class="p">))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_1</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;60% Detect. Prob.&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">mitigation_data_2</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_2</span><span class="p">))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_2</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;30% Resolution&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">mitigation_data_3</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_3</span><span class="p">))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_3</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;10 Yr. Inspc. Freq.&#39;</span><span class="p">)</span>
+
+
+<span class="c1"># Configure plot legend and labels</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time [years]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Cumulative Mitigated Cracks&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>  <span class="c1"># Set x-axis to logarithmic scale</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Baseline: 80% Detect. Prob., 25% Resolution, 4 Yr. Inspc. Freq.&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_inspection_mitigation_36_0.png" src="_images/demo_inspection_mitigation_36_0.png" />
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Compare Results w/ and w/o Hydrogen</strong></p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">volume_fraction_h2</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">,</span>
+                                                   <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">fracture_resistance</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;fracture_resistance&#39;</span><span class="p">,</span>
+                                                    <span class="n">value</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="n">analysis_air</span> <span class="o">=</span> <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">pipe_outer_diameter</span><span class="p">,</span>
+                                      <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">,</span>
+                                      <span class="n">flaw_depth</span><span class="o">=</span><span class="n">flaw_depth</span><span class="p">,</span>
+                                      <span class="n">max_pressure</span><span class="o">=</span><span class="n">max_pressure</span><span class="p">,</span>
+                                      <span class="n">min_pressure</span><span class="o">=</span><span class="n">min_pressure</span><span class="p">,</span>
+                                      <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                                      <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">,</span>
+                                      <span class="n">yield_strength</span><span class="o">=</span><span class="n">yield_strength</span><span class="p">,</span>
+                                      <span class="n">fracture_resistance</span><span class="o">=</span><span class="n">fracture_resistance</span><span class="p">,</span>
+                                      <span class="n">flaw_length</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">,</span>
+                                      <span class="n">aleatory_samples</span><span class="o">=</span><span class="n">sample_size</span><span class="p">,</span>
+                                      <span class="n">sample_type</span><span class="o">=</span><span class="n">sample_type</span><span class="p">)</span>
+<span class="n">analysis_air</span><span class="o">.</span><span class="n">perform_study</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.76 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.96 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.27 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.21 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.92 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.34 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.55 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.90 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.69 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.86 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 78.02 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.49 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.41 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.22 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.98 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.08 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.61 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.37 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.06 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 78.75 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.77 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 79.00 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.18 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.83 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.94 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.13 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.52 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 78.48 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.46 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 77.58 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+/Users/bbschro/Development/helpr/src/helpr/physics/stress_state.py:210: UserWarning: Stress state 76.66 &gt; 72% SMYS
+  wr.warn(f&#39;Stress state {self.percent_smys:.2f} &gt; 72% SMYS&#39;, UserWarning)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">probability_of_detection</span> <span class="o">=</span> <span class="mf">0.8</span>  <span class="c1"># 80%</span>
+<span class="n">detection_resolution</span> <span class="o">=</span> <span class="mf">0.25</span>  <span class="c1"># able to detect cracks greater than 25% through</span>
+<span class="n">inspection_interval</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1"># how many years between inspections</span>
+<span class="n">inspection_frequency</span> <span class="o">=</span> <span class="mi">365</span><span class="o">*</span><span class="n">inspection_interval</span>  <span class="c1"># inspections in terms of cycles</span>
+
+<span class="n">cycles_till_mitigation_air</span><span class="p">,</span> <span class="n">percent_mitigated</span> <span class="o">=</span>  \
+    <span class="n">directly_apply_inspection_mitigation</span><span class="p">(</span><span class="n">probability_of_detection</span><span class="p">,</span>
+                                         <span class="n">detection_resolution</span><span class="p">,</span>
+                                         <span class="n">inspection_frequency</span><span class="p">,</span>
+                                         <span class="n">analysis_air</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Percent mitigated through inspection = </span><span class="si">{</span><span class="n">percent_mitigated</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Percent mitigated through inspection = 100.0%
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot of original crack evolutions (nominals)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">cycles_to_critical_crack_h2</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">life_criteria</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">cycles_to_critical_crack_air</span> <span class="o">=</span> <span class="n">analysis_air</span><span class="o">.</span><span class="n">life_criteria</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">cycle_life_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">/</span> <span class="mi">365</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cycles_to_critical_crack_h2</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">cycle_life_data</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cycle_life_data</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;H$_2$&#39;</span><span class="p">)</span>
+<span class="n">cycle_life_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">/</span> <span class="mi">365</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cycles_to_critical_crack_air</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">cycle_life_data</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cycle_life_data</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Air&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Total Cycles [#]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Cumlative Critical Cracks [#]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>  <span class="c1"># Set x-axis to logarithmic scale</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">xlims</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">()</span>
+
+
+<span class="c1"># Plot comparing inspection mitigation results</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">mitigation_data_0</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">/</span> <span class="mi">365</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cycles_till_mitigation</span><span class="p">]</span>
+<span class="n">mitigation_data_1</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">/</span> <span class="mi">365</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cycles_till_mitigation_air</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">mitigation_data_0</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_0</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;H$_2$&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">mitigation_data_1</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_1</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Air&#39;</span><span class="p">)</span>
+
+<span class="c1"># Configure plot legend and labels</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time [years]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Cumlative Mitigated Cracks [#]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>  <span class="c1"># Set x-axis to logarithmic scale</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xlims</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;80% Detect. Prob., 25% Resolution, 4 Yr. Inspc. Freq.&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_inspection_mitigation_40_0.png" src="_images/demo_inspection_mitigation_40_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_inspection_mitigation_40_1.png" src="_images/demo_inspection_mitigation_40_1.png" />
 </div>
 </div>
 </section>
@@ -459,7 +1806,7 @@ Percent mitigated through inspection = 81.5%
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024 National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retainscertain rights in this software.</p>
+    <p>&#169; Copyright 2023-2025 National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retainscertain rights in this software.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

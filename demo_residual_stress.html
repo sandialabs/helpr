@@ -1,0 +1,989 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Life Assessment of Pipe with Residual Stress &mdash; helpr 2.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=20623aea"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/design-tabs.js?v=f930bc37"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Test Case 1 : Varying a/t. Crack depths from 10% to 80% of the wall thickness" href="demo_stress_intensity_factor.html" />
+    <link rel="prev" title="Random Pressure Loading" href="demo_random_loading.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/HELPR_app_icon.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">HELPR Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="physics.html"><strong>Physics Documentation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="phys_tests.html"><strong>Tests Documentation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html"><strong>Utilities Documentation</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Probabilistic Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="capabilities.html"><strong>Capabilities Documentation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob_tests.html"><strong>Tests Documentation</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">HELPR Demo</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="demo_deterministic.html"><strong>Single Deterministic Pipeline Lifetime Evaluation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_probabilistic.html"><strong>Probabilistic Evaluation for Single Pipe Lifetime</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_uncertainty_types.html"><strong>Probabilistic Evaluation for Pipe Population’s Lifetimes with Multiple Types of Uncertainty</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_sensitivity.html"><strong>Sensitivity Analysis of Pipeline Lifetime Evaluation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_inspection_mitigation.html"><strong>Inspection Mitigation Analysis of Pipeline Population</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_crack_growth_curves.html"><strong>Demonstration of Crack Growth Curves</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_advanced_user_options.html"><strong>Advanced User Options</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_failure_assessment_diagram.html"><strong>Demonstration of FAD Intersection as Additional Tracked QoI</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_random_loading.html"><strong>Random Pressure Loading</strong></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Life Assessment of Pipe with Residual Stress</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Problem-Specification">Problem Specification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Residual-Stress-Specifications">Residual Stress Specifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Deterministic-Analysis">Deterministic Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Probabilistic-Analysis">Probabilistic Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="demo_stress_intensity_factor.html">Test Case 1 : Varying a/t. Crack depths from 10% to 80% of the wall thickness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_stress_intensity_factor.html#Test-Case-2-:-Varying-2c/a-between-2-and-24">Test Case 2 : Varying 2c/a between 2 and 24</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_stress_intensity_factor.html#Test-Case-3-:-Varying-t-from-0.02-to-0.05">Test Case 3 : Varying t from 0.02 to 0.05</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">helpr</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Life Assessment of Pipe with Residual Stress</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/demo_residual_stress.nblink.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">helpr.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">CrackEvolutionAnalysis</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">helpr.utilities.unit_conversion</span><span class="w"> </span><span class="kn">import</span> <span class="n">convert_psi_to_mpa</span><span class="p">,</span> <span class="n">convert_in_to_m</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">probabilistic.capabilities.uncertainty_definitions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">DeterministicCharacterization</span><span class="p">,</span>
+                                                                <span class="n">NormalDistribution</span><span class="p">,</span>
+                                                                <span class="n">BetaDistribution</span><span class="p">,</span>
+                                                                <span class="n">UniformDistribution</span><span class="p">,</span>
+                                                                <span class="n">TruncatedNormalDistribution</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">probabilistic.capabilities.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_sample_histogram</span>
+</pre></div>
+</div>
+</div>
+<section id="Life-Assessment-of-Pipe-with-Residual-Stress">
+<h1>Life Assessment of Pipe with Residual Stress<a class="headerlink" href="#Life-Assessment-of-Pipe-with-Residual-Stress" title="Link to this heading"></a></h1>
+<section id="Problem-Specification">
+<h2>Problem Specification<a class="headerlink" href="#Problem-Specification" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 36 inch outer diameter</span>
+<span class="n">pipe_outer_diameter</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;outer_diameter&#39;</span><span class="p">,</span>
+                                                    <span class="n">value</span><span class="o">=</span><span class="n">convert_in_to_m</span><span class="p">(</span><span class="mi">36</span><span class="p">))</span>
+<span class="c1"># 0.406 inch wall thickness</span>
+<span class="n">wall_thickness</span>      <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;wall_thickness&#39;</span><span class="p">,</span>
+                                                    <span class="n">value</span><span class="o">=</span><span class="n">convert_in_to_m</span><span class="p">(</span><span class="mf">0.406</span><span class="p">))</span>
+<span class="c1"># material yield strength of 52_000 psi</span>
+<span class="n">yield_strength</span>      <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;yield_strength&#39;</span><span class="p">,</span>
+                                                    <span class="n">value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">52_000</span><span class="p">))</span>
+<span class="c1"># fracture resistance (toughness), MPa m1/2</span>
+<span class="n">fracture_resistance</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;fracture_resistance&#39;</span><span class="p">,</span>
+                                                    <span class="n">value</span><span class="o">=</span><span class="mi">55</span><span class="p">)</span>
+<span class="c1"># maximum pressure during oscillation, MPa</span>
+<span class="n">max_pressure</span>        <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;max_pressure&#39;</span><span class="p">,</span>
+                                                    <span class="n">value</span><span class="o">=</span> <span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">840</span><span class="p">))</span>
+<span class="c1"># minimum pressure during oscillation (or R = 0.75)</span>
+<span class="n">min_pressure</span>        <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;min_pressure&#39;</span><span class="p">,</span>
+                                                    <span class="n">value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">638</span><span class="p">))</span>
+<span class="c1"># temperature of gas in pipe, K</span>
+<span class="n">temperature</span>         <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;temperature&#39;</span><span class="p">,</span>
+                                                    <span class="n">value</span><span class="o">=</span><span class="mi">293</span><span class="p">)</span>
+<span class="c1"># % mole fraction H2 in natural gas blend</span>
+<span class="n">volume_fraction_h2</span>  <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">,</span>
+                                                    <span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># flaw 25% through pipe thickness</span>
+<span class="n">flaw_depth</span>          <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flaw_depth&#39;</span><span class="p">,</span>
+                                                    <span class="n">value</span><span class="o">=</span> <span class="mi">25</span><span class="p">)</span>
+<span class="c1"># width of initial crack/flaw, m</span>
+<span class="n">flaw_length</span>         <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flaw_length&#39;</span><span class="p">,</span>
+                                                    <span class="n">value</span><span class="o">=</span> <span class="n">convert_in_to_m</span><span class="p">(</span><span class="mf">1.575</span><span class="p">))</span>
+
+<span class="n">stress_intensity_method</span> <span class="o">=</span> <span class="s1">&#39;api&#39;</span>  <span class="c1"># Stress intensity factor method used</span>
+<span class="n">surface</span> <span class="o">=</span> <span class="s1">&#39;inside&#39;</span> <span class="c1"># surface on which crack is</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Residual-Stress-Specifications">
+<h2>Residual Stress Specifications<a class="headerlink" href="#Residual-Stress-Specifications" title="Link to this heading"></a></h2>
+<p>Residual stress can be defined in two ways:</p>
+<ul class="simple">
+<li><p>Providing a static, explicit stress intensity factor (<code class="docutils literal notranslate"><span class="pre">residual_stress_intensity_factor</span></code>)</p></li>
+<li><p>Providing properties of a weld, which allows an evolving stress intensity factor as the flaw changes. The weld properties are:</p>
+<ul>
+<li><p>Weld thickness</p></li>
+<li><p>Distance between the flaw and the weld</p></li>
+<li><p>Relative direction (i.e. perpendicular or parallel to the weld seam) between the flaw and the weld</p></li>
+<li><p>Weld steel</p></li>
+<li><p>Weld process</p></li>
+<li><p>Weld material yield strength (optional; estimated based on pipe material if not provided)</p></li>
+</ul>
+</li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flaw_direction</span> <span class="o">=</span> <span class="s1">&#39;perpendicular&#39;</span>
+<span class="n">weld_process</span> <span class="o">=</span> <span class="s1">&#39;SMAW&#39;</span>
+<span class="n">weld_steel</span> <span class="o">=</span> <span class="s1">&#39;ferritic&#39;</span>
+<span class="n">weld_thickness_det</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;weld_thickness&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="n">weld_yield_strength_det</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;weld_yield_strength&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">52_000</span><span class="p">))</span>
+<span class="n">weld_flaw_distance_det</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;weld_flaw_distance&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">0.02</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">k_res_explicit_det</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;residual_stress_intensity_factor&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">12.</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Deterministic-Analysis">
+<h2>Deterministic Analysis<a class="headerlink" href="#Deterministic-Analysis" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis_wo_kres_det</span> <span class="o">=</span> <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">pipe_outer_diameter</span><span class="p">,</span>
+                                  <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">,</span>
+                                  <span class="n">flaw_depth</span><span class="o">=</span><span class="n">flaw_depth</span><span class="p">,</span>
+                                  <span class="n">max_pressure</span><span class="o">=</span><span class="n">max_pressure</span><span class="p">,</span>
+                                  <span class="n">min_pressure</span><span class="o">=</span><span class="n">min_pressure</span><span class="p">,</span>
+                                  <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                                  <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">,</span>
+                                  <span class="n">yield_strength</span><span class="o">=</span><span class="n">yield_strength</span><span class="p">,</span>
+                                  <span class="n">fracture_resistance</span><span class="o">=</span><span class="n">fracture_resistance</span><span class="p">,</span>
+                                  <span class="n">flaw_length</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">,</span>
+                                  <span class="n">stress_intensity_method</span><span class="o">=</span><span class="n">stress_intensity_method</span><span class="p">,</span>
+                                  <span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">,</span>
+                                  <span class="n">fad_type</span><span class="o">=</span><span class="s1">&#39;API 579-1 Level 2&#39;</span><span class="p">)</span>
+<span class="n">analysis_wo_kres_det</span><span class="o">.</span><span class="n">perform_study</span><span class="p">()</span>
+
+<span class="n">analysis_w_exp_kres_det</span> <span class="o">=</span> <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">pipe_outer_diameter</span><span class="p">,</span>
+                                  <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">,</span>
+                                  <span class="n">flaw_depth</span><span class="o">=</span><span class="n">flaw_depth</span><span class="p">,</span>
+                                  <span class="n">max_pressure</span><span class="o">=</span><span class="n">max_pressure</span><span class="p">,</span>
+                                  <span class="n">min_pressure</span><span class="o">=</span><span class="n">min_pressure</span><span class="p">,</span>
+                                  <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                                  <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">,</span>
+                                  <span class="n">yield_strength</span><span class="o">=</span><span class="n">yield_strength</span><span class="p">,</span>
+                                  <span class="n">fracture_resistance</span><span class="o">=</span><span class="n">fracture_resistance</span><span class="p">,</span>
+                                  <span class="n">flaw_length</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">,</span>
+                                  <span class="n">stress_intensity_method</span><span class="o">=</span><span class="n">stress_intensity_method</span><span class="p">,</span>
+                                  <span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">,</span>
+                                  <span class="n">residual_stress_intensity_factor</span><span class="o">=</span><span class="n">k_res_explicit_det</span><span class="p">,</span>
+                                  <span class="n">fad_type</span><span class="o">=</span><span class="s1">&#39;API 579-1 Level 2&#39;</span><span class="p">)</span>
+<span class="n">analysis_w_exp_kres_det</span><span class="o">.</span><span class="n">perform_study</span><span class="p">()</span>
+
+<span class="n">analysis_w_weld_det</span> <span class="o">=</span> <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">pipe_outer_diameter</span><span class="p">,</span>
+                                  <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">,</span>
+                                  <span class="n">flaw_depth</span><span class="o">=</span><span class="n">flaw_depth</span><span class="p">,</span>
+                                  <span class="n">max_pressure</span><span class="o">=</span><span class="n">max_pressure</span><span class="p">,</span>
+                                  <span class="n">min_pressure</span><span class="o">=</span><span class="n">min_pressure</span><span class="p">,</span>
+                                  <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                                  <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">,</span>
+                                  <span class="n">yield_strength</span><span class="o">=</span><span class="n">yield_strength</span><span class="p">,</span>
+                                  <span class="n">fracture_resistance</span><span class="o">=</span><span class="n">fracture_resistance</span><span class="p">,</span>
+                                  <span class="n">flaw_length</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">,</span>
+                                  <span class="n">stress_intensity_method</span><span class="o">=</span><span class="n">stress_intensity_method</span><span class="p">,</span>
+                                  <span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">,</span>
+                                  <span class="n">weld_thickness</span><span class="o">=</span><span class="n">weld_thickness_det</span><span class="p">,</span>
+                                  <span class="n">weld_yield_strength</span><span class="o">=</span><span class="n">weld_yield_strength_det</span><span class="p">,</span>
+                                  <span class="n">weld_flaw_distance</span><span class="o">=</span><span class="n">weld_flaw_distance_det</span><span class="p">,</span>
+                                  <span class="n">weld_flaw_direction</span><span class="o">=</span><span class="n">flaw_direction</span><span class="p">,</span>
+                                  <span class="n">weld_steel</span><span class="o">=</span><span class="n">weld_steel</span><span class="p">,</span>
+                                  <span class="n">weld_process</span><span class="o">=</span><span class="n">weld_process</span><span class="p">,</span>
+                                  <span class="n">fad_type</span><span class="o">=</span><span class="s1">&#39;API 579-1 Level 2&#39;</span><span class="p">)</span>
+<span class="n">analysis_w_weld_det</span><span class="o">.</span><span class="n">perform_study</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_wo_kres_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">analysis_wo_kres_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;a/t&#39;</span><span class="p">],</span>
+         <span class="s1">&#39;k-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;w/o $K_</span><span class="si">{res}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_wo_kres_det</span><span class="o">.</span><span class="n">nominal_life_criteria</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+         <span class="n">analysis_wo_kres_det</span><span class="o">.</span><span class="n">nominal_life_criteria</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+         <span class="s1">&#39;k*&#39;</span><span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_w_exp_kres_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">analysis_w_exp_kres_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;a/t&#39;</span><span class="p">],</span>
+         <span class="s1">&#39;r--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;w/ explicit $K_</span><span class="si">{res}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_w_exp_kres_det</span><span class="o">.</span><span class="n">nominal_life_criteria</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+         <span class="n">analysis_w_exp_kres_det</span><span class="o">.</span><span class="n">nominal_life_criteria</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+         <span class="s1">&#39;r*&#39;</span><span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_w_weld_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">analysis_w_weld_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;a/t&#39;</span><span class="p">],</span>
+         <span class="s1">&#39;b--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;w/ evolving $K_</span><span class="si">{res}</span><span class="s1">$ from weld&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_w_weld_det</span><span class="o">.</span><span class="n">nominal_life_criteria</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+         <span class="n">analysis_w_weld_det</span><span class="o">.</span><span class="n">nominal_life_criteria</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+         <span class="s1">&#39;b.&#39;</span><span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;a/t&#39;</span><span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_9_0.png" src="_images/demo_residual_stress_9_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis_wo_kres_det</span><span class="o">.</span><span class="n">postprocess_single_crack_results</span><span class="p">()</span>
+<span class="n">analysis_wo_kres_det</span><span class="o">.</span><span class="n">get_design_curve_plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Without $K_</span><span class="si">{res}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">analysis_wo_kres_det</span><span class="o">.</span><span class="n">assemble_failure_assessment_diagram</span><span class="p">()</span>
+
+<span class="n">analysis_w_exp_kres_det</span><span class="o">.</span><span class="n">postprocess_single_crack_results</span><span class="p">()</span>
+<span class="n">analysis_w_exp_kres_det</span><span class="o">.</span><span class="n">get_design_curve_plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;With explicit $K_</span><span class="si">{res}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">analysis_w_exp_kres_det</span><span class="o">.</span><span class="n">assemble_failure_assessment_diagram</span><span class="p">()</span>
+
+<span class="n">analysis_w_weld_det</span><span class="o">.</span><span class="n">postprocess_single_crack_results</span><span class="p">()</span>
+<span class="n">analysis_w_weld_det</span><span class="o">.</span><span class="n">get_design_curve_plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;With evolving $K_</span><span class="si">{res}</span><span class="s1">$ from weld&#39;</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">analysis_w_weld_det</span><span class="o">.</span><span class="n">assemble_failure_assessment_diagram</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+              Cycles to a(crit)  Cycles to 25% a(crit)  Cycles to 1/2 Nc  \
+Total cycles       58168.074078               1.000000      29084.037039
+a/t                    0.499076               0.124769          0.288095
+
+              Cycles to FAD line
+Total cycles        56495.856587
+a/t                     0.437057
+              Cycles to a(crit)  Cycles to 25% a(crit)  Cycles to 1/2 Nc  \
+Total cycles       38931.506596               1.000000      19465.753298
+a/t                    0.400062               0.100015          0.285647
+
+              Cycles to FAD line
+Total cycles        23220.301262
+a/t                     0.296395
+              Cycles to a(crit)  Cycles to 25% a(crit)  Cycles to 1/2 Nc  \
+Total cycles       32129.347790               1.000000      16064.673895
+a/t                    0.350875               0.087719          0.279793
+
+              Cycles to FAD line
+Total cycles         7751.442225
+a/t                     0.262253
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_10_1.png" src="_images/demo_residual_stress_10_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_10_2.png" src="_images/demo_residual_stress_10_2.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_10_3.png" src="_images/demo_residual_stress_10_3.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_10_4.png" src="_images/demo_residual_stress_10_4.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_10_5.png" src="_images/demo_residual_stress_10_5.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_10_6.png" src="_images/demo_residual_stress_10_6.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_10_7.png" src="_images/demo_residual_stress_10_7.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_10_8.png" src="_images/demo_residual_stress_10_8.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_10_9.png" src="_images/demo_residual_stress_10_9.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_wo_kres_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">analysis_wo_kres_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;R ratio&#39;</span><span class="p">],</span>
+         <span class="s1">&#39;g-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;w/o $K_</span><span class="si">{res}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_w_exp_kres_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">analysis_w_exp_kres_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;R ratio&#39;</span><span class="p">],</span>
+         <span class="s1">&#39;g-.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;w/ explicit $K_</span><span class="si">{res}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_w_weld_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">analysis_w_weld_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;R ratio&#39;</span><span class="p">],</span>
+         <span class="s1">&#39;g--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;w/ evolving $K_</span><span class="si">{res}</span><span class="s1">$ from weld&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Total cylcles [#]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;R Ratio&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_wo_kres_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">analysis_wo_kres_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Kres (MPa m^1/2)&#39;</span><span class="p">],</span>
+         <span class="s1">&#39;b-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;w/o $K_</span><span class="si">{res}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_w_exp_kres_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">analysis_w_exp_kres_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Kres (MPa m^1/2)&#39;</span><span class="p">],</span>
+         <span class="s1">&#39;b-.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;w/ explicit $K_</span><span class="si">{res}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_w_weld_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">analysis_w_weld_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Kres (MPa m^1/2)&#39;</span><span class="p">],</span>
+         <span class="s1">&#39;b--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;w/ evolving $K_</span><span class="si">{res}</span><span class="s1">$ from weld&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Total cylcles [#]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Kres [MPa m$^{1/2}$]&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_wo_kres_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">analysis_wo_kres_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Kmax (MPa m^1/2)&#39;</span><span class="p">],</span>
+         <span class="s1">&#39;b-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;w/o $K_</span><span class="si">{res}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_w_exp_kres_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">analysis_w_exp_kres_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Kmax (MPa m^1/2)&#39;</span><span class="p">],</span>
+         <span class="s1">&#39;b-.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;w/ explicit $K_</span><span class="si">{res}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_w_weld_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">analysis_w_weld_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Kmax (MPa m^1/2)&#39;</span><span class="p">],</span>
+         <span class="s1">&#39;b--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;w/ evolving $K_</span><span class="si">{res}</span><span class="s1">$ from weld&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Total cylcles [#]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;K$_</span><span class="si">{max}</span><span class="s1">$ + K$_</span><span class="si">{res}</span><span class="s1">$ [MPa m$^{1/2}$]&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_wo_kres_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">analysis_wo_kres_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Delta K (MPa m^1/2)&#39;</span><span class="p">],</span>
+         <span class="s1">&#39;b-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;w/o $K_</span><span class="si">{res}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_w_exp_kres_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">analysis_w_exp_kres_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Delta K (MPa m^1/2)&#39;</span><span class="p">],</span>
+         <span class="s1">&#39;b-.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;w/ explicit $K_</span><span class="si">{res}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_w_weld_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
+         <span class="n">analysis_w_weld_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Delta K (MPa m^1/2)&#39;</span><span class="p">],</span>
+         <span class="s1">&#39;b--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;w/ evolving $K_</span><span class="si">{res}</span><span class="s1">$ from weld&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Total cylcles [#]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\Delta$ K [MPa m$^{1/2}$]&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_11_0.png" src="_images/demo_residual_stress_11_0.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_11_1.png" src="_images/demo_residual_stress_11_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_11_2.png" src="_images/demo_residual_stress_11_2.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_11_3.png" src="_images/demo_residual_stress_11_3.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_wo_kres_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Kmax (MPa m^1/2)&#39;</span><span class="p">],</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">analysis_wo_kres_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Delta a (m)&#39;</span><span class="p">])</span><span class="o">/</span>\
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">analysis_wo_kres_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Delta N&#39;</span><span class="p">]),</span>
+         <span class="s1">&#39;b-&#39;</span><span class="p">,</span>  <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;w/o $K_</span><span class="si">{res}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_w_exp_kres_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Kmax (MPa m^1/2)&#39;</span><span class="p">],</span>
+         <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">analysis_w_exp_kres_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Delta a (m)&#39;</span><span class="p">])</span><span class="o">/</span>\
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">analysis_w_exp_kres_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Delta N&#39;</span><span class="p">]),</span>
+         <span class="s1">&#39;b-.&#39;</span><span class="p">,</span>  <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;w/ explicit $K_</span><span class="si">{res}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_w_weld_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Kmax (MPa m^1/2)&#39;</span><span class="p">],</span>
+         <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">analysis_w_weld_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Delta a (m)&#39;</span><span class="p">])</span><span class="o">/</span>\
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">analysis_w_weld_det</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Delta N&#39;</span><span class="p">]),</span>
+         <span class="s1">&#39;b--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;w/ evolving $K_</span><span class="si">{res}</span><span class="s1">$ from weld&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Kmax [MPa m$^{1/2}$]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;da/dN (m/cycle)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/var/folders/m7/xj3t74md7k32bgn0f0bvz3mr002lyh/T/ipykernel_25346/1506651364.py:3: RuntimeWarning: invalid value encountered in divide
+  np.array(analysis_wo_kres_det.nominal_load_cycling[0][&#39;Delta a (m)&#39;])/\
+/var/folders/m7/xj3t74md7k32bgn0f0bvz3mr002lyh/T/ipykernel_25346/1506651364.py:7: RuntimeWarning: invalid value encountered in divide
+  np.array(analysis_w_exp_kres_det.nominal_load_cycling[0][&#39;Delta a (m)&#39;])/\
+/var/folders/m7/xj3t74md7k32bgn0f0bvz3mr002lyh/T/ipykernel_25346/1506651364.py:11: RuntimeWarning: invalid value encountered in divide
+  np.array(analysis_w_weld_det.nominal_load_cycling[0][&#39;Delta a (m)&#39;])/\
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_12_1.png" src="_images/demo_residual_stress_12_1.png" />
+</div>
+</div>
+</section>
+<section id="Probabilistic-Analysis">
+<h2>Probabilistic Analysis<a class="headerlink" href="#Probabilistic-Analysis" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample_type</span> <span class="o">=</span> <span class="s1">&#39;lhs&#39;</span>
+<span class="n">sample_size</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">plotted_variable</span> <span class="o">=</span> <span class="s1">&#39;Cycles to a(crit)&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">weld_thickness_prob</span> <span class="o">=</span> <span class="n">TruncatedNormalDistribution</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;weld_thickness&#39;</span><span class="p">,</span>
+            <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">&#39;aleatory&#39;</span><span class="p">,</span>
+            <span class="n">nominal_value</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+            <span class="n">mean</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+            <span class="n">std_deviation</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span>
+            <span class="n">lower_bound</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+            <span class="n">upper_bound</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span>
+<span class="n">weld_yield_strength_prob</span> <span class="o">=</span> <span class="n">BetaDistribution</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;weld_yield_strength&#39;</span><span class="p">,</span>
+            <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">&#39;aleatory&#39;</span><span class="p">,</span>
+            <span class="n">nominal_value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">52_000</span><span class="p">),</span>
+            <span class="n">a</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="n">loc</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">52_000</span><span class="p">),</span>
+            <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">weld_flaw_distance_prob</span> <span class="o">=</span> <span class="n">UniformDistribution</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;weld_flaw_distance&#39;</span><span class="p">,</span>
+            <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">&#39;aleatory&#39;</span><span class="p">,</span>
+            <span class="n">nominal_value</span><span class="o">=</span><span class="mf">0.02</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span>
+            <span class="n">lower_bound</span><span class="o">=</span><span class="mf">0.02</span><span class="o">*</span><span class="mf">.5</span><span class="p">,</span>
+            <span class="n">upper_bound</span><span class="o">=</span><span class="mf">0.02</span><span class="o">*</span><span class="mf">4.5</span><span class="p">)</span>
+
+<span class="n">k_res_explicit_prob</span> <span class="o">=</span> <span class="n">NormalDistribution</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;residual_stress_intensity_factor&#39;</span><span class="p">,</span>
+            <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">&#39;aleatory&#39;</span><span class="p">,</span>
+            <span class="n">nominal_value</span><span class="o">=</span><span class="mf">12.</span><span class="p">,</span>
+            <span class="n">mean</span><span class="o">=</span><span class="mf">12.</span><span class="p">,</span>
+            <span class="n">std_deviation</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis_w_exp_kres_prob</span> <span class="o">=</span> <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">pipe_outer_diameter</span><span class="p">,</span>
+                                  <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">,</span>
+                                  <span class="n">flaw_depth</span><span class="o">=</span><span class="n">flaw_depth</span><span class="p">,</span>
+                                  <span class="n">max_pressure</span><span class="o">=</span><span class="n">max_pressure</span><span class="p">,</span>
+                                  <span class="n">min_pressure</span><span class="o">=</span><span class="n">min_pressure</span><span class="p">,</span>
+                                  <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                                  <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">,</span>
+                                  <span class="n">yield_strength</span><span class="o">=</span><span class="n">yield_strength</span><span class="p">,</span>
+                                  <span class="n">fracture_resistance</span><span class="o">=</span><span class="n">fracture_resistance</span><span class="p">,</span>
+                                  <span class="n">flaw_length</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">,</span>
+                                  <span class="n">stress_intensity_method</span><span class="o">=</span><span class="n">stress_intensity_method</span><span class="p">,</span>
+                                  <span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">,</span>
+                                  <span class="n">residual_stress_intensity_factor</span><span class="o">=</span><span class="n">k_res_explicit_prob</span><span class="p">,</span>
+                                  <span class="n">aleatory_samples</span><span class="o">=</span><span class="n">sample_size</span><span class="p">,</span>
+                                  <span class="n">sample_type</span><span class="o">=</span><span class="n">sample_type</span><span class="p">,</span>
+                                  <span class="n">fad_type</span><span class="o">=</span><span class="s1">&#39;API 579-1 Level 2&#39;</span><span class="p">)</span>
+<span class="n">analysis_w_exp_kres_prob</span><span class="o">.</span><span class="n">perform_study</span><span class="p">()</span>
+
+<span class="n">analysis_w_weld_prob</span> <span class="o">=</span> <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">pipe_outer_diameter</span><span class="p">,</span>
+                                  <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">,</span>
+                                  <span class="n">flaw_depth</span><span class="o">=</span><span class="n">flaw_depth</span><span class="p">,</span>
+                                  <span class="n">max_pressure</span><span class="o">=</span><span class="n">max_pressure</span><span class="p">,</span>
+                                  <span class="n">min_pressure</span><span class="o">=</span><span class="n">min_pressure</span><span class="p">,</span>
+                                  <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                                  <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">,</span>
+                                  <span class="n">yield_strength</span><span class="o">=</span><span class="n">yield_strength</span><span class="p">,</span>
+                                  <span class="n">fracture_resistance</span><span class="o">=</span><span class="n">fracture_resistance</span><span class="p">,</span>
+                                  <span class="n">flaw_length</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">,</span>
+                                  <span class="n">stress_intensity_method</span><span class="o">=</span><span class="n">stress_intensity_method</span><span class="p">,</span>
+                                  <span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">,</span>
+                                  <span class="n">weld_thickness</span><span class="o">=</span><span class="n">weld_thickness_prob</span><span class="p">,</span>
+                                  <span class="n">weld_yield_strength</span><span class="o">=</span><span class="n">weld_yield_strength_prob</span><span class="p">,</span>
+                                  <span class="n">weld_flaw_distance</span><span class="o">=</span><span class="n">weld_flaw_distance_prob</span><span class="p">,</span>
+                                  <span class="n">weld_flaw_direction</span><span class="o">=</span><span class="n">flaw_direction</span><span class="p">,</span>
+                                  <span class="n">weld_steel</span><span class="o">=</span><span class="n">weld_steel</span><span class="p">,</span>
+                                  <span class="n">weld_process</span><span class="o">=</span><span class="n">weld_process</span><span class="p">,</span>
+                                  <span class="n">aleatory_samples</span><span class="o">=</span><span class="n">sample_size</span><span class="p">,</span>
+                                  <span class="n">sample_type</span><span class="o">=</span><span class="n">sample_type</span><span class="p">,</span>
+                                  <span class="n">fad_type</span><span class="o">=</span><span class="s1">&#39;API 579-1 Level 2&#39;</span><span class="p">)</span>
+<span class="n">analysis_w_weld_prob</span><span class="o">.</span><span class="n">perform_study</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">analysis_w_exp_kres_prob</span><span class="o">.</span><span class="n">uncertain_parameters</span><span class="p">:</span>
+
+    <span class="n">analysis_w_exp_kres_prob</span><span class="o">.</span><span class="n">input_parameters</span><span class="p">[</span><span class="n">parameter</span><span class="p">]</span><span class="o">.</span><span class="n">plot_distribution</span><span class="p">()</span>
+
+    <span class="n">plot_sample_histogram</span><span class="p">(</span><span class="n">analysis_w_exp_kres_prob</span><span class="o">.</span><span class="n">sampling_input_parameter_values</span><span class="p">[</span><span class="n">parameter</span><span class="p">],</span>
+                          <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">parameter</span><span class="si">}</span><span class="s1"> - Sample Density&#39;</span><span class="p">,</span>
+                          <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                          <span class="n">histtype</span><span class="o">=</span><span class="s1">&#39;step&#39;</span><span class="p">)</span>
+
+<span class="n">analysis_w_exp_kres_prob</span><span class="o">.</span><span class="n">generate_probabilistic_results_plots</span><span class="p">(</span><span class="n">plotted_variable</span><span class="o">=</span><span class="p">[</span><span class="n">plotted_variable</span><span class="p">])</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">analysis_w_exp_kres_prob</span><span class="o">.</span><span class="n">assemble_failure_assessment_diagram</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_17_0.png" src="_images/demo_residual_stress_17_0.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_17_1.png" src="_images/demo_residual_stress_17_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_17_2.png" src="_images/demo_residual_stress_17_2.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_17_3.png" src="_images/demo_residual_stress_17_3.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_17_4.png" src="_images/demo_residual_stress_17_4.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_17_5.png" src="_images/demo_residual_stress_17_5.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_17_6.png" src="_images/demo_residual_stress_17_6.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_17_7.png" src="_images/demo_residual_stress_17_7.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">analysis_w_weld_prob</span><span class="o">.</span><span class="n">uncertain_parameters</span><span class="p">:</span>
+
+    <span class="n">analysis_w_weld_prob</span><span class="o">.</span><span class="n">input_parameters</span><span class="p">[</span><span class="n">parameter</span><span class="p">]</span><span class="o">.</span><span class="n">plot_distribution</span><span class="p">()</span>
+
+    <span class="n">plot_sample_histogram</span><span class="p">(</span><span class="n">analysis_w_weld_prob</span><span class="o">.</span><span class="n">sampling_input_parameter_values</span><span class="p">[</span><span class="n">parameter</span><span class="p">],</span>
+                          <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">parameter</span><span class="si">}</span><span class="s1"> - Sample Density&#39;</span><span class="p">,</span>
+                          <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                          <span class="n">histtype</span><span class="o">=</span><span class="s1">&#39;step&#39;</span><span class="p">)</span>
+
+<span class="n">analysis_w_weld_prob</span><span class="o">.</span><span class="n">generate_probabilistic_results_plots</span><span class="p">(</span><span class="n">plotted_variable</span><span class="o">=</span><span class="p">[</span><span class="n">plotted_variable</span><span class="p">])</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">analysis_w_weld_prob</span><span class="o">.</span><span class="n">assemble_failure_assessment_diagram</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_18_0.png" src="_images/demo_residual_stress_18_0.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_18_1.png" src="_images/demo_residual_stress_18_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_18_2.png" src="_images/demo_residual_stress_18_2.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_18_3.png" src="_images/demo_residual_stress_18_3.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_18_4.png" src="_images/demo_residual_stress_18_4.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_18_5.png" src="_images/demo_residual_stress_18_5.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_18_6.png" src="_images/demo_residual_stress_18_6.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_18_7.png" src="_images/demo_residual_stress_18_7.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_18_8.png" src="_images/demo_residual_stress_18_8.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_18_9.png" src="_images/demo_residual_stress_18_9.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_18_10.png" src="_images/demo_residual_stress_18_10.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_18_11.png" src="_images/demo_residual_stress_18_11.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_18_12.png" src="_images/demo_residual_stress_18_12.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_18_13.png" src="_images/demo_residual_stress_18_13.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">helpr.physics.environment</span><span class="w"> </span><span class="kn">import</span> <span class="n">EnvironmentSpecification</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">helpr.physics.crack_growth</span><span class="w"> </span><span class="kn">import</span> <span class="n">CrackGrowth</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_da_dn</span><span class="p">(</span><span class="n">r_p</span><span class="p">,</span>
+              <span class="n">k_res</span><span class="p">,</span>
+              <span class="n">k_max</span><span class="p">,</span>
+              <span class="n">delta_a</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+
+    <span class="n">crack_growth_model</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;model_name&#39;</span><span class="p">:</span> <span class="s1">&#39;code_case_2938&#39;</span><span class="p">}</span>
+
+    <span class="n">environment</span> <span class="o">=</span> <span class="n">EnvironmentSpecification</span><span class="p">(</span><span class="n">max_pressure</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                                            <span class="n">min_pressure</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                            <span class="n">temperature</span><span class="o">=</span><span class="mi">293</span><span class="p">,</span>
+                                            <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">crack_growth</span> <span class="o">=</span> <span class="n">CrackGrowth</span><span class="p">(</span><span class="n">environment</span><span class="o">=</span><span class="n">environment</span><span class="p">,</span>
+                               <span class="n">growth_model_specification</span><span class="o">=</span><span class="n">crack_growth_model</span><span class="p">)</span>
+
+
+    <span class="n">k_min</span> <span class="o">=</span> <span class="n">k_max</span> <span class="o">*</span> <span class="n">r_p</span>
+    <span class="n">r_k</span> <span class="o">=</span> <span class="p">(</span><span class="n">k_min</span> <span class="o">+</span> <span class="n">k_res</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">k_max</span> <span class="o">+</span> <span class="n">k_res</span><span class="p">)</span>
+    <span class="n">delta_k</span> <span class="o">=</span> <span class="p">(</span><span class="n">k_max</span> <span class="o">+</span> <span class="n">k_res</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">r_k</span><span class="p">)</span>
+
+    <span class="c1"># G = 5.5 # MPa m^1/2</span>
+    <span class="c1"># I = 5.5 # MPa m^1/2</span>
+    <span class="c1"># H = 0.8</span>
+    <span class="c1"># delta_k_th = min(G*(1 - H*r_k), I)</span>
+
+    <span class="n">da_dn</span> <span class="o">=</span> <span class="n">delta_a</span><span class="o">/</span><span class="n">crack_growth</span><span class="o">.</span><span class="n">calc_delta_n</span><span class="p">(</span><span class="n">delta_a</span><span class="o">=</span><span class="n">delta_a</span><span class="p">,</span> <span class="n">delta_k</span><span class="o">=</span><span class="n">delta_k</span><span class="p">,</span> <span class="n">r_ratio</span><span class="o">=</span><span class="n">r_k</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">da_dn</span>
+
+
+<span class="n">all_results_40</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:[],</span> <span class="mi">10</span><span class="p">:</span> <span class="p">[],</span> <span class="mi">20</span><span class="p">:</span> <span class="p">[]}</span>
+<span class="n">all_results_50</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:[],</span> <span class="mi">10</span><span class="p">:</span> <span class="p">[],</span> <span class="mi">20</span><span class="p">:</span> <span class="p">[]}</span>
+<span class="n">r_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">.96</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">k_res</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">kres</span> <span class="ow">in</span> <span class="n">k_res</span><span class="p">:</span>
+    <span class="n">temp_40</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">temp_50</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">rp</span> <span class="ow">in</span> <span class="n">r_p</span><span class="p">:</span>
+        <span class="n">da_dn</span> <span class="o">=</span> <span class="n">get_da_dn</span><span class="p">(</span><span class="n">r_p</span><span class="o">=</span><span class="n">rp</span><span class="p">,</span> <span class="n">k_res</span><span class="o">=</span><span class="n">kres</span><span class="p">,</span> <span class="n">k_max</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+        <span class="n">temp_40</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">da_dn</span><span class="p">)</span>
+        <span class="n">da_dn</span> <span class="o">=</span> <span class="n">get_da_dn</span><span class="p">(</span><span class="n">r_p</span><span class="o">=</span><span class="n">rp</span><span class="p">,</span> <span class="n">k_res</span><span class="o">=</span><span class="n">kres</span><span class="p">,</span> <span class="n">k_max</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+        <span class="n">temp_50</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">da_dn</span><span class="p">)</span>
+
+    <span class="n">all_results_40</span><span class="p">[</span><span class="n">kres</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp_40</span>
+    <span class="n">all_results_50</span><span class="p">[</span><span class="n">kres</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp_50</span>
+
+<span class="n">df_40</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">all_results_40</span><span class="p">)</span>
+<span class="n">df_50</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">all_results_50</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">ls</span><span class="p">,</span> <span class="n">kres</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="s1">&#39;-.&#39;</span><span class="p">],</span> <span class="n">k_res</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">linestyle</span><span class="o">=</span><span class="n">ls</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">kres</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">r_p</span><span class="p">,</span> <span class="n">df_50</span><span class="p">[</span><span class="n">kres</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="n">ls</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">r_p</span><span class="p">,</span> <span class="n">df_40</span><span class="p">[</span><span class="n">kres</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="n">ls</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="s1">&#39;K$_</span><span class="si">{max}</span><span class="s1">$ = 40 MPa m$^{1/2}$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+         <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">transAxes</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">,</span> <span class="s1">&#39;K$_</span><span class="si">{max}</span><span class="s1">$ = 50 MPa m$^{1/2}$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+         <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">transAxes</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Pressure Ratio, R$_p$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Fatigue Crack Growth rate, da/dN [m/cycle]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;K$_</span><span class="si">{res}</span><span class="s1">$ [MPa m$^{1/2}$]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">1e-10</span><span class="p">,</span> <span class="mf">1e-5</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo_residual_stress_19_0.png" src="_images/demo_residual_stress_19_0.png" />
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="demo_random_loading.html" class="btn btn-neutral float-left" title="Random Pressure Loading" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="demo_stress_intensity_factor.html" class="btn btn-neutral float-right" title="Test Case 1 : Varying a/t. Crack depths from 10% to 80% of the wall thickness" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-2025 National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS).Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retainscertain rights in this software.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
