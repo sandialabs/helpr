@@ -28,6 +28,7 @@ jobs:
         sudo apt-get install pandoc
         python3 -m pip install --upgrade pip
         pip3 install -r src/docs/requirements.txt
+        pip3 install pytest 
 
     - name: Build documentation
       shell: bash -l {0}
