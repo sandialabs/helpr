@@ -11,6 +11,10 @@ jobs:
     name: Build and deploy website
     runs-on: ubuntu-22.04
 
+    # <<<--- Enable Node 24 for all actions in this job
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python
