@@ -139,7 +139,7 @@
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># turn warnings back on for general use</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">'ignore'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -154,9 +154,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipe_outer_diameter</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;outer_diameter&#39;</span><span class="p">,</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipe_outer_diameter</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'outer_diameter'</span><span class="p">,</span>
                                                     <span class="n">value</span><span class="o">=</span><span class="n">convert_in_to_m</span><span class="p">(</span><span class="mi">36</span><span class="p">))</span>  <span class="c1"># pipe outer diameter, m</span>
-<span class="n">wall_thickness</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;wall_thickness&#39;</span><span class="p">,</span>
+<span class="n">wall_thickness</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'wall_thickness'</span><span class="p">,</span>
                                                <span class="n">value</span><span class="o">=</span><span class="n">convert_in_to_m</span><span class="p">(</span><span class="mf">0.406</span><span class="p">))</span>  <span class="c1"># pipe wall thickness, m</span>
 </pre></div>
 </div>
@@ -168,9 +168,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yield_strength</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;yield_strength&#39;</span><span class="p">,</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yield_strength</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'yield_strength'</span><span class="p">,</span>
                                                <span class="n">value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">52_000</span><span class="p">))</span>  <span class="c1"># material yield strength, psi</span>
-<span class="n">fracture_resistance</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;fracture_resistance&#39;</span><span class="p">,</span>
+<span class="n">fracture_resistance</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'fracture_resistance'</span><span class="p">,</span>
                                                     <span class="n">value</span><span class="o">=</span><span class="mi">55</span><span class="p">)</span>  <span class="c1"># fracture resistance (toughness), MPa m1/2</span>
 </pre></div>
 </div>
@@ -183,28 +183,28 @@
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># maximum pressure during oscillation, MPa</span>
-<span class="n">max_pressure</span> <span class="o">=</span> <span class="n">TruncatedNormalDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;max_pressure&#39;</span><span class="p">,</span>
-                                  <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">&#39;aleatory&#39;</span><span class="p">,</span>
+<span class="n">max_pressure</span> <span class="o">=</span> <span class="n">TruncatedNormalDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'max_pressure'</span><span class="p">,</span>
+                                  <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">'aleatory'</span><span class="p">,</span>
                                   <span class="n">nominal_value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">840</span><span class="p">),</span>
                                   <span class="n">mean</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">850</span><span class="p">),</span>
                                   <span class="n">std_deviation</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>
                                   <span class="n">lower_bound</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">850</span><span class="p">)</span><span class="o">-</span><span class="mi">3</span><span class="o">*</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>
                                   <span class="n">upper_bound</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">850</span><span class="p">)</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span>
 <span class="c1"># minimum pressure during oscillation, MPa</span>
-<span class="n">min_pressure</span> <span class="o">=</span> <span class="n">TruncatedNormalDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;min_pressure&#39;</span><span class="p">,</span>
-                                  <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">&#39;aleatory&#39;</span><span class="p">,</span>
+<span class="n">min_pressure</span> <span class="o">=</span> <span class="n">TruncatedNormalDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'min_pressure'</span><span class="p">,</span>
+                                  <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">'aleatory'</span><span class="p">,</span>
                                   <span class="n">nominal_value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">638</span><span class="p">),</span>
                                   <span class="n">mean</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">638</span><span class="p">),</span>
                                   <span class="n">std_deviation</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>
                                   <span class="n">lower_bound</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">638</span><span class="p">)</span><span class="o">-</span><span class="mi">3</span><span class="o">*</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>
                                   <span class="n">upper_bound</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">638</span><span class="p">)</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span>
-<span class="n">temperature</span> <span class="o">=</span> <span class="n">UniformDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;temperature&#39;</span><span class="p">,</span>
-                                  <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">&#39;aleatory&#39;</span><span class="p">,</span>
+<span class="n">temperature</span> <span class="o">=</span> <span class="n">UniformDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'temperature'</span><span class="p">,</span>
+                                  <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">'aleatory'</span><span class="p">,</span>
                                   <span class="n">nominal_value</span><span class="o">=</span><span class="mi">293</span><span class="p">,</span>
                                   <span class="n">upper_bound</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
                                   <span class="n">lower_bound</span><span class="o">=</span><span class="mi">285</span><span class="p">)</span>  <span class="c1"># gas blend temperature variation, K</span>
-<span class="n">volume_fraction_h2</span> <span class="o">=</span> <span class="n">UniformDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">,</span>
-                                         <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">&#39;aleatory&#39;</span><span class="p">,</span>
+<span class="n">volume_fraction_h2</span> <span class="o">=</span> <span class="n">UniformDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'volume_fraction_h2'</span><span class="p">,</span>
+                                         <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">'aleatory'</span><span class="p">,</span>
                                          <span class="n">nominal_value</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
                                          <span class="n">upper_bound</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
                                          <span class="n">lower_bound</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># % volume fraction H2 in natural gas blend, fraction</span>
@@ -218,14 +218,14 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flaw_depth</span> <span class="o">=</span> <span class="n">TruncatedLognormalDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flaw_depth&#39;</span><span class="p">,</span>
-                                            <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">&#39;aleatory&#39;</span><span class="p">,</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flaw_depth</span> <span class="o">=</span> <span class="n">TruncatedLognormalDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'flaw_depth'</span><span class="p">,</span>
+                                            <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">'aleatory'</span><span class="p">,</span>
                                             <span class="n">nominal_value</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>
                                             <span class="n">mu</span><span class="o">=</span><span class="mf">3.2</span><span class="p">,</span>
                                             <span class="n">sigma</span><span class="o">=</span><span class="mf">.17</span><span class="p">,</span>
                                             <span class="n">upper_bound</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span>
                                             <span class="n">lower_bound</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span> <span class="c1"># initial flaw depth, % wall thickness</span>
-<span class="n">flaw_length</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flaw_length&#39;</span><span class="p">,</span>
+<span class="n">flaw_length</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'flaw_length'</span><span class="p">,</span>
                                             <span class="n">value</span><span class="o">=</span><span class="n">convert_in_to_m</span><span class="p">(</span><span class="mf">1.575</span><span class="p">))</span>  <span class="c1"># length of initial crack/flaw, m</span>
 </pre></div>
 </div>
@@ -237,7 +237,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plotted_variable</span> <span class="o">=</span> <span class="s1">&#39;Cycles to a(crit)&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plotted_variable</span> <span class="o">=</span> <span class="s1">'Cycles to a(crit)'</span>
 </pre></div>
 </div>
 </div>
@@ -248,7 +248,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample_type</span> <span class="o">=</span> <span class="s1">&#39;lhs&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample_type</span> <span class="o">=</span> <span class="s1">'lhs'</span>
 <span class="n">sample_size</span> <span class="o">=</span> <span class="mi">1_000</span>
 </pre></div>
 </div>
@@ -260,8 +260,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stress_intensity_method</span> <span class="o">=</span> <span class="s1">&#39;anderson&#39;</span>  <span class="c1"># Stress intensity factor method used</span>
-<span class="n">surface</span><span class="o">=</span><span class="s1">&#39;inside&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stress_intensity_method</span> <span class="o">=</span> <span class="s1">'anderson'</span>  <span class="c1"># Stress intensity factor method used</span>
+<span class="n">surface</span><span class="o">=</span><span class="s1">'inside'</span>
 </pre></div>
 </div>
 </div>
@@ -305,9 +305,9 @@
     <span class="n">analysis</span><span class="o">.</span><span class="n">input_parameters</span><span class="p">[</span><span class="n">parameter</span><span class="p">]</span><span class="o">.</span><span class="n">plot_distribution</span><span class="p">()</span>
 
     <span class="n">plot_sample_histogram</span><span class="p">(</span><span class="n">analysis</span><span class="o">.</span><span class="n">sampling_input_parameter_values</span><span class="p">[</span><span class="n">parameter</span><span class="p">],</span>
-                          <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">parameter</span><span class="si">}</span><span class="s1"> - Sample Density&#39;</span><span class="p">,</span>
+                          <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">parameter</span><span class="si">}</span><span class="s1"> - Sample Density'</span><span class="p">,</span>
                           <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                          <span class="n">histtype</span><span class="o">=</span><span class="s1">&#39;step&#39;</span><span class="p">)</span>
+                          <span class="n">histtype</span><span class="o">=</span><span class="s1">'step'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -385,7 +385,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span><span class="o">.</span><span class="n">generate_probabilistic_results_plots</span><span class="p">(</span><span class="n">plotted_variable</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">,</span> <span class="s1">&#39;Cycles to FAD line&#39;</span><span class="p">])</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span><span class="o">.</span><span class="n">generate_probabilistic_results_plots</span><span class="p">(</span><span class="n">plotted_variable</span><span class="o">=</span><span class="p">[</span><span class="s1">'Cycles to a(crit)'</span><span class="p">,</span> <span class="s1">'Cycles to FAD line'</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>

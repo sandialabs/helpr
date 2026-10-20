@@ -212,8 +212,8 @@ The autoreload extension is already loaded. To reload it, use:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stress_intensity_method</span> <span class="o">=</span> <span class="s1">&#39;anderson&#39;</span>  <span class="c1"># Stress intensity factor method used</span>
-<span class="n">surface</span> <span class="o">=</span> <span class="s1">&#39;inside&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stress_intensity_method</span> <span class="o">=</span> <span class="s1">'anderson'</span>  <span class="c1"># Stress intensity factor method used</span>
+<span class="n">surface</span> <span class="o">=</span> <span class="s1">'inside'</span>
 </pre></div>
 </div>
 </div>
@@ -303,7 +303,7 @@ The autoreload extension is already loaded. To reload it, use:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">crack_growth_module</span> <span class="o">=</span> <span class="n">CrackGrowth</span><span class="p">(</span><span class="n">environment</span><span class="o">=</span><span class="n">environment_module</span><span class="p">,</span>
-                                  <span class="n">growth_model_specification</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;model_name&#39;</span><span class="p">:</span> <span class="s1">&#39;code_case_2938&#39;</span><span class="p">})</span>
+                                  <span class="n">growth_model_specification</span><span class="o">=</span><span class="p">{</span><span class="s1">'model_name'</span><span class="p">:</span> <span class="s1">'code_case_2938'</span><span class="p">})</span>
 </pre></div>
 </div>
 </div>
@@ -317,7 +317,7 @@ The autoreload extension is already loaded. To reload it, use:
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipe_evaluation</span> <span class="o">=</span> <span class="n">LifeAssessment</span><span class="p">(</span><span class="n">pipe_specification</span><span class="o">=</span><span class="n">pipe_module</span><span class="p">,</span>
                                  <span class="n">stress_state</span><span class="o">=</span><span class="n">stress_module</span><span class="p">,</span>
                                  <span class="n">crack_growth</span><span class="o">=</span><span class="n">crack_growth_module</span><span class="p">,</span>
-                                 <span class="n">delta_c_rule</span><span class="o">=</span><span class="s1">&#39;proportional&#39;</span><span class="p">)</span>
+                                 <span class="n">delta_c_rule</span><span class="o">=</span><span class="s1">'proportional'</span><span class="p">)</span>
 <span class="n">load_cycling</span> <span class="o">=</span> <span class="n">pipe_evaluation</span><span class="o">.</span><span class="n">calc_life_assessment</span><span class="p">(</span><span class="n">max_cycles</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">cycle_step</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -329,21 +329,21 @@ The autoreload extension is already loaded. To reload it, use:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_parameter_values</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;flaw_depth&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">flaw_depth</span><span class="p">],</span>
-                          <span class="s1">&#39;max_pressure&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">max_pressure</span><span class="p">],</span>
-                          <span class="s1">&#39;min_pressure&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">min_pressure</span><span class="p">],</span>
-                          <span class="s1">&#39;temperature&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">temperature</span><span class="p">],</span>
-                          <span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">volume_fraction_h2</span><span class="p">],</span>
-                          <span class="s1">&#39;outer_diameter&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">pipe_outer_diameter</span><span class="p">],</span>
-                          <span class="s1">&#39;wall_thickness&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">wall_thickness</span><span class="p">],</span>
-                          <span class="s1">&#39;yield_strength&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">yield_strength</span><span class="p">],</span>
-                          <span class="s1">&#39;fracture_resistance&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">fracture_resistance</span><span class="p">],</span>
-                          <span class="s1">&#39;flaw_length&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">flaw_length</span><span class="p">]}</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_parameter_values</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'flaw_depth'</span><span class="p">:</span> <span class="p">[</span><span class="n">flaw_depth</span><span class="p">],</span>
+                          <span class="s1">'max_pressure'</span><span class="p">:</span> <span class="p">[</span><span class="n">max_pressure</span><span class="p">],</span>
+                          <span class="s1">'min_pressure'</span><span class="p">:</span> <span class="p">[</span><span class="n">min_pressure</span><span class="p">],</span>
+                          <span class="s1">'temperature'</span><span class="p">:</span> <span class="p">[</span><span class="n">temperature</span><span class="p">],</span>
+                          <span class="s1">'volume_fraction_h2'</span><span class="p">:</span> <span class="p">[</span><span class="n">volume_fraction_h2</span><span class="p">],</span>
+                          <span class="s1">'outer_diameter'</span><span class="p">:</span> <span class="p">[</span><span class="n">pipe_outer_diameter</span><span class="p">],</span>
+                          <span class="s1">'wall_thickness'</span><span class="p">:</span> <span class="p">[</span><span class="n">wall_thickness</span><span class="p">],</span>
+                          <span class="s1">'yield_strength'</span><span class="p">:</span> <span class="p">[</span><span class="n">yield_strength</span><span class="p">],</span>
+                          <span class="s1">'fracture_resistance'</span><span class="p">:</span> <span class="p">[</span><span class="n">fracture_resistance</span><span class="p">],</span>
+                          <span class="s1">'flaw_length'</span><span class="p">:</span> <span class="p">[</span><span class="n">flaw_length</span><span class="p">]}</span>
 
 <span class="n">calculate_failure_assessment</span><span class="p">(</span><span class="n">input_parameter_values</span><span class="p">,</span>
                              <span class="p">[</span><span class="n">load_cycling</span><span class="p">],</span>
                              <span class="p">[</span><span class="n">stress_module</span><span class="p">],</span>
-                             <span class="n">fad_type</span><span class="o">=</span><span class="s1">&#39;simple&#39;</span><span class="p">)</span>
+                             <span class="n">fad_type</span><span class="o">=</span><span class="s1">'simple'</span><span class="p">)</span>
 
 <span class="n">life_criteria</span> <span class="o">=</span> <span class="n">calc_pipe_life_criteria</span><span class="p">(</span><span class="n">cycle_results</span><span class="o">=</span><span class="n">load_cycling</span><span class="p">,</span>
                                         <span class="n">pipe</span><span class="o">=</span><span class="n">pipe_module</span><span class="p">,</span>
@@ -360,8 +360,8 @@ The autoreload extension is already loaded. To reload it, use:
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">specific_life_criteria_result</span> <span class="o">=</span> <span class="n">report_single_pipe_life_criteria_results</span><span class="p">(</span><span class="n">life_criteria</span><span class="p">,</span> <span class="n">pipe_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">specific_load_cycling</span> <span class="o">=</span> <span class="n">report_single_cycle_evolution</span><span class="p">(</span><span class="n">load_cycling</span><span class="p">,</span> <span class="n">pipe_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">generate_pipe_life_assessment_plot</span><span class="p">(</span><span class="n">specific_load_cycling</span><span class="p">,</span> <span class="n">specific_life_criteria_result</span><span class="p">,</span> <span class="n">pipe_name</span><span class="o">=</span><span class="s1">&#39;Test Pipe&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./Figures/deterministic_crack_growth.png&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">generate_pipe_life_assessment_plot</span><span class="p">(</span><span class="n">specific_load_cycling</span><span class="p">,</span> <span class="n">specific_life_criteria_result</span><span class="p">,</span> <span class="n">pipe_name</span><span class="o">=</span><span class="s1">'Test Pipe'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'./Figures/deterministic_crack_growth.png'</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">'png'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -396,19 +396,19 @@ a/t                     0.302642
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span> <span class="o">=</span> <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;outer_diameter&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">pipe_outer_diameter</span><span class="p">),</span>
-                                  <span class="n">wall_thickness</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;wall_thickness&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">),</span>
-                                  <span class="n">flaw_depth</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flaw_depth&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">flaw_depth</span><span class="p">),</span>
-                                  <span class="n">max_pressure</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;max_pressure&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">max_pressure</span><span class="p">),</span>
-                                  <span class="n">min_pressure</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;min_pressure&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">min_pressure</span><span class="p">),</span>
-                                  <span class="n">temperature</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;temperature&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">temperature</span><span class="p">),</span>
-                                  <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">),</span>
-                                  <span class="n">yield_strength</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;yield_strength&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">yield_strength</span><span class="p">),</span>
-                                  <span class="n">fracture_resistance</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;fracture_resistance&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">fracture_resistance</span><span class="p">),</span>
-                                  <span class="n">flaw_length</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flaw_length&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">),</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span> <span class="o">=</span> <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'outer_diameter'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">pipe_outer_diameter</span><span class="p">),</span>
+                                  <span class="n">wall_thickness</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'wall_thickness'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">),</span>
+                                  <span class="n">flaw_depth</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'flaw_depth'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">flaw_depth</span><span class="p">),</span>
+                                  <span class="n">max_pressure</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'max_pressure'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">max_pressure</span><span class="p">),</span>
+                                  <span class="n">min_pressure</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'min_pressure'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">min_pressure</span><span class="p">),</span>
+                                  <span class="n">temperature</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'temperature'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">temperature</span><span class="p">),</span>
+                                  <span class="n">volume_fraction_h2</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'volume_fraction_h2'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">volume_fraction_h2</span><span class="p">),</span>
+                                  <span class="n">yield_strength</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'yield_strength'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">yield_strength</span><span class="p">),</span>
+                                  <span class="n">fracture_resistance</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'fracture_resistance'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">fracture_resistance</span><span class="p">),</span>
+                                  <span class="n">flaw_length</span><span class="o">=</span><span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'flaw_length'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">),</span>
                                   <span class="n">stress_intensity_method</span><span class="o">=</span><span class="n">stress_intensity_method</span><span class="p">,</span>
                                   <span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">,</span>
-                                  <span class="n">fad_type</span><span class="o">=</span><span class="s1">&#39;simple&#39;</span><span class="p">,</span>
+                                  <span class="n">fad_type</span><span class="o">=</span><span class="s1">'simple'</span><span class="p">,</span>
                                   <span class="n">cycle_step</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">analysis</span><span class="o">.</span><span class="n">perform_study</span><span class="p">()</span>
 </pre></div>
@@ -432,7 +432,7 @@ a/t                     0.302642
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span><span class="o">.</span><span class="n">postprocess_single_crack_results</span><span class="p">()</span>
 <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">get_design_curve_plot</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./Figures/deterministic_crack_growth_rate.png&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'./Figures/deterministic_crack_growth_rate.png'</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">'png'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 
 <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">assemble_failure_assessment_diagram</span><span class="p">()</span>
 </pre></div>

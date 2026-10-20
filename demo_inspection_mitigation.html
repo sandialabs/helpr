@@ -137,7 +137,7 @@
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># # turn warnings back on for general use</span>
 <span class="c1"># import warnings</span>
-<span class="c1"># warnings.filterwarnings(&#39;ignore&#39;)</span>
+<span class="c1"># warnings.filterwarnings('ignore')</span>
 </pre></div>
 </div>
 </div>
@@ -152,9 +152,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipe_outer_diameter</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;outer_diameter&#39;</span><span class="p">,</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipe_outer_diameter</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'outer_diameter'</span><span class="p">,</span>
                                                     <span class="n">value</span><span class="o">=</span><span class="n">convert_in_to_m</span><span class="p">(</span><span class="mi">36</span><span class="p">))</span>  <span class="c1"># 36 inch outer diameter, m</span>
-<span class="n">wall_thickness</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;wall_thickness&#39;</span><span class="p">,</span>
+<span class="n">wall_thickness</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'wall_thickness'</span><span class="p">,</span>
                                                <span class="n">value</span><span class="o">=</span><span class="n">convert_in_to_m</span><span class="p">(</span><span class="mf">0.406</span><span class="p">))</span>  <span class="c1"># 0.406 inch wall thickness, m</span>
 </pre></div>
 </div>
@@ -166,9 +166,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yield_strength</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;yield_strength&#39;</span><span class="p">,</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yield_strength</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'yield_strength'</span><span class="p">,</span>
                                                <span class="n">value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">52_000</span><span class="p">))</span>  <span class="c1"># material yield strength of 52_000 psi, MPa</span>
-<span class="n">fracture_resistance</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;fracture_resistance&#39;</span><span class="p">,</span>
+<span class="n">fracture_resistance</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'fracture_resistance'</span><span class="p">,</span>
                                                     <span class="n">value</span><span class="o">=</span><span class="mi">55</span><span class="p">)</span>  <span class="c1"># fracture resistance (toughness), MPa m1/2</span>
 </pre></div>
 </div>
@@ -180,23 +180,23 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">max_pressure</span> <span class="o">=</span> <span class="n">NormalDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;max_pressure&#39;</span><span class="p">,</span>
-                                  <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">&#39;aleatory&#39;</span><span class="p">,</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">max_pressure</span> <span class="o">=</span> <span class="n">NormalDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'max_pressure'</span><span class="p">,</span>
+                                  <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">'aleatory'</span><span class="p">,</span>
                                   <span class="n">nominal_value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">840</span><span class="p">),</span>
                                   <span class="n">mean</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">850</span><span class="p">),</span>
                                   <span class="n">std_deviation</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span>  <span class="c1"># maximum pressure during oscillation, MPa</span>
-<span class="n">min_pressure</span> <span class="o">=</span> <span class="n">NormalDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;min_pressure&#39;</span><span class="p">,</span>
-                                  <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">&#39;aleatory&#39;</span><span class="p">,</span>
+<span class="n">min_pressure</span> <span class="o">=</span> <span class="n">NormalDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'min_pressure'</span><span class="p">,</span>
+                                  <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">'aleatory'</span><span class="p">,</span>
                                   <span class="n">nominal_value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">638</span><span class="p">),</span>
                                   <span class="n">mean</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">638</span><span class="p">),</span>
                                   <span class="n">std_deviation</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span>  <span class="c1"># minimum pressure during oscillation, MPa</span>
-<span class="n">temperature</span> <span class="o">=</span> <span class="n">UniformDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;temperature&#39;</span><span class="p">,</span>
-                                  <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">&#39;aleatory&#39;</span><span class="p">,</span>
+<span class="n">temperature</span> <span class="o">=</span> <span class="n">UniformDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'temperature'</span><span class="p">,</span>
+                                  <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">'aleatory'</span><span class="p">,</span>
                                   <span class="n">nominal_value</span><span class="o">=</span><span class="mi">293</span><span class="p">,</span>
                                   <span class="n">upper_bound</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
                                   <span class="n">lower_bound</span><span class="o">=</span><span class="mi">285</span><span class="p">)</span>  <span class="c1"># gas blend temperature variation, K</span>
-<span class="n">volume_fraction_h2</span> <span class="o">=</span> <span class="n">UniformDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">,</span>
-                                        <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">&#39;aleatory&#39;</span><span class="p">,</span>
+<span class="n">volume_fraction_h2</span> <span class="o">=</span> <span class="n">UniformDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'volume_fraction_h2'</span><span class="p">,</span>
+                                        <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">'aleatory'</span><span class="p">,</span>
                                         <span class="n">nominal_value</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
                                         <span class="n">upper_bound</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
                                         <span class="n">lower_bound</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># % volume fraction H2 in natural gas blend, fraction</span>
@@ -210,12 +210,12 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flaw_depth</span> <span class="o">=</span> <span class="n">UniformDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flaw_depth&#39;</span><span class="p">,</span>
-                                <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">&#39;aleatory&#39;</span><span class="p">,</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flaw_depth</span> <span class="o">=</span> <span class="n">UniformDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'flaw_depth'</span><span class="p">,</span>
+                                <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">'aleatory'</span><span class="p">,</span>
                                 <span class="n">nominal_value</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>
                                 <span class="n">upper_bound</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
                                 <span class="n">lower_bound</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>  <span class="c1"># population of flaw % through pipe thickness, %</span>
-<span class="n">flaw_length</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flaw_length&#39;</span><span class="p">,</span>
+<span class="n">flaw_length</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'flaw_length'</span><span class="p">,</span>
                                             <span class="n">value</span><span class="o">=</span><span class="n">convert_in_to_m</span><span class="p">(</span><span class="mf">1.575</span><span class="p">))</span>  <span class="c1"># length of initial crack/flaw, m</span>
 </pre></div>
 </div>
@@ -227,7 +227,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">criteria</span> <span class="o">=</span> <span class="s1">&#39;Cycles to a(crit)&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">criteria</span> <span class="o">=</span> <span class="s1">'Cycles to a(crit)'</span>
 </pre></div>
 </div>
 </div>
@@ -238,7 +238,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample_type</span> <span class="o">=</span> <span class="s1">&#39;lhs&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample_type</span> <span class="o">=</span> <span class="s1">'lhs'</span>
 <span class="n">sample_size</span> <span class="o">=</span> <span class="mi">10_000</span>
 </pre></div>
 </div>
@@ -1426,7 +1426,7 @@
                                          <span class="n">inspection_frequency</span><span class="p">,</span>
                                          <span class="n">analysis</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Percent mitigated through inspection = </span><span class="si">{</span><span class="n">percent_mitigated</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Percent mitigated through inspection = </span><span class="si">{</span><span class="n">percent_mitigated</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">%'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1452,16 +1452,16 @@ Percent mitigated through inspection = 95.9%
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">()</span>
 
-<span class="n">logbins</span> <span class="o">=</span> <span class="n">plot_log_hist</span><span class="p">(</span><span class="n">cycle_life_data</span><span class="p">,</span> <span class="s1">&#39;Critical </span><span class="se">\n</span><span class="s1"> w/o Inspection&#39;</span><span class="p">)</span>
-<span class="n">plot_log_hist</span><span class="p">(</span><span class="n">mitigation_data</span><span class="p">,</span> <span class="s1">&#39;Mitigated </span><span class="se">\n</span><span class="s1"> w/ Inspection&#39;</span><span class="p">,</span> <span class="n">logbins</span><span class="p">)</span>
-<span class="n">plot_log_hist</span><span class="p">(</span><span class="n">non_mitigated_data</span><span class="p">,</span> <span class="s1">&#39;Critical Not Detected </span><span class="se">\n</span><span class="s1"> w/ Inspection&#39;</span><span class="p">,</span> <span class="n">logbins</span><span class="p">)</span>
+<span class="n">logbins</span> <span class="o">=</span> <span class="n">plot_log_hist</span><span class="p">(</span><span class="n">cycle_life_data</span><span class="p">,</span> <span class="s1">'Critical </span><span class="se">\n</span><span class="s1"> w/o Inspection'</span><span class="p">)</span>
+<span class="n">plot_log_hist</span><span class="p">(</span><span class="n">mitigation_data</span><span class="p">,</span> <span class="s1">'Mitigated </span><span class="se">\n</span><span class="s1"> w/ Inspection'</span><span class="p">,</span> <span class="n">logbins</span><span class="p">)</span>
+<span class="n">plot_log_hist</span><span class="p">(</span><span class="n">non_mitigated_data</span><span class="p">,</span> <span class="s1">'Critical Not Detected </span><span class="se">\n</span><span class="s1"> w/ Inspection'</span><span class="p">,</span> <span class="n">logbins</span><span class="p">)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.7</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Years&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;PDF - Cracks&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">'upper right'</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.7</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Years'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'PDF - Cracks'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">'log'</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1490,7 +1490,7 @@ Percent mitigated through inspection = 95.9%
                                          <span class="n">inspection_frequency</span><span class="p">,</span>
                                          <span class="n">analysis</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Percent mitigated through inspection (</span><span class="si">{</span><span class="n">probability_of_detection</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s1">% Det. Prob.) = </span><span class="si">{</span><span class="n">percent_mitigated</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Percent mitigated through inspection (</span><span class="si">{</span><span class="n">probability_of_detection</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s1">% Det. Prob.) = </span><span class="si">{</span><span class="n">percent_mitigated</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">%'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1520,7 +1520,7 @@ Percent mitigated through inspection (60.0% Det. Prob.) = 93.0%
                                          <span class="n">inspection_frequency</span><span class="p">,</span>
                                          <span class="n">analysis</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Percent mitigated through inspection (</span><span class="si">{</span><span class="n">detection_resolution</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s1">% Res.) = </span><span class="si">{</span><span class="n">percent_mitigated</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Percent mitigated through inspection (</span><span class="si">{</span><span class="n">detection_resolution</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s1">% Res.) = </span><span class="si">{</span><span class="n">percent_mitigated</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">%'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1550,7 +1550,7 @@ Percent mitigated through inspection (30.0% Res.) = 81.0%
                                          <span class="n">inspection_frequency</span><span class="p">,</span>
                                          <span class="n">analysis</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Percent mitigated through inspection (</span><span class="si">{</span><span class="n">inspection_interval</span><span class="si">}</span><span class="s1"> Yr Insp. Freq.) = </span><span class="si">{</span><span class="n">percent_mitigated</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Percent mitigated through inspection (</span><span class="si">{</span><span class="n">inspection_interval</span><span class="si">}</span><span class="s1"> Yr Insp. Freq.) = </span><span class="si">{</span><span class="n">percent_mitigated</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">%'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1577,25 +1577,25 @@ Percent mitigated through inspection (10 Yr Insp. Freq.) = 83.3%
 <span class="n">mitigation_data_3</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">/</span> <span class="mi">365</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cycles_till_mitigation_3</span><span class="p">]</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">mitigation_data_0</span><span class="p">),</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_0</span><span class="p">))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_0</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Baseline&#39;</span><span class="p">)</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_0</span><span class="p">))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_0</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Baseline'</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">mitigation_data_1</span><span class="p">),</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_1</span><span class="p">))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_1</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;60% Detect. Prob.&#39;</span><span class="p">)</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_1</span><span class="p">))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_1</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">'60% Detect. Prob.'</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">mitigation_data_2</span><span class="p">),</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_2</span><span class="p">))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_2</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;30% Resolution&#39;</span><span class="p">)</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_2</span><span class="p">))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_2</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">'30% Resolution'</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">mitigation_data_3</span><span class="p">),</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_3</span><span class="p">))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_3</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;10 Yr. Inspc. Freq.&#39;</span><span class="p">)</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_3</span><span class="p">))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_3</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">'10 Yr. Inspc. Freq.'</span><span class="p">)</span>
 
 
 <span class="c1"># Configure plot legend and labels</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time [years]&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Cumulative Mitigated Cracks&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>  <span class="c1"># Set x-axis to logarithmic scale</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Baseline: 80% Detect. Prob., 25% Resolution, 4 Yr. Inspc. Freq.&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">'lower right'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Time [years]'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Cumulative Mitigated Cracks'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">'log'</span><span class="p">)</span>  <span class="c1"># Set x-axis to logarithmic scale</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Baseline: 80% Detect. Prob., 25% Resolution, 4 Yr. Inspc. Freq.'</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1614,9 +1614,9 @@ Percent mitigated through inspection (10 Yr Insp. Freq.) = 83.3%
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">volume_fraction_h2</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">,</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">volume_fraction_h2</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'volume_fraction_h2'</span><span class="p">,</span>
                                                    <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">fracture_resistance</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;fracture_resistance&#39;</span><span class="p">,</span>
+<span class="n">fracture_resistance</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'fracture_resistance'</span><span class="p">,</span>
                                                     <span class="n">value</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 
 <span class="n">analysis_air</span> <span class="o">=</span> <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">pipe_outer_diameter</span><span class="p">,</span>
@@ -1719,7 +1719,7 @@ Percent mitigated through inspection (10 Yr Insp. Freq.) = 83.3%
                                          <span class="n">inspection_frequency</span><span class="p">,</span>
                                          <span class="n">analysis_air</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Percent mitigated through inspection = </span><span class="si">{</span><span class="n">percent_mitigated</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Percent mitigated through inspection = </span><span class="si">{</span><span class="n">percent_mitigated</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">%'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1737,21 +1737,21 @@ Percent mitigated through inspection = 100.0%
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot of original crack evolutions (nominals)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="n">cycles_to_critical_crack_h2</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">life_criteria</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">cycles_to_critical_crack_air</span> <span class="o">=</span> <span class="n">analysis_air</span><span class="o">.</span><span class="n">life_criteria</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">cycles_to_critical_crack_h2</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">life_criteria</span><span class="p">[</span><span class="s1">'Cycles to a(crit)'</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">cycles_to_critical_crack_air</span> <span class="o">=</span> <span class="n">analysis_air</span><span class="o">.</span><span class="n">life_criteria</span><span class="p">[</span><span class="s1">'Cycles to a(crit)'</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 
 <span class="n">cycle_life_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">/</span> <span class="mi">365</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cycles_to_critical_crack_h2</span><span class="p">]</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">cycle_life_data</span><span class="p">),</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cycle_life_data</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;H$_2$&#39;</span><span class="p">)</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cycle_life_data</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="s1">'H$_2$'</span><span class="p">)</span>
 <span class="n">cycle_life_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">/</span> <span class="mi">365</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cycles_to_critical_crack_air</span><span class="p">]</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">cycle_life_data</span><span class="p">),</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cycle_life_data</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Air&#39;</span><span class="p">)</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cycle_life_data</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Air'</span><span class="p">)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Total Cycles [#]&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Cumlative Critical Cracks [#]&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>  <span class="c1"># Set x-axis to logarithmic scale</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Total Cycles [#]'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Cumlative Critical Cracks [#]'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">'log'</span><span class="p">)</span>  <span class="c1"># Set x-axis to logarithmic scale</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 <span class="n">xlims</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">()</span>
 
 
@@ -1761,19 +1761,19 @@ Percent mitigated through inspection = 100.0%
 <span class="n">mitigation_data_1</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">/</span> <span class="mi">365</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cycles_till_mitigation_air</span><span class="p">]</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">mitigation_data_0</span><span class="p">),</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_0</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;H$_2$&#39;</span><span class="p">)</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_0</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="s1">'H$_2$'</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">mitigation_data_1</span><span class="p">),</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_1</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Air&#39;</span><span class="p">)</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mitigation_data_1</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Air'</span><span class="p">)</span>
 
 <span class="c1"># Configure plot legend and labels</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time [years]&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Cumlative Mitigated Cracks [#]&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>  <span class="c1"># Set x-axis to logarithmic scale</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">'lower right'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Time [years]'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Cumlative Mitigated Cracks [#]'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">'log'</span><span class="p">)</span>  <span class="c1"># Set x-axis to logarithmic scale</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xlims</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;80% Detect. Prob., 25% Resolution, 4 Yr. Inspc. Freq.&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'80% Detect. Prob., 25% Resolution, 4 Yr. Inspc. Freq.'</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>

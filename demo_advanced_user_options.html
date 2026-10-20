@@ -141,19 +141,19 @@
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pipe dimensions</span>
-<span class="n">outer_diameter</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;outer_diameter&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">convert_in_to_m</span><span class="p">(</span><span class="mi">36</span><span class="p">))</span>
-<span class="n">wall_thickness</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;wall_thickness&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">convert_in_to_m</span><span class="p">(</span><span class="mf">0.406</span><span class="p">))</span>
+<span class="n">outer_diameter</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'outer_diameter'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">convert_in_to_m</span><span class="p">(</span><span class="mi">36</span><span class="p">))</span>
+<span class="n">wall_thickness</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'wall_thickness'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">convert_in_to_m</span><span class="p">(</span><span class="mf">0.406</span><span class="p">))</span>
 <span class="c1"># Gas environment</span>
-<span class="n">max_pressure</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;max_pressure&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">840</span><span class="p">))</span>
-<span class="n">min_pressure</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;min_pressure&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">638</span><span class="p">))</span>
-<span class="n">temperature</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;temperature&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">293</span><span class="p">)</span>
-<span class="n">volume_fraction_h2</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;volume_fraction_h2&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">max_pressure</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'max_pressure'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">840</span><span class="p">))</span>
+<span class="n">min_pressure</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'min_pressure'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">638</span><span class="p">))</span>
+<span class="n">temperature</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'temperature'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">293</span><span class="p">)</span>
+<span class="n">volume_fraction_h2</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'volume_fraction_h2'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="c1"># Pipe material properties</span>
-<span class="n">yield_strength</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;yield_strength&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">52_000</span><span class="p">))</span>
-<span class="n">fracture_resistance</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;fracture_resistance&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">55</span><span class="p">)</span>
+<span class="n">yield_strength</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'yield_strength'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">convert_psi_to_mpa</span><span class="p">(</span><span class="mi">52_000</span><span class="p">))</span>
+<span class="n">fracture_resistance</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'fracture_resistance'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">55</span><span class="p">)</span>
 <span class="c1"># Flaw geometry</span>
-<span class="n">flaw_depth</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flaw_depth&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
-<span class="n">flaw_length</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flaw_length&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">convert_in_to_m</span><span class="p">(</span><span class="mf">1.575</span><span class="p">))</span>
+<span class="n">flaw_depth</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'flaw_depth'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<span class="n">flaw_length</span> <span class="o">=</span> <span class="n">DeterministicCharacterization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'flaw_length'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">convert_in_to_m</span><span class="p">(</span><span class="mf">1.575</span><span class="p">))</span>
 <br/></pre></div>
 </div>
 </div>
@@ -164,8 +164,8 @@
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fixed model assumptions</span>
-<span class="n">stress_intensity_method</span><span class="o">=</span><span class="s1">&#39;api&#39;</span>
-<span class="n">surface</span><span class="o">=</span><span class="s1">&#39;inside&#39;</span>
+<span class="n">stress_intensity_method</span><span class="o">=</span><span class="s1">'api'</span>
+<span class="n">surface</span><span class="o">=</span><span class="s1">'inside'</span>
 
 <span class="n">analysis_prop</span> <span class="o">=</span> \
     <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">outer_diameter</span><span class="p">,</span>
@@ -180,7 +180,7 @@
                            <span class="n">flaw_length</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">,</span>
                            <span class="n">stress_intensity_method</span><span class="o">=</span><span class="n">stress_intensity_method</span><span class="p">,</span>
                            <span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">,</span>
-                           <span class="n">delta_c_rule</span><span class="o">=</span><span class="s1">&#39;proportional&#39;</span><span class="p">)</span>
+                           <span class="n">delta_c_rule</span><span class="o">=</span><span class="s1">'proportional'</span><span class="p">)</span>
 <span class="n">analysis_prop</span><span class="o">.</span><span class="n">perform_study</span><span class="p">()</span>
 
 <span class="n">analysis_fix</span> <span class="o">=</span> <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">outer_diameter</span><span class="p">,</span>
@@ -195,7 +195,7 @@
                                   <span class="n">flaw_length</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">,</span>
                                   <span class="n">stress_intensity_method</span><span class="o">=</span><span class="n">stress_intensity_method</span><span class="p">,</span>
                                   <span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">,</span>
-                                  <span class="n">delta_c_rule</span><span class="o">=</span><span class="s1">&#39;fixed&#39;</span><span class="p">)</span>
+                                  <span class="n">delta_c_rule</span><span class="o">=</span><span class="s1">'fixed'</span><span class="p">)</span>
 <span class="n">analysis_fix</span><span class="o">.</span><span class="n">perform_study</span><span class="p">()</span>
 
 <span class="n">analysis_ind</span> <span class="o">=</span> <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">outer_diameter</span><span class="p">,</span>
@@ -210,7 +210,7 @@
                                   <span class="n">flaw_length</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">,</span>
                                   <span class="n">stress_intensity_method</span><span class="o">=</span><span class="n">stress_intensity_method</span><span class="p">,</span>
                                   <span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">,</span>
-                                  <span class="n">delta_c_rule</span><span class="o">=</span><span class="s1">&#39;independent&#39;</span><span class="p">)</span>
+                                  <span class="n">delta_c_rule</span><span class="o">=</span><span class="s1">'independent'</span><span class="p">)</span>
 <span class="n">analysis_ind</span><span class="o">.</span><span class="n">perform_study</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -233,35 +233,35 @@
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
 <span class="n">ax2</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
 
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;proportional&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;fixed&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;independent&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'-'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'proportional'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'fixed'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">':'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'independent'</span><span class="p">)</span>
 
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_prop</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
-         <span class="n">analysis_prop</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;a (m)&#39;</span><span class="p">],</span>
-         <span class="s1">&#39;r-&#39;</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_prop</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
-         <span class="n">analysis_prop</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;c (m)&#39;</span><span class="p">],</span>
-         <span class="s1">&#39;b-&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_fix</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
-         <span class="n">analysis_fix</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;a (m)&#39;</span><span class="p">],</span>
-         <span class="s1">&#39;r--&#39;</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_fix</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
-         <span class="n">analysis_fix</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;c (m)&#39;</span><span class="p">],</span>
-         <span class="s1">&#39;b--&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_ind</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
-         <span class="n">analysis_ind</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;a (m)&#39;</span><span class="p">],</span>
-         <span class="s1">&#39;r:&#39;</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_ind</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
-         <span class="n">analysis_ind</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;c (m)&#39;</span><span class="p">],</span>
-         <span class="s1">&#39;b:&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_prop</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Total cycles'</span><span class="p">],</span>
+         <span class="n">analysis_prop</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'a (m)'</span><span class="p">],</span>
+         <span class="s1">'r-'</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_prop</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Total cycles'</span><span class="p">],</span>
+         <span class="n">analysis_prop</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'c (m)'</span><span class="p">],</span>
+         <span class="s1">'b-'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_fix</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Total cycles'</span><span class="p">],</span>
+         <span class="n">analysis_fix</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'a (m)'</span><span class="p">],</span>
+         <span class="s1">'r--'</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_fix</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Total cycles'</span><span class="p">],</span>
+         <span class="n">analysis_fix</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'c (m)'</span><span class="p">],</span>
+         <span class="s1">'b--'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_ind</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Total cycles'</span><span class="p">],</span>
+         <span class="n">analysis_ind</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'a (m)'</span><span class="p">],</span>
+         <span class="s1">'r:'</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_ind</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Total cycles'</span><span class="p">],</span>
+         <span class="n">analysis_ind</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'c (m)'</span><span class="p">],</span>
+         <span class="s1">'b:'</span><span class="p">)</span>
 
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;a (m)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;c (m)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Total cycles'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'a (m)'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'r'</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'c (m)'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'b'</span><span class="p">)</span>
 
-<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;c growth assumption&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">'c growth assumption'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -278,19 +278,19 @@
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
 <span class="n">ax2</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;proportional&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_prop</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
-         <span class="n">analysis_prop</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;a (m)&#39;</span><span class="p">],</span>
-         <span class="s1">&#39;r-&#39;</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_prop</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
-         <span class="n">analysis_prop</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;c (m)&#39;</span><span class="p">],</span>
-         <span class="s1">&#39;b-&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;a (m)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;c (m)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'-'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'proportional'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_prop</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Total cycles'</span><span class="p">],</span>
+         <span class="n">analysis_prop</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'a (m)'</span><span class="p">],</span>
+         <span class="s1">'r-'</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_prop</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Total cycles'</span><span class="p">],</span>
+         <span class="n">analysis_prop</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'c (m)'</span><span class="p">],</span>
+         <span class="s1">'b-'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Total cycles'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'a (m)'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'r'</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'c (m)'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'b'</span><span class="p">)</span>
 
-<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;c growth assumption&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">'c growth assumption'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -307,19 +307,19 @@
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
 <span class="n">ax2</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;fixed&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_fix</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
-         <span class="n">analysis_fix</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;a (m)&#39;</span><span class="p">],</span>
-         <span class="s1">&#39;r--&#39;</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_fix</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
-         <span class="n">analysis_fix</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;c (m)&#39;</span><span class="p">],</span>
-         <span class="s1">&#39;b--&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;a (m)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;c (m)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'fixed'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_fix</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Total cycles'</span><span class="p">],</span>
+         <span class="n">analysis_fix</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'a (m)'</span><span class="p">],</span>
+         <span class="s1">'r--'</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_fix</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Total cycles'</span><span class="p">],</span>
+         <span class="n">analysis_fix</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'c (m)'</span><span class="p">],</span>
+         <span class="s1">'b--'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Total cycles'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'a (m)'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'r'</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'c (m)'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'b'</span><span class="p">)</span>
 
-<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;c growth assumption&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">'c growth assumption'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -336,19 +336,19 @@
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
 <span class="n">ax2</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;independent&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_ind</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
-         <span class="n">analysis_ind</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;a (m)&#39;</span><span class="p">],</span>
-         <span class="s1">&#39;r:&#39;</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_ind</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
-         <span class="n">analysis_ind</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;c (m)&#39;</span><span class="p">],</span>
-         <span class="s1">&#39;b:&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;a (m)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;c (m)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">':'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'independent'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_ind</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Total cycles'</span><span class="p">],</span>
+         <span class="n">analysis_ind</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'a (m)'</span><span class="p">],</span>
+         <span class="s1">'r:'</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_ind</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Total cycles'</span><span class="p">],</span>
+         <span class="n">analysis_ind</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'c (m)'</span><span class="p">],</span>
+         <span class="s1">'b:'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Total cycles'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'a (m)'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'r'</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'c (m)'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'b'</span><span class="p">)</span>
 
-<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;c growth assumption&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">'c growth assumption'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -368,7 +368,7 @@
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fixed model assumptions</span>
-<span class="n">delta_c_rule</span><span class="o">=</span><span class="s1">&#39;proportional&#39;</span>
+<span class="n">delta_c_rule</span><span class="o">=</span><span class="s1">'proportional'</span>
 
 <span class="n">analysis_and</span> <span class="o">=</span> <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">outer_diameter</span><span class="p">,</span>
                                   <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">,</span>
@@ -380,8 +380,8 @@
                                   <span class="n">fracture_resistance</span><span class="o">=</span><span class="n">fracture_resistance</span><span class="p">,</span>
                                   <span class="n">flaw_depth</span><span class="o">=</span><span class="n">flaw_depth</span><span class="p">,</span>
                                   <span class="n">flaw_length</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">,</span>
-                                  <span class="n">stress_intensity_method</span><span class="o">=</span><span class="s1">&#39;anderson&#39;</span><span class="p">,</span>
-                                  <span class="n">surface</span><span class="o">=</span><span class="s1">&#39;inside&#39;</span><span class="p">,</span>
+                                  <span class="n">stress_intensity_method</span><span class="o">=</span><span class="s1">'anderson'</span><span class="p">,</span>
+                                  <span class="n">surface</span><span class="o">=</span><span class="s1">'inside'</span><span class="p">,</span>
                                   <span class="n">delta_c_rule</span><span class="o">=</span><span class="n">delta_c_rule</span><span class="p">)</span>
 <span class="n">analysis_and</span><span class="o">.</span><span class="n">perform_study</span><span class="p">()</span>
 
@@ -395,8 +395,8 @@
                                   <span class="n">fracture_resistance</span><span class="o">=</span><span class="n">fracture_resistance</span><span class="p">,</span>
                                   <span class="n">flaw_depth</span><span class="o">=</span><span class="n">flaw_depth</span><span class="p">,</span>
                                   <span class="n">flaw_length</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">,</span>
-                                  <span class="n">stress_intensity_method</span><span class="o">=</span><span class="s1">&#39;api&#39;</span><span class="p">,</span>
-                                  <span class="n">surface</span><span class="o">=</span><span class="s1">&#39;inside&#39;</span><span class="p">,</span>
+                                  <span class="n">stress_intensity_method</span><span class="o">=</span><span class="s1">'api'</span><span class="p">,</span>
+                                  <span class="n">surface</span><span class="o">=</span><span class="s1">'inside'</span><span class="p">,</span>
                                   <span class="n">delta_c_rule</span><span class="o">=</span><span class="n">delta_c_rule</span><span class="p">)</span>
 <span class="n">analysis_api_in</span><span class="o">.</span><span class="n">perform_study</span><span class="p">()</span>
 
@@ -410,8 +410,8 @@
                                   <span class="n">fracture_resistance</span><span class="o">=</span><span class="n">fracture_resistance</span><span class="p">,</span>
                                   <span class="n">flaw_depth</span><span class="o">=</span><span class="n">flaw_depth</span><span class="p">,</span>
                                   <span class="n">flaw_length</span><span class="o">=</span><span class="n">flaw_length</span><span class="p">,</span>
-                                  <span class="n">stress_intensity_method</span><span class="o">=</span><span class="s1">&#39;api&#39;</span><span class="p">,</span>
-                                  <span class="n">surface</span><span class="o">=</span><span class="s1">&#39;outside&#39;</span><span class="p">,</span>
+                                  <span class="n">stress_intensity_method</span><span class="o">=</span><span class="s1">'api'</span><span class="p">,</span>
+                                  <span class="n">surface</span><span class="o">=</span><span class="s1">'outside'</span><span class="p">,</span>
                                   <span class="n">delta_c_rule</span><span class="o">=</span><span class="n">delta_c_rule</span><span class="p">)</span>
 <span class="n">analysis_api_out</span><span class="o">.</span><span class="n">perform_study</span><span class="p">()</span>
 </pre></div>
@@ -433,35 +433,35 @@
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
 <span class="n">ax2</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
 
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Anderson&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;API internal&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;API external&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'-'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Anderson'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'API internal'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">':'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'API external'</span><span class="p">)</span>
 
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_and</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
-         <span class="n">analysis_and</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;a (m)&#39;</span><span class="p">],</span>
-         <span class="s1">&#39;r-&#39;</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_and</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
-         <span class="n">analysis_and</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Kmax (MPa m^1/2)&#39;</span><span class="p">],</span>
-         <span class="s1">&#39;b-&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_api_in</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
-         <span class="n">analysis_api_in</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;a (m)&#39;</span><span class="p">],</span>
-         <span class="s1">&#39;r--&#39;</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_api_in</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
-         <span class="n">analysis_api_in</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Kmax (MPa m^1/2)&#39;</span><span class="p">],</span>
-         <span class="s1">&#39;b--&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_api_out</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
-         <span class="n">analysis_api_out</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;a (m)&#39;</span><span class="p">],</span>
-         <span class="s1">&#39;r:&#39;</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_api_out</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
-         <span class="n">analysis_api_out</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Kmax (MPa m^1/2)&#39;</span><span class="p">],</span>
-         <span class="s1">&#39;b:&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_and</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Total cycles'</span><span class="p">],</span>
+         <span class="n">analysis_and</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'a (m)'</span><span class="p">],</span>
+         <span class="s1">'r-'</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_and</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Total cycles'</span><span class="p">],</span>
+         <span class="n">analysis_and</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Kmax (MPa m^1/2)'</span><span class="p">],</span>
+         <span class="s1">'b-'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_api_in</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Total cycles'</span><span class="p">],</span>
+         <span class="n">analysis_api_in</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'a (m)'</span><span class="p">],</span>
+         <span class="s1">'r--'</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_api_in</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Total cycles'</span><span class="p">],</span>
+         <span class="n">analysis_api_in</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Kmax (MPa m^1/2)'</span><span class="p">],</span>
+         <span class="s1">'b--'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_api_out</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Total cycles'</span><span class="p">],</span>
+         <span class="n">analysis_api_out</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'a (m)'</span><span class="p">],</span>
+         <span class="s1">'r:'</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_api_out</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Total cycles'</span><span class="p">],</span>
+         <span class="n">analysis_api_out</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Kmax (MPa m^1/2)'</span><span class="p">],</span>
+         <span class="s1">'b:'</span><span class="p">)</span>
 
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;a (m)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Kmax (MPa m$^{1/2}$)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Total cycles'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'a (m)'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'r'</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">'Kmax (MPa m$^{1/2}$)'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'b'</span><span class="p">)</span>
 
-<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;K Solution assumption&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">'K Solution assumption'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -479,9 +479,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stress_intensity_method</span> <span class="o">=</span> <span class="s1">&#39;anderson&#39;</span>
-<span class="n">surface</span> <span class="o">=</span> <span class="s1">&#39;inside&#39;</span>
-<span class="n">delta_c_rule</span> <span class="o">=</span> <span class="s1">&#39;proportional&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stress_intensity_method</span> <span class="o">=</span> <span class="s1">'anderson'</span>
+<span class="n">surface</span> <span class="o">=</span> <span class="s1">'inside'</span>
+<span class="n">delta_c_rule</span> <span class="o">=</span> <span class="s1">'proportional'</span>
 
 <span class="n">analysis_aovert</span> <span class="o">=</span> <span class="n">CrackEvolutionAnalysis</span><span class="p">(</span><span class="n">outer_diameter</span><span class="o">=</span><span class="n">outer_diameter</span><span class="p">,</span>
                                   <span class="n">wall_thickness</span><span class="o">=</span><span class="n">wall_thickness</span><span class="p">,</span>
@@ -530,25 +530,25 @@
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_aovert</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
-         <span class="n">analysis_aovert</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;a/t&#39;</span><span class="p">],</span>
-         <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;a/t&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_aovert</span><span class="o">.</span><span class="n">nominal_life_criteria</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
-         <span class="n">analysis_aovert</span><span class="o">.</span><span class="n">nominal_life_criteria</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
-         <span class="s1">&#39;r*&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_aovert</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Total cycles'</span><span class="p">],</span>
+         <span class="n">analysis_aovert</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'a/t'</span><span class="p">],</span>
+         <span class="s1">'r-'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'a/t'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_aovert</span><span class="o">.</span><span class="n">nominal_life_criteria</span><span class="p">[</span><span class="s1">'Cycles to a(crit)'</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+         <span class="n">analysis_aovert</span><span class="o">.</span><span class="n">nominal_life_criteria</span><span class="p">[</span><span class="s1">'Cycles to a(crit)'</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+         <span class="s1">'r*'</span><span class="p">)</span>
 
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_cycles</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
-         <span class="n">analysis_cycles</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;a/t&#39;</span><span class="p">],</span>
-         <span class="s1">&#39;b--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;cycles&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_cycles</span><span class="o">.</span><span class="n">nominal_life_criteria</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
-         <span class="n">analysis_cycles</span><span class="o">.</span><span class="n">nominal_life_criteria</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
-         <span class="s1">&#39;b.&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_cycles</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Total cycles'</span><span class="p">],</span>
+         <span class="n">analysis_cycles</span><span class="o">.</span><span class="n">nominal_load_cycling</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'a/t'</span><span class="p">],</span>
+         <span class="s1">'b--'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'cycles'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_cycles</span><span class="o">.</span><span class="n">nominal_life_criteria</span><span class="p">[</span><span class="s1">'Cycles to a(crit)'</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+         <span class="n">analysis_cycles</span><span class="o">.</span><span class="n">nominal_life_criteria</span><span class="p">[</span><span class="s1">'Cycles to a(crit)'</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+         <span class="s1">'b.'</span><span class="p">)</span>
 
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;a/t&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Total cycles'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'a/t'</span><span class="p">)</span>
 
-<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Differential of&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">'Differential of'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -563,8 +563,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flaw_depth</span> <span class="o">=</span> <span class="n">TruncatedLognormalDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flaw_depth&#39;</span><span class="p">,</span>
-                                            <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">&#39;aleatory&#39;</span><span class="p">,</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flaw_depth</span> <span class="o">=</span> <span class="n">TruncatedLognormalDistribution</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'flaw_depth'</span><span class="p">,</span>
+                                            <span class="n">uncertainty_type</span><span class="o">=</span><span class="s1">'aleatory'</span><span class="p">,</span>
                                             <span class="n">nominal_value</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>
                                             <span class="n">mu</span><span class="o">=</span><span class="mf">3.2</span><span class="p">,</span>
                                             <span class="n">sigma</span><span class="o">=</span><span class="mf">.17</span><span class="p">,</span>
@@ -572,11 +572,11 @@
                                             <span class="n">lower_bound</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span> <span class="c1"># initial flaw depth, % wall thickness</span>
 
 
-<span class="n">stress_intensity_method</span> <span class="o">=</span> <span class="s1">&#39;anderson&#39;</span>
-<span class="n">surface</span> <span class="o">=</span> <span class="s1">&#39;inside&#39;</span>
-<span class="n">delta_c_rule</span> <span class="o">=</span> <span class="s1">&#39;proportional&#39;</span>
+<span class="n">stress_intensity_method</span> <span class="o">=</span> <span class="s1">'anderson'</span>
+<span class="n">surface</span> <span class="o">=</span> <span class="s1">'inside'</span>
+<span class="n">delta_c_rule</span> <span class="o">=</span> <span class="s1">'proportional'</span>
 <span class="n">samples</span> <span class="o">=</span> <span class="mi">50</span>
-<span class="n">sample_type</span> <span class="o">=</span> <span class="s1">&#39;lhs&#39;</span>
+<span class="n">sample_type</span> <span class="o">=</span> <span class="s1">'lhs'</span>
 </pre></div>
 </div>
 </div>
@@ -668,28 +668,28 @@ Wall time: 3.4 s
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;a/t&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="s1">&#39;b--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;cycles&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="s1">'r-'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'a/t'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="s1">'b--'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'cycles'</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">samples</span><span class="p">):</span>
-    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_aovert_prob</span><span class="o">.</span><span class="n">load_cycling</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
-             <span class="n">analysis_aovert_prob</span><span class="o">.</span><span class="n">load_cycling</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;a/t&#39;</span><span class="p">],</span>
-             <span class="s1">&#39;r-&#39;</span><span class="p">)</span>
-    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_cycles_prob</span><span class="o">.</span><span class="n">load_cycling</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">],</span>
-             <span class="n">analysis_cycles_prob</span><span class="o">.</span><span class="n">load_cycling</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;a/t&#39;</span><span class="p">],</span>
-             <span class="s1">&#39;b--&#39;</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_aovert_prob</span><span class="o">.</span><span class="n">load_cycling</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">'Total cycles'</span><span class="p">],</span>
+             <span class="n">analysis_aovert_prob</span><span class="o">.</span><span class="n">load_cycling</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">'a/t'</span><span class="p">],</span>
+             <span class="s1">'r-'</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_cycles_prob</span><span class="o">.</span><span class="n">load_cycling</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">'Total cycles'</span><span class="p">],</span>
+             <span class="n">analysis_cycles_prob</span><span class="o">.</span><span class="n">load_cycling</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">'a/t'</span><span class="p">],</span>
+             <span class="s1">'b--'</span><span class="p">)</span>
 
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_aovert_prob</span><span class="o">.</span><span class="n">life_criteria</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
-        <span class="n">analysis_aovert_prob</span><span class="o">.</span><span class="n">life_criteria</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
-        <span class="s1">&#39;r*&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_cycles_prob</span><span class="o">.</span><span class="n">life_criteria</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
-        <span class="n">analysis_cycles_prob</span><span class="o">.</span><span class="n">life_criteria</span><span class="p">[</span><span class="s1">&#39;Cycles to a(crit)&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
-        <span class="s1">&#39;b.&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_aovert_prob</span><span class="o">.</span><span class="n">life_criteria</span><span class="p">[</span><span class="s1">'Cycles to a(crit)'</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">analysis_aovert_prob</span><span class="o">.</span><span class="n">life_criteria</span><span class="p">[</span><span class="s1">'Cycles to a(crit)'</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+        <span class="s1">'r*'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis_cycles_prob</span><span class="o">.</span><span class="n">life_criteria</span><span class="p">[</span><span class="s1">'Cycles to a(crit)'</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">analysis_cycles_prob</span><span class="o">.</span><span class="n">life_criteria</span><span class="p">[</span><span class="s1">'Cycles to a(crit)'</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+        <span class="s1">'b.'</span><span class="p">)</span>
 
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Total cycles&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;a/t&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Total cycles'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'a/t'</span><span class="p">)</span>
 
-<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Differential of&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">'Differential of'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
